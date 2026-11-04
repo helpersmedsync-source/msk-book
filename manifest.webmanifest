@@ -1,0 +1,16 @@
+{
+ "name": "MSK Interactive Book",
+ "short_name": "MSK Book",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#4f3522",
+ "theme_color": "#0a1834",
+ "icons": [
+  {
+   "src": "icon.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

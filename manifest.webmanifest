@@ -1,15 +1,20 @@
 {
- "name": "MSK Interactive Book",
+ "name": "MSK Interactive Book \u00b7 The Helpers",
  "short_name": "MSK Book",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
- "background_color": "#4f3522",
- "theme_color": "#0a1834",
+ "background_color": "#ffffff",
+ "theme_color": "#0b1f45",
  "icons": [
   {
    "src": "icon.png",
    "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "helpers_badge_192.png",
+   "sizes": "192x192",
    "type": "image/png"
   }
  ]

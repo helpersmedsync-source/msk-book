@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1834">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MSK Book">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>MSK Interactive Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout concept: a Helpers-blue cloth volume lying open on a walnut desk — two pages per spread on wide screens, one page on phones;
+   text pages face lab pages; sticky notes, red section numbers and lift-the-flap questions like a real study book. */
+:root{
+  --desk:#6a4a30; --desk-2:#4f3522; --paper:#fbf9f3; --paper-2:#f1ece0; --edge:#ddd3bd;
+  --ink:#1c2333; --ink-2:#4b5569; --muted:#7c8597; --line:#e3dccb; --card:#ffffff;
+  --navy:#0b1f45; --navy-ink:#0b1f45; --band:#0b1f45; --band-ink:#ffffff; --blue:#2e86de; --red:#d64545;
+  --ok:#1e9e62; --ok-bg:#e6f6ee; --bad:#d64545; --bad-bg:#fdeceb; --chip:#edf3fb; --hl:#fff0a1;
+  --sticky:#ffe57a; --sticky-ink:#3a3000; --trap-bg:#fdf0ef; --mn:#7b4fc9; --mn-bg:#f3eefb; --cl:#13836f; --cl-bg:#e8f5f2; --def-bg:#edf3fb; --nb-bg:#f2f2ef;
+  --cover-1:#d9d2c2; --cover-2:#e8e2d4; --leather:#11295a; --leather-2:#0a1c40; --gold:#d9b45e;
+  --bar:rgba(10,24,52,.86); --bar-ink:#f4f6fb; --skin:#f6e3d3; --musc:#e8a8a0; --musc-2:#d98c84; --bone:#fbf6ea;
+  --fsz:1; --pw:520px; --ph:720px;
+  --f-head:'Poppins','Segoe UI',system-ui,sans-serif; --f-body:'Lato','Segoe UI',system-ui,sans-serif; --f-hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:var(--f-body);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255,240,215,.10), transparent 62%),
+    repeating-linear-gradient(91deg, rgba(0,0,0,.045) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89.3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 31px),
+    repeating-linear-gradient(90.6deg, rgba(0,0,0,.035) 0 6px, transparent 6px 57px),
+    linear-gradient(180deg, var(--desk), var(--desk-2));
+  background-color:var(--desk)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+#app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{flex:none;display:flex;align-items:center;gap:6px;height:50px;margin-top:8px;padding:0 8px 0 12px;border-radius:14px;background:var(--bar);color:var(--bar-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;background:none;border:0;padding:0}
+.brand b{font:700 15px var(--f-head);letter-spacing:.01em;white-space:nowrap}
+.brand span{font:500 11px var(--f-head);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .sp{flex:1}
+.pgind{font:600 12px var(--f-head);opacity:.85;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:10px;border:0;background:transparent;color:var(--bar-ink);cursor:pointer;font:600 12px var(--f-head)}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:18px;height:18px;flex:none}
+.ib .lb{white-space:nowrap}
+.ib.on{background:rgba(255,255,255,.16)}
+.prog{height:3px;border-radius:2px;background:rgba(255,255,255,.15);overflow:hidden;width:70px}
+.prog i{display:block;height:100%;background:var(--gold)}
+@media (max-width:1100px){ .ib .lb{display:none} }
+.brand .bw{font-style:normal}
+@media (max-width:640px){ .brand span,.brand .bw,.prog,.pgind{display:none} .bar{gap:2px;padding:0 4px 0 10px} .ib{padding:0 7px} }
+
+/* ---------- desk & book ---------- */
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2600px;perspective-origin:50% 50%}
+.book.single{width:var(--pw)}
+.book::before{content:"";position:absolute;inset:-9px -12px -11px -12px;border-radius:12px;background:linear-gradient(90deg,var(--leather-2),var(--leather) 6%,var(--leather) 94%,var(--leather-2));box-shadow:0 28px 50px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.35)}
+.book.single::before{inset:-7px -9px -9px -9px}
+.pg{position:absolute;top:0;width:var(--pw);height:var(--ph);background:var(--paper);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}
+.pg-l{left:0;border-radius:6px 2px 2px 6px;background:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(90deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:-2px 0 0 var(--edge),-4px 0 0 var(--paper-2),-6px 1px 0 var(--edge)}
+.pg-r{left:var(--pw);border-radius:2px 6px 6px 2px;background:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(270deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:2px 0 0 var(--edge),4px 0 0 var(--paper-2),6px 1px 0 var(--edge)}
+.book.single .pg-l{border-radius:4px 6px 6px 4px;background:linear-gradient(to right,rgba(0,0,0,.10),transparent 5%),var(--paper);box-shadow:3px 0 0 var(--edge),5px 1px 0 var(--paper-2)}
+.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph);transform-style:preserve-3d;pointer-events:none;z-index:6}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.05) 70%,rgba(0,0,0,.10));animation:shade var(--dur,700ms) ease-in-out}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.turn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:64px;border-radius:12px;border:0;background:rgba(0,0,0,.28);color:#fff;cursor:pointer;z-index:8;display:grid;place-items:center}
+.turn:hover{background:rgba(0,0,0,.45)}
+.turn svg{width:22px;height:22px}
+.turn.prev{left:-56px}.turn.next{right:-56px}
+.book.single .turn{display:none}
+.mnav{display:none}
+@media (max-width:899px), (max-height:519px){ .mnav{display:flex} }
+.mnav{flex:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 8px}
+.mnav button{flex:none;height:42px;min-width:56px;border-radius:12px;border:0;background:var(--bar);color:var(--bar-ink);font:600 13px var(--f-head);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px}
+.mnav .mid{flex:1;text-align:center;color:#fff;font:600 12px var(--f-head);text-shadow:0 1px 2px rgba(0,0,0,.4);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- closed book (home) ---------- */
+.home{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:12px;overflow:auto;z-index:9}
+.cover{position:relative;width:min(340px,82vw);aspect-ratio:.72;border-radius:6px 16px 16px 6px;color:var(--gold);
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.08),transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px),linear-gradient(135deg,var(--leather),var(--leather-2));
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.28),inset 13px 0 0 rgba(255,255,255,.05),0 26px 46px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 24px 36px;box-sizing:border-box;transform-origin:left center}
+.cover .frame{position:absolute;inset:14px 14px 14px 24px;border:1px solid rgba(217,180,94,.55);border-radius:4px 10px 10px 4px;pointer-events:none}
+.cover .k{font:600 10px var(--f-head);letter-spacing:.32em;opacity:.85}
+.cover .t1{font:700 clamp(44px,13vw,64px)/1 var(--f-head);letter-spacing:.04em;margin:14px 0 2px;color:var(--gold)}
+.cover .t2{font:600 20px var(--f-head);letter-spacing:.06em;color:#f3e6c4}
+.cover .rule{width:56%;height:1px;background:rgba(217,180,94,.6);margin:16px 0}
+.cover .t3{font:500 13px/1.45 var(--f-head);color:#eadcb8;max-width:16em}
+.cover .t4{margin-top:18px;font:italic 400 12px var(--f-body);color:#d9c9a0;opacity:.85}
+.side{display:flex;flex-direction:column;gap:12px;width:min(340px,86vw);color:#fff}
+.side h1{font:700 22px/1.2 var(--f-head);margin:0;text-wrap:balance;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.side p{margin:0;font-size:14px;line-height:1.5;color:#f1e8dc;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cd{font:600 12px var(--f-head);padding:6px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.cd b{color:var(--gold)}
+.hbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;cursor:pointer;font:600 14px var(--f-head);background:var(--card);color:var(--navy-ink);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.hbtn.pri{background:var(--gold);color:#1d1606}
+.hbtn svg{width:18px;height:18px}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:rgba(0,0,0,.32);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.12)}
+.stat b{display:block;font:700 18px var(--f-head);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 10.5px var(--f-head);letter-spacing:.05em;color:#e8dcc6;text-transform:uppercase}
+
+/* ---------- page content ---------- */
+.pin{position:absolute;inset:0;padding:6.2% 7% 8.2% 7.4%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;box-sizing:border-box;
+  font-size:clamp(12px, calc(var(--pw) * .0262 * var(--fsz)), 19px);line-height:1.5;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pg-l .pin{padding-right:8.4%}.pg-r .pin{padding-left:8.6%}
+.rh{display:flex;justify-content:space-between;gap:1em;padding-right:2.6em;font:600 .6em var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1em;padding-bottom:.6em;border-bottom:1px solid var(--line)}
+.folio{position:absolute;bottom:2.6%;font:600 .78em var(--f-head);color:var(--muted);font-size:clamp(10px,calc(var(--pw)*.022),14px)}
+.pg-l .folio,.leaf .folio.l{left:7%}.pg-r .folio,.leaf .folio.r{right:7%}.book.single .folio{right:7%;left:auto}
+.ribbon{position:absolute;top:-2px;right:9%;width:clamp(16px,calc(var(--pw)*.04),24px);height:clamp(34px,calc(var(--pw)*.085),52px);border:0;padding:0;cursor:pointer;background:var(--line);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);opacity:.75;z-index:2}
+.ribbon.on{background:var(--red);opacity:1}
+.part{display:flex;gap:.8em;align-items:center;background:var(--band);color:var(--band-ink);border-radius:.6em;padding:.85em 1em;margin:0 0 1em;position:relative;overflow:hidden}
+.part .pn{flex:none;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:700 .95em var(--f-head);box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.part small{display:block;font:600 .6em var(--f-head);letter-spacing:.16em;opacity:.8;text-transform:uppercase}
+.part h2{margin:.05em 0 0;font:700 1.18em/1.2 var(--f-head);text-wrap:balance}
+.part p{margin:.25em 0 0;font-size:.78em;opacity:.85}
+.part .big{position:absolute;right:.2em;bottom:-.25em;font:700 3.6em/1 var(--f-head);opacity:.09}
+.sh{display:flex;align-items:center;gap:.55em;margin:1.1em 0 .45em;font:700 1.02em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sh .num{flex:none;min-width:2.1em;height:2.1em;padding:0 .2em;border-radius:1.05em;display:grid;place-items:center;background:var(--red);color:#fff;font:700 .66em var(--f-head);letter-spacing:.02em;box-sizing:border-box}
+.hook{font:italic 400 1em/1.45 var(--f-body);color:var(--ink-2);margin:.2em 0 .6em;padding-left:.7em;border-left:2px solid var(--red)}
+.tx{margin:.45em 0}
+.ls{margin:.4em 0 .6em;padding-left:1.1em}.ls li{margin:.18em 0}
+mark{background:var(--hl);color:inherit;padding:0 .14em;border-radius:.18em}
+.note{margin:.85em 0;padding:.65em .8em .7em;border-radius:.45em;position:relative}
+.note .nl{display:block;font:700 .6em var(--f-head);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2em}
+.n-hy{background:var(--sticky);color:var(--sticky-ink);border-radius:2px;transform:rotate(-1deg);box-shadow:0 .35em .7em rgba(0,0,0,.18);margin:1.1em .2em}
+.n-hy::before{content:"";position:absolute;top:-.55em;left:50%;width:4.4em;height:1.1em;transform:translateX(-50%) rotate(2deg);background:rgba(255,255,255,.45);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.n-hy .nl{font:700 1.3em/1 var(--f-hand);letter-spacing:0;text-transform:none;margin-bottom:.25em}
+.n-trap{background:var(--trap-bg);border-left:.28em solid var(--red)}.n-trap .nl{color:var(--red)}
+.n-mn{background:var(--mn-bg);border-left:.28em solid var(--mn)}.n-mn .nl{color:var(--mn)}
+.n-cl{background:var(--cl-bg);border-left:.28em solid var(--cl)}.n-cl .nl{color:var(--cl)}
+.n-def{background:var(--def-bg);border-left:.28em solid var(--blue)}.n-def .nl{color:var(--blue)}
+.n-nb{background:var(--nb-bg);border-left:.28em solid var(--muted)}.n-nb .nl{color:var(--muted)}
+.tbl{margin:.8em 0}
+.tbl-h{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:.35em}
+.tbl-h span{font:700 .66em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:.84em;line-height:1.38}
+.tbl th{background:var(--band);color:var(--band-ink);font:600 .82em var(--f-head);letter-spacing:.03em;text-align:left;padding:.45em .5em}
+.tbl th:first-child{border-radius:.35em 0 0 0}.tbl th:last-child{border-radius:0 .35em 0 0}
+.tbl td{padding:.42em .5em;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:700;color:var(--navy-ink)}
+.tbl td.cv{cursor:pointer;color:transparent;border-radius:.3em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none}
+.tbl td.cv *{visibility:hidden}
+.mini{font:600 .7em var(--f-head);padding:.38em .75em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.on{background:var(--band);color:var(--band-ink);border-color:transparent}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;margin:.7em 0}
+.flow span{background:var(--chip);border:1px solid var(--line);border-radius:.4em;padding:.3em .55em;font-size:.86em}
+.flow i{font-style:normal;color:var(--red);font-weight:700}
+
+/* questions */
+.qb{border:1px solid var(--line);background:var(--card);border-radius:.6em;padding:.7em .8em .8em;margin:.9em 0}
+.qh{display:flex;flex-wrap:wrap;align-items:center;gap:.35em .5em;font:700 .58em var(--f-head);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.tg{font:600 1em var(--f-head);letter-spacing:.06em;padding:.15em .55em;border-radius:1em;background:var(--chip);color:var(--ink-2)}
+.tg.top{background:#fff1cf;color:#8a5a00}
+:root[data-theme="dark"] .tg.top{background:#4a3a12;color:#f6d27a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tg.top{background:#4a3a12;color:#f6d27a} }
+.qs{font-weight:700;margin:.5em 0 .55em;line-height:1.42}
+.op{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;padding:.45em .6em;margin:.32em 0;border-radius:.5em;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:.95em;line-height:1.35;cursor:pointer}
+.op:hover{border-color:var(--blue)}
+.op .lt{flex:none;width:1.55em;height:1.55em;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:700 .72em var(--f-head);color:var(--ink-2);margin-top:.05em}
+.op.ok{border-color:var(--ok);background:var(--ok-bg)}.op.ok .lt{background:var(--ok);color:#fff;border-color:var(--ok)}
+.op.bad{border-color:var(--bad);background:var(--bad-bg)}.op.bad .lt{background:var(--bad);color:#fff;border-color:var(--bad)}
+.op.pick{border-color:var(--blue);background:var(--chip)}
+.op[disabled]{cursor:default}
+.res{font:700 .8em var(--f-head);margin:.5em 0 .1em}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.ex{margin-top:.45em;padding:.55em .7em;border-left:.25em solid var(--blue);background:var(--chip);border-radius:.3em;font-size:.9em;line-height:1.45}
+.ex b{color:var(--navy-ink)}
+.row{display:flex;flex-wrap:wrap;gap:.45em;align-items:center;margin-top:.55em}
+.btn{font:600 .74em var(--f-head);padding:.5em .95em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--band);color:var(--band-ink);border-color:transparent}
+.btn.lift{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;font-family:var(--f-hand);font-size:1.05em;font-weight:700}
+.flapc{margin-top:.5em;border-radius:.45em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 6px,var(--cover-2) 6px 12px);padding:.9em;text-align:center}
+.ans{margin-top:.5em;padding:.6em .75em;border-left:.25em solid var(--ok);background:var(--ok-bg);border-radius:.3em;font-size:.92em;white-space:pre-line;line-height:1.45}
+textarea.dr{width:100%;box-sizing:border-box;min-height:4.2em;margin-top:.4em;border:1px dashed var(--line);border-radius:.45em;background:var(--paper);color:var(--ink);font:inherit;font-size:.9em;padding:.5em;resize:vertical}
+
+/* labs */
+.labh{display:flex;align-items:center;gap:.55em;margin:0 0 .5em}
+.labh .lb{flex:none;background:var(--red);color:#fff;font:700 .6em var(--f-head);letter-spacing:.16em;padding:.3em .65em;border-radius:.3em}
+.labh h3{margin:0;font:700 1.08em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.labi{font-size:.88em;color:var(--ink-2);margin:.2em 0 .6em}
+.modes{display:flex;flex-wrap:wrap;gap:.35em;margin:.3em 0 .6em}
+.svgw{background:var(--paper-2);border:1px solid var(--line);border-radius:.6em;padding:.4em;margin:.3em 0}
+.svgw svg{display:block;width:100%;height:auto;max-height:calc(var(--ph) * .44)}
+.rg{cursor:pointer;stroke:var(--paper);stroke-width:2.5;transition:filter .15s, opacity .15s}
+.rg:hover{filter:brightness(1.07)}
+.rg.dim{opacity:.35}
+.svgtxt{font:700 11px var(--f-head);fill:var(--ink);pointer-events:none;letter-spacing:.06em}
+.svgsm{font:600 8.5px var(--f-head);fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+.pinbtn{cursor:pointer}
+.pinbtn circle.d{fill:var(--card);stroke:var(--navy);stroke-width:1.6}
+.pinbtn.on circle.d{fill:var(--sticky);stroke:var(--red)}
+.pinbtn.ok circle.d{fill:var(--ok)}
+.pinbtn.bad circle.d{fill:var(--bad)}
+.pinbtn text{font:700 8px var(--f-head);fill:var(--navy-ink);pointer-events:none}
+.plab{font:700 8.6px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;pointer-events:none}
+.key{columns:2;column-gap:1.2em;margin:.3em 0 .4em;padding-left:1.6em;font-size:.8em;line-height:1.45}.key li{break-inside:avoid}
+.info{background:var(--card);border:1px solid var(--line);border-radius:.55em;padding:.55em .7em;font-size:.88em;margin:.4em 0;min-height:2.6em}
+.info h4{margin:0 0 .2em;font:700 .95em var(--f-head);color:var(--navy-ink)}
+.fb{font:700 .8em var(--f-head);margin:.3em 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:.35em;margin:.4em 0 .7em;min-height:1.8em}
+.chip{font:700 .74em var(--f-body);padding:.36em .62em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.2;text-align:left}
+.chip.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok);cursor:default}
+.chip.hl{background:var(--band);color:var(--band-ink);border-color:transparent}
+.chip.dim{opacity:.35}
+.chip.cut{background:var(--bad);color:#fff;border-color:transparent}
+.chip.lost{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.chip.weak{background:#fff4d6;border-color:#e0a422;color:#8a5a00}
+:root[data-theme="dark"] .chip.weak{background:#433513;color:#f3cf74}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.weak{background:#433513;color:#f3cf74} }
+.chip.unk{border-style:dashed}
+.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.4em,1fr));gap:.45em}
+.bin{border:1.5px dashed var(--edge);border-radius:.6em;padding:.45em;min-height:4.2em;cursor:pointer;background:var(--paper);text-align:left;display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.bin:hover{border-color:var(--blue)}
+.bin h5{margin:0;font:700 .68em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.bin small{font-size:.66em;color:var(--muted);margin-top:-.25em}
+.bin .in{display:flex;flex-wrap:wrap;gap:.25em}
+.seqline{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.2em;margin:.3em 0 .6em;padding:.4em;border-radius:.5em;background:var(--paper-2);border:1px solid var(--line)}
+.seqline .n{font:700 .62em var(--f-head);color:var(--muted)}
+.gcols{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:.5em}
+.gcols h5{margin:0 0 .3em;font:700 .62em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gcol{display:flex;flex-direction:column;gap:.3em;align-items:stretch}
+.gcol .chip{font-size:.68em}
+.st{font:700 .62em var(--f-head);padding:.12em .5em;border-radius:1em;margin-left:.3em;white-space:nowrap}
+.st.lost{background:var(--bad);color:#fff}.st.weak{background:#e0a422;color:#fff}.st.ok{background:var(--ok);color:#fff}
+.done{margin:.5em 0;padding:.5em .7em;border-radius:.45em;background:var(--ok-bg);color:var(--ok);font:700 .82em var(--f-head)}
+.ref{margin-top:.8em;font:600 .62em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.title-page{display:flex;flex-direction:column;min-height:100%;justify-content:center;gap:.6em}
+.kick{font:600 .66em var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ttl{margin:0;font:700 1.95em/1.12 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sub{color:var(--ink-2);font-size:.95em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.6em 0}
+.facts div{background:var(--paper-2);border:1px solid var(--line);border-radius:.55em;padding:.55em;text-align:center}
+.facts b{display:block;font:700 1.35em var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.facts span{font:600 .58em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.map{list-style:none;padding:0;margin:.4em 0;display:flex;flex-direction:column;gap:.3em}
+.map li button{width:100%;display:flex;align-items:center;gap:.6em;padding:.45em .55em;border-radius:.5em;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;color:var(--ink)}
+.map li button:hover{border-color:var(--blue)}
+.map .mn{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--band);color:var(--band-ink);font:700 .7em var(--f-head)}
+.map .mt{flex:1;font:600 .86em var(--f-head);color:var(--navy-ink)}
+.map .mp{font:600 .7em var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:.35em .6em;align-items:center;font-size:.82em;margin:.5em 0}
+.legend i{font-style:normal;width:1.8em;height:1.3em;border-radius:.25em;display:inline-block}
+body.rapid .tx, body.rapid .hook{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.55);padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.panel{background:var(--paper);color:var(--ink);width:min(680px,100%);max-height:100%;overflow:auto;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+.ph{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.ph h2{margin:0;font:700 17px var(--f-head);color:var(--navy-ink);flex:1;min-width:0}
+.ph .x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.pb{padding:14px 16px 18px}
+.pb .qb{font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 12px;font:600 13px var(--f-head);cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--band);color:var(--band-ink)}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px 18px 16px;min-height:150px;font-size:17px;line-height:1.55;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.fc .ctx{font:600 11px var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.blank{display:inline-block;min-width:3.2em;border-radius:6px;padding:0 .35em;margin:0 .1em;background:var(--chip);border:1px dashed var(--blue);color:transparent;cursor:pointer;line-height:1.35}
+.blank.r{background:var(--hl);border-style:solid;border-color:transparent;color:var(--ink);font-weight:700;cursor:default}
+.fcx{margin-top:12px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.grade button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;cursor:pointer;font:700 14px var(--f-head);color:var(--ink)}
+.grade small{display:block;font:500 11px var(--f-body);color:var(--muted)}
+.grade .g0{border-color:var(--bad);color:var(--bad)}.grade .g1{border-color:var(--blue);color:var(--blue)}.grade .g2{border-color:var(--ok);color:var(--ok)}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font:600 12px var(--f-head);color:var(--muted);margin:10px 0}
+.meter b{color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.big{font:700 40px var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.lst{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.lst button.it{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;cursor:pointer;color:var(--ink);font-size:14px}
+.lst .pgn{font:700 12px var(--f-head);color:var(--blue);flex:none;font-variant-numeric:tabular-nums}
+input.srch{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 14px;font-size:15px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bar);color:var(--bar-ink);padding:9px 16px;border-radius:12px;font:600 13px var(--f-head);z-index:60;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+/* section priority chips */
+.sh .sht{display:inline-flex;flex-wrap:wrap;gap:.3em;margin-left:auto}
+.sh .sht .tg{font-size:.56em;white-space:nowrap}
+/* recall lab: the start of each fact stays visible, the rest is covered until tapped */
+.rcg{margin:.85em 0 .3em;font:700 .72em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.rci{display:block;width:100%;text-align:left;margin:.3em 0;padding:.45em .6em;border-radius:.45em;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.92em;line-height:1.45;cursor:pointer}
+.rci .cue{font-weight:700;color:var(--navy-ink)}
+.rci .hid{color:transparent;border-radius:.25em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rci.on{border-color:var(--ok);background:var(--ok-bg)}
+/* figures in questions */
+.qf{margin:.5em 0 .6em;text-align:center}
+.qf img{max-width:100%;max-height:calc(var(--ph) * .42);border-radius:.4em;border:1px solid var(--line);background:#fff}
+.panel .qf img{max-height:46vh}
+.qf figcaption{font-size:.74em;color:var(--muted);margin-top:.25em}
+/* links back to the library and on to the next lecture */
+.libl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--f-head);color:#fff;text-decoration:none;padding:7px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+.endnav{display:flex;flex-direction:column;gap:.5em;margin:.8em 0}
+.endnav a{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.7em .85em;border-radius:.6em;border:1px solid var(--line);background:var(--card);color:var(--navy-ink);text-decoration:none;font:600 .9em var(--f-head)}
+.endnav a small{display:block;font:500 .78em var(--f-body);color:var(--muted)}
+/* iPhone/iPad: Safari zooms into any text field under 16px when it is tapped */
+@supports (-webkit-touch-callout:none){ input.srch,textarea.dr{font-size:16px} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <button class="brand" data-act="home" aria-label="Back to the cover"><b>MSK<em class="bw"> Interactive</em> Book</b><span id="chap"></span></button>
+    <div class="sp"></div>
+    <span class="pgind" id="pgind"></span>
+    <div class="prog" title="Pages read"><i id="progi" style="width:0"></i></div>
+    <button class="ib" data-act="open-toc" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="lb">Contents</span></button>
+    <button class="ib" data-act="open-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="lb">Search</span></button>
+    <button class="ib" data-act="open-cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v11"/></svg><span class="lb">Flashcards</span></button>
+    <button class="ib" data-act="open-exam" aria-label="Exam mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg><span class="lb">Exam</span></button>
+    <button class="ib" data-act="open-mist" aria-label="Mistakes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg><span class="lb">Mistakes</span></button>
+    <button class="ib" data-act="open-set" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lb">Settings</span></button>
+  </header>
+  <main class="stage" id="stage">
+    <div class="book" id="book" hidden>
+      <div class="pg pg-l" id="pgL"></div>
+      <div class="pg pg-r" id="pgR"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front" id="lf"></div><div class="face back" id="lb"></div></div>
+      <button class="turn prev" data-act="prev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="turn next" data-act="next" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="home" id="home"></div>
+  </main>
+  <nav class="mnav" id="mnav" hidden>
+    <button data-act="prev" aria-label="Previous page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="mid" id="mmid"></span>
+    <button data-act="next" aria-label="Next page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+<div id="ovs"></div>
+
+<script>
+const BOOK = {"id": "par-l2", "title": "Parasitology · Lecture 2 — Parasites of Skin and Muscles II", "short": "Parasitology L2 · Parasites of Skin and Muscles II", "subject": "Parasitology", "coverLine": "Lecture 2 · Parasites Affecting Skin & Muscles II", "coverNote": "Interactive edition", "blurb": "The pamphlet as a book you can work with: the key facts part by part, a recall lab for each part, check questions that answer instantly, written questions with lift-the-flap answers, flashcards with spaced repetition and an exam mode.", "exams": [{"name": "Final", "date": "2026-11-09"}, {"name": "Practical", "date": "2026-11-11"}], "pages": [{"id": "p0", "head": "", "kind": "cover", "blocks": [{"t": "contents"}]}, {"id": "p1", "head": "Lecture 2", "kind": "text", "blocks": [{"t": "title", "kick": "MSK Module · Parasitology · Lecture 2", "title": "Parasites Affecting Skin & Muscles II", "sub": "Scabies — Sarcoptes scabiei · Flies & Myiasis · Myiasis — Tissues, Diagnosis & Control · Lice · Bed Bugs & Fleas · Arthropods Compared · Rapid Revision", "facts": [["7", "pamphlet parts"], ["43", "check questions"], ["25", "Final-bank questions"]], "hook": "Exam trap to remember: Treat whole household in scabies, even asymptomatic", "note": ["In the Final", "This lecture comes as <b>MCQ + essay<\/b>. 21 of its questions are <b>top priority<\/b>: the department used them this year."]}]}, {"id": "p2", "head": "Part 01 · Scabies — Sarcoptes scabiei", "kind": "text", "blocks": [{"t": "part", "no": "01", "title": "Scabies — Sarcoptes scabiei", "sub": "Sarcoptes scabiei at a glance · Pathogenesis · Clinical picture · Diagnosis · Treatment"}, {"t": "h", "no": "1.1", "title": "Sarcoptes scabiei at a glance", "top": true}, {"t": "list", "items": ["Itch mite causing scabies; <mark>worldwide<\/mark> with bad hygiene &amp; overcrowding", "<b>Reservoir hosts:<\/b> <mark>dog<\/mark>, <mark>rabbit<\/mark>, <mark>camel<\/mark>", "<mark>0.1–0.4 mm<\/mark>, <mark>oval<\/mark>", "<b>Infection:<\/b> contact with <mark>infected person<\/mark>, <mark>towels or bedding<\/mark>", "Adults &amp; larvae migrate in <mark>epidermis<\/mark> → <mark>burrows<\/mark>"]}, {"t": "h", "no": "1.2", "title": "Pathogenesis"}, {"t": "list", "items": ["Eggs deposited in epidermis → severe itching, dermatitis, burrows", "Itching is <mark>allergic<\/mark> — type IV hypersensitivity"]}], "toc": ["01", "Scabies — Sarcoptes scabiei"]}, {"id": "p3", "head": "Part 01 · Scabies — Sarcoptes scabiei", "kind": "text", "blocks": [{"t": "h", "no": "1.3", "title": "Clinical picture", "top": true, "rep": true}, {"t": "list", "items": ["<b>Classic:<\/b> severe <mark>pruritus<\/mark> worse at <mark>night<\/mark>", "<mark>Serpiginous<\/mark> burrows, often between <mark>fingers and toes<\/mark>", "Papules/<mark>vesicles<\/mark> <mark>0.3–0.5 cm<\/mark>; scratching → bleeding, scabs, <mark>secondary bacterial infection<\/mark>", "<b>Norwegian (crusted) scabies:<\/b> generalized scaling &amp; crusting in <mark>immunodeficient<\/mark>; <mark>nosocomial<\/mark> source"]}, {"t": "h", "no": "1.4", "title": "Diagnosis", "top": true, "rep": true}, {"t": "list", "items": ["<b>Clinical:<\/b> severe itching and lesion site", "Mites or eggs in skin scrapings", "<mark>Hand lens<\/mark> to see minute burrows"]}, {"t": "h", "no": "1.5", "title": "Treatment"}, {"t": "list", "items": ["Hot soapy bath", "<mark>Permethrin 5%<\/mark> cream or <mark>lindane 1%<\/mark> — equally effective", "Boil all clothes and fomites", "Treat <mark>all family members<\/mark>, symptomatic or not"]}]}, {"id": "p4", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-0-0", "title": "Recall · Scabies — Sarcoptes scabiei (1/3)", "groups": [{"title": "1.1 Sarcoptes scabiei at a glance", "items": [["Itch mite causing scabies", "worldwide with bad hygiene &amp; overcrowding"], ["Reservoir hosts:", "dog, rabbit, camel"], ["0.1–0.4 mm", "oval"], ["Infection:", "contact with infected person, towels or bedding"], ["Adults &amp; larvae migrate in epidermis →", "burrows"]]}, {"title": "1.2 Pathogenesis", "items": [["Eggs deposited in epidermis →", "severe itching, dermatitis, burrows"], ["Itching is allergic —", "type IV hypersensitivity"]]}]}], "labName": "Recall · Scabies — Sarcoptes scabiei (1/3)"}, {"id": "p5", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-0-1", "title": "Recall · Scabies — Sarcoptes scabiei (2/3)", "groups": [{"title": "1.3 Clinical picture", "items": [["Classic:", "severe pruritus worse at night"], ["Serpiginous burrows", "often between fingers and toes"], ["Papules/vesicles 0.3–0.5 cm; scratching →", "bleeding, scabs, secondary bacterial infection"], ["Norwegian (crusted) scabies:", "generalized scaling &amp; crusting in immunodeficient; nosocomial source"]]}, {"title": "1.4 Diagnosis", "items": [["Clinical:", "severe itching and lesion site"], ["Mites or", "eggs in skin scrapings"], ["Hand lens", "to see minute burrows"]]}]}], "labName": "Recall · Scabies — Sarcoptes scabiei (2/3)"}, {"id": "p6", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-0-2", "title": "Recall · Scabies — Sarcoptes scabiei (3/3)", "groups": [{"title": "1.5 Treatment", "items": [["Hot soapy", "bath"], ["Permethrin 5% cream or lindane 1% —", "equally effective"], ["Boil all", "clothes and fomites"], ["Treat all", "family members, symptomatic or not"]]}]}], "labName": "Recall · Scabies — Sarcoptes scabiei (3/3)"}, {"id": "p7", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "TP-064"}, {"t": "check", "q": "Q0386"}]}, {"id": "p8", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0388"}, {"t": "check", "q": "Q0389"}]}, {"id": "p9", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0490"}, {"t": "check", "q": "Q0492"}]}, {"id": "p10", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0426"}]}, {"id": "p11", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0473"}]}, {"id": "p12", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0401"}]}, {"id": "p13", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0430"}]}, {"id": "p14", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-07"}]}, {"id": "p15", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0424"}]}, {"id": "p16", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0486"}]}, {"id": "p17", "head": "Part 02 · Flies & Myiasis", "kind": "text", "blocks": [{"t": "part", "no": "02", "title": "Flies & Myiasis", "sub": "Definition (un-numbered in pamphlet) · Flies of medical importance · Development & medical importance · Classification of myiasis by habits"}, {"t": "h", "no": "02-intro", "title": "Definition (un-numbered in pamphlet)"}, {"t": "list", "items": ["<b>Myiasis:<\/b> invasion of animal &amp; human tissues by larvae (maggots) of dipterous flies"]}, {"t": "h", "no": "2.1", "title": "Flies of medical importance"}, {"t": "list", "items": ["<b>Muscidae:<\/b> <mark>Musca domestica<\/mark> (house fly), <mark>Glossina<\/mark> (tsetse), Stomoxys (stable fly)", "<b>Calliphoridae (metallic):<\/b> <mark>Calliphorinae<\/mark> blue; <mark>Lucilia &amp; Chrysomyia<\/mark> green", "<b>Sarcophagidae (flesh flies):<\/b> <mark>Sarcophaga<\/mark> &amp; <mark>Wohlfahrtia<\/mark>"]}], "toc": ["02", "Flies & Myiasis"]}, {"id": "p18", "head": "Part 02 · Flies & Myiasis", "kind": "text", "blocks": [{"t": "h", "no": "2.2", "title": "Development & medical importance"}, {"t": "list", "items": ["<b>Complete metamorphosis:<\/b> egg → larva (causes myiasis) → <mark>pupa<\/mark> → adult", "<b>House fly:<\/b> <mark>indirect mechanical transmission<\/mark>, <mark>accidental myiasis<\/mark>", "<b>Metallic &amp; flesh flies:<\/b> semi-specific myiasis", "Flesh flies are larviparous (deposit larvae)"]}, {"t": "h", "no": "2.3", "title": "Classification of myiasis by habits", "top": true, "rep": true}, {"t": "list", "items": ["<b>Specific:<\/b> obligatory <mark>sarcobiots<\/mark> on living tissue — <mark>Cordylobia<\/mark>, <mark>Oestrus<\/mark>, <mark>Gastrophilus<\/mark>, <mark>Hypoderma<\/mark>, <mark>Dermatobia<\/mark>", "<b>Semi-specific:<\/b> <mark>necrobiots<\/mark> on carcasses; infest wounds, discharging ear/nose — <mark>Calliphora<\/mark>, <mark>Lucilia<\/mark>, <mark>Sarcophaga<\/mark>, <mark>Wohlfahrtia<\/mark>", "<b>Accidental:<\/b> eggs/larvae on <mark>food<\/mark> ingested → <mark>intestinal<\/mark> myiasis — <mark>Musca domestica<\/mark>, <mark>Piophila<\/mark>", "<mark>Dermatobia<\/mark> lays eggs on a mosquito; <mark>Cordylobia<\/mark> on clothes or ground"]}]}, {"id": "p19", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-1-0", "title": "Recall · Flies & Myiasis (1/2)", "groups": [{"title": "02-intro Definition (un-numbered in pamphlet)", "items": [["Myiasis:", "invasion of animal &amp; human tissues by larvae (maggots) of dipterous flies"]]}, {"title": "2.1 Flies of medical importance", "items": [["Muscidae:", "Musca domestica (house fly), Glossina (tsetse), Stomoxys (stable fly)"], ["Calliphoridae (metallic):", "Calliphorinae blue; Lucilia &amp; Chrysomyia green"], ["Sarcophagidae (flesh flies):", "Sarcophaga &amp; Wohlfahrtia"]]}, {"title": "2.2 Development & medical importance", "items": [["Complete metamorphosis:", "egg → larva (causes myiasis) → pupa → adult"], ["House fly:", "indirect mechanical transmission, accidental myiasis"], ["Metallic &amp; flesh flies:", "semi-specific myiasis"], ["Flesh flies", "are larviparous (deposit larvae)"]]}]}], "labName": "Recall · Flies & Myiasis (1/2)"}, {"id": "p20", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-1-1", "title": "Recall · Flies & Myiasis (2/2)", "groups": [{"title": "2.3 Classification of myiasis by habits", "items": [["Specific:", "obligatory sarcobiots on living tissue — Cordylobia, Oestrus, Gastrophilus, Hypoderma, Dermatobia"], ["Semi-specific:", "necrobiots on carcasses; infest wounds, discharging ear/nose — Calliphora, Lucilia, Sarcophaga, Wohlfahrtia"], ["Accidental:", "eggs/larvae on food ingested → intestinal myiasis — Musca domestica, Piophila"], ["Dermatobia lays eggs on", "a mosquito; Cordylobia on clothes or ground"]]}]}], "labName": "Recall · Flies & Myiasis (2/2)"}, {"id": "p21", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-04"}, {"t": "check", "q": "Q0489"}]}, {"id": "p22", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-10"}, {"t": "flap", "q": "N-PAR-L2-12"}]}, {"id": "p23", "head": "Part 03 · Myiasis — Tissues, Diagnosis & Control", "kind": "text", "blocks": [{"t": "part", "no": "03", "title": "Myiasis — Tissues, Diagnosis & Control", "sub": "Classification by tissues invaded · External myiasis · Internal myiasis · Diagnosis — read the posterior spiracles · Treatment · Control & prevention"}, {"t": "h", "no": "3.1", "title": "Classification by tissues invaded", "top": true, "rep": true}, {"t": "list", "items": ["<b>External:<\/b> <mark>cutaneous<\/mark> (creeping, <mark>nodular<\/mark>, <mark>wound<\/mark>), <mark>ocular<\/mark>, <mark>nasal<\/mark>, <mark>aural<\/mark>", "<b>Internal:<\/b> <mark>intestinal<\/mark>, <mark>urogenital<\/mark>, <mark>gastric<\/mark>"]}, {"t": "h", "no": "3.2", "title": "External myiasis", "top": true, "rep": true}, {"t": "list", "items": ["<b>Creeping eruption:<\/b> <mark>Gastrophilus<\/mark> &amp; <mark>Hypoderma<\/mark>; nodular: <mark>Cordylobia<\/mark> &amp; <mark>Dermatobia<\/mark>", "<b>Wound:<\/b> <mark>Lucilia<\/mark>, <mark>Calliphora<\/mark>, <mark>Chrysomyia<\/mark>, <mark>Cochliomyia<\/mark>", "<b>Nasal &amp; aural:<\/b> <mark>Sarcophaga<\/mark>, <mark>Wohlfahrtia<\/mark>, <mark>Chrysomyia<\/mark>", "<b>Ocular external:<\/b> <mark>Oestrus<\/mark>; internal: Oestrus, <mark>Gastrophilus<\/mark>, <mark>Hypoderma<\/mark>", "Nasal myiasis may destroy bone, reach brain → <mark>death<\/mark>; aural: <mark>deafness<\/mark>, <mark>tinnitus<\/mark>, <mark>drum perforation<\/mark>"]}], "toc": ["03", "Myiasis — Tissues, Diagnosis & Control"]}, {"id": "p24", "head": "Part 03 · Myiasis — Tissues, Diagnosis & Control", "kind": "text", "blocks": [{"t": "h", "no": "3.3", "title": "Internal myiasis", "top": true, "rep": true}, {"t": "list", "items": ["<b>Intestinal via food:<\/b> Musca, Sarcophaga, Wohlfahrtia", "Intestinal via anus &amp; urogenital: <mark>Fannia<\/mark>", "<b>Gastric:<\/b> <mark>Eristalis<\/mark>"]}, {"t": "h", "no": "3.4", "title": "Diagnosis — read the posterior spiracles", "top": true, "rep": true}, {"t": "list", "items": ["Identify larvae by <mark>posterior spiracles<\/mark>; breed larvae to adult", "<mark>Musca<\/mark>: sinuous M-shaped slits, peritreme with <mark>button<\/mark>, mouth hook", "<b>Sarcophaga &amp; Wohlfahrtia:<\/b> 3 <mark>straight<\/mark> slits, <mark>opened<\/mark> peritreme", "<b>Calliphora, Lucilia, Chrysomyia:<\/b> 3 slits, <mark>closed<\/mark> peritreme"]}, {"t": "h", "no": "3.5", "title": "Treatment"}, {"t": "list", "items": ["<b>Skin, nose, eye, ear:<\/b> <mark>manual removal of larvae<\/mark>", "<b>Intestinal:<\/b> <mark>saline purge<\/mark>; urogenital: <mark>douches or cystoscopy<\/mark>", "Antiseptics &amp; antibiotics for secondary infection"]}]}, {"id": "p25", "head": "Part 03 · Myiasis — Tissues, Diagnosis & Control", "kind": "text", "blocks": [{"t": "h", "no": "3.6", "title": "Control & prevention"}, {"t": "list", "items": ["Health education, covering food, <mark>environmental sanitation<\/mark>", "Physical/mechanical exclusion of flies; chemical insecticide spraying", "<b>Prevention:<\/b> <mark>insecticides<\/mark>, <mark>nets<\/mark>, <mark>protection of wounds<\/mark> &amp; food", "Hospital wound myiasis → regular insecticide spraying + <mark>covering wounds<\/mark>"]}]}, {"id": "p26", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-2-0", "title": "Recall · Myiasis — Tissues, Diagnosis & Control (1/3)", "groups": [{"title": "3.1 Classification by tissues invaded", "items": [["External:", "cutaneous (creeping, nodular, wound), ocular, nasal, aural"], ["Internal:", "intestinal, urogenital, gastric"]]}, {"title": "3.2 External myiasis", "items": [["Creeping eruption:", "Gastrophilus &amp; Hypoderma; nodular: Cordylobia &amp; Dermatobia"], ["Wound:", "Lucilia, Calliphora, Chrysomyia, Cochliomyia"], ["Nasal &amp; aural:", "Sarcophaga, Wohlfahrtia, Chrysomyia"], ["Ocular external:", "Oestrus; internal: Oestrus, Gastrophilus, Hypoderma"], ["Nasal myiasis may destroy bone, reach brain →", "death; aural: deafness, tinnitus, drum perforation"]]}]}], "labName": "Recall · Myiasis — Tissues, Diagnosis & Control (1/3)"}, {"id": "p27", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-2-1", "title": "Recall · Myiasis — Tissues, Diagnosis & Control (2/3)", "groups": [{"title": "3.3 Internal myiasis", "items": [["Intestinal via food:", "Musca, Sarcophaga, Wohlfahrtia"], ["Intestinal via anus &amp; urogenital:", "Fannia"], ["Gastric:", "Eristalis"]]}, {"title": "3.4 Diagnosis — read the posterior spiracles", "items": [["Identify larvae by", "posterior spiracles; breed larvae to adult"], ["Musca:", "sinuous M-shaped slits, peritreme with button, mouth hook"], ["Sarcophaga &amp; Wohlfahrtia:", "3 straight slits, opened peritreme"], ["Calliphora, Lucilia, Chrysomyia:", "3 slits, closed peritreme"]]}]}], "labName": "Recall · Myiasis — Tissues, Diagnosis & Control (2/3)"}, {"id": "p28", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-2-2", "title": "Recall · Myiasis — Tissues, Diagnosis & Control (3/3)", "groups": [{"title": "3.5 Treatment", "items": [["Skin, nose, eye, ear:", "manual removal of larvae"], ["Intestinal:", "saline purge; urogenital: douches or cystoscopy"], ["Antiseptics &amp;", "antibiotics for secondary infection"]]}, {"title": "3.6 Control & prevention", "items": [["Health education", "covering food, environmental sanitation"], ["Physical/mechanical exclusion", "of flies; chemical insecticide spraying"], ["Prevention:", "insecticides, nets, protection of wounds &amp; food"], ["Hospital wound myiasis →", "regular insecticide spraying + covering wounds"]]}]}], "labName": "Recall · Myiasis — Tissues, Diagnosis & Control (3/3)"}, {"id": "p29", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0432"}]}, {"id": "p30", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0491"}]}, {"id": "p31", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0431"}]}, {"id": "p32", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0479"}, {"t": "check", "q": "N-PAR-L2-05"}]}, {"id": "p33", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0476"}, {"t": "flap", "q": "Q0433"}]}, {"id": "p34", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Y26-036"}]}, {"id": "p35", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0425"}]}, {"id": "p36", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-03"}, {"t": "flap", "q": "N-PAR-L2-13"}]}, {"id": "p37", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0487"}, {"t": "flap", "q": "N-PAR-L2-14"}]}, {"id": "p38", "head": "Part 04 · Lice", "kind": "text", "blocks": [{"t": "part", "no": "04", "title": "Lice", "sub": "Definition (un-numbered in pamphlet) · The three lice & their medical importance · Biology · Clinical picture & diagnosis · Control of lice"}, {"t": "h", "no": "04-intro", "title": "Definition (un-numbered in pamphlet)"}, {"t": "list", "items": ["Bloodsucking, wingless permanent ectoparasites; three species affect man"]}, {"t": "h", "no": "4.1", "title": "The three lice & their medical importance", "top": true, "rep": true}, {"t": "list", "items": ["<mark>Pediculus humanus capitis<\/mark> (head louse): pediculosis (<mark>vagabond's disease<\/mark>)", "<mark>Pediculus humanus corporis<\/mark> (<mark>body louse<\/mark>): <mark>epidemic typhus<\/mark>, trench fever, <mark>epidemic relapsing fever<\/mark>, pediculosis", "<mark>Phthirus pubis<\/mark> (pubic louse): irritation — <mark>blepharitis<\/mark>"]}], "toc": ["04", "Lice"]}, {"id": "p39", "head": "Part 04 · Lice", "kind": "text", "blocks": [{"t": "h", "no": "4.2", "title": "Biology"}, {"t": "list", "items": ["Head lice at nape of neck or behind ears", "Spread by <mark>physical contact<\/mark> and <mark>sharing combs<\/mark> (hats, clothing)", "Nits = <mark>eggs<\/mark> glued to hair shaft, one per hair", "<b>Incomplete metamorphosis:<\/b> nit → nymph → adult", "<mark>Voracious<\/mark> feeders, cause <mark>epidemics<\/mark>; head louse not a natural vector"]}, {"t": "h", "no": "4.3", "title": "Clinical picture & diagnosis", "top": true, "rep": true}, {"t": "list", "items": ["<b>Pediculosis:<\/b> <mark>excoriations<\/mark>, <mark>erythema<\/mark>, <mark>pyoderma<\/mark>, scaly scalp &amp; posterior neck", "<b>Diagnosis:<\/b> <mark>nits and/or adult lice<\/mark> on <mark>scalp hair<\/mark>"]}, {"t": "h", "no": "4.4", "title": "Control of lice", "rep": true}, {"t": "list", "items": ["<mark>Lindane 1%<\/mark> or <mark>permethrin 1%<\/mark> topically, <mark>twice, 1 week apart<\/mark>", "Repeat kills surviving nits and reduces fomite reinfestation", "Topical <mark>ivermectin<\/mark>; topical <mark>malathion<\/mark>"]}]}, {"id": "p40", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-3-0", "title": "Recall · Lice (1/2)", "groups": [{"title": "04-intro Definition (un-numbered in pamphlet)", "items": [["Bloodsucking, wingless permanent", "ectoparasites; three species affect man"]]}, {"title": "4.1 The three lice & their medical importance", "items": [["Pediculus humanus capitis (head louse):", "pediculosis (vagabond's disease)"], ["Pediculus humanus corporis (body louse):", "epidemic typhus, trench fever, epidemic relapsing fever, pediculosis"], ["Phthirus pubis (pubic louse):", "irritation — blepharitis"]]}, {"title": "4.2 Biology", "items": [["Head lice at", "nape of neck or behind ears"], ["Spread by physical", "contact and sharing combs (hats, clothing)"], ["Nits =", "eggs glued to hair shaft, one per hair"], ["Incomplete metamorphosis:", "nit → nymph → adult"], ["Voracious feeders, cause epidemics", "head louse not a natural vector"]]}]}], "labName": "Recall · Lice (1/2)"}, {"id": "p41", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-3-1", "title": "Recall · Lice (2/2)", "groups": [{"title": "4.3 Clinical picture & diagnosis", "items": [["Pediculosis:", "excoriations, erythema, pyoderma, scaly scalp &amp; posterior neck"], ["Diagnosis:", "nits and/or adult lice on scalp hair"]]}, {"title": "4.4 Control of lice", "items": [["Lindane 1% or permethrin", "1% topically, twice, 1 week apart"], ["Repeat kills surviving", "nits and reduces fomite reinfestation"], ["Topical ivermectin", "topical malathion"]]}]}], "labName": "Recall · Lice (2/2)"}, {"id": "p42", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0478"}]}, {"id": "p43", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-09"}, {"t": "check", "q": "Y26-045"}]}, {"id": "p44", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0429"}]}, {"id": "p45", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-08"}, {"t": "check", "q": "Q0493"}]}, {"id": "p46", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-06"}]}, {"id": "p47", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0488"}]}, {"id": "p48", "head": "Part 05 · Bed Bugs & Fleas", "kind": "text", "blocks": [{"t": "part", "no": "05", "title": "Bed Bugs & Fleas", "sub": "Bed bugs — Cimex lectularius · Fleas · Itchy bites — tell them apart"}, {"t": "h", "no": "5.1", "title": "Bed bugs — Cimex lectularius", "top": true}, {"t": "list", "items": ["<mark>Temporary<\/mark> ectoparasite — visits host only for blood meal; all stages suck blood", "Feeds at night/dark; hides by day in cracks, walls, between mattresses, lays eggs there", "<mark>Nasty odour<\/mark> from special glands", "<mark>Reddish brown<\/mark>, dorsoventrally flattened, wingless, <mark>4–6 × 4 mm<\/mark>", "<b>Bites:<\/b> irritation, <mark>insomnia<\/mark>, allergic dermatitis — <mark>linear papular urticaria<\/mark>"]}, {"t": "h", "no": "5.2", "title": "Fleas", "top": true}, {"t": "list", "items": ["<mark>Obligatory temporary<\/mark> ectoparasites of man &amp; animals; both sexes suck blood", "Jump; <mark>2–3 mm<\/mark>, laterally compressed", "<b>Allergic dermatitis:<\/b> <mark>erythematous dot<\/mark> with swollen reddish patch"]}], "toc": ["05", "Bed Bugs & Fleas"]}, {"id": "p49", "head": "Part 05 · Bed Bugs & Fleas", "kind": "text", "blocks": [{"t": "list", "items": ["Vector of <mark>plague<\/mark> and <mark>endemic typhus<\/mark>"]}, {"t": "h", "no": "5.3", "title": "Itchy bites — tell them apart"}, {"t": "list", "items": ["<b>Bed bug:<\/b> linear papular urticaria + insomnia (arm, shoulder, back)", "<b>Flea:<\/b> erythematous dot with swollen halo (ankle, lower leg)", "Mosquito pictured for comparison only"]}]}, {"id": "p50", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-4-0", "title": "Recall · Bed Bugs & Fleas (1/2)", "groups": [{"title": "5.1 Bed bugs — Cimex lectularius", "items": [["Temporary ectoparasite —", "visits host only for blood meal; all stages suck blood"], ["Feeds at night/dark; hides by", "day in cracks, walls, between mattresses, lays eggs there"], ["Nasty odour", "from special glands"], ["Reddish brown, dorsoventrally", "flattened, wingless, 4–6 × 4 mm"], ["Bites:", "irritation, insomnia, allergic dermatitis — linear papular urticaria"]]}, {"title": "5.2 Fleas", "items": [["Obligatory temporary ectoparasites of", "man &amp; animals; both sexes suck blood"], ["Jump; 2–3", "mm, laterally compressed"], ["Allergic dermatitis:", "erythematous dot with swollen reddish patch"], ["Vector of", "plague and endemic typhus"]]}]}], "labName": "Recall · Bed Bugs & Fleas (1/2)"}, {"id": "p51", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-4-1", "title": "Recall · Bed Bugs & Fleas (2/2)", "groups": [{"title": "5.3 Itchy bites — tell them apart", "items": [["Bed bug:", "linear papular urticaria + insomnia (arm, shoulder, back)"], ["Flea:", "erythematous dot with swollen halo (ankle, lower leg)"], ["Mosquito pictured", "for comparison only"]]}]}], "labName": "Recall · Bed Bugs & Fleas (2/2)"}, {"id": "p52", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0481"}]}, {"id": "p53", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-01"}]}, {"id": "p54", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0483"}]}, {"id": "p55", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-PAR-L2-02"}]}, {"id": "p56", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-PAR-L2-11"}]}, {"id": "p57", "head": "Part 06 · Arthropods Compared", "kind": "text", "blocks": [{"t": "part", "no": "06", "title": "Arthropods Compared", "sub": "The master table · Doses that get swapped · Vectors & diseases · Ectoparasite types & development · Clinical clue → parasite · Spot the specimen"}, {"t": "h", "no": "6.1", "title": "The master table"}, {"t": "list", "items": ["Scabies, myiasis flies, lice, bed bug, flea — spread, site, lesion, diagnosis, treatment"]}, {"t": "h", "no": "6.2", "title": "Doses that get swapped"}, {"t": "list", "items": ["<b>Scabies:<\/b> permethrin 5% or lindane 1%", "<b>Lice:<\/b> lindane 1% or permethrin 1%, twice 1 week apart"]}, {"t": "h", "no": "6.3", "title": "Vectors & diseases"}, {"t": "list", "items": ["<b>Body louse:<\/b> <mark>epidemic<\/mark> typhus, trench fever, relapsing fever; head louse not a natural vector", "<b>Flea:<\/b> plague, <mark>endemic<\/mark> typhus; house fly: mechanical transmission, accidental myiasis"]}], "toc": ["06", "Arthropods Compared"]}, {"id": "p58", "head": "Part 06 · Arthropods Compared", "kind": "text", "blocks": [{"t": "h", "no": "6.4", "title": "Ectoparasite types & development"}, {"t": "list", "items": ["Lice <mark>permanent<\/mark>; bed bug <mark>temporary<\/mark>; flea <mark>obligatory temporary<\/mark>", "Flies <mark>complete<\/mark> metamorphosis; lice <mark>incomplete<\/mark>"]}, {"t": "h", "no": "6.5", "title": "Clinical clue → parasite"}, {"t": "list", "items": ["Night itch, finger burrows, whole family → scabies; immunodeficient crusting → Norwegian scabies", "Maggots in neglected wound → Lucilia, Calliphora, Chrysomyia"]}, {"t": "h", "no": "6.6", "title": "Spot the specimen"}, {"t": "list", "items": ["Oval mite; Musca M-slits; Sarcophaga open peritreme; Calliphora closed; flat bed bug; compressed flea"]}]}, {"id": "p59", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-5-0", "title": "Recall · Arthropods Compared (1/2)", "groups": [{"title": "6.1 The master table", "items": [["Scabies, myiasis flies, lice, bed bug, flea —", "spread, site, lesion, diagnosis, treatment"]]}, {"title": "6.2 Doses that get swapped", "items": [["Scabies:", "permethrin 5% or lindane 1%"], ["Lice:", "lindane 1% or permethrin 1%, twice 1 week apart"]]}, {"title": "6.3 Vectors & diseases", "items": [["Body louse:", "epidemic typhus, trench fever, relapsing fever; head louse not a natural vector"], ["Flea:", "plague, endemic typhus; house fly: mechanical transmission, accidental myiasis"]]}, {"title": "6.4 Ectoparasite types & development", "items": [["Lice permanent; bed", "bug temporary; flea obligatory temporary"], ["Flies complete", "metamorphosis; lice incomplete"]]}]}], "labName": "Recall · Arthropods Compared (1/2)"}, {"id": "p60", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-5-1", "title": "Recall · Arthropods Compared (2/2)", "groups": [{"title": "6.5 Clinical clue → parasite", "items": [["Night itch, finger burrows, whole family →", "scabies; immunodeficient crusting → Norwegian scabies"], ["Maggots in neglected wound →", "Lucilia, Calliphora, Chrysomyia"]]}, {"title": "6.6 Spot the specimen", "items": [["Oval mite; Musca M-slits; Sarcophaga", "open peritreme; Calliphora closed; flat bed bug; compressed flea"]]}]}], "labName": "Recall · Arthropods Compared (2/2)"}, {"id": "p61", "head": "Part 07 · Rapid Revision", "kind": "text", "blocks": [{"t": "part", "no": "07", "title": "Rapid Revision", "sub": "Must-know one-liners · Mnemonic vault & classic exam traps · Lecture MCQs — answer key"}, {"t": "h", "no": "7.1", "title": "Must-know one-liners"}, {"t": "list", "items": ["Q&amp;A recap of scabies, myiasis, lice, bed bugs, fleas"]}, {"t": "h", "no": "7.2", "title": "Mnemonic vault & classic exam traps"}, {"t": "list", "items": ["D-R-C scabies reservoirs; 5 fingers → 5%, 1 head → 1%; T-T-R body louse diseases"]}, {"t": "h", "no": "7.3", "title": "Lecture MCQs — answer key"}, {"t": "list", "items": ["<b>Scabies child:<\/b> 5% permethrin to patient and all household contacts", "<b>Hospital wound myiasis:<\/b> insecticide spraying + covering wounds", "<b>Head lice:<\/b> nits/adult lice on scalp hair"]}], "toc": ["07", "Rapid Revision"]}, {"id": "p62", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-par-l2-6-0", "title": "Recall · Rapid Revision", "groups": [{"title": "7.1 Must-know one-liners", "items": [["Q&amp;A recap of", "scabies, myiasis, lice, bed bugs, fleas"]]}, {"title": "7.2 Mnemonic vault & classic exam traps", "items": [["D-R-C scabies reservoirs; 5 fingers →", "5%, 1 head → 1%; T-T-R body louse diseases"]]}, {"title": "7.3 Lecture MCQs — answer key", "items": [["Scabies child:", "5% permethrin to patient and all household contacts"], ["Hospital wound myiasis:", "insecticide spraying + covering wounds"], ["Head lice:", "nits/adult lice on scalp hair"]]}]}], "labName": "Recall · Rapid Revision"}, {"id": "p63", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "h", "no": "!", "title": "Exam traps & clinical points"}, {"t": "note", "kind": "trap", "html": "Treat whole household in scabies, even asymptomatic"}, {"t": "note", "kind": "trap", "html": "Scabies = permethrin 5%; lice = permethrin 1%"}, {"t": "note", "kind": "trap", "html": "Scabies itch is type IV hypersensitivity"}, {"t": "note", "kind": "trap", "html": "Crusted scabies = immunodeficient, nosocomial"}, {"t": "note", "kind": "trap", "html": "Hospital wound myiasis → insecticide spraying &amp; covering wounds, not deworming/hand washing/isolation"}, {"t": "note", "kind": "trap", "html": "Head lice diagnosis = nits/adult lice on hair, not scrapings, burrows, linear urticaria or wound larvae"}], "toc": ["!", "Exam traps & clinical"]}, {"id": "p64", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "trap", "html": "Flesh flies are larviparous"}, {"t": "note", "kind": "trap", "html": "Musca causes accidental, not specific, myiasis"}, {"t": "note", "kind": "trap", "html": "Head louse not a natural vector; body louse is"}, {"t": "note", "kind": "trap", "html": "Lice incomplete metamorphosis; flies complete"}, {"t": "note", "kind": "trap", "html": "Lice treatment repeated after 1 week for surviving nits"}, {"t": "note", "kind": "trap", "html": "Bed bugs temporary; lice permanent; fleas obligatory temporary"}, {"t": "note", "kind": "cl", "html": "Nasal myiasis: obstruction, sneezing, epistaxis; can destroy bone, reach brain → death"}]}, {"id": "p65", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "cl", "html": "Aural myiasis: deafness, tinnitus, drum perforation"}, {"t": "note", "kind": "cl", "html": "Norwegian scabies is a source of nosocomial infection"}]}, {"id": "p66", "head": "End of the lecture", "kind": "text", "blocks": [{"t": "h", "no": "✓", "title": "End of the lecture"}, {"t": "progress"}, {"t": "actions"}, {"t": "end"}], "toc": ["✓", "End of the lecture"]}], "questions": {"Q0386": {"id": "Q0386", "stem": "To which group of parasites does the itch mite belong?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The itch mite, Sarcoptes scabiei, is one of the arthropods of the skin, together with the myiasis-causing flies, lice, bed bugs and fleas. It is not a worm (nematode, cestode or trematode) or a protozoan.", "type": "mcq", "opts": ["Nematodes", "Cestodes", "Trematodes", "Arthropods", "Protozoa"], "ans": 3}, "Q0388": {"id": "Q0388", "stem": "Which of the following measures helps to prevent and control scabies?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Sarcoptes scabiei occurs worldwide in bad hygienic conditions and overcrowding and spreads by contact with an infected person, towels or bedding. The other measures do not interrupt this contact transmission.", "type": "mcq", "opts": ["Avoiding overcrowding and bad hygiene", "Avoiding swimming in infected water", "Avoiding eating improperly cooked beef", "Avoiding walking barefoot", "Proper inspection of meat in slaughterhouses"], "ans": 0}, "Q0389": {"id": "Q0389", "stem": "In what condition do Norwegian scabies occur?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR Q30", "bank": true, "expl": "Norwegian (crusted) scabies, a generalized dermatitis with extensive scaling and crusting, occurs in immunodeficient individuals and is a source of nosocomial infection. Contact with an infected person, towels or bedding is how ordinary scabies is acquired, but it does not explain the crusted form.", "type": "mcq", "opts": ["Patients suffering from immunodeficiency conditions", "Patients suffering from intestinal parasites", "People in contact with infected patients", "Patients in contact with infected animals", "Patients suffering from lymphadenopathy"], "ans": 0}, "Q0401": {"id": "Q0401", "stem": "A patient complains of pruritus that gets worse at night, and on examination serpiginous burrows are detected between the fingers and toes. This patient is most likely suffering from:", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Severe pruritus worse at night with serpiginous burrows between the fingers and toes is classic scabies. The itch is indeed an allergic (type IV hypersensitivity) response, but the burrows identify the mite as the cause.", "type": "mcq", "opts": ["Scabies", "Allergic reaction", "Cutaneous leishmaniasis", "Subcutaneous filariasis", "Calabar swelling"], "ans": 0}, "Q0424": {"id": "Q0424", "stem": "A 35-year-old man presents to his family physician with itching on his hands for 2 weeks. He states that several of his children have recently had similar symptoms. Physical examination reveals several red papules on his hands. The physician prescribes topical permethrin. Which of the following should also be considered as part of the management of this patient's condition?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Scabies spreads by contact with infected people, towels and bedding, so all clothes and fomites must be boiled and all family members treated, symptomatic or asymptomatic. Options limited to symptomatic contacts leave infected household members untreated.", "type": "mcq", "opts": ["Topical permethrin for the symptomatic children only", "Boiling the linens of the symptomatic children only", "Boiling the clothes and linens of every household member", "Topical permethrin for the symptomatic household contacts only"], "ans": 2}, "Q0425": {"id": "Q0425", "stem": "Case 1: A four-year-old girl presented with a one-month history of a scalp ulcer; it started as a painful itchy swelling in the occipital region (figure 1). Then the parents visualized the following inside the ulcer (figure 2). Surgical debridement was done, and a large number of larvae were extracted and sent to the Parasitology Department. Light microscopic appearance of the posterior spiracular plates showed the following criteria (figure 3).\n1. What is your diagnosis?\n2. Which fly larva is responsible, and on what criteria?\n3. How is this condition treated?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W13", "bank": true, "expl": "Maggots extracted from an ulcer mean cutaneous wound myiasis, and the larva is named from its posterior spiracles: three slits in a closed peritreme mark the Calliphora group. An opened peritreme would point to Sarcophaga or Wohlfahrtia, and M-shaped slits to Musca.", "img": ["figs/GR-19.jpg", "figs/GR-19_2.jpg", "figs/GR-19_3.jpg"], "cap": "1 = the scalp ulcer; 2 = what the parents saw inside the ulcer; 3 = posterior spiracular plates of the extracted larvae", "type": "written", "keyhtml": "1. Cutaneous (wound) myiasis caused by Calliphora larva: invasion of the scalp ulcer by the larvae (maggots) of a dipterous fly — an external myiasis.\n2. Calliphora larva (Calliphora group: Calliphora, Lucilia, Chrysomyia), identified by its posterior spiracles: 3 slits with a closed peritreme. (Musca: sinuous M-shaped slits with a button; Sarcophaga &amp; Wohlfahrtia: 3 straight slits with an opened peritreme.) Identification can be confirmed by breeding the larvae to the adult stage.\n3. Manual (surgical) removal of the larvae, with antiseptics and antibiotics for secondary infection."}, "Q0426": {"id": "Q0426", "stem": "Case 2: An 11-year-old girl came to hospital complaining of discomfort of the full body and itchiness for two weeks; it started interdigitally between her fingers, then spread to her wrist, armpits, back and her lower extremities. The itchiness worsens at night (figure 1). According to the girl, currently both her brothers are experiencing the same complaint. Apparently, she has a history of sharing the same room and bed with both her brothers (figure 2). Microscopic examination of skin scrapings showed the following (figure 3).\n1. What is your provisional diagnosis? On what criteria did you base your diagnosis?\n2. What is the causative parasite of this infection?\n3. How could you treat this patient?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W14", "bank": true, "expl": "Night-time pruritus, interdigital burrows and itchy contacts sharing a bed are the classic clues to scabies, and the mite or its eggs in skin scrapings confirm it. The whole household is treated because infection spreads by contact with infected persons, towels and bedding.", "img": ["figs/GR-20.jpg", "figs/GR-20_2.jpg", "figs/GR-20_3.jpg"], "cap": "1 = the girl's hand; 2 = the foot; 3 = microscopic examination of the skin scrapings", "type": "written", "keyhtml": "1. Scabies. Criteria:\n• Clinical picture: itching that worsens at night, starting between the fingers.\n• Skin lesion: serpiginous tracks (burrows).\n• Contacts (brothers sharing her room and bed) with the same complaint.\n• Microscopic examination of skin scrapings where Sarcoptes scabiei was detected.\n2. Sarcoptes scabiei (the itch mite): an oval mite 0.1–0.4 mm whose adults and larvae migrate in the epidermis, forming burrows.\n3. Hot soapy bath; permethrin 5% cream or lindane 1% (equally effective); boiling of all clothes and all fomites is essential; treatment of all family members (symptomatic or asymptomatic)."}, "Y26-036": {"id": "Y26-036", "stem": "A patient presented to the dermatology outpatient clinic in our hospital with severe inflammation in his gum. Worm-like structures were removed from this wound. How could you diagnose this case?", "top": true, "rep": "", "tag": "Final bank PAR Q31", "bank": true, "expl": "Worm-like maggots removed from a wound mean wound myiasis, which is diagnosed by identifying the larvae from the lesion by their posterior spiracles (and by breeding the larvae to the adult stage). Blood films, blood counts and antigen or antibody tests are not among the methods for myiasis; a daytime blood film is the test for Loa loa microfilariae.", "type": "mcq", "opts": ["Complete blood picture", "Detection of circulating antigen", "Microscopic examination of posterior spiracle of the removed larva", "Direct blood film", "Serological detection of antibodies"], "ans": 2}, "Q0429": {"id": "Q0429", "stem": "A 13-year-old boy presents with intense scalp itching for two weeks. His mother reports finding small white particles stuck to his hair. Examination shows excoriations and erythema at the nape of the neck (figure).\nWhat is your diagnosis?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W15", "bank": true, "expl": "Nits glued to the hair with itchy, excoriated skin at the nape of the neck are the picture of head-lice infestation (pediculosis). Diagnosis is made by finding nits and/or adult lice on the scalp hair.", "img": ["figs/GR-21.jpg"], "cap": "The nape of the neck", "type": "written", "keyhtml": "Pediculosis capitis — head louse (Pediculus humanus capitis) infestation. Clues: the small white particles stuck to the hair are nits (eggs glued to the hair shaft, one per hair); excoriations and erythema of the scalp and posterior neck (nape) are common findings. Diagnosis rests on identifying nits and/or adult lice on the scalp hair."}, "Q0430": {"id": "Q0430", "stem": "A 15-year-old Chinese boy presented with a 1-month history of pruritic papules on his skin, especially between the fingers, which had poor response to both topical steroids and systemic antihistamines (figure). The patient stated that the itchiness got worse at night.\n1. What is your diagnosis?\n2. How was this case diagnosed?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W16", "bank": true, "expl": "Night-time itching with papules between the fingers that does not respond to steroids or antihistamines is the classic picture of scabies. It is confirmed by finding the mite or its eggs in skin scrapings, or the minute burrows with a hand lens.", "img": ["figs/GR-22.jpg"], "cap": "The patient's hand", "type": "written", "keyhtml": "1. Scabies (Sarcoptes scabiei).\n2. • Clinical picture: severe itching (worse at night) and the site of the lesions (between the fingers).\n• Finding the parasites or their eggs in skin scrapings made of the infected areas.\n• Examining the skin surface with a hand lens to find the minute burrows of the mite."}, "Q0431": {"id": "Q0431", "stem": "A farmer presents with a painful, boil-like lesion on his arm. On squeezing, a larva emerges from the central opening (figure). Cutaneous myiasis was confirmed.\nWhat are the types of cutaneous myiasis?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W17", "bank": true, "expl": "Cutaneous myiasis has three forms — creeping eruption, nodular myiasis and wound myiasis — each caused by its own flies. A boil-like nodule from which a larva emerges fits nodular myiasis (Cordylobia, Dermatobia).", "img": ["figs/GR-24.jpg"], "cap": "The lesion on the arm being squeezed", "type": "written", "keyhtml": "1. Creeping eruption — Gastrophilus and Hypoderma.\n2. Nodular myiasis — Cordylobia and Dermatobia (a boil-like lesion with a larva emerging from it, as in this farmer).\n3. Wound myiasis — Lucilia, Calliphora, Chrysomyia and Cochliomyia."}, "Q0432": {"id": "Q0432", "stem": "A 72-year-old man presented with a complaint of repeated pain for two years after trauma to his right eyelid and aggravated symptoms with larvae wriggling out for 2 days (figure). External myiasis was confirmed.\nAt which other sites could external myiasis occur?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W18", "bank": true, "expl": "External myiasis affects the skin, eye, nose and ear. Urogenital myiasis (Fannia) belongs with intestinal and gastric myiasis as an internal form.", "img": ["figs/GR-25.jpg"], "cap": "The patient's right eye region", "type": "written", "keyhtml": "This patient has ocular myiasis (external ocular: Oestrus). Other sites of external myiasis:\n• Cutaneous: creeping eruption, nodular and wound myiasis.\n• Aural (ear): Sarcophaga, Wohlfahrtia, Chrysomyia.\n• Nasal (in chronic nasal discharge): Sarcophaga, Wohlfahrtia, Chrysomyia.\nUrogenital myiasis is internal (with intestinal and gastric myiasis), not external."}, "Q0433": {"id": "Q0433", "stem": "A man presents with abdominal pain and passage of small moving larvae in his stool after eating food left uncovered. Internal myiasis was confirmed.\nWhat are the different types of internal myiasis?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W19", "bank": true, "expl": "Internal myiasis is intestinal, urogenital or gastric. Larvae passed in the stool after eating uncovered food indicate intestinal myiasis, which is treated with a saline purge.", "type": "written", "keyhtml": "1. Intestinal myiasis — in food (Musca, Sarcophaga &amp; Wohlfahrtia) or through the anus (Fannia); treated with a saline purge. This patient (larvae in the stool after eating uncovered food) has intestinal myiasis.\n2. Urogenital myiasis — Fannia.\n3. Gastric myiasis — Eristalis."}, "Q0473": {"id": "Q0473", "stem": "An 87-year-old woman was admitted with erythematous-desquamative plaques and an adherent grey scale with a thick crust with fissures on the scalp. The differential diagnosis included crusted scabies. The diagnosis of crusted scabies was confirmed, and treatment was initiated (figures).\nWhat is the predisposing factor for this condition?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR W20", "bank": true, "expl": "Crusted (Norwegian) scabies is a generalized dermatitis with extensive scaling and crusting that occurs in immunodeficient individuals; it is also a source of nosocomial infection.", "img": ["figs/GR-23.jpg", "figs/GR-23_2.jpg"], "cap": "Skin lesions of the patient", "type": "written", "keyhtml": "Immunodeficiency: crusted (Norwegian) scabies — a generalized dermatitis with extensive scaling and crusting — occurs in immunodeficient individuals and is a source of nosocomial infection."}, "Q0476": {"id": "Q0476", "stem": "A man presents with abdominal pain and passage of small moving larvae in his stool after eating food left uncovered. Internal myiasis was confirmed. Which of the following flies is most likely involved?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR Q24", "bank": true, "expl": "Eggs or larvae deposited on uncovered food and then swallowed cause accidental (intestinal) myiasis, classically by the house fly Musca domestica. Lucilia causes wound myiasis and Cordylobia nodular myiasis; Wohlfahrtia, a larviparous flesh fly, can also reach the gut in food but is mainly a semi-specific myiasis fly of wounds, the nose and the ear.", "type": "mcq", "opts": ["Wohlfahrtia magnifica", "Lucilia sericata", "Musca domestica", "Cordylobia anthropophaga"], "ans": 2}, "Q0478": {"id": "Q0478", "stem": "A female patient, 45 years old, was hospitalized due to ovarian cancer. During her clinical examination head lice were seen; dermatological examination showed the presence of nits and lice walking on her hair (figure).\n1. What is the medical importance of Pediculus humanus corporis?\n2. How does it compare with the head louse (Pediculus humanus capitis) found in this patient?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR W21", "bank": true, "expl": "Only the body louse is a vector — of epidemic typhus, trench fever and epidemic relapsing fever; the head louse causes pediculosis but is not a vector under natural circumstances.", "img": ["figs/GR-28.jpg"], "cap": "Dermatoscopic (left) and microscopic (right) views of the louse", "type": "written", "keyhtml": "1. Pediculus humanus corporis (body louse):\n• A vector transmitting epidemic typhus, epidemic relapsing fever and trench fever (5-day fever).\n• It causes pediculosis (vagabond's disease).\n2. The head louse also causes pediculosis but is not a vector under natural circumstances."}, "Q0479": {"id": "Q0479", "stem": "A farmer complains of foul-smelling discharge and crawling sensation in a neglected wound on his leg. Larvae are observed in the wound.\nWhat is the diagnosis, and which type of fly infestation does this represent?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR W22", "bank": true, "expl": "Larvae in a neglected, foul-smelling wound are wound myiasis. These flies are necrobiots that normally feed on carcasses, so their invasion of diseased tissue is semi-specific myiasis, unlike the obligatory sarcobiots of specific myiasis.", "type": "written", "keyhtml": "• Diagnosis: wound myiasis (a cutaneous, external myiasis) — usually Lucilia, Calliphora, Chrysomyia (also Cochliomyia).\n• Type: semi-specific myiasis — the larvae are normally free-living necrobiots that attack carcasses but can infest necrotic/diseased tissue and neglected wounds (Calliphora, Lucilia, Sarcophaga, Wohlfahrtia); the larvae feed on the dead tissue."}, "Y26-045": {"id": "Y26-045", "stem": "Excoriations, erythema, pyoderma, and scaliness of the scalp and posterior neck are common findings in infection with:", "top": true, "rep": "", "tag": "Final bank PAR Q25", "bank": true, "expl": "Scaliness, excoriations, erythema and pyoderma of the scalp and posterior neck are the findings of pediculosis; the pamphlet places these on the head region (nape of the neck, behind the ears), i.e. the head louse, Pediculus humanus capitis. Pediculosis is also listed under the body louse, and Pediculus corporis is the only louse offered here, so it is the department's answer; if Pediculus humanus capitis is offered, choose it.", "type": "mcq", "opts": ["Pediculus corporis", "Pulex irritans", "Larva of Musca", "Larva of Wohlfahrtia", "Cimex lectularius"], "ans": 0}, "Q0481": {"id": "Q0481", "stem": "A 35-year-old woman complains of red, itchy linear papules on her arms and neck after staying in a hotel.\nWhat is the most likely cause of these lesions, and how does this parasite feed?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR W23", "bank": true, "expl": "Itchy papules in lines (linear papular urticaria) after sleeping in a hotel point to bed bugs, temporary ectoparasites that suck blood at night and hide by day in cracks and between mattresses.", "type": "written", "keyhtml": "• Cause: Cimex lectularius (bed bug) bites — irritation, insomnia and allergic dermatitis in the form of linear papular urticaria ('breakfast, lunch and dinner' pattern).\n• Feeding: a temporary ectoparasite that visits the host only for a blood meal — nocturnal, blood-sucking (male, female and nymphs), usually at night or in dark rooms; by day it hides in cracks and crevices (walls, floors, between bed mattresses), where it lays its eggs."}, "Q0483": {"id": "Q0483", "stem": "A mother brings her child with multiple small red papules surrounded by a reddish halo on the legs after playing with the family cat.\n1. What parasite is responsible, and how is it transmitted?\n2. What is the medical importance of this parasite?", "top": true, "rep": "asked 2 years", "tag": "Final bank PAR W24", "bank": true, "expl": "An erythematous dot with a swollen reddish halo on the legs after contact with a pet suggests flea bites. Besides allergic dermatitis, fleas are vectors of plague and endemic typhus.", "type": "written", "keyhtml": "1. Fleas (flea bites): obligatory temporary ectoparasites of man and animals (such as the cat); they move by jumping — from infested pets or the environment to humans — and both male and female suck blood.\n2. Annoyance and allergic dermatitis: an erythematous dot (papule with a central punctum) surrounded by a patch of swollen reddish skin, often on the legs and ankles; fleas are also vectors of plague and endemic typhus."}, "Q0486": {"id": "Q0486", "stem": "A child presents with pruritic papules and vesicles between the fingers. Skin scrapings show mites and eggs. Which of the following is the best management approach?", "top": false, "rep": "", "tag": "Final bank PAR Q34", "bank": true, "expl": "Scabies is treated with permethrin 5% cream (or lindane 1%), and all family members must be treated whether symptomatic or not, with boiling of clothes and fomites. Treating only the symptomatic patient is the classic trap.", "type": "mcq", "opts": ["Treat only the symptomatic patient", "Apply 5% permethrin cream to the patient and all household contacts", "Use oral antibiotics for 10 days", "Apply topical corticosteroids for 7 days"], "ans": 1}, "Q0487": {"id": "Q0487", "stem": "A hospital reports multiple cases of wound myiasis among immobile patients. Which preventive measure is most effective in reducing such infestations?", "top": false, "rep": "", "tag": "Final bank PAR Q35", "bank": true, "expl": "Wound myiasis is prevented by insecticides and protection of wounds, which stop flies reaching and depositing on the wounds. Deworming, hand washing and scabies isolation do not keep flies away from wounds.", "type": "mcq", "opts": ["Routine deworming of patients", "Regular spraying of insecticides and covering wounds", "Hand washing before feeding", "Isolation of patients with scabies"], "ans": 1}, "Q0488": {"id": "Q0488", "stem": "A 13-year-old boy is brought to the physician by his mother because of persistent 'dandruff'. She states that he has been constantly scratching his scalp for the past two weeks. Physical examination reveals several small white particles cemented securely to the hair shafts at the nape of the neck and behind the ears. Which of the following is the most appropriate recommendation for this patient?", "top": false, "rep": "asked 2 years", "tag": "Final bank PAR Q33", "bank": true, "expl": "Small white particles glued to the hair shafts at the nape and behind the ears are nits, so this is head lice, treated with topical lindane 1% or permethrin 1%, twice, 1 week apart, to kill any nits that survived. Permethrin 5% is the scabies strength, mites in skin scrapings are the finding in scabies, and school exclusion is not among the listed control measures.", "type": "mcq", "opts": ["Permethrin 5% cream applied once to the whole body", "Exclusion from school activities until the infection has been eradicated", "Topical permethrin 1% applied to the scalp twice, 1 week apart", "Skin scrapings to look for mites before any treatment"], "ans": 2}, "Q0489": {"id": "Q0489", "stem": "Accidental myiasis is caused by larva of which of the following flies?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR Q26", "bank": true, "expl": "In accidental myiasis, eggs or larvae deposited on exposed food are swallowed, causing intestinal myiasis; the house fly Musca domestica (and Piophila) is responsible. Sarcophaga, Lucilia, Calliphora and Wohlfahrtia are necrobiots that cause semi-specific myiasis.", "type": "mcq", "opts": ["Lucilia", "Wohlfahrtia", "Musca domestica", "Sarcophaga", "Calliphora"], "ans": 2}, "Q0490": {"id": "Q0490", "stem": "A patient with severe pruritus that worsens at night presented to the outpatient dermatology clinic. On examination, serpiginous burrows were detected between fingers and toes. This patient is mostly infected with which of the following parasites?", "top": true, "rep": "asked 4 years", "tag": "Final bank PAR Q27", "bank": true, "expl": "Severe pruritus worse at night with serpiginous burrows between the fingers and toes is classic scabies, caused by Sarcoptes scabiei, whose adults and larvae migrate in the epidermis and form burrows. Bed bugs (Cimex lectularius) also cause itching and insomnia at night, but their bites give linear papular urticaria, not burrows, and fly larvae cause myiasis.", "type": "mcq", "opts": ["Sarcoptes scabiei", "Larva of Wohlfahrtia", "Larva of Musca domestica", "Cimex lectularius", "House dust mite"], "ans": 0}, "Q0491": {"id": "Q0491", "stem": "A patient with creeping eruption is mostly suffering from which of the following types of myiasis?", "top": true, "rep": "asked 3 years", "tag": "Final bank PAR Q28", "bank": true, "expl": "Creeping eruption is a form of cutaneous myiasis (with nodular and wound myiasis), caused by Gastrophilus and Hypoderma. Ocular and aural myiasis are other external forms, while gastric and urogenital myiasis are internal.", "type": "mcq", "opts": ["Urogenital myiasis", "Gastric myiasis", "Aural myiasis", "Ocular myiasis", "Cutaneous myiasis"], "ans": 4}, "Q0492": {"id": "Q0492", "stem": "What is the main clinical presentation of scabies?", "top": true, "rep": "asked 4 years", "tag": "Final bank PAR Q29", "bank": true, "expl": "The classic presentation of scabies is severe pruritus, worse at night — an allergic type IV hypersensitivity response to the burrowing mites. Papules and vesicles also appear, but the itching is the main complaint, and scratching leads to bleeding, scabs and secondary bacterial infection.", "type": "mcq", "opts": ["Papules on skin", "Skin ulcers", "Fever", "Pruritus and itching", "Lymph node enlargement"], "ans": 3}, "Q0493": {"id": "Q0493", "stem": "Excoriations, erythema, pyoderma and scaliness of the scalp and posterior neck are common findings in infection with:", "top": false, "rep": "asked 2 years", "tag": "Final bank PAR Q32", "bank": true, "expl": "Excoriations, erythema, pyoderma and scaliness of the scalp and posterior neck are the findings of pediculosis due to the head louse. Bed bug (Cimex) bites give linear papular urticaria, and flea bites an erythematous dot with a swollen reddish halo.", "type": "mcq", "opts": ["Pulex irritans", "Pediculus humanus capitis", "Cimex lectularius", "Larva of Musca", "Larva of Wohlfahrtia"], "ans": 1}, "N-PAR-L2-01": {"id": "N-PAR-L2-01", "stem": "A 30-year-old woman returns from a stay in an old hostel complaining of intensely itchy red papules arranged in lines on her arm, shoulder and back. The itching kept her awake at night. Her room had a nasty odour, and small insects were found hiding between the bed mattresses. Which of the following best describes the parasite responsible?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Linear papular urticaria with insomnia, a nasty odour from special glands and insects hiding between mattresses identify the bed bug (Cimex lectularius), a temporary ectoparasite that feeds at night and hides by day. The jumping, laterally compressed flea is an obligatory temporary ectoparasite whose bites leave an erythematous dot with a swollen halo, mainly around the ankles.", "type": "mcq", "opts": ["A temporary ectoparasite that visits the host only for a blood meal, usually at night", "A permanent ectoparasite that glues its eggs singly to the hair shaft", "An obligatory temporary ectoparasite that jumps and is compressed laterally", "A mite whose adults and larvae burrow in the epidermis", "A fly larva that invades the living tissues of the host"], "ans": 0}, "N-PAR-L2-02": {"id": "N-PAR-L2-02", "stem": "A 6-year-old boy who plays with the family cat develops multiple itchy erythematous dots, each surrounded by a patch of swollen reddish skin, around his ankles and lower legs. Which of the following is true of the parasite responsible?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "An erythematous dot with a swollen reddish halo around the ankles after contact with a pet is a flea bite; fleas are obligatory temporary ectoparasites in which both sexes suck blood, and they transmit plague and endemic typhus. Epidemic typhus and trench fever are carried by the body louse, and the dorsoventrally flattened 4–6 mm insect is the bed bug.", "type": "mcq", "opts": ["It is a permanent ectoparasite that lays nits on the hair", "Only the female sucks blood", "It is flattened dorsoventrally and measures 4–6 mm", "It is a vector of plague and endemic typhus", "It is a vector of epidemic typhus and trench fever"], "ans": 3}, "N-PAR-L2-03": {"id": "N-PAR-L2-03", "stem": "An elderly man with a long-standing discharging ear complains of deafness and tinnitus, and larvae are removed from his ear canal. Microscopy of their posterior spiracles shows three straight slits with an opened peritreme. Which fly is responsible?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Three straight slits in an opened (split) peritreme identify Sarcophaga (or Wohlfahrtia), flesh flies that cause nasal and aural myiasis. Calliphora, Lucilia and Chrysomyia also have three slits, but their peritreme is closed, while Musca has sinuous M-shaped slits with a button.", "type": "mcq", "opts": ["Musca domestica", "Sarcophaga", "Calliphora", "Lucilia", "Chrysomyia"], "ans": 1}, "N-PAR-L2-04": {"id": "N-PAR-L2-04", "stem": "Which of the following flies is larviparous, depositing larvae instead of eggs?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The flesh flies (Sarcophaga and Wohlfahrtia, family Sarcophagidae) are larviparous: they deposit larvae. Lucilia and Calliphora are metallic flies (Calliphoridae), Musca is the house fly, and Dermatobia lays its eggs on a mosquito.", "type": "mcq", "opts": ["Musca domestica", "Lucilia", "Calliphora", "Sarcophaga", "Dermatobia"], "ans": 3}, "N-PAR-L2-05": {"id": "N-PAR-L2-05", "stem": "A 65-year-old man with a chronic nasal discharge presents with nasal obstruction, sneezing and epistaxis, and larvae are seen emerging from his nose. Which group of flies most commonly causes this condition?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Nasal myiasis in a chronic discharge is caused by Sarcophaga, Wohlfahrtia and Chrysomyia; it is dangerous because it can destroy bone and reach the brain, causing death. Gastrophilus and Hypoderma cause creeping eruption, and Cordylobia and Dermatobia nodular cutaneous myiasis.", "type": "mcq", "opts": ["Sarcophaga, Wohlfahrtia and Chrysomyia", "Gastrophilus and Hypoderma", "Cordylobia and Dermatobia", "Musca domestica and Piophila", "Fannia and Eristalis"], "ans": 0}, "N-PAR-L2-06": {"id": "N-PAR-L2-06", "stem": "A 9-year-old girl with head lice is treated with topical permethrin 1%. Her mother is told to repeat the application after one week. What is the main reason for the second application?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Pediculicides (lindane 1% or permethrin 1%) are applied twice, 1 week apart, to kill any nits that survived treatment and to reduce reinfestation from fomites. Burrowing mites and a type IV hypersensitivity itch belong to scabies, not lice.", "type": "mcq", "opts": ["To kill any nits that survived the first treatment", "To kill mites burrowing in the epidermis", "To treat the type IV hypersensitivity reaction", "Because adult lice are not killed by the first application"], "ans": 0}, "N-PAR-L2-07": {"id": "N-PAR-L2-07", "stem": "A 10-year-old boy has itching that is worse at night, with burrows between his fingers, and mites are found in skin scrapings. Which topical treatment is indicated for him and all his family members?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Scabies is treated with permethrin 5% cream or lindane 1% (equally effective) for the patient and all family members. Permethrin 1%, malathion and topical ivermectin are lice treatments ('5 fingers → 5%, 1 head → 1%').", "type": "mcq", "opts": ["Permethrin 1%", "Permethrin 5% cream", "Lindane 5%", "Topical malathion", "Topical ivermectin"], "ans": 1}, "N-PAR-L2-08": {"id": "N-PAR-L2-08", "stem": "A 7-year-old child is brought with intense itching of the scalp, worst at the nape of the neck, and head lice are suspected. Which finding is most useful for diagnosis?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Head lice are diagnosed by identifying nits (eggs glued to the hair shaft) and/or adult lice on the scalp hair. Mites in scrapings and burrows are the findings of scabies, linear papular urticaria points to bed bugs, and larvae in a wound to myiasis.", "type": "mcq", "opts": ["Mites or eggs in skin scrapings", "Minute burrows seen with a hand lens", "Nits and/or adult lice on the scalp hair", "Linear papular urticaria on the neck", "Larvae in a scalp wound"], "ans": 2}, "N-PAR-L2-09": {"id": "N-PAR-L2-09", "stem": "A homeless man is found to be heavily infested with body lice (Pediculus humanus corporis). Which of the following diseases can this louse transmit?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The body louse is the vector of epidemic typhus, trench fever (5-day fever) and epidemic relapsing fever (T-T-R). Plague and endemic typhus are transmitted by fleas, and blepharitis is the irritation caused by the pubic louse.", "type": "mcq", "opts": ["Plague", "Endemic typhus", "Trench fever", "Blepharitis"], "ans": 2}, "N-PAR-L2-10": {"id": "N-PAR-L2-10", "stem": "The larvae of a certain fly must live on a living host for part of their life cycle (obligatory sarcobiots), and the female fly lays her eggs on a mosquito. Which fly is this?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Dermatobia causes specific myiasis and lays its eggs on a mosquito. Cordylobia also causes specific (nodular) myiasis, but it lays its eggs on clothes or the ground.", "type": "mcq", "opts": ["Cordylobia", "Dermatobia", "Lucilia", "Musca domestica", "Sarcophaga"], "ans": 1}, "N-PAR-L2-11": {"id": "N-PAR-L2-11", "stem": "Compare bed bugs and fleas regarding the type of ectoparasite, blood feeding, movement and morphology, skin lesion and medical importance.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The quickest discriminators are the lesion pattern (a line of papules with insomnia vs a dot with a swollen halo at the ankles) and the body shape (dorsoventrally flattened vs laterally compressed); only the flea is a vector, of plague and endemic typhus.", "type": "written", "keyhtml": "• Type: bed bug (Cimex lectularius), a temporary ectoparasite that visits the host only for a blood meal; flea, an obligatory temporary ectoparasite of man and animals.\n• Blood feeding: bed bug, male, female and nymphs suck blood, usually at night or in dark rooms, hiding by day in cracks, walls, floors and between mattresses (where it lays eggs); flea, both male and female suck blood.\n• Movement &amp; morphology: bed bug, wingless, reddish brown, flattened dorsoventrally, 4–6 × 4 mm, with a nasty odour from special glands; flea, jumps, 2–3 mm long, compressed laterally.\n• Skin lesion: bed bug, irritation, insomnia and allergic dermatitis as linear papular urticaria (arm, shoulder, back); flea, annoyance and allergic dermatitis, an erythematous dot surrounded by a patch of swollen reddish skin (ankle, lower leg).\n• Medical importance: bed bug, its bites; flea, its bites plus being a vector of plague and endemic typhus."}, "N-PAR-L2-12": {"id": "N-PAR-L2-12", "stem": "Classify myiasis according to the habits of the larvae, giving examples of the flies in each type.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Sarcobiots eat the living (specific), necrobiots eat the dead (semi-specific), and Musca is eaten by mistake (accidental).", "type": "written", "keyhtml": "1. Specific myiasis: the larvae must live on a living host for part of their life cycle (obligatory sarcobiots feeding on living tissue): Cordylobia, Oestrus, Gastrophilus, Hypoderma, Dermatobia. Dermatobia lays its eggs on a mosquito; Cordylobia on clothes or the ground.\n2. Semi-specific myiasis: the larvae are normally free-living necrobiots attacking carcasses, but can infest diseased tissue, neglected wounds, or a discharging ear or nose: Calliphora, Lucilia, Sarcophaga, Wohlfahrtia.\n3. Accidental myiasis: eggs or larvae deposited on exposed food are ingested by man, causing intestinal myiasis: Musca domestica, Piophila."}, "N-PAR-L2-13": {"id": "N-PAR-L2-13", "stem": "Mention how myiasis is diagnosed, describing the posterior spiracles of Musca, Sarcophaga and Calliphora larvae, and outline the treatment of myiasis.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Musca → M-shaped slits; Sarcophaga → straight slits in a split-open peritreme; Calliphora → closed peritreme. Treatment follows the site: removal of larvae from accessible sites, a saline purge for the gut, douches or cystoscopy for the urogenital tract.", "type": "written", "keyhtml": "Diagnosis: identification of the larvae in the lesion by their posterior spiracles, and breeding of the larvae to the adult stage.\n• Musca domestica: sinuous, M-shaped slits; peritreme with a button; mouth hook and segmented body.\n• Sarcophaga &amp; Wohlfahrtia: 3 straight slits; opened peritreme.\n• Calliphora, Lucilia &amp; Chrysomyia: 3 slits; closed peritreme.\nTreatment: skin, nose, eye and ear, manual removal of the larvae; intestinal, saline purge; urogenital, douches or cystoscopy; antiseptics and antibiotics for secondary infection."}, "N-PAR-L2-14": {"id": "N-PAR-L2-14", "stem": "Mention the measures for the control and prevention of myiasis.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Every measure aims to keep flies away from food and wounds; in a hospital outbreak of wound myiasis, insecticide spraying plus covering wounds is the key step.", "type": "written", "keyhtml": "Control: 1. Health education and covering food. 2. Environmental sanitation to reduce house-fly populations. 3. Physical and mechanical measures that prevent adult flies entering houses and hospitals. 4. Chemical: spraying insecticides.\nPrevention: insecticides; nets; protection of wounds; protection of food.\nIn hospitals, wound myiasis among immobile patients is best prevented by regular spraying of insecticides and covering wounds."}, "TP-064": {"id": "TP-064", "stem": "A 28-year-old nurse develops pruritic burrows on her hands after caring for a patient with a scaly rash. Scabies is confirmed. Which of the following is the most likely mode of infection?", "top": true, "rep": "", "tag": "Final bank PAR Q38", "bank": true, "expl": "Scabies is acquired by contact with an infected person or with infected towels or bedding; the adults and larvae then migrate in the epidermis and form burrows. Fleas are vectors of plague and endemic typhus, and the bite of the female sandfly transmits Leishmania.", "type": "mcq", "opts": ["Vector-borne via fleas", "Ingestion of eggs from contaminated food", "Direct skin contact with an infected person or fomites", "Bite of an infected mite", "Bite of a female sandfly"], "ans": 2}}, "labs": {}, "cards": [{"id": "PAR-L2-001", "text": "Scabies is caused by {{c1::Sarcoptes scabiei}} — the {{c2::itch mite}}", "extra": "", "sec": "Part 01 · Definition — Sarcoptes scabiei"}, {"id": "PAR-L2-002", "text": "The itch mite belongs to the {{c1::arthropods}} — like myiasis flies, lice, bed bugs and fleas", "extra": "Not a nematode, cestode, trematode or protozoan.", "sec": "Part 01 · Definition — Sarcoptes scabiei"}, {"id": "PAR-L2-003", "text": "Scabies distribution: {{c1::worldwide}}, in {{c2::bad hygienic conditions & overcrowding}}", "extra": "Avoiding these helps prevent scabies.", "sec": "Part 01 · 1.1 Sarcoptes scabiei at a glance"}, {"id": "PAR-L2-004", "text": "Sarcoptes scabiei reservoir hosts: {{c1::dog}} · {{c2::rabbit}} · {{c3::camel}}", "extra": "D-R-C.", "sec": "Part 01 · 1.1 Sarcoptes scabiei at a glance"}, {"id": "PAR-L2-005", "text": "Sarcoptes scabiei: size {{c1::0.1–0.4 mm}}, shape {{c2::oval}}", "extra": "", "sec": "Part 01 · 1.1 Sarcoptes scabiei at a glance"}, {"id": "PAR-L2-006", "text": "Scabies mode of infection: contact with an {{c1::infected person}}, or with infected {{c2::towels or bedding}}", "extra": "Hence the whole household is treated.", "sec": "Part 01 · 1.1 Sarcoptes scabiei at a glance"}, {"id": "PAR-L2-007", "text": "Sarcoptes scabiei: adults & larvae migrate in the {{c1::epidermis}} → {{c2::burrows}}", "extra": "", "sec": "Part 01 · 1.1 Sarcoptes scabiei at a glance"}, {"id": "PAR-L2-008", "text": "Scabies pathogenesis: mites migrate in the epidermis → {{c1::eggs deposited in the epidermis}} → severe itching & dermatitis → characteristic burrows", "extra": "", "sec": "Part 01 · 1.2 Pathogenesis"}, {"id": "PAR-L2-009", "text": "The severe itching of scabies is an {{c1::allergic}} response — a type {{c2::IV}} hypersensitivity reaction", "extra": "", "sec": "Part 01 · 1.2 Pathogenesis"}, {"id": "PAR-L2-010", "text": "Main presentation of classic scabies: severe {{c1::pruritus}}, worse at {{c2::night}}", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-011", "text": "Scabies burrows: {{c1::serpiginous}} lines, often between the {{c2::fingers and toes}}", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-012", "text": "Scabies papules also appear as multiple spherical {{c1::vesicles}}, {{c2::0.3–0.5 cm}}, with erosions that have healed and crusted", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-013", "text": "Scratching in scabies → bleeding & scab formation → frequent {{c1::secondary bacterial infection}}", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-014", "text": "Norwegian (crusted) scabies: a generalized dermatitis with extensive {{c1::scaling and crusting}}", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-015", "text": "Norwegian (crusted) scabies occurs in {{c1::immunodeficient}} individuals and is a source of {{c2::nosocomial}} infection", "extra": "", "sec": "Part 01 · 1.3 Clinical picture"}, {"id": "PAR-L2-016", "text": "Scabies diagnosis: {{c1::clinical picture}} (severe itching + site of lesion) · {{c2::parasites or eggs in skin scrapings}} · a {{c3::hand lens}} to find the minute burrows", "extra": "Poor response to steroids & antihistamines is a clue.", "sec": "Part 01 · 1.4 Diagnosis"}, {"id": "PAR-L2-017", "text": "Scabies drugs: {{c1::permethrin 5%}} cream or {{c2::lindane 1%}} — equally effective", "extra": "After a hot soapy bath.", "sec": "Part 01 · 1.5 Treatment"}, {"id": "PAR-L2-018", "text": "Scabies: {{c1::boiling of all clothes and fomites}} is essential, and {{c2::all family members}} are treated — symptomatic or asymptomatic", "extra": "Never treat only the symptomatic patient.", "sec": "Part 01 · 1.5 Treatment"}, {"id": "PAR-L2-019", "text": "Permethrin strength — scabies: {{c1::5%}}; lice: {{c2::1%}}", "extra": "5 fingers → scabies 5% · 1 head → lice 1%.", "sec": "Part 01 · 1.5 Treatment"}, {"id": "PAR-L2-020", "text": "Myiasis = invasion of animal & human tissues by the {{c1::larval stages (maggots)}} of {{c2::dipterous flies}}", "extra": "", "sec": "Part 02 · Definition — Myiasis"}, {"id": "PAR-L2-021", "text": "Family Muscidae: {{c1::Musca domestica}} (house fly) · {{c2::Glossina}} (tsetse fly) · {{c3::Stomoxys calcitrans}} (stable fly)", "extra": "", "sec": "Part 02 · 2.1 Flies of medical importance"}, {"id": "PAR-L2-022", "text": "Metallic flies (Calliphoridae): {{c1::Calliphorinae}} (blue) · {{c2::Lucilia & Chrysomyia}} (green)", "extra": "", "sec": "Part 02 · 2.1 Flies of medical importance"}, {"id": "PAR-L2-023", "text": "Flesh flies (Sarcophagidae): {{c1::Sarcophaga}} & {{c2::Wohlfahrtia}} — {{c3::larviparous}} (deposit larvae)", "extra": "", "sec": "Part 02 · 2.1 Flies of medical importance"}, {"id": "PAR-L2-024", "text": "Flies undergo complete metamorphosis: egg → larva → {{c1::pupa}} → adult; the stage that causes myiasis = the {{c2::larva (maggot)}}", "extra": "", "sec": "Part 02 · 2.2 Development & medical importance"}, {"id": "PAR-L2-025", "text": "House fly (Musca) medical importance: {{c1::indirect mechanical transmission}} · {{c2::accidental myiasis}}", "extra": "Metallic & flesh flies cause semi-specific myiasis.", "sec": "Part 02 · 2.2 Development & medical importance"}, {"id": "PAR-L2-026", "text": "Specific myiasis: larvae must live on a {{c1::live host}} for part of the life cycle — obligatory {{c2::sarcobiots}} feeding on living tissue", "extra": "Sarcobiots eat the living.", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-027", "text": "Specific myiasis flies: {{c1::Cordylobia}} · {{c2::Oestrus}} · {{c3::Gastrophilus}} · {{c4::Hypoderma}} · {{c5::Dermatobia}}", "extra": "", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-028", "text": "Semi-specific myiasis: normally free-living larvae attacking carcasses ({{c1::necrobiots}}); can infest {{c2::diseased tissue & neglected wounds}}, or a discharging ear or nose", "extra": "Necrobiots eat the dead.", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-029", "text": "Semi-specific myiasis flies: {{c1::Calliphora}} · {{c2::Lucilia}} · {{c3::Sarcophaga}} · {{c4::Wohlfahrtia}}", "extra": "", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-030", "text": "Accidental myiasis: eggs or larvae deposited on exposed {{c1::food}} are ingested → {{c2::intestinal}} myiasis", "extra": "Musca is eaten by mistake.", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-031", "text": "Accidental myiasis flies: {{c1::Musca domestica}} & {{c2::Piophila}}", "extra": "Musca causes accidental, not specific, myiasis.", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-032", "text": "Egg-laying: {{c1::Dermatobia}} lays its eggs on a mosquito; {{c2::Cordylobia}} lays its eggs on clothes or the ground", "extra": "Both cause specific (nodular) myiasis.", "sec": "Part 02 · 2.3 Classification of myiasis by habits"}, {"id": "PAR-L2-033", "text": "External myiasis sites: {{c1::cutaneous}} · {{c2::ocular}} · {{c3::nasal}} · {{c4::aural}}", "extra": "", "sec": "Part 03 · 3.1 Classification by tissues invaded"}, {"id": "PAR-L2-034", "text": "Internal myiasis: {{c1::intestinal}} · {{c2::urogenital}} · {{c3::gastric}}", "extra": "Urogenital myiasis is internal, not external.", "sec": "Part 03 · 3.1 Classification by tissues invaded"}, {"id": "PAR-L2-035", "text": "Cutaneous myiasis forms: {{c1::creeping eruption}} · {{c2::nodular}} · {{c3::wound}} myiasis", "extra": "Creeping eruption = cutaneous (external) myiasis.", "sec": "Part 03 · 3.1 Classification by tissues invaded"}, {"id": "PAR-L2-036", "text": "Creeping eruption (cutaneous myiasis): {{c1::Gastrophilus}} & {{c2::Hypoderma}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-037", "text": "Nodular cutaneous myiasis (boil-like lesion, larva emerging): {{c1::Cordylobia}} & {{c2::Dermatobia}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-038", "text": "Wound myiasis: {{c1::Lucilia}} · {{c2::Calliphora}} · {{c3::Chrysomyia}} · {{c4::Cochliomyia}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-039", "text": "Wound myiasis in a neglected wound is {{c1::semi-specific}} myiasis — the larvae are {{c2::necrobiots}} feeding on dead tissue", "extra": "SGD 2 Case 11 key.", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-040", "text": "Nasal (in chronic discharge) & aural myiasis: {{c1::Sarcophaga}} · {{c2::Wohlfahrtia}} · {{c3::Chrysomyia}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-041", "text": "Ocular myiasis — external: {{c1::Oestrus}}; internal: {{c2::Oestrus, Gastrophilus & Hypoderma}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-042", "text": "Nasal myiasis: obstruction, sneezing, epistaxis — can {{c1::destroy bone & reach the brain}} → {{c2::death}}", "extra": "Nasal myiasis can be fatal.", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-043", "text": "Aural myiasis: {{c1::deafness}} · {{c2::tinnitus}} · {{c3::drum perforation}}", "extra": "", "sec": "Part 03 · 3.2 External myiasis"}, {"id": "PAR-L2-044", "text": "Intestinal myiasis — in food: {{c1::Musca, Sarcophaga & Wohlfahrtia}}; through the anus: {{c2::Fannia}}", "extra": "", "sec": "Part 03 · 3.3 Internal myiasis"}, {"id": "PAR-L2-045", "text": "Urogenital myiasis: {{c1::Fannia}}; gastric myiasis: {{c2::Eristalis}}", "extra": "Fannia = Far end (anus, urogenital) · Eristalis = stomach.", "sec": "Part 03 · 3.3 Internal myiasis"}, {"id": "PAR-L2-046", "text": "Myiasis diagnosis: larvae from the lesion identified by their {{c1::posterior spiracles}} · {{c2::breeding of the larvae to the adult stage}}", "extra": "Not blood films or serology.", "sec": "Part 03 · 3.4 Diagnosis — read the posterior spiracles"}, {"id": "PAR-L2-047", "text": "Musca domestica larva — posterior spiracles: {{c1::sinuous, M-shaped}} slits; peritreme with a {{c2::button}}", "extra": "Larva also shows a mouth hook and a segmented body.", "sec": "Part 03 · 3.4 Diagnosis — read the posterior spiracles"}, {"id": "PAR-L2-048", "text": "Posterior spiracles — Sarcophaga & Wohlfahrtia: 3 {{c1::straight}} slits, {{c2::opened::open or closed}} peritreme; Calliphora, Lucilia & Chrysomyia: 3 slits, {{c3::closed::open or closed}} peritreme", "extra": "Sarcophaga = Straight & Split · Calliphora = Closed.", "sec": "Part 03 · 3.4 Diagnosis — read the posterior spiracles"}, {"id": "PAR-L2-049", "text": "Spiracle → larva: 3 slits + closed peritreme → {{c1::Calliphora group}} · 3 straight slits + open peritreme → {{c2::Sarcophaga / Wohlfahrtia}} · M-shaped slits + button → {{c3::Musca}}", "extra": "Calliphora group = Calliphora, Lucilia, Chrysomyia.", "sec": "Part 03 · 3.4 Diagnosis — read the posterior spiracles"}, {"id": "PAR-L2-050", "text": "Myiasis treatment — skin, nose, eye, ear: {{c1::manual removal of larvae}} · intestinal: {{c2::saline purge}} · urogenital: {{c3::douches or cystoscopy}}", "extra": "All sites: antiseptics & antibiotics for secondary infection.", "sec": "Part 03 · 3.5 Treatment"}, {"id": "PAR-L2-051", "text": "Myiasis control: {{c1::health education & covering food}} · {{c2::environmental sanitation}} (fewer house flies) · {{c3::physical & mechanical}} (keep flies out of houses, hospitals) · {{c4::chemical — spraying insecticides}}", "extra": "", "sec": "Part 03 · 3.6 Control & prevention"}, {"id": "PAR-L2-052", "text": "Myiasis prevention: {{c1::insecticides}} · {{c2::nets}} · {{c3::protection of wounds}} · {{c4::protection of food}}", "extra": "", "sec": "Part 03 · 3.6 Control & prevention"}, {"id": "PAR-L2-053", "text": "Wound myiasis among immobile hospital patients — most effective measure: {{c1::regular spraying of insecticides}} and {{c2::covering wounds}}", "extra": "Not deworming, hand washing or scabies isolation.", "sec": "Part 03 · 3.6 Control & prevention"}, {"id": "PAR-L2-054", "text": "Lice: {{c1::bloodsucking}}, {{c2::wingless}}, {{c3::permanent}} ectoparasites", "extra": "", "sec": "Part 04 · Definition — Lice"}, {"id": "PAR-L2-055", "text": "Lice of man: head louse = {{c1::Pediculus humanus capitis}} · body louse = {{c2::Pediculus humanus corporis}} · pubic louse = {{c3::Phthirus pubis}}", "extra": "", "sec": "Part 04 · 4.1 The three lice & their medical importance"}, {"id": "PAR-L2-056", "text": "Body louse is the vector of: {{c1::epidemic typhus}} · {{c2::trench fever (5-day fever)}} · {{c3::epidemic relapsing fever}}", "extra": "T-T-R — Typhus, Trench fever, Relapsing fever.", "sec": "Part 04 · 4.1 The three lice & their medical importance"}, {"id": "PAR-L2-057", "text": "Pediculosis ({{c1::vagabond's disease}}) is caused by the head louse and also by the {{c2::body louse}}", "extra": "Quiz 2 Q5 key: P. corporis for scalp/neck findings (only louse offered). Pamphlet: head louse — pick capitis if offered.", "sec": "Part 04 · 4.1 The three lice & their medical importance"}, {"id": "PAR-L2-058", "text": "The head louse is {{c1::not a vector}} under natural circumstances", "extra": "The body louse is.", "sec": "Part 04 · 4.1 The three lice & their medical importance"}, {"id": "PAR-L2-059", "text": "Pubic louse (Phthirus pubis): irritation — {{c1::blepharitis}}", "extra": "", "sec": "Part 04 · 4.1 The three lice & their medical importance"}, {"id": "PAR-L2-060", "text": "Head lice are found commonly at the {{c1::nape of the neck}} or {{c2::behind the ears}}", "extra": "", "sec": "Part 04 · 4.2 Biology"}, {"id": "PAR-L2-061", "text": "Head lice spread by {{c1::physical contact}} and {{c2::sharing combs}} (also hats & clothing)", "extra": "", "sec": "Part 04 · 4.2 Biology"}, {"id": "PAR-L2-062", "text": "Nits = {{c1::eggs}} glued to the hair shaft — {{c2::a single egg}} per hair", "extra": "The 'dandruff' that will not brush off.", "sec": "Part 04 · 4.2 Biology"}, {"id": "PAR-L2-063", "text": "Lice are {{c1::voracious}} feeders and can cause {{c2::epidemics}}", "extra": "", "sec": "Part 04 · 4.2 Biology"}, {"id": "PAR-L2-064", "text": "Pediculosis findings: {{c1::excoriations}} · {{c2::erythema}} · {{c3::pyoderma}} · {{c4::scaliness}} of the scalp & posterior neck", "extra": "", "sec": "Part 04 · 4.3 Clinical picture & diagnosis"}, {"id": "PAR-L2-065", "text": "Head lice diagnosis: identification of {{c1::nits and/or adult lice}} on the {{c2::scalp hair}}", "extra": "Not mites in scrapings (scabies) or larvae in a wound (myiasis).", "sec": "Part 04 · 4.3 Clinical picture & diagnosis"}, {"id": "PAR-L2-066", "text": "Pediculicides: {{c1::lindane 1%}} or {{c2::permethrin 1%}} topically, {{c3::twice, 1 week apart}}", "extra": "", "sec": "Part 04 · 4.4 Control of lice"}, {"id": "PAR-L2-067", "text": "Lice treatment is repeated after 1 week to {{c1::kill any nits that survived treatment}} and to {{c2::reduce reinfestation from fomites}}", "extra": "", "sec": "Part 04 · 4.4 Control of lice"}, {"id": "PAR-L2-068", "text": "Other lice treatments: topical {{c1::ivermectin}} · topical {{c2::malathion}}", "extra": "Lice drugs, not scabies drugs.", "sec": "Part 04 · 4.4 Control of lice"}, {"id": "PAR-L2-069", "text": "{{c3::Bed bug}} ({{c2::Cimex lectularius}}): a {{c1::temporary}} ectoparasite — visits the host only for a blood meal", "extra": "", "sec": "Part 05 · 5.1 Bed bugs — Cimex lectularius"}, {"id": "PAR-L2-070", "text": "Bed bugs suck blood usually {{c1::at night or in dark rooms}}; {{c2::male, female and nymphs}} all feed", "extra": "", "sec": "Part 05 · 5.1 Bed bugs — Cimex lectularius"}, {"id": "PAR-L2-071", "text": "By day bed bugs hide in dark, dry places — {{c1::cracks, walls, floors, between bed mattresses}} — where they {{c2::lay eggs}}", "extra": "", "sec": "Part 05 · 5.1 Bed bugs — Cimex lectularius"}, {"id": "PAR-L2-072", "text": "Bed bug morphology: {{c1::reddish brown}}, flattened dorsoventrally, wingless, {{c2::4–6 × 4 mm}}; a {{c3::nasty odour}} from special glands", "extra": "", "sec": "Part 05 · 5.1 Bed bugs — Cimex lectularius"}, {"id": "PAR-L2-073", "text": "Bed bug bites: irritation, {{c1::insomnia}} and allergic dermatitis as {{c2::linear papular urticaria}}", "extra": "Arm, shoulder & back. SGD key: 'breakfast, lunch and dinner' pattern.", "sec": "Part 05 · 5.1 Bed bugs — Cimex lectularius"}, {"id": "PAR-L2-074", "text": "Fleas: {{c1::obligatory temporary}} ectoparasites of man and animals; {{c2::both male and female}} suck blood", "extra": "", "sec": "Part 05 · 5.2 Fleas"}, {"id": "PAR-L2-075", "text": "Flea: moves by {{c1::jumping}}; {{c2::2–3 mm}} long, compressed laterally", "extra": "", "sec": "Part 05 · 5.2 Fleas"}, {"id": "PAR-L2-076", "text": "Flea bite: annoyance & allergic dermatitis — an {{c1::erythematous dot}} surrounded by a {{c2::patch of swollen reddish skin}}, around the {{c3::ankles & lower legs}}", "extra": "", "sec": "Part 05 · 5.2 Fleas"}, {"id": "PAR-L2-077", "text": "Fleas are vectors of {{c1::plague}} and {{c2::endemic typhus}}", "extra": "Flea: Plague + endemic Typhus — it jumps.", "sec": "Part 05 · 5.2 Fleas"}, {"id": "PAR-L2-078", "text": "Body shape — bed bug: flattened {{c1::dorsoventrally::dorsoventrally or laterally}}; flea: compressed {{c2::laterally::dorsoventrally or laterally}}", "extra": "", "sec": "Part 05 · 5.3 Itchy bites — tell them apart"}, {"id": "PAR-L2-079", "text": "Ectoparasite type — lice: {{c1::permanent}} · bed bug: {{c2::temporary}} · flea: {{c3::obligatory temporary}}", "extra": "", "sec": "Part 06 · 6.4 Ectoparasite types & development"}, {"id": "PAR-L2-080", "text": "Metamorphosis — flies: {{c1::complete::complete or incomplete}} (egg → larva → pupa → adult); lice: {{c2::incomplete::complete or incomplete}} (nit → {{c3::nymph}} → adult)", "extra": "", "sec": "Part 06 · 6.4 Ectoparasite types & development"}, {"id": "PAR-L2-081", "text": "{{c1::Epidemic::Epidemic or endemic}} typhus → body louse; {{c2::endemic::epidemic or endemic}} typhus → flea", "extra": "", "sec": "Part 06 · 6.3 Vectors & diseases"}, {"id": "PAR-L2-082", "text": "Itching worse at night + serpiginous lines between the fingers + whole family itchy → {{c1::Sarcoptes scabiei}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}, {"id": "PAR-L2-083", "text": "Generalized scaling & crusting in an immunodeficient patient; ward outbreak → {{c1::Norwegian (crusted) scabies}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}, {"id": "PAR-L2-084", "text": "Larvae passed in the stool after eating uncovered food → {{c1::intestinal (accidental) myiasis}}, most likely {{c2::Musca domestica}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}, {"id": "PAR-L2-085", "text": "Itchy scalp & posterior neck, small white eggs stuck to the hairs → {{c1::head lice (pediculosis capitis)}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}, {"id": "PAR-L2-086", "text": "Lines of itchy papules + insomnia; bugs in mattress seams → {{c1::bed bugs}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}, {"id": "PAR-L2-087", "text": "Itchy red dots with a swollen halo around the ankles (pet contact) → {{c1::fleas}}", "extra": "", "sec": "Part 06 · 6.5 Clinical clue → parasite"}], "lib": "./", "prev": {"href": "par-l1.html", "title": "Lecture 1 · Parasites of Skin and Muscles I"}, "next": null, "searchHint": "e.g. Musca, pyoderma, Cochliomyia"};
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = BOOK.pages.length, QS = BOOK.questions, LABS = BOOK.labs;
+const KEY = 'msk-book-' + BOOK.id + '-v1';
+const DEF = {read:{}, ans:{}, pred:{}, flap:{}, self:{}, draft:{}, labs:{}, cards:{}, exams:[], mist:{}, marks:{}, set:{theme:'system', size:1, rapid:false}, last:1};
+let S = JSON.parse(JSON.stringify(DEF));
+try { const t = JSON.parse(localStorage.getItem(KEY) || 'null'); if (t && typeof t === 'object') for (const k in DEF) if (t[k] !== undefined) S[k] = t[k]; } catch (e) {}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+const RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+const DUR = RM ? 0 : 720, EASE = 'cubic-bezier(.42,.02,.24,1)';
+
+/* ---------- settings ---------- */
+function applySet(){
+  const r = document.documentElement;
+  if (S.set.theme === 'light' || S.set.theme === 'dark') r.dataset.theme = S.set.theme; else r.removeAttribute('data-theme');
+  r.style.setProperty('--fsz', S.set.size || 1);
+  document.body.classList.toggle('rapid', !!S.set.rapid);
+}
+applySet();
+
+/* ---------- geometry ---------- */
+const stage = $('#stage'), book = $('#book'), pgL = $('#pgL'), pgR = $('#pgR'), leaf = $('#leaf'), lf = $('#lf'), lb = $('#lb');
+let mode = 'spread', at = Math.min(Math.max(+S.last || 1, 0), N - 1), busy = false, opened = false, laid = false, drawnMode = null;
+function layout(force){
+  // layout-viewport size: on phones innerWidth/innerHeight grow while the page is zoomed out (pinch, or a page that overflowed for a moment)
+  const de = document.documentElement, vw = de.clientWidth || window.innerWidth, vh = de.clientHeight || window.innerHeight;
+  const lenient = laid && mode === 'spread';   // a little hysteresis: a window right at the edge can't flip between one and two pages
+  const wide = lenient ? (vw >= 880 && vh >= 500) : (vw >= 900 && vh >= 520);
+  $('#mnav').hidden = !(opened && !wide);
+  const r = stage.getBoundingClientRect(); const W = r.width, H = r.height - 20;
+  let pw, ph;
+  if (wide){ ph = Math.min(H, 940); pw = ph * .72; const maxw = (W - 130) / 2; if (pw > maxw){ pw = maxw; ph = Math.min(H, pw / .72); } mode = 'spread'; }
+  else { pw = Math.min(W - 4, 640); ph = Math.max(H, 200); mode = 'single'; }   // phone on its side: the page fits between the bars and scrolls inside
+  laid = true;
+  const rs = document.documentElement.style, vpw = Math.floor(pw) + 'px', vph = Math.floor(ph) + 'px';
+  if (rs.getPropertyValue('--pw') !== vpw) rs.setProperty('--pw', vpw);
+  if (rs.getPropertyValue('--ph') !== vph) rs.setProperty('--ph', vph);
+  book.classList.toggle('single', mode === 'single');
+  // a new size only reflows the CSS; the pages are rebuilt only when the book switches between one and two pages,
+  // so a phone's sliding toolbar, the keyboard or a resizing frame can never reset the page you are reading
+  if (opened && (force || mode !== drawnMode)) draw();
+}
+window.addEventListener('resize', () => {
+  clearTimeout(layout.t);
+  layout.t = setTimeout(function again(){ if (busy){ layout.t = setTimeout(again, 120); return; } layout(); }, 80);
+});
+
+/* ---------- page rendering ---------- */
+const H = {};   // block renderers
+function P(i, side){
+  if (i < 0 || i >= N) return `<div class="pin"></div>`;
+  const pg = BOOK.pages[i];
+  const head = pg.head ? `<div class="rh"><span>${esc(pg.head)}</span><span>${esc(BOOK.short)}</span></div>` : '';
+  const body = (pg.blocks || []).map((b, k) => (H[b.t] ? H[b.t](b, pg, k) : '')).join('');
+  const ribbon = pg.kind !== 'cover' ? `<button class="ribbon ${S.marks[i] ? 'on' : ''}" data-act="mark" data-p="${i}" aria-label="Bookmark this page"></button>` : '';
+  return `<div class="pin" data-pid="${i}">${head}${body}</div>${ribbon}<div class="folio ${side || ''}">${i === 0 ? '' : i}</div>`;
+}
+function setPage(el, i, side){ el.dataset.page = i; el.innerHTML = P(i, side); }
+function draw(){
+  drawnMode = mode;
+  const keep = {};
+  for (const el of [pgL, pgR]){ const sc = el.querySelector('.pin'); if (sc && !el.hidden && el.dataset.page !== undefined) keep[el.dataset.page] = sc.scrollTop; }
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    setPage(pgL, L, 'l'); setPage(pgR, L + 1, 'r'); pgR.hidden = false;
+    mark(L); mark(L + 1);
+  } else { setPage(pgL, at, 'r'); pgR.hidden = true; mark(at); }
+  for (const el of [pgL, pgR]){ const t = keep[el.dataset.page], sc = el.querySelector('.pin'); if (t && sc) sc.scrollTop = t; }
+  upd();
+}
+function mark(i){ if (i >= 0 && i < N && !S.read[i]){ S.read[i] = 1; save(); } }
+function rerender(i){
+  for (const el of [pgL, pgR]){
+    if (el.hidden || +el.dataset.page !== i) continue;
+    const sc = el.querySelector('.pin'); const top = sc ? sc.scrollTop : 0;
+    el.innerHTML = P(i, el === pgL && mode === 'spread' ? 'l' : 'r');
+    const ns = el.querySelector('.pin'); if (ns) ns.scrollTop = top;
+  }
+}
+function pageOf(el){ const p = el.closest('[data-page]'); return p ? +p.dataset.page : -1; }
+function upd(){
+  S.last = at; save();
+  const L = mode === 'spread' ? at - (at % 2) : at;
+  const txt = mode === 'spread' ? (L === 0 ? `p. 1 of ${N - 1}` : `pp. ${L}–${Math.min(L + 1, N - 1)} of ${N - 1}`) : (at === 0 ? 'Contents' : `p. ${at} of ${N - 1}`);
+  $('#pgind').textContent = opened ? txt : '';
+  $('#mmid').textContent = (BOOK.pages[at].head || BOOK.short) + ' · ' + (at === 0 ? 'contents' : 'p. ' + at);
+  const nr = Object.keys(S.read).length; $('#progi').style.width = Math.round(100 * nr / N) + '%';
+  // the library's "Continue" button: which lecture and page this reader was on last
+  try { localStorage.setItem('msk-last-book', JSON.stringify({id: BOOK.id, href: location.pathname.split('/').pop() || '', title: BOOK.title, page: at, t: Date.now()})); } catch (e) {}
+  // the page number is kept in S.last only — never in the address bar: an embedded viewer treats a changed address
+  // as a new page and reloads it, which made the book reload on every page turn
+}
+
+/* ---------- page turning ---------- */
+function clearLeaf(){ leaf.hidden = true; leaf.getAnimations && leaf.getAnimations().forEach(a => a.cancel()); }
+function anim(el, frames, done){
+  if (!DUR || !el.animate){ done(); return; }
+  leaf.style.setProperty('--dur', DUR + 'ms');
+  const a = el.animate(frames, {duration: DUR, easing: EASE});
+  a.onfinish = done; a.oncancel = done;
+}
+function go(dir){
+  if (busy || !opened) return;
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    if (dir > 0){
+      if (L + 2 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = 'var(--pw)'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(L + 1, 'r'); lb.innerHTML = P(L + 2, 'l'); setPage(pgR, L + 3, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(-180deg)'}], () => { at = L + 2; setPage(pgL, L + 2, 'l'); clearLeaf(); busy = false; mark(at); mark(at + 1); upd(); });
+    } else {
+      if (L - 2 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'right center';
+      lf.innerHTML = P(L, 'l'); lb.innerHTML = P(L - 1, 'r'); setPage(pgL, L - 2, 'l'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], () => { at = L - 2; setPage(pgR, L - 1, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  } else {
+    if (dir > 0){
+      if (at + 1 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at, 'r'); lb.innerHTML = '<div class="pin"></div>'; setPage(pgL, at + 1, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)', opacity: 1}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .7}, {transform: 'rotateY(-180deg)', opacity: 0}], () => { at++; clearLeaf(); busy = false; mark(at); upd(); });
+    } else {
+      if (at - 1 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at - 1, 'r'); lb.innerHTML = '<div class="pin"></div>'; leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(-180deg)', opacity: 0}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .3}, {transform: 'rotateY(0deg)', opacity: 1}], () => { at--; setPage(pgL, at, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  }
+}
+function jump(i){
+  i = Math.max(0, Math.min(N - 1, i)); closeOv();
+  if (!opened) openBook(i); else { at = i; draw(); }
+}
+document.addEventListener('keydown', e => {
+  if (!opened || document.querySelector('#ovs .ov')) { if (e.key === 'Escape') closeOv(); return; }
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+});
+let tx0 = null, ty0 = 0;
+book.addEventListener('touchstart', e => { const t = e.touches[0]; if (e.target.closest('.nosw,input,textarea,button,svg')) { tx0 = null; return; } tx0 = t.clientX; ty0 = t.clientY; }, {passive: true});
+book.addEventListener('touchend', e => { if (tx0 === null) return; const t = e.changedTouches[0]; const dx = t.clientX - tx0, dy = t.clientY - ty0; tx0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1); }, {passive: true});
+
+/* ---------- home (closed book) ---------- */
+function examDays(d){ const t = new Date(d + 'T00:00:00'); const now = new Date(); const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()); return Math.round((t - a) / 864e5); }
+function chipFor(e){ const n = examDays(e.date); if (n < 0) return ''; return `<span class="cd">${esc(e.name)} · <b>${n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'}</b></span>`; }
+function stats(){
+  const nr = Object.keys(S.read).length;
+  const ids = Object.keys(S.ans).filter(q => QS[q]); const ok = ids.filter(q => S.ans[q].ok).length;
+  const learned = Object.values(S.cards).filter(c => c.step >= 2).length;
+  return {nr, ok, n: ids.length, learned};
+}
+function home(){
+  opened = false; book.hidden = true; $('#mnav').hidden = true; $('#pgind').textContent = '';
+  const st = stats();
+  const cont = S.last > 1 ? `Continue on page ${S.last}` : 'Open the book';
+  $('#home').hidden = false;
+  $('#home').innerHTML = `
+  <div class="cover" id="cover">
+    <div class="frame"></div>
+    <div class="k">THE HELPERS · SEM 3 · 2026–27</div>
+    <div class="t1">MSK</div>
+    <div class="t2">${esc(BOOK.subject.toUpperCase())}</div>
+    <div class="rule"></div>
+    <div class="t3">${esc(BOOK.coverLine)}</div>
+    <div class="t4">${esc(BOOK.coverNote)}</div>
+  </div>
+  <div class="side">
+    ${BOOK.lib ? `<a class="libl" href="${esc(BOOK.lib)}">← All lectures</a>` : ''}
+    <h1>${esc(BOOK.title)}</h1>
+    <p>${esc(BOOK.blurb)}</p>
+    <div class="chips">${(BOOK.exams || []).map(chipFor).join('')}</div>
+    <div class="stats">
+      <div class="stat"><b>${st.nr}/${N}</b><span>pages read</span></div>
+      <div class="stat"><b>${st.ok}/${st.n}</b><span>answered right</span></div>
+      <div class="stat"><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>
+    </div>
+    <button class="hbtn pri" data-act="open">${cont}</button>
+    <div class="hrow">
+      <button class="hbtn" data-act="open-cards">Flashcards</button>
+      <button class="hbtn" data-act="open-exam">Exam mode</button>
+    </div>
+  </div>`;
+  $('#chap').textContent = BOOK.short;
+}
+function openBook(i){
+  const go2 = () => { $('#home').hidden = true; book.hidden = false; opened = true; if (i !== undefined) at = i; layout(true); };
+  const c = $('#cover');
+  if (c && DUR && c.animate){ c.animate([{transform: 'perspective(1400px) rotateY(0)'}, {transform: 'perspective(1400px) rotateY(-80deg)', opacity: .2}], {duration: 520, easing: 'ease-in'}).onfinish = go2; }
+  else go2();
+}
+
+/* ---------- block renderers ---------- */
+H.part = b => `<div class="part"><span class="pn">${esc(b.no)}</span><div><small>Part ${esc(b.no)}</small><h2>${esc(b.title)}</h2>${b.sub ? `<p>${esc(b.sub)}</p>` : ''}</div><span class="big">${esc(b.no)}</span></div>`;
+H.h = b => `<h3 class="sh"><span class="num">${esc(b.no)}</span><span>${esc(b.title)}</span>${b.top || b.rep ? `<span class="sht">${b.top ? '<span class="tg top">★ Top priority</span>' : ''}${b.rep ? '<span class="tg">↻ High yield</span>' : ''}</span>` : ''}</h3>`;
+H.hook = b => `<p class="hook">${b.html}</p>`;
+H.p = b => `<p class="tx">${b.html}</p>`;
+H.list = b => `<ul class="ls">${b.items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const NL = {hy: 'High yield', trap: 'Exam trap', mn: 'Mnemonic', cl: 'Clinical', def: 'Definition', nb: 'N.B.'};
+H.note = b => `<aside class="note n-${b.kind}"><span class="nl">${esc(b.title || NL[b.kind])}</span>${b.html}</aside>`;
+H.flow = b => `<div class="flow">${b.steps.map(s => `<span>${s}</span>`).join('<i>→</i>')}</div>`;
+const TB = {};
+H.table = (b, pg, k) => {
+  const id = pg.id + '-' + k; const st = TB[id] || (TB[id] = {cv: false, rev: {}});
+  const rows = b.rows.map((r, ri) => `<tr>${r.map((c, ci) => { const cov = st.cv && ci > 0 && !st.rev[ri + ':' + ci]; return `<td${cov ? ` class="cv" data-act="rev" data-t="${id}" data-c="${ri}:${ci}"` : ''}>${cov ? '<span>' + c + '</span>' : c}</td>`; }).join('')}</tr>`).join('');
+  return `<div class="tbl"><div class="tbl-h"><span>${esc(b.cap || '')}</span>${b.cover !== false ? `<button class="mini ${st.cv ? 'on' : ''}" data-act="cover" data-t="${id}">${st.cv ? 'Show answers' : 'Cover answers'}</button>` : ''}</div><div class="tw"><table><thead><tr>${b.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+function qimg(q, ans){
+  const L = ans ? q.aimg : q.img; if (!L || !L.length) return '';
+  const cap = ans ? q.acap : q.cap;
+  return L.map((u, i) => `<figure class="qf"><img src="${esc(u)}" alt="${esc(cap || 'Figure for this question')}" loading="lazy">${i === L.length - 1 && cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('');
+}
+function qtags(q){
+  const t = [];
+  if (q.top) t.push('<span class="tg top">★ Top priority</span>');
+  if (q.rep) t.push(`<span class="tg">↻ ${esc(q.rep)}</span>`);
+  t.push(`<span class="tg">${esc(q.tag)}</span>`);
+  return t.join('');
+}
+function opts(q, st, act){
+  return q.opts.map((o, i) => {
+    let c = '';
+    if (st && st.show){ if (i === q.ans) c = 'ok'; else if (i === st.pick) c = 'bad'; }
+    else if (st && st.pick === i) c = 'pick';
+    return `<button class="op ${c}" data-act="${act}" data-q="${q.id}" data-i="${i}" ${st && st.show ? 'disabled' : ''}><span class="lt">${'ABCDEFGH'[i]}</span><span>${esc(o)}</span></button>`;
+  }).join('');
+}
+H.check = b => {
+  const q = QS[b.q]; if (!q) return ''; const a = S.ans[q.id];
+  const st = a ? {pick: a.pick, show: true} : null;
+  const res = a ? `<div class="res ${a.ok ? 'ok' : 'bad'}">${a.ok ? '✓ Correct' : '✗ Not quite — the answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>${qimg(q, 1)}<div class="row"><button class="btn" data-act="retry" data-q="${q.id}">Try again</button></div>` : '';
+  return `<div class="qb"><div class="qh">Check question ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'ans')}${res}</div>`;
+};
+H.predict = b => {
+  const q = QS[b.q]; if (!q) return ''; const p = S.pred[q.id] || {};
+  const st = p.lift ? {pick: p.pick, show: true} : (p.pick !== undefined ? {pick: p.pick} : null);
+  let tail = '';
+  if (p.pick !== undefined && !p.lift) tail = `<div class="row"><button class="btn lift" data-act="lift" data-q="${q.id}">Lift the flap ↑</button><span class="muted" style="font-size:.8em">You predicted ${'ABCDEFGH'[p.pick]}</span></div>`;
+  else if (p.lift) tail = `<div class="res ${p.pick === q.ans ? 'ok' : 'bad'}">${p.pick === q.ans ? '✓ Your prediction was right' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>`;
+  else tail = `<div class="flapc"><span class="muted" style="font-size:.82em">Pick your prediction, then lift the flap</span></div>`;
+  return `<div class="qb"><div class="qh">Predict, then reveal ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'pred')}${tail}</div>`;
+};
+H.flap = b => {
+  const q = QS[b.q]; if (!q) return ''; const lifted = S.flap[q.id]; const self = S.self[q.id];
+  const dr = `<textarea class="dr" data-act="draft" data-q="${q.id}" placeholder="Write your answer first (optional)…">${esc(S.draft[q.id] || '')}</textarea>`;
+  const body = lifted
+    ? `<div class="ans">${q.keyhtml}</div>${qimg(q, 1)}${q.expl ? `<div class="ex">${q.expl}</div>` : ''}<div class="row"><span class="muted" style="font-size:.78em">How did you do?</span><button class="btn ${self === 'got' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="got">Got it</button><button class="btn ${self === 'later' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="later">Review later</button></div>`
+    : `${dr}<div class="flapc"><button class="btn lift" data-act="flap" data-q="${q.id}">Lift the flap ↑</button></div>`;
+  return `<div class="qb"><div class="qh">Written question ${qtags(q)}</div><div class="qs" style="white-space:pre-line">${esc(q.stem)}</div>${qimg(q)}${body}</div>`;
+};
+H.title = b => `<div class="title-page"><div class="kick">${esc(b.kick)}</div><h1 class="ttl">${esc(b.title)}</h1><div class="sub">${esc(b.sub)}</div>
+  <div class="facts">${b.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div>
+  ${b.hook ? `<p class="hook">${b.hook}</p>` : ''}${b.note ? `<aside class="note n-hy"><span class="nl">${esc(b.note[0])}</span>${b.note[1]}</aside>` : ''}</div>`;
+H.contents = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  return `<h3 class="sh" style="margin-top:0"><span class="num">≡</span><span>Contents</span></h3>
+  <ul class="map">${items.map(([p, i]) => `<li><button data-act="jump" data-p="${i}"><span class="mn">${esc(p.toc[0])}</span><span class="mt">${esc(p.toc[1])}</span><span class="mp">p. ${i}</span></button></li>`).join('')}</ul>
+  <div class="legend"><i style="background:var(--sticky)"></i><span>Sticky notes = high-yield facts</span><i style="background:var(--trap-bg);border-left:3px solid var(--red)"></i><span>Exam traps</span>
+  <i style="background:var(--chip);border:1px solid var(--line)"></i><span>Check questions answer instantly</span><i style="background:var(--red)"></i><span>LAB pages: interactive drills</span></div>
+  <p class="tx" style="font-size:.86em">Turn pages with the arrows, the ← → keys, or a swipe. Tap the ribbon to bookmark a page. Every fact comes from this year's Helpers pamphlet; every question is from the checked question bank.</p>`;
+};
+H.actions = () => `<div class="row" style="gap:.6em;margin:.8em 0"><button class="btn pri" data-act="open-exam">Start exam mode</button><button class="btn" data-act="open-cards">Flashcards (${BOOK.cards.length})</button><button class="btn" data-act="open-mist">My mistakes</button></div>`;
+H.progress = () => {
+  const st = stats(); const labs = Object.keys(LABS); const ld = labs.filter(l => S.labs[l] && S.labs[l].done).length;
+  const ex = S.exams.length ? S.exams[S.exams.length - 1] : null;
+  const third = labs.length ? `<div><b>${ld}/${labs.length}</b><span>labs done</span></div>` : `<div><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>`;
+  return `<div class="facts"><div><b>${st.nr}/${N}</b><span>pages read</span></div><div><b>${st.ok}/${st.n}</b><span>questions right</span></div>${third}</div>
+  <p class="tx" style="font-size:.86em">${ex ? `Last exam: <b>${ex.score}/${ex.n}</b> in ${Math.round(ex.secs / 60)} min.` : 'No exam taken yet.'} ${Object.keys(S.mist).length ? `You have <b>${Object.keys(S.mist).length}</b> questions in your mistakes list.` : ''}</p>`;
+};
+H.lab = (b, pg) => { const L = LABS[b.lab]; return L ? labHTML(L, pg) : ''; };
+H.recall = b => {
+  const st = S.labs[b.id] || {}, rv = st.r || {}; let n = 0, k = 0;
+  const body = b.groups.map(g => `<div class="rcg">${esc(g.title)}</div>` + g.items.map(it => { const i = n++, on = !!rv[i]; if (on) k++;
+    return `<button class="rci ${on ? 'on' : ''}" data-act="rcv" data-l="${b.id}" data-i="${i}"><span class="cue">${it[0]}</span>${it[1] ? ` <span class="${on ? '' : 'hid'}">${it[1]}</span>` : ''}</button>`; }).join('')).join('');
+  return `<div class="labh"><span class="lb">LAB</span><h3>${esc(b.title)}</h3></div>
+    <p class="labi">Say the rest of each line out loud, then tap it to check. Tap again to cover it. <b>${k}/${n}</b> uncovered.</p>
+    <div class="modes"><button class="mini" data-act="rcall" data-l="${b.id}" data-n="${n}">Uncover all</button><button class="mini" data-act="rcno" data-l="${b.id}">Cover all</button></div>${body}`;
+};
+H.end = () => {
+  const nx = BOOK.next, pv = BOOK.prev;
+  return `<div class="endnav">${nx ? `<a href="${esc(nx.href)}"><span><small>Next lecture</small>${esc(nx.title)}</span><span>→</span></a>` : ''}
+    ${pv ? `<a href="${esc(pv.href)}"><span><small>Previous lecture</small>${esc(pv.title)}</span><span>←</span></a>` : ''}
+    ${BOOK.lib ? `<a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a>` : ''}</div>`;
+};
+
+/* ---------- labs ---------- */
+const LS = {};
+function lst(id, init){ return LS[id] || (LS[id] = init()); }
+function rnd(seed){ let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function shuffled(arr, seed){ const r = rnd(seed), a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function labDone(id){ if (!S.labs[id] || !S.labs[id].done){ S.labs[id] = {done: true}; save(); } }
+function labHTML(L, pg){
+  const head = `<div class="labh"><span class="lb">LAB</span><h3>${esc(L.title)}</h3></div><div class="labi">${L.intro}</div>`;
+  const foot = L.ref ? `<div class="ref">From the pamphlet · ${esc(L.ref)}</div>` : '';
+  return `<div class="labx nosw">${head}${LAB[L.type](L)}${foot}</div>`;
+}
+const LAB = {};
+// --- region map (cross-section) ---
+function sector(cx, cy, rx, ry, a1, a2){
+  const p = a => [cx + rx * Math.cos(a * Math.PI / 180), cy + ry * Math.sin(a * Math.PI / 180)];
+  const [x1, y1] = p(a1), [x2, y2] = p(a2); const large = ((a2 - a1 + 360) % 360) > 180 ? 1 : 0;
+  return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+}
+LAB.map = L => {
+  const st = lst(L.id, () => ({sel: null, mode: 'explore', qi: 0, score: 0, fb: null, order: shuffled(L.tests.map((_, i) => i), L.id)}));
+  const cx = 160, cy = 128, rx = 136, ry = 108;
+  const regs = L.regions.map(r => {
+    const on = st.sel === r.id, dim = st.sel && !on && st.mode === 'explore';
+    return `<path class="rg ${dim ? 'dim' : ''}" d="${sector(cx, cy, rx, ry, r.a1, r.a2)}" fill="${r.color}" data-act="map" data-l="${L.id}" data-id="${r.id}" ${on ? 'stroke="var(--navy)" stroke-width="4"' : ''}/>`;
+  }).join('');
+  const labels = L.regions.map(r => { const m = (r.a1 + ((r.a2 - r.a1 + 360) % 360) / 2) * Math.PI / 180; return `<text class="svgtxt" text-anchor="middle" x="${(cx + rx * .62 * Math.cos(m)).toFixed(1)}" y="${(cy + ry * .62 * Math.sin(m) + 4).toFixed(1)}">${esc(r.short)}</text>`; }).join('');
+  const septa = L.regions.map(r => { const a = r.a1 * Math.PI / 180; return `<line x1="${(cx + 26 * Math.cos(a)).toFixed(1)}" y1="${(cy + 26 * Math.sin(a)).toFixed(1)}" x2="${(cx + rx * Math.cos(a)).toFixed(1)}" y2="${(cy + ry * Math.sin(a)).toFixed(1)}" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="4 3"/>`; }).join('');
+  const svg = `<svg viewBox="0 0 320 262" role="img" aria-label="${esc(L.title)}">${regs}${septa}
+    <circle cx="${cx}" cy="${cy}" r="26" fill="var(--bone)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="var(--paper-2)" stroke="var(--ink-2)" stroke-width="1"/>
+    <text class="svgsm" x="${cx}" y="${cy + 42}" text-anchor="middle">FEMUR</text>${labels}
+    <text class="svgsm" x="8" y="254">${esc(L.caption || '')}</text></svg>`;
+  let info;
+  if (st.mode === 'explore'){
+    const r = L.regions.find(x => x.id === st.sel);
+    info = r ? `<h4>${esc(r.name)}</h4>${r.html}` : `<span class="muted">Tap a compartment to see its muscles and its nerve.</span>`;
+  } else {
+    const done = st.qi >= L.tests.length;
+    info = done ? `<h4>Score: ${st.score}/${L.tests.length}</h4><span class="muted">Press "Test me" again for a new round.</span>`
+      : `<h4>${esc(L.tests[st.order[st.qi]].q)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : '<span class="muted">Tap the compartment.</span>'}`;
+    if (done) labDone(L.id);
+  }
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="explore">Explore</button><button class="mini ${st.mode === 'test' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="test">Test me</button>${st.mode === 'test' ? `<span class="muted" style="font-size:.75em;align-self:center">Question ${Math.min(st.qi + 1, L.tests.length)} of ${L.tests.length} · score ${st.score}</span>` : ''}</div>
+    <div class="svgw">${svg}</div><div class="info">${info}</div>`;
+};
+// --- nerve / muscle / movement graph with nerve cuts ---
+function gstate(L){ return lst(L.id, () => ({sel: null, cut: {}, mode: 'explore'})); }
+function mstat(m, cut){ if (!m.nerves.length) return 'unk'; const c = m.nerves.filter(n => cut[n]).length; return c === 0 ? 'ok' : c === m.nerves.length ? 'lost' : 'weak'; }
+LAB.graph = L => {
+  const st = gstate(L);
+  const M = L.muscles, byId = {}; M.forEach(m => byId[m.id] = m);
+  let hlN = {}, hlM = {}, hlV = {};
+  if (st.mode === 'explore' && st.sel){
+    const [t, id] = st.sel;
+    if (t === 'n'){ hlN[id] = 1; M.forEach(m => { if (m.nerves.includes(id)){ hlM[m.id] = 1; m.moves.forEach(v => hlV[v] = 1); } }); }
+    if (t === 'm'){ const m = byId[id]; hlM[id] = 1; m.nerves.forEach(n => hlN[n] = 1); m.moves.forEach(v => hlV[v] = 1); }
+    if (t === 'v'){ hlV[id] = 1; M.forEach(m => { if (m.moves.includes(id)){ hlM[m.id] = 1; m.nerves.forEach(n => hlN[n] = 1); } }); }
+  }
+  const any = st.mode === 'explore' && st.sel;
+  const ch = (t, id, name, extra) => {
+    let c = '';
+    if (st.mode === 'explore'){ if (any) c = ((t === 'n' ? hlN : t === 'm' ? hlM : hlV)[id]) ? 'hl' : 'dim'; }
+    else { if (t === 'n' && st.cut[id]) c = 'cut'; if (t === 'm'){ const s = mstat(byId[id], st.cut); c = s === 'lost' ? 'lost' : s === 'weak' ? 'weak' : s === 'unk' ? 'unk' : ''; } if (t === 'v') c = extra || ''; }
+    return `<button class="chip ${c}" data-act="g" data-l="${L.id}" data-t="${t}" data-id="${id}">${t === 'n' && st.mode === 'cut' ? (st.cut[id] ? '✂ ' : '') : ''}${esc(name)}</button>`;
+  };
+  // movement status
+  const vstat = {};
+  let summary = '';
+  if (st.mode === 'cut'){
+    const lines = [];
+    L.moves.forEach(v => {
+      const ms = M.filter(m => m.moves.includes(v.id) && m.nerves.length);
+      const lost = ms.filter(m => mstat(m, st.cut) === 'lost'), weak = ms.filter(m => mstat(m, st.cut) === 'weak');
+      const s = lost.length === ms.length && ms.length ? 'lost' : (lost.length || weak.length) ? 'weak' : 'ok';
+      vstat[v.id] = s;
+      if (s !== 'ok'){
+        const still = ms.filter(m => mstat(m, st.cut) !== 'lost').map(m => m.name + (mstat(m, st.cut) === 'weak' ? ' (partly)' : ''));
+        lines.push(`<div><b>${esc(v.name)}</b><span class="st ${s}">${s === 'lost' ? 'LOST' : 'WEAKENED'}</span>${still.length ? `<br><span class="muted" style="font-size:.9em">Still working: ${esc(still.join(', '))}</span>` : ''}</div>`);
+      }
+    });
+    const nc = Object.keys(st.cut).filter(k => st.cut[k]).length;
+    summary = nc ? (lines.length ? lines.join('') : '<span class="muted">No movement is affected.</span>') : '<span class="muted">Tap a nerve to cut it, or choose a case below.</span>';
+  } else {
+    const sel = st.sel; let t = '<span class="muted">Tap any nerve, muscle or movement to light up everything connected to it.</span>';
+    if (sel){ const [k, id] = sel; const item = k === 'n' ? L.nerves.find(x => x.id === id) : k === 'm' ? byId[id] : L.moves.find(x => x.id === id); t = `<h4>${esc(item.name)}</h4>${item.note ? esc(item.note) : ''}`; }
+    summary = t;
+  }
+  const vchip = v => ch('v', v.id, v.name, st.mode === 'cut' ? (vstat[v.id] === 'lost' ? 'lost' : vstat[v.id] === 'weak' ? 'weak' : '') : '');
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="explore">Explore links</button><button class="mini ${st.mode === 'cut' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="cut">Cut a nerve</button>${st.mode === 'cut' ? `<button class="mini" data-act="gclear" data-l="${L.id}">Heal all</button>` : ''}</div>
+    ${st.mode === 'cut' ? `<div class="modes">${L.cases.map((c, i) => `<button class="mini" data-act="gcase" data-l="${L.id}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+    <div class="gcols"><div class="gcol"><h5>Nerves</h5>${L.nerves.map(n => ch('n', n.id, n.name)).join('')}</div>
+    <div class="gcol"><h5>Muscles</h5>${M.map(m => ch('m', m.id, m.name)).join('')}</div>
+    <div class="gcol"><h5>Movements</h5>${L.moves.map(vchip).join('')}</div></div>
+    <div class="info">${summary}</div>${L.footnote ? `<div class="muted" style="font-size:.74em">${L.footnote}</div>` : ''}`;
+};
+// --- sorter ---
+LAB.sort = L => {
+  const st = lst(L.id, () => ({sel: null, placed: {}, wrong: 0, shake: null, order: shuffled(L.items.map(x => x.id), L.id)}));
+  const pool = st.order.filter(id => !st.placed[id]);
+  const it = id => L.items.find(x => x.id === id);
+  const done = !pool.length; if (done) labDone(L.id);
+  return `<div class="pool">${pool.map(id => `<button class="chip ${st.sel === id ? 'sel' : ''} ${st.shake === id ? 'shake' : ''}" data-act="spick" data-l="${L.id}" data-id="${id}">${esc(it(id).name)}</button>`).join('') || ''}</div>
+   ${done ? `<div class="done">✓ All sorted${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ' with no mistakes'}</div>` : `<div class="muted" style="font-size:.78em;margin:-.3em 0 .5em">${st.sel ? 'Now tap the right box.' : 'Tap an item, then tap its box.'}${st.wrong ? ` Wrong tries: ${st.wrong}.` : ''}</div>`}
+   <div class="bins">${L.bins.map(b => `<button class="bin" data-act="sdrop" data-l="${L.id}" data-b="${b.id}"><h5>${esc(b.name)}</h5>${b.sub ? `<small>${esc(b.sub)}</small>` : ''}<span class="in">${st.order.filter(id => st.placed[id] === b.id).map(id => `<span class="chip ok">${esc(it(id).name)}</span>`).join('')}</span></button>`).join('')}</div>
+   <div class="row"><button class="btn" data-act="sreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- sequence ---
+LAB.seq = L => {
+  const st = lst(L.id, () => ({n: 0, wrong: 0, shake: null, order: shuffled(L.steps.map((_, i) => i), L.id + 's')}));
+  const done = st.n >= L.steps.length; if (done) labDone(L.id);
+  return `<div class="info" style="min-height:0"><h4>${esc(L.prompt)}</h4></div>
+   <div class="seqline">${st.n ? L.steps.slice(0, st.n).map((s, i) => `<span class="n">${i + 1}</span><span class="chip ok">${esc(s)}</span>`).join('') : '<span class="muted" style="font-size:.78em">Your order appears here.</span>'}</div>
+   <div class="pool">${st.order.filter(i => i >= st.n).map(i => `<button class="chip ${st.shake === i ? 'shake' : ''}" data-act="qpick" data-l="${L.id}" data-i="${i}">${esc(L.steps[i])}</button>`).join('')}</div>
+   ${done ? `<div class="done">✓ Correct order${L.mnemonic ? ' — ' + esc(L.mnemonic) : ''}${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ''}</div>` : (st.wrong ? `<div class="muted" style="font-size:.78em">Wrong tries: ${st.wrong}</div>` : '')}
+   <div class="row"><button class="btn" data-act="qreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- labelled diagram ---
+const DRAW = {};
+LAB.diagram = L => {
+  const st = lst(L.id, () => ({mode: 'labels', rev: {}, qi: 0, score: 0, fb: null, order: shuffled(L.pins.map(p => p.id), L.id)}));
+  const pins = L.pins.map((p, i) => {
+    const shown = st.mode === 'labels' || (st.mode === 'test' && st.rev[p.id]);
+    let c = st.mode === 'test' && st.rev[p.id] ? 'on' : '';
+    if (st.mode === 'find' && st.fb && st.fb[2] === p.id) c = st.fb[0];
+    const lx = p.lx !== undefined ? p.lx : p.x + 9, anchor = p.anchor || 'start';
+    return `<g class="pinbtn ${c}" data-act="pin" data-l="${L.id}" data-id="${p.id}"><circle class="d" cx="${p.x}" cy="${p.y}" r="7"/><text x="${p.x}" y="${p.y + 2.8}" text-anchor="middle">${i + 1}</text>${shown ? `<text class="plab" x="${lx}" y="${p.ly !== undefined ? p.ly : p.y + 3}" text-anchor="${anchor}">${esc(p.short || p.name)}</text>` : ''}</g>`;
+  }).join('');
+  let info;
+  if (st.mode === 'labels') info = `<span class="muted">All labels shown. Switch to "Test me" (tap a number to reveal it) or "Find it" (find the named structure).</span>`;
+  else if (st.mode === 'test') info = `<span class="muted">Say the name of each numbered structure, then tap it to check. Revealed ${Object.keys(st.rev).length} of ${L.pins.length}.</span>`;
+  else {
+    const done = st.qi >= st.order.length; if (done) labDone(L.id);
+    info = done ? `<h4>Score: ${st.score}/${st.order.length}</h4><span class="muted">Choose "Find it" again for a new round.</span>`
+      : `<h4>Find: ${esc(L.pins.find(p => p.id === st.order[st.qi]).name)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : `<span class="muted">Tap its number · ${st.qi + 1} of ${st.order.length} · score ${st.score}</span>`}`;
+  }
+  return `<div class="modes">${[['labels', 'Labels on'], ['test', 'Test me'], ['find', 'Find it']].map(([m, n]) => `<button class="mini ${st.mode === m ? 'on' : ''}" data-act="dmode" data-l="${L.id}" data-v="${m}">${n}</button>`).join('')}</div>
+   <div class="svgw"><svg viewBox="${L.viewBox}" role="img" aria-label="${esc(L.title)}">${DRAW[L.draw] ? DRAW[L.draw]() : ''}${pins}</svg></div>
+   ${st.mode === 'labels' ? `<ol class="key">${L.pins.map(p => `<li>${esc(p.name)}</li>`).join('')}</ol>` : st.mode === 'test' ? `<ol class="key">${L.pins.map(p => `<li>${st.rev[p.id] ? esc(p.name) : '<span class="muted">tap ' + (L.pins.indexOf(p) + 1) + ' to check</span>'}</li>`).join('')}</ol>` : ''}<div class="info">${info}</div>`;
+};
+DRAW.femtri = () => {
+  // schematic femoral triangle: base = inguinal ligament (top), lateral side = sartorius (left), medial side = adductor longus (right)
+  const A = [44, 46], B = [296, 46], C = [176, 286];
+  const tri = `${A} ${B} ${C}`;
+  return `<defs><clipPath id="ftc"><polygon points="${tri}"/></clipPath>
+    <pattern id="lym" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="var(--cl)"/></pattern></defs>
+   <rect x="6" y="14" width="328" height="290" rx="14" fill="var(--skin)"/>
+   <g clip-path="url(#ftc)" opacity=".9">
+     <rect x="44" y="46" width="64" height="240" fill="#cfa18f"/><rect x="108" y="46" width="62" height="240" fill="#d9ae9c"/>
+     <rect x="170" y="46" width="62" height="240" fill="#e3bba9"/><rect x="232" y="46" width="64" height="240" fill="#d9ae9c"/>
+   </g>
+   <line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="30" y1="40" x2="310" y2="40" stroke="var(--bone)" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="40" x2="310" y2="40" stroke="var(--ink-2)" stroke-width="1" stroke-dasharray="3 3"/>
+   <path d="M118,48 L214,48 L200,150 L132,150 Z" fill="rgba(255,255,255,.22)" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="5 3"/>
+   <path d="M104,46 C104,90 108,140 118,190" stroke="#e2b93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M146,46 C146,110 154,180 168,262" stroke="#c0392b" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M174,46 C174,110 176,180 178,262" stroke="#2f5fb3" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M193,48 L209,48 L201,96 Z" fill="url(#lym)" stroke="var(--cl)" stroke-width="1.2"/>
+   <text class="svgsm" x="22" y="170" transform="rotate(-90 22 170)" text-anchor="middle">LATERAL</text>
+   <text class="svgsm" x="322" y="170" transform="rotate(90 322 170)" text-anchor="middle">MEDIAL</text>
+   <text class="svgsm" x="170" y="300" text-anchor="middle">SCHEMATIC FRONT VIEW · NOT TO SCALE</text>`;
+};
+
+/* ---------- click handling ---------- */
+const A = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = A[a.dataset.act]; if (f){ e.preventDefault(); f(a, e); }
+});
+document.addEventListener('input', e => { const a = e.target.closest('[data-act="draft"]'); if (a){ S.draft[a.dataset.q] = a.value; save(); } });
+A.next = () => go(1); A.prev = () => go(-1);
+A.home = () => { closeOv(); home(); };
+A.open = () => openBook(S.last > 0 ? S.last : 1);
+A.jump = a => jump(+a.dataset.p);
+A.mark = a => { const i = +a.dataset.p; if (S.marks[i]) delete S.marks[i]; else S.marks[i] = 1; save(); rerender(i); toast(S.marks[i] ? 'Bookmarked' : 'Bookmark removed'); };
+A.cover = a => { const t = TB[a.dataset.t]; t.cv = !t.cv; t.rev = {}; rerender(pageOf(a)); };
+A.rev = a => { const t = TB[a.dataset.t]; t.rev[a.dataset.c] = 1; rerender(pageOf(a)); };
+A.ans = a => { const q = QS[a.dataset.q], i = +a.dataset.i; const ok = i === q.ans; S.ans[q.id] = {pick: i, ok, t: Date.now()}; if (ok) delete S.mist[q.id]; else S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.retry = a => { delete S.ans[a.dataset.q]; save(); rerender(pageOf(a)); };
+A.pred = a => { const p = S.pred[a.dataset.q] || {}; if (p.lift) return; p.pick = +a.dataset.i; S.pred[a.dataset.q] = p; save(); rerender(pageOf(a)); };
+A.lift = a => { const q = QS[a.dataset.q]; const p = S.pred[q.id]; p.lift = 1; if (p.pick !== q.ans) S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.flap = a => { S.flap[a.dataset.q] = 1; save(); rerender(pageOf(a)); };
+A.self = a => { S.self[a.dataset.q] = a.dataset.v; save(); rerender(pageOf(a)); };
+const rcst = id => { const st = S.labs[id] || (S.labs[id] = {}); st.r = st.r || {}; return st; };
+A.rcv = a => { const st = rcst(a.dataset.l), i = a.dataset.i; if (st.r[i]) delete st.r[i]; else st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcall = a => { const st = rcst(a.dataset.l); for (let i = 0; i < +a.dataset.n; i++) st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcno = a => { const st = rcst(a.dataset.l); st.r = {}; save(); rerender(pageOf(a)); };
+// labs
+A.map = a => { const L = LABS[a.dataset.l], st = LS[L.id];
+  if (st.mode === 'explore') st.sel = st.sel === a.dataset.id ? null : a.dataset.id;
+  else if (st.qi < L.tests.length){ const t = L.tests[st.order[st.qi]]; if (a.dataset.id === t.a){ st.score += st.fb && st.fb[0] === 'bad' ? 0 : 1; st.qi++; st.fb = null; toast('✓ Correct'); } else st.fb = ['bad', 'Not this one — ' + L.regions.find(r => r.id === a.dataset.id).name + '. Try again.']; }
+  rerender(pageOf(a)); };
+A.mapmode = a => { const st = LS[a.dataset.l]; st.mode = a.dataset.v; st.sel = null; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(st.order, String(Date.now())); rerender(pageOf(a)); };
+A.g = a => { const L = LABS[a.dataset.l], st = gstate(L), t = a.dataset.t, id = a.dataset.id;
+  if (st.mode === 'explore') st.sel = st.sel && st.sel[0] === t && st.sel[1] === id ? null : [t, id];
+  else if (t === 'n') st.cut[id] = !st.cut[id];
+  rerender(pageOf(a)); };
+A.gmode = a => { const st = gstate(LABS[a.dataset.l]); st.mode = a.dataset.v; st.sel = null; rerender(pageOf(a)); };
+A.gclear = a => { const st = gstate(LABS[a.dataset.l]); st.cut = {}; rerender(pageOf(a)); };
+A.gcase = a => { const L = LABS[a.dataset.l], st = gstate(L), c = L.cases[+a.dataset.i]; st.cut = {}; c.cut.forEach(n => st.cut[n] = true); labDone(L.id); rerender(pageOf(a)); };
+A.spick = a => { const st = LS[a.dataset.l]; st.sel = st.sel === a.dataset.id ? null : a.dataset.id; st.shake = null; rerender(pageOf(a)); };
+A.sdrop = a => { const L = LABS[a.dataset.l], st = LS[L.id]; if (!st.sel) return; const it = L.items.find(x => x.id === st.sel);
+  if (it.bin === a.dataset.b){ st.placed[it.id] = it.bin; st.sel = null; st.shake = null; } else { st.wrong++; st.shake = it.id; toast('Not there — try another box'); }
+  rerender(pageOf(a)); };
+A.sreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.qpick = a => { const L = LABS[a.dataset.l], st = LS[L.id], i = +a.dataset.i; if (i === st.n){ st.n++; st.shake = null; } else { st.wrong++; st.shake = i; } rerender(pageOf(a)); };
+A.qreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.dmode = a => { const L = LABS[a.dataset.l], st = LS[L.id]; st.mode = a.dataset.v; st.rev = {}; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(L.pins.map(p => p.id), String(Date.now())); rerender(pageOf(a)); };
+A.pin = a => { const L = LABS[a.dataset.l], st = LS[L.id], id = a.dataset.id;
+  if (st.mode === 'test'){ if (st.rev[id]) delete st.rev[id]; else st.rev[id] = 1; }
+  else if (st.mode === 'find' && st.qi < st.order.length){ const t = st.order[st.qi];
+    if (id === t){ st.score += st.fb && st.fb[0] === 'bad' && st.fb[3] === t ? 0 : 1; st.qi++; st.fb = ['ok', '✓ Correct', id, t]; setTimeout(() => { if (st.fb && st.fb[2] === id){ st.fb = null; rerender(pageOf(document.querySelector(`[data-l="${L.id}"]`) || a)); } }, 700); }
+    else st.fb = ['bad', 'That is ' + L.pins.find(p => p.id === id).name + '. Try again.', id, t]; }
+  rerender(pageOf(a)); };
+
+/* ---------- overlays ---------- */
+function ov(title, body, cls){
+  $('#ovs').innerHTML = `<div class="ov" data-act="ovbg"><div class="panel ${cls || ''}" role="dialog" aria-label="${esc(title)}"><div class="ph"><h2>${esc(title)}</h2><button class="x" data-act="close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="pb" id="pbody">${body}</div></div></div>`;
+}
+function closeOv(){ $('#ovs').innerHTML = ''; if (!opened) home(); }
+A.close = closeOv;
+A.ovbg = (a, e) => { if (e.target === a) closeOv(); };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+
+// contents
+A['open-toc'] = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  const labs = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.kind === 'lab');
+  const marks = Object.keys(S.marks).map(Number).sort((a, b) => a - b);
+  ov('Contents', `${BOOK.lib ? `<div class="endnav" style="margin-top:0"><a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a></div>` : ''}<div class="lst">${items.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span><b>${esc(p.toc[0])}</b> · ${esc(p.toc[1])}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Labs</h3><div class="lst">${labs.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(p.labName || p.head)}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Bookmarks</h3>${marks.length ? `<div class="lst">${marks.map(i => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(BOOK.pages[i].head || 'Page ' + i)}</span></button>`).join('')}</div>` : '<p class="muted">No bookmarks yet. Tap the ribbon at the top of a page.</p>'}`);
+};
+// search
+function pageText(p){ const out = []; (p.blocks || []).forEach(b => { ['title', 'html', 'sub', 'hook'].forEach(k => { if (typeof b[k] === 'string') out.push(b[k]); }); if (b.items) out.push(b.items.join(' ')); if (b.rows) out.push(b.rows.flat().join(' ')); if (b.q && QS[b.q]) out.push(QS[b.q].stem); if (b.lab && LABS[b.lab]) out.push(LABS[b.lab].title + ' ' + LABS[b.lab].intro); }); return out.join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); }
+const PT = BOOK.pages.map(pageText);
+A['open-search'] = () => { ov('Search the book', `<input class="srch" id="sq" type="search" placeholder="${esc(BOOK.searchHint || 'Search this lecture')}" aria-label="Search"><div class="lst" id="sres"></div>`);
+  const inp = $('#sq'); inp.focus(); inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase(); const r = $('#sres');
+    if (q.length < 2){ r.innerHTML = ''; return; }
+    const hits = [];
+    PT.forEach((t, i) => { const j = t.toLowerCase().indexOf(q); if (j >= 0) hits.push([i, t.slice(Math.max(0, j - 40), j + q.length + 60)]); });
+    r.innerHTML = hits.length ? hits.map(([i, s]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>…${esc(s)}…</span></button>`).join('') : '<p class="muted">Nothing found.</p>';
+  }); };
+// settings
+A['open-set'] = () => {
+  const seg = (k, vals) => `<div class="seg">${vals.map(([v, n]) => `<button class="${String(S.set[k]) === String(v) ? 'on' : ''}" data-act="set" data-k="${k}" data-v="${v}">${n}</button>`).join('')}</div>`;
+  ov('Settings', `<div class="setrow"><span>Theme</span>${seg('theme', [['system', 'Auto'], ['light', 'Day'], ['dark', 'Night']])}</div>
+   <div class="setrow"><span>Text size</span>${seg('size', [[0.9, 'S'], [1, 'M'], [1.15, 'L']])}</div>
+   <div class="setrow"><span>Rapid revision<br><small class="muted">Hides running text; keeps tables, notes, questions and labs.</small></span>${seg('rapid', [[false, 'Off'], [true, 'On']])}</div>
+   <div class="setrow"><span>Progress<br><small class="muted">Saved in this browser only.</small></span><button class="btn" data-act="reset">Reset all progress</button></div>`);
+};
+A.set = a => { let v = a.dataset.v; if (a.dataset.k === 'size') v = +v; if (a.dataset.k === 'rapid') v = v === 'true'; S.set[a.dataset.k] = v; save(); applySet(); A['open-set'](); if (opened) draw(); };
+A.reset = a => { if (a.dataset.sure){ S = JSON.parse(JSON.stringify(DEF)); for (const k in LS) delete LS[k]; save(); applySet(); closeOv(); toast('Progress reset'); if (opened) draw(); } else { a.dataset.sure = 1; a.textContent = 'Tap again to confirm'; } };
+
+/* ---------- flashcards (spaced repetition) ---------- */
+const STEPS = [60e3, 600e3, 864e5, 1728e5, 3456e5, 6912e5];
+const STEPN = ['1 min', '10 min', '1 day', '2 days', '4 days', '8 days'];
+let FC = null;
+function fcQueue(mode){
+  const now = Date.now(); const c = BOOK.cards;
+  if (mode === 'cram') return c.map(x => x.id);
+  const due = c.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).sort((a, b) => S.cards[a.id].due - S.cards[b.id].due).map(x => x.id);
+  const fresh = c.filter(x => !S.cards[x.id]).map(x => x.id);
+  return due.concat(fresh);
+}
+function cloze(t, rev, all){
+  let k = 0;
+  return esc(t).replace(/\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}/g, (m, n, ans, hint) => { const i = k++; const r = all || rev[i]; return `<span class="blank ${r ? 'r' : ''}" data-act="fcb" data-i="${i}">${r ? ans : (hint ? esc(hint) : '·····')}</span>`; });
+}
+A['open-cards'] = () => { FC = {mode: 'learn', q: fcQueue('learn'), i: 0, rev: {}, all: false}; fcDraw(); };
+function fcDraw(){
+  const c = FC.q[FC.i] ? BOOK.cards.find(x => x.id === FC.q[FC.i]) : null;
+  const now = Date.now(); const due = BOOK.cards.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).length; const fresh = BOOK.cards.filter(x => !S.cards[x.id]).length; const learned = Object.values(S.cards).filter(x => x.step >= 2).length;
+  const top = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg"><button class="${FC.mode === 'learn' ? 'on' : ''}" data-act="fcmode" data-v="learn">Due &amp; new</button><button class="${FC.mode === 'cram' ? 'on' : ''}" data-act="fcmode" data-v="cram">Cram all</button></div>
+   <div class="meter"><span>Due <b>${due}</b></span><span>New <b>${fresh}</b></span><span>Learned <b>${learned}/${BOOK.cards.length}</b></span></div></div>`;
+  let body;
+  if (!c){
+    const nxt = Object.values(S.cards).map(x => x.due).filter(d => d > now).sort((a, b) => a - b)[0];
+    body = `<div class="fc" style="text-align:center"><div class="big">✓</div><p>All caught up${FC.mode === 'cram' ? ' — you went through every card' : ''}.</p>${nxt ? `<p class="muted">Next card is due ${new Date(nxt).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'})}.</p>` : ''}<div class="row" style="justify-content:center"><button class="btn pri" data-act="fcmode" data-v="cram">Cram all cards</button></div></div>`;
+  } else {
+    const nb = (c.text.match(/\{\{c\d+::/g) || []).length; const allShown = FC.all || Object.keys(FC.rev).length >= nb;
+    const s = S.cards[c.id]; const step = s ? s.step : -1;
+    const lab = i => STEPN[Math.min(Math.max(i, 0), STEPS.length - 1)];
+    body = `<div class="fc"><div class="ctx">${esc(c.sec)} · card ${FC.i + 1} of ${FC.q.length}</div><div>${cloze(c.text, FC.rev, FC.all)}</div>${allShown && c.extra ? `<div class="fcx">${esc(c.extra)}</div>` : ''}</div>
+      ${allShown ? `<div class="grade"><button class="g0" data-act="fcg" data-v="0">Again<small>${lab(0)}</small></button><button class="g1" data-act="fcg" data-v="1">Good<small>${lab(step + 1)}</small></button><button class="g2" data-act="fcg" data-v="2">Easy<small>${lab(step + 2)}</small></button></div>`
+      : `<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" data-act="fcall">Show answer</button><span class="muted" style="font-size:12px">or tap each blank</span></div>`}`;
+  }
+  ov('Flashcards · ' + BOOK.short, top + body);
+}
+A.fcmode = a => { FC = {mode: a.dataset.v, q: fcQueue(a.dataset.v), i: 0, rev: {}, all: false}; fcDraw(); };
+A.fcb = a => { FC.rev[a.dataset.i] = 1; fcDraw(); };
+A.fcall = () => { FC.all = true; fcDraw(); };
+A.fcg = a => { const id = FC.q[FC.i]; const v = +a.dataset.v; const s = S.cards[id] || {step: -1};
+  if (v === 0) s.step = 0; else s.step = Math.min((s.step < 0 ? -1 : s.step) + v, STEPS.length - 1);
+  s.due = Date.now() + STEPS[Math.max(s.step, 0)]; S.cards[id] = s; save();
+  if (v === 0 && FC.mode === 'learn') FC.q.push(id);
+  FC.i++; FC.rev = {}; FC.all = false; fcDraw(); };
+
+/* ---------- exam mode & mistakes ---------- */
+let EX = null;
+const MCQ = Object.values(QS).filter(q => q.type === 'mcq');
+A['open-exam'] = () => {
+  const nB = MCQ.filter(q => q.bank).length;
+  const past = S.exams.slice(-5).reverse();
+  ov('Exam mode · ' + BOOK.short, `<p>Questions from the Final question bank for this lecture${MCQ.length > nB ? ', plus checked extra practice questions' : ''}. You see your score, your time and every mistake at the end.</p>
+   <div class="setrow"><span>Questions</span><div class="seg">${[10, 20, 0].map(n => `<button data-act="exstart" data-n="${n}">${n || 'All ' + MCQ.length}</button>`).join('')}</div></div>
+   <div class="setrow"><span>Only Final-bank questions</span><div class="seg"><button class="${!(EX && EX.all) ? 'on' : ''}" data-act="exonly" data-v="1">Yes (${nB})</button><button class="${EX && EX.all ? 'on' : ''}" data-act="exonly" data-v="0">Add extras (${MCQ.length})</button></div></div>
+   ${past.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Past attempts</h3><div class="lst">${past.map(x => `<div class="it" style="cursor:default;border:1px solid var(--line);border-radius:10px;padding:8px 11px"><b>${x.score}/${x.n}</b>&nbsp; <span class="muted">${new Date(x.date).toLocaleString([], {weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})} · ${Math.max(1, Math.round(x.secs / 60))} min</span></div>`).join('')}</div>` : ''}`);
+};
+A.exonly = a => { EX = EX || {}; EX.all = a.dataset.v === '0'; A['open-exam'](); };
+A.exstart = a => {
+  const all = EX && EX.all; const pool = MCQ.filter(q => all || q.bank);
+  const n = +a.dataset.n || pool.length; const qs = shuffled(pool.map(q => q.id), String(Date.now())).slice(0, Math.min(n, pool.length));
+  EX = {all, qs, i: 0, picks: {}, t0: Date.now(), kind: 'exam'}; exDraw();
+};
+function exDraw(){
+  if (EX.i >= EX.qs.length) return exEnd();
+  const q = QS[EX.qs[EX.i]];
+  if (EX.kind === 'retry'){
+    const p = EX.picks[q.id];
+    const st = p !== undefined ? {pick: p, show: true} : null;
+    ov('Mistakes · retry ' + (EX.i + 1) + ' of ' + EX.qs.length, `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'exp')}${p !== undefined ? `<div class="res ${p === q.ans ? 'ok' : 'bad'}">${p === q.ans ? '✓ Correct — removed from your mistakes' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div><div class="row"><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next question' : 'Finish'}</button></div>` : ''}</div>`);
+    return;
+  }
+  const p = EX.picks[q.id];
+  ov(`Question ${EX.i + 1} of ${EX.qs.length}`, `<div class="meter"><span>Answered <b>${Object.keys(EX.picks).length}</b></span><span>Time <b id="extime">0:00</b></span></div>
+   <div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, p !== undefined ? {pick: p} : null, 'exp')}</div>
+   <div class="row" style="justify-content:space-between"><button class="btn" data-act="exback" ${EX.i ? '' : 'disabled'}>Back</button><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next' : 'Finish exam'}</button></div>`);
+  tick();
+}
+function tick(){ const el = $('#extime'); if (!el || !EX) return; const s = Math.round((Date.now() - EX.t0) / 1000); el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); clearTimeout(tick.t); tick.t = setTimeout(tick, 1000); }
+A.exp = a => { const q = QS[a.dataset.q], i = +a.dataset.i;
+  if (EX.kind === 'retry'){ if (EX.picks[q.id] !== undefined) return; EX.picks[q.id] = i; S.ans[q.id] = {pick: i, ok: i === q.ans, t: Date.now()}; if (i === q.ans) delete S.mist[q.id]; save(); exDraw(); return; }
+  EX.picks[q.id] = i; exDraw(); };
+A.exnext = () => { EX.i++; exDraw(); };
+A.exback = () => { if (EX.i) EX.i--; exDraw(); };
+function exEnd(){
+  clearTimeout(tick.t);
+  if (EX.kind === 'retry'){ const left = Object.keys(S.mist).length; ov('Mistakes', `<div class="fc" style="text-align:center"><div class="big">${EX.qs.filter(id => EX.picks[id] === QS[id].ans).length}/${EX.qs.length}</div><p>${left ? left + ' questions still in your mistakes list.' : 'Your mistakes list is empty.'}</p></div>`); return; }
+  const secs = Math.round((Date.now() - EX.t0) / 1000); let score = 0; const wrong = [];
+  EX.qs.forEach(id => { const q = QS[id], p = EX.picks[id]; const ok = p === q.ans; if (ok){ score++; delete S.mist[id]; } else { S.mist[id] = 1; wrong.push([q, p]); } S.ans[id] = {pick: p === undefined ? -1 : p, ok, t: Date.now()}; });
+  S.exams.push({date: Date.now(), n: EX.qs.length, score, secs}); save();
+  ov('Exam result', `<div class="fc" style="text-align:center"><div class="big">${score}/${EX.qs.length}</div><p>${Math.round(100 * score / EX.qs.length)}% · ${Math.floor(secs / 60)} min ${secs % 60} s</p></div>
+   ${wrong.length ? `<h3 style="font:700 15px var(--f-head);margin:16px 0 4px">Review your mistakes</h3>${wrong.map(([q, p]) => `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, {pick: p === undefined ? -1 : p, show: true}, 'none')}<div class="ex">${q.expl}</div></div>`).join('')}` : '<p style="text-align:center">No mistakes. Well done.</p>'}
+   <div class="row"><button class="btn pri" data-act="open-exam">New exam</button>${wrong.length ? '<button class="btn" data-act="open-mist">Retry my mistakes</button>' : ''}</div>`);
+  if (opened) draw();
+}
+A['open-mist'] = () => {
+  const ids = Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq');
+  const later = Object.keys(S.self).filter(id => S.self[id] === 'later' && QS[id]);
+  ov('My mistakes', `${ids.length ? `<p>${ids.length} question${ids.length > 1 ? 's' : ''} you got wrong. Retry them; a right answer removes it from the list.</p><div class="row"><button class="btn pri" data-act="mretry">Retry all</button></div>
+    <div class="lst">${ids.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem)}</span></button>`).join('')}</div>` : '<p class="muted">No mistakes yet. Wrong answers in check questions, predictions and exams collect here.</p>'}
+    ${later.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Written answers to review</h3><div class="lst">${later.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem.split('\n')[0])}</span></button>`).join('')}</div>` : ''}`);
+};
+A.mretry = () => { const ids = shuffled(Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq'), String(Date.now())); if (!ids.length) return; EX = {qs: ids, i: 0, picks: {}, t0: Date.now(), kind: 'retry'}; exDraw(); };
+A.jumpq = a => { const id = a.dataset.q; const i = BOOK.pages.findIndex(p => (p.blocks || []).some(b => b.q === id)); if (i >= 0) jump(i); else toast('This question is only in exam mode'); };
+A.none = () => {};
+
+/* ---------- start ---------- */
+function start(){
+  layout();
+  home();   // the cover's "Continue on page N" button returns to the saved page
+}
+start();
+})();
+</script>
+
+</body>
+</html>

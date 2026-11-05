@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1834">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MSK Book">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>MSK Interactive Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout concept: a Helpers-blue cloth volume lying open on a walnut desk — two pages per spread on wide screens, one page on phones;
+   text pages face lab pages; sticky notes, red section numbers and lift-the-flap questions like a real study book. */
+:root{
+  --desk:#6a4a30; --desk-2:#4f3522; --paper:#fbf9f3; --paper-2:#f1ece0; --edge:#ddd3bd;
+  --ink:#1c2333; --ink-2:#4b5569; --muted:#7c8597; --line:#e3dccb; --card:#ffffff;
+  --navy:#0b1f45; --navy-ink:#0b1f45; --band:#0b1f45; --band-ink:#ffffff; --blue:#2e86de; --red:#d64545;
+  --ok:#1e9e62; --ok-bg:#e6f6ee; --bad:#d64545; --bad-bg:#fdeceb; --chip:#edf3fb; --hl:#fff0a1;
+  --sticky:#ffe57a; --sticky-ink:#3a3000; --trap-bg:#fdf0ef; --mn:#7b4fc9; --mn-bg:#f3eefb; --cl:#13836f; --cl-bg:#e8f5f2; --def-bg:#edf3fb; --nb-bg:#f2f2ef;
+  --cover-1:#d9d2c2; --cover-2:#e8e2d4; --leather:#11295a; --leather-2:#0a1c40; --gold:#d9b45e;
+  --bar:rgba(10,24,52,.86); --bar-ink:#f4f6fb; --skin:#f6e3d3; --musc:#e8a8a0; --musc-2:#d98c84; --bone:#fbf6ea;
+  --fsz:1; --pw:520px; --ph:720px;
+  --f-head:'Poppins','Segoe UI',system-ui,sans-serif; --f-body:'Lato','Segoe UI',system-ui,sans-serif; --f-hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:var(--f-body);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255,240,215,.10), transparent 62%),
+    repeating-linear-gradient(91deg, rgba(0,0,0,.045) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89.3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 31px),
+    repeating-linear-gradient(90.6deg, rgba(0,0,0,.035) 0 6px, transparent 6px 57px),
+    linear-gradient(180deg, var(--desk), var(--desk-2));
+  background-color:var(--desk)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+#app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{flex:none;display:flex;align-items:center;gap:6px;height:50px;margin-top:8px;padding:0 8px 0 12px;border-radius:14px;background:var(--bar);color:var(--bar-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;background:none;border:0;padding:0}
+.brand b{font:700 15px var(--f-head);letter-spacing:.01em;white-space:nowrap}
+.brand span{font:500 11px var(--f-head);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .sp{flex:1}
+.pgind{font:600 12px var(--f-head);opacity:.85;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:10px;border:0;background:transparent;color:var(--bar-ink);cursor:pointer;font:600 12px var(--f-head)}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:18px;height:18px;flex:none}
+.ib .lb{white-space:nowrap}
+.ib.on{background:rgba(255,255,255,.16)}
+.prog{height:3px;border-radius:2px;background:rgba(255,255,255,.15);overflow:hidden;width:70px}
+.prog i{display:block;height:100%;background:var(--gold)}
+@media (max-width:1100px){ .ib .lb{display:none} }
+.brand .bw{font-style:normal}
+@media (max-width:640px){ .brand span,.brand .bw,.prog,.pgind{display:none} .bar{gap:2px;padding:0 4px 0 10px} .ib{padding:0 7px} }
+
+/* ---------- desk & book ---------- */
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2600px;perspective-origin:50% 50%}
+.book.single{width:var(--pw)}
+.book::before{content:"";position:absolute;inset:-9px -12px -11px -12px;border-radius:12px;background:linear-gradient(90deg,var(--leather-2),var(--leather) 6%,var(--leather) 94%,var(--leather-2));box-shadow:0 28px 50px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.35)}
+.book.single::before{inset:-7px -9px -9px -9px}
+.pg{position:absolute;top:0;width:var(--pw);height:var(--ph);background:var(--paper);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}
+.pg-l{left:0;border-radius:6px 2px 2px 6px;background:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(90deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:-2px 0 0 var(--edge),-4px 0 0 var(--paper-2),-6px 1px 0 var(--edge)}
+.pg-r{left:var(--pw);border-radius:2px 6px 6px 2px;background:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(270deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:2px 0 0 var(--edge),4px 0 0 var(--paper-2),6px 1px 0 var(--edge)}
+.book.single .pg-l{border-radius:4px 6px 6px 4px;background:linear-gradient(to right,rgba(0,0,0,.10),transparent 5%),var(--paper);box-shadow:3px 0 0 var(--edge),5px 1px 0 var(--paper-2)}
+.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph);transform-style:preserve-3d;pointer-events:none;z-index:6}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.05) 70%,rgba(0,0,0,.10));animation:shade var(--dur,700ms) ease-in-out}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.turn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:64px;border-radius:12px;border:0;background:rgba(0,0,0,.28);color:#fff;cursor:pointer;z-index:8;display:grid;place-items:center}
+.turn:hover{background:rgba(0,0,0,.45)}
+.turn svg{width:22px;height:22px}
+.turn.prev{left:-56px}.turn.next{right:-56px}
+.book.single .turn{display:none}
+.mnav{display:none}
+@media (max-width:899px), (max-height:519px){ .mnav{display:flex} }
+.mnav{flex:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 8px}
+.mnav button{flex:none;height:42px;min-width:56px;border-radius:12px;border:0;background:var(--bar);color:var(--bar-ink);font:600 13px var(--f-head);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px}
+.mnav .mid{flex:1;text-align:center;color:#fff;font:600 12px var(--f-head);text-shadow:0 1px 2px rgba(0,0,0,.4);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- closed book (home) ---------- */
+.home{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:12px;overflow:auto;z-index:9}
+.cover{position:relative;width:min(340px,82vw);aspect-ratio:.72;border-radius:6px 16px 16px 6px;color:var(--gold);
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.08),transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px),linear-gradient(135deg,var(--leather),var(--leather-2));
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.28),inset 13px 0 0 rgba(255,255,255,.05),0 26px 46px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 24px 36px;box-sizing:border-box;transform-origin:left center}
+.cover .frame{position:absolute;inset:14px 14px 14px 24px;border:1px solid rgba(217,180,94,.55);border-radius:4px 10px 10px 4px;pointer-events:none}
+.cover .k{font:600 10px var(--f-head);letter-spacing:.32em;opacity:.85}
+.cover .t1{font:700 clamp(44px,13vw,64px)/1 var(--f-head);letter-spacing:.04em;margin:14px 0 2px;color:var(--gold)}
+.cover .t2{font:600 20px var(--f-head);letter-spacing:.06em;color:#f3e6c4}
+.cover .rule{width:56%;height:1px;background:rgba(217,180,94,.6);margin:16px 0}
+.cover .t3{font:500 13px/1.45 var(--f-head);color:#eadcb8;max-width:16em}
+.cover .t4{margin-top:18px;font:italic 400 12px var(--f-body);color:#d9c9a0;opacity:.85}
+.side{display:flex;flex-direction:column;gap:12px;width:min(340px,86vw);color:#fff}
+.side h1{font:700 22px/1.2 var(--f-head);margin:0;text-wrap:balance;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.side p{margin:0;font-size:14px;line-height:1.5;color:#f1e8dc;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cd{font:600 12px var(--f-head);padding:6px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.cd b{color:var(--gold)}
+.hbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;cursor:pointer;font:600 14px var(--f-head);background:var(--card);color:var(--navy-ink);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.hbtn.pri{background:var(--gold);color:#1d1606}
+.hbtn svg{width:18px;height:18px}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:rgba(0,0,0,.32);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.12)}
+.stat b{display:block;font:700 18px var(--f-head);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 10.5px var(--f-head);letter-spacing:.05em;color:#e8dcc6;text-transform:uppercase}
+
+/* ---------- page content ---------- */
+.pin{position:absolute;inset:0;padding:6.2% 7% 8.2% 7.4%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;box-sizing:border-box;
+  font-size:clamp(12px, calc(var(--pw) * .0262 * var(--fsz)), 19px);line-height:1.5;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pg-l .pin{padding-right:8.4%}.pg-r .pin{padding-left:8.6%}
+.rh{display:flex;justify-content:space-between;gap:1em;padding-right:2.6em;font:600 .6em var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1em;padding-bottom:.6em;border-bottom:1px solid var(--line)}
+.folio{position:absolute;bottom:2.6%;font:600 .78em var(--f-head);color:var(--muted);font-size:clamp(10px,calc(var(--pw)*.022),14px)}
+.pg-l .folio,.leaf .folio.l{left:7%}.pg-r .folio,.leaf .folio.r{right:7%}.book.single .folio{right:7%;left:auto}
+.ribbon{position:absolute;top:-2px;right:9%;width:clamp(16px,calc(var(--pw)*.04),24px);height:clamp(34px,calc(var(--pw)*.085),52px);border:0;padding:0;cursor:pointer;background:var(--line);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);opacity:.75;z-index:2}
+.ribbon.on{background:var(--red);opacity:1}
+.part{display:flex;gap:.8em;align-items:center;background:var(--band);color:var(--band-ink);border-radius:.6em;padding:.85em 1em;margin:0 0 1em;position:relative;overflow:hidden}
+.part .pn{flex:none;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:700 .95em var(--f-head);box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.part small{display:block;font:600 .6em var(--f-head);letter-spacing:.16em;opacity:.8;text-transform:uppercase}
+.part h2{margin:.05em 0 0;font:700 1.18em/1.2 var(--f-head);text-wrap:balance}
+.part p{margin:.25em 0 0;font-size:.78em;opacity:.85}
+.part .big{position:absolute;right:.2em;bottom:-.25em;font:700 3.6em/1 var(--f-head);opacity:.09}
+.sh{display:flex;align-items:center;gap:.55em;margin:1.1em 0 .45em;font:700 1.02em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sh .num{flex:none;min-width:2.1em;height:2.1em;padding:0 .2em;border-radius:1.05em;display:grid;place-items:center;background:var(--red);color:#fff;font:700 .66em var(--f-head);letter-spacing:.02em;box-sizing:border-box}
+.hook{font:italic 400 1em/1.45 var(--f-body);color:var(--ink-2);margin:.2em 0 .6em;padding-left:.7em;border-left:2px solid var(--red)}
+.tx{margin:.45em 0}
+.ls{margin:.4em 0 .6em;padding-left:1.1em}.ls li{margin:.18em 0}
+mark{background:var(--hl);color:inherit;padding:0 .14em;border-radius:.18em}
+.note{margin:.85em 0;padding:.65em .8em .7em;border-radius:.45em;position:relative}
+.note .nl{display:block;font:700 .6em var(--f-head);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2em}
+.n-hy{background:var(--sticky);color:var(--sticky-ink);border-radius:2px;transform:rotate(-1deg);box-shadow:0 .35em .7em rgba(0,0,0,.18);margin:1.1em .2em}
+.n-hy::before{content:"";position:absolute;top:-.55em;left:50%;width:4.4em;height:1.1em;transform:translateX(-50%) rotate(2deg);background:rgba(255,255,255,.45);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.n-hy .nl{font:700 1.3em/1 var(--f-hand);letter-spacing:0;text-transform:none;margin-bottom:.25em}
+.n-trap{background:var(--trap-bg);border-left:.28em solid var(--red)}.n-trap .nl{color:var(--red)}
+.n-mn{background:var(--mn-bg);border-left:.28em solid var(--mn)}.n-mn .nl{color:var(--mn)}
+.n-cl{background:var(--cl-bg);border-left:.28em solid var(--cl)}.n-cl .nl{color:var(--cl)}
+.n-def{background:var(--def-bg);border-left:.28em solid var(--blue)}.n-def .nl{color:var(--blue)}
+.n-nb{background:var(--nb-bg);border-left:.28em solid var(--muted)}.n-nb .nl{color:var(--muted)}
+.tbl{margin:.8em 0}
+.tbl-h{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:.35em}
+.tbl-h span{font:700 .66em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:.84em;line-height:1.38}
+.tbl th{background:var(--band);color:var(--band-ink);font:600 .82em var(--f-head);letter-spacing:.03em;text-align:left;padding:.45em .5em}
+.tbl th:first-child{border-radius:.35em 0 0 0}.tbl th:last-child{border-radius:0 .35em 0 0}
+.tbl td{padding:.42em .5em;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:700;color:var(--navy-ink)}
+.tbl td.cv{cursor:pointer;color:transparent;border-radius:.3em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none}
+.tbl td.cv *{visibility:hidden}
+.mini{font:600 .7em var(--f-head);padding:.38em .75em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.on{background:var(--band);color:var(--band-ink);border-color:transparent}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;margin:.7em 0}
+.flow span{background:var(--chip);border:1px solid var(--line);border-radius:.4em;padding:.3em .55em;font-size:.86em}
+.flow i{font-style:normal;color:var(--red);font-weight:700}
+
+/* questions */
+.qb{border:1px solid var(--line);background:var(--card);border-radius:.6em;padding:.7em .8em .8em;margin:.9em 0}
+.qh{display:flex;flex-wrap:wrap;align-items:center;gap:.35em .5em;font:700 .58em var(--f-head);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.tg{font:600 1em var(--f-head);letter-spacing:.06em;padding:.15em .55em;border-radius:1em;background:var(--chip);color:var(--ink-2)}
+.tg.top{background:#fff1cf;color:#8a5a00}
+:root[data-theme="dark"] .tg.top{background:#4a3a12;color:#f6d27a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tg.top{background:#4a3a12;color:#f6d27a} }
+.qs{font-weight:700;margin:.5em 0 .55em;line-height:1.42}
+.op{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;padding:.45em .6em;margin:.32em 0;border-radius:.5em;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:.95em;line-height:1.35;cursor:pointer}
+.op:hover{border-color:var(--blue)}
+.op .lt{flex:none;width:1.55em;height:1.55em;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:700 .72em var(--f-head);color:var(--ink-2);margin-top:.05em}
+.op.ok{border-color:var(--ok);background:var(--ok-bg)}.op.ok .lt{background:var(--ok);color:#fff;border-color:var(--ok)}
+.op.bad{border-color:var(--bad);background:var(--bad-bg)}.op.bad .lt{background:var(--bad);color:#fff;border-color:var(--bad)}
+.op.pick{border-color:var(--blue);background:var(--chip)}
+.op[disabled]{cursor:default}
+.res{font:700 .8em var(--f-head);margin:.5em 0 .1em}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.ex{margin-top:.45em;padding:.55em .7em;border-left:.25em solid var(--blue);background:var(--chip);border-radius:.3em;font-size:.9em;line-height:1.45}
+.ex b{color:var(--navy-ink)}
+.row{display:flex;flex-wrap:wrap;gap:.45em;align-items:center;margin-top:.55em}
+.btn{font:600 .74em var(--f-head);padding:.5em .95em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--band);color:var(--band-ink);border-color:transparent}
+.btn.lift{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;font-family:var(--f-hand);font-size:1.05em;font-weight:700}
+.flapc{margin-top:.5em;border-radius:.45em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 6px,var(--cover-2) 6px 12px);padding:.9em;text-align:center}
+.ans{margin-top:.5em;padding:.6em .75em;border-left:.25em solid var(--ok);background:var(--ok-bg);border-radius:.3em;font-size:.92em;white-space:pre-line;line-height:1.45}
+textarea.dr{width:100%;box-sizing:border-box;min-height:4.2em;margin-top:.4em;border:1px dashed var(--line);border-radius:.45em;background:var(--paper);color:var(--ink);font:inherit;font-size:.9em;padding:.5em;resize:vertical}
+
+/* labs */
+.labh{display:flex;align-items:center;gap:.55em;margin:0 0 .5em}
+.labh .lb{flex:none;background:var(--red);color:#fff;font:700 .6em var(--f-head);letter-spacing:.16em;padding:.3em .65em;border-radius:.3em}
+.labh h3{margin:0;font:700 1.08em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.labi{font-size:.88em;color:var(--ink-2);margin:.2em 0 .6em}
+.modes{display:flex;flex-wrap:wrap;gap:.35em;margin:.3em 0 .6em}
+.svgw{background:var(--paper-2);border:1px solid var(--line);border-radius:.6em;padding:.4em;margin:.3em 0}
+.svgw svg{display:block;width:100%;height:auto;max-height:calc(var(--ph) * .44)}
+.rg{cursor:pointer;stroke:var(--paper);stroke-width:2.5;transition:filter .15s, opacity .15s}
+.rg:hover{filter:brightness(1.07)}
+.rg.dim{opacity:.35}
+.svgtxt{font:700 11px var(--f-head);fill:var(--ink);pointer-events:none;letter-spacing:.06em}
+.svgsm{font:600 8.5px var(--f-head);fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+.pinbtn{cursor:pointer}
+.pinbtn circle.d{fill:var(--card);stroke:var(--navy);stroke-width:1.6}
+.pinbtn.on circle.d{fill:var(--sticky);stroke:var(--red)}
+.pinbtn.ok circle.d{fill:var(--ok)}
+.pinbtn.bad circle.d{fill:var(--bad)}
+.pinbtn text{font:700 8px var(--f-head);fill:var(--navy-ink);pointer-events:none}
+.plab{font:700 8.6px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;pointer-events:none}
+.key{columns:2;column-gap:1.2em;margin:.3em 0 .4em;padding-left:1.6em;font-size:.8em;line-height:1.45}.key li{break-inside:avoid}
+.info{background:var(--card);border:1px solid var(--line);border-radius:.55em;padding:.55em .7em;font-size:.88em;margin:.4em 0;min-height:2.6em}
+.info h4{margin:0 0 .2em;font:700 .95em var(--f-head);color:var(--navy-ink)}
+.fb{font:700 .8em var(--f-head);margin:.3em 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:.35em;margin:.4em 0 .7em;min-height:1.8em}
+.chip{font:700 .74em var(--f-body);padding:.36em .62em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.2;text-align:left}
+.chip.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok);cursor:default}
+.chip.hl{background:var(--band);color:var(--band-ink);border-color:transparent}
+.chip.dim{opacity:.35}
+.chip.cut{background:var(--bad);color:#fff;border-color:transparent}
+.chip.lost{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.chip.weak{background:#fff4d6;border-color:#e0a422;color:#8a5a00}
+:root[data-theme="dark"] .chip.weak{background:#433513;color:#f3cf74}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.weak{background:#433513;color:#f3cf74} }
+.chip.unk{border-style:dashed}
+.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.4em,1fr));gap:.45em}
+.bin{border:1.5px dashed var(--edge);border-radius:.6em;padding:.45em;min-height:4.2em;cursor:pointer;background:var(--paper);text-align:left;display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.bin:hover{border-color:var(--blue)}
+.bin h5{margin:0;font:700 .68em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.bin small{font-size:.66em;color:var(--muted);margin-top:-.25em}
+.bin .in{display:flex;flex-wrap:wrap;gap:.25em}
+.seqline{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.2em;margin:.3em 0 .6em;padding:.4em;border-radius:.5em;background:var(--paper-2);border:1px solid var(--line)}
+.seqline .n{font:700 .62em var(--f-head);color:var(--muted)}
+.gcols{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:.5em}
+.gcols h5{margin:0 0 .3em;font:700 .62em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gcol{display:flex;flex-direction:column;gap:.3em;align-items:stretch}
+.gcol .chip{font-size:.68em}
+.st{font:700 .62em var(--f-head);padding:.12em .5em;border-radius:1em;margin-left:.3em;white-space:nowrap}
+.st.lost{background:var(--bad);color:#fff}.st.weak{background:#e0a422;color:#fff}.st.ok{background:var(--ok);color:#fff}
+.done{margin:.5em 0;padding:.5em .7em;border-radius:.45em;background:var(--ok-bg);color:var(--ok);font:700 .82em var(--f-head)}
+.ref{margin-top:.8em;font:600 .62em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.title-page{display:flex;flex-direction:column;min-height:100%;justify-content:center;gap:.6em}
+.kick{font:600 .66em var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ttl{margin:0;font:700 1.95em/1.12 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sub{color:var(--ink-2);font-size:.95em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.6em 0}
+.facts div{background:var(--paper-2);border:1px solid var(--line);border-radius:.55em;padding:.55em;text-align:center}
+.facts b{display:block;font:700 1.35em var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.facts span{font:600 .58em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.map{list-style:none;padding:0;margin:.4em 0;display:flex;flex-direction:column;gap:.3em}
+.map li button{width:100%;display:flex;align-items:center;gap:.6em;padding:.45em .55em;border-radius:.5em;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;color:var(--ink)}
+.map li button:hover{border-color:var(--blue)}
+.map .mn{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--band);color:var(--band-ink);font:700 .7em var(--f-head)}
+.map .mt{flex:1;font:600 .86em var(--f-head);color:var(--navy-ink)}
+.map .mp{font:600 .7em var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:.35em .6em;align-items:center;font-size:.82em;margin:.5em 0}
+.legend i{font-style:normal;width:1.8em;height:1.3em;border-radius:.25em;display:inline-block}
+body.rapid .tx, body.rapid .hook{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.55);padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.panel{background:var(--paper);color:var(--ink);width:min(680px,100%);max-height:100%;overflow:auto;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+.ph{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.ph h2{margin:0;font:700 17px var(--f-head);color:var(--navy-ink);flex:1;min-width:0}
+.ph .x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.pb{padding:14px 16px 18px}
+.pb .qb{font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 12px;font:600 13px var(--f-head);cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--band);color:var(--band-ink)}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px 18px 16px;min-height:150px;font-size:17px;line-height:1.55;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.fc .ctx{font:600 11px var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.blank{display:inline-block;min-width:3.2em;border-radius:6px;padding:0 .35em;margin:0 .1em;background:var(--chip);border:1px dashed var(--blue);color:transparent;cursor:pointer;line-height:1.35}
+.blank.r{background:var(--hl);border-style:solid;border-color:transparent;color:var(--ink);font-weight:700;cursor:default}
+.fcx{margin-top:12px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.grade button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;cursor:pointer;font:700 14px var(--f-head);color:var(--ink)}
+.grade small{display:block;font:500 11px var(--f-body);color:var(--muted)}
+.grade .g0{border-color:var(--bad);color:var(--bad)}.grade .g1{border-color:var(--blue);color:var(--blue)}.grade .g2{border-color:var(--ok);color:var(--ok)}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font:600 12px var(--f-head);color:var(--muted);margin:10px 0}
+.meter b{color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.big{font:700 40px var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.lst{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.lst button.it{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;cursor:pointer;color:var(--ink);font-size:14px}
+.lst .pgn{font:700 12px var(--f-head);color:var(--blue);flex:none;font-variant-numeric:tabular-nums}
+input.srch{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 14px;font-size:15px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bar);color:var(--bar-ink);padding:9px 16px;border-radius:12px;font:600 13px var(--f-head);z-index:60;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+/* section priority chips */
+.sh .sht{display:inline-flex;flex-wrap:wrap;gap:.3em;margin-left:auto}
+.sh .sht .tg{font-size:.56em;white-space:nowrap}
+/* recall lab: the start of each fact stays visible, the rest is covered until tapped */
+.rcg{margin:.85em 0 .3em;font:700 .72em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.rci{display:block;width:100%;text-align:left;margin:.3em 0;padding:.45em .6em;border-radius:.45em;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.92em;line-height:1.45;cursor:pointer}
+.rci .cue{font-weight:700;color:var(--navy-ink)}
+.rci .hid{color:transparent;border-radius:.25em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rci.on{border-color:var(--ok);background:var(--ok-bg)}
+/* figures in questions */
+.qf{margin:.5em 0 .6em;text-align:center}
+.qf img{max-width:100%;max-height:calc(var(--ph) * .42);border-radius:.4em;border:1px solid var(--line);background:#fff}
+.panel .qf img{max-height:46vh}
+.qf figcaption{font-size:.74em;color:var(--muted);margin-top:.25em}
+/* links back to the library and on to the next lecture */
+.libl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--f-head);color:#fff;text-decoration:none;padding:7px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+.endnav{display:flex;flex-direction:column;gap:.5em;margin:.8em 0}
+.endnav a{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.7em .85em;border-radius:.6em;border:1px solid var(--line);background:var(--card);color:var(--navy-ink);text-decoration:none;font:600 .9em var(--f-head)}
+.endnav a small{display:block;font:500 .78em var(--f-body);color:var(--muted)}
+/* iPhone/iPad: Safari zooms into any text field under 16px when it is tapped */
+@supports (-webkit-touch-callout:none){ input.srch,textarea.dr{font-size:16px} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <button class="brand" data-act="home" aria-label="Back to the cover"><b>MSK<em class="bw"> Interactive</em> Book</b><span id="chap"></span></button>
+    <div class="sp"></div>
+    <span class="pgind" id="pgind"></span>
+    <div class="prog" title="Pages read"><i id="progi" style="width:0"></i></div>
+    <button class="ib" data-act="open-toc" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="lb">Contents</span></button>
+    <button class="ib" data-act="open-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="lb">Search</span></button>
+    <button class="ib" data-act="open-cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v11"/></svg><span class="lb">Flashcards</span></button>
+    <button class="ib" data-act="open-exam" aria-label="Exam mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg><span class="lb">Exam</span></button>
+    <button class="ib" data-act="open-mist" aria-label="Mistakes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg><span class="lb">Mistakes</span></button>
+    <button class="ib" data-act="open-set" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lb">Settings</span></button>
+  </header>
+  <main class="stage" id="stage">
+    <div class="book" id="book" hidden>
+      <div class="pg pg-l" id="pgL"></div>
+      <div class="pg pg-r" id="pgR"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front" id="lf"></div><div class="face back" id="lb"></div></div>
+      <button class="turn prev" data-act="prev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="turn next" data-act="next" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="home" id="home"></div>
+  </main>
+  <nav class="mnav" id="mnav" hidden>
+    <button data-act="prev" aria-label="Previous page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="mid" id="mmid"></span>
+    <button data-act="next" aria-label="Next page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+<div id="ovs"></div>
+
+<script>
+const BOOK = {"id": "his-l1", "title": "Histology · Lecture 1 — Skeletal and Cardiac Muscle", "short": "Histology L1 · Skeletal and Cardiac Muscle", "subject": "Histology", "coverLine": "Lecture 1 · Skeletal & Cardiac Muscle", "coverNote": "Interactive edition", "blurb": "The pamphlet as a book you can work with: the key facts part by part, a recall lab for each part, check questions that answer instantly, written questions with lift-the-flap answers, flashcards with spaced repetition and an exam mode.", "exams": [{"name": "Final", "date": "2026-11-09"}, {"name": "Practical", "date": "2026-11-11"}], "pages": [{"id": "p0", "head": "", "kind": "cover", "blocks": [{"t": "contents"}]}, {"id": "p1", "head": "Lecture 1", "kind": "text", "blocks": [{"t": "title", "kick": "MSK Module · Histology · Lecture 1", "title": "Skeletal & Cardiac Muscle", "sub": "Muscular Tissue — Overview & Classification · Skeletal Muscle — Organization & L/M · Skeletal Muscle — E/M & the Sarcomere · T Tubules, SR & Contraction · Fibre Types, Growth & Regeneration · Cardiac Muscle · Skeletal vs Cardiac — Compared · Rapid Revision", "facts": [["8", "pamphlet parts"], ["50", "check questions"], ["28", "Final-bank questions"]], "hook": "Exam trap to remember: Extensibility = stretch without tearing; elasticity = recoil — don't swap", "note": ["In the Final", "This lecture comes as <b>MCQ only<\/b>. Its written questions are here for understanding. 21 of its questions are <b>top priority<\/b>: the department used them this year."]}]}, {"id": "p2", "head": "Part 01 · Muscular Tissue — Overview & Classification", "kind": "text", "blocks": [{"t": "part", "no": "01", "title": "Muscular Tissue — Overview & Classification", "sub": "Definition & characteristics · Classification — structure & function · Terms you will meet"}, {"t": "h", "no": "1.1", "title": "Definition & characteristics"}, {"t": "list", "items": ["<b>Muscular tissue:<\/b> <mark>elongated<\/mark> cells whose cytoplasm shows contractile elements called <mark>myofibrils<\/mark>", "<b>Seven characteristics:<\/b> <mark>excitability<\/mark>, <mark>contractility<\/mark>, <mark>extensibility<\/mark>, <mark>elasticity<\/mark>, <mark>highly cellular<\/mark>, <mark>vascular<\/mark>, <mark>control<\/mark>", "<mark>Extensibility<\/mark> = <mark>stretch beyond resting length without tearing<\/mark>", "<mark>Elasticity<\/mark> = recoil to original resting length after stretch", "<mark>Control<\/mark>: voluntary (skeletal), involuntary (cardiac &amp; smooth)"]}, {"t": "h", "no": "1.2", "title": "Classification — structure & function"}, {"t": "list", "items": ["<b>Skeletal:<\/b> striated, voluntary", "<mark>Cardiac<\/mark>: striated, involuntary", "<b>Smooth:<\/b> non-striated, involuntary"]}], "toc": ["01", "Muscular Tissue — Overview & Classification"]}, {"id": "p3", "head": "Part 01 · Muscular Tissue — Overview & Classification", "kind": "text", "blocks": [{"t": "list", "items": ["<mark>Cardiac<\/mark> is the striated but involuntary type"]}, {"t": "h", "no": "1.3", "title": "Terms you will meet"}, {"t": "list", "items": ["Sarcolemma = <mark>cell membrane<\/mark>; sarcoplasm = <mark>cytoplasm<\/mark>", "Sarcoplasmic reticulum = <mark>sER<\/mark>; sarcosome = <mark>mitochondrion<\/mark>", "Myocyte = muscle fibre; myofibrils, myofilaments, myoglobin", "<b>-mysium terms:<\/b> epimysium, perimysium, endomysium (C.T. coverings)"]}]}, {"id": "p4", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-0-0", "title": "Recall · Muscular Tissue — Overview & Classification (1/2)", "groups": [{"title": "1.1 Definition & characteristics", "items": [["Muscular tissue:", "elongated cells whose cytoplasm shows contractile elements called myofibrils"], ["Seven characteristics:", "excitability, contractility, extensibility, elasticity, highly cellular, vascular, control"], ["Extensibility =", "stretch beyond resting length without tearing"], ["Elasticity =", "recoil to original resting length after stretch"], ["Control:", "voluntary (skeletal), involuntary (cardiac &amp; smooth)"]]}, {"title": "1.2 Classification — structure & function", "items": [["Skeletal:", "striated, voluntary"], ["Cardiac:", "striated, involuntary"], ["Smooth:", "non-striated, involuntary"], ["Cardiac is", "the striated but involuntary type"]]}]}], "labName": "Recall · Muscular Tissue — Overview & Classification (1/2)"}, {"id": "p5", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-0-1", "title": "Recall · Muscular Tissue — Overview & Classification (2/2)", "groups": [{"title": "1.3 Terms you will meet", "items": [["Sarcolemma =", "cell membrane; sarcoplasm = cytoplasm"], ["Sarcoplasmic reticulum =", "sER; sarcosome = mitochondrion"], ["Myocyte =", "muscle fibre; myofibrils, myofilaments, myoglobin"], ["-mysium terms:", "epimysium, perimysium, endomysium (C.T. coverings)"]]}]}], "labName": "Recall · Muscular Tissue — Overview & Classification (2/2)"}, {"id": "p6", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-01"}, {"t": "check", "q": "N-HIS-L1-02"}]}, {"id": "p7", "head": "Part 02 · Skeletal Muscle — Organization & L/M", "kind": "text", "blocks": [{"t": "part", "no": "02", "title": "Skeletal Muscle — Organization & L/M", "sub": "Sites · Connective tissue coverings · The skeletal muscle fibre — shape & size · Light & polarized microscopy"}, {"t": "h", "no": "2.1", "title": "Sites"}, {"t": "list", "items": ["Skeletal muscle is responsible for voluntary movement", "<b>Sites:<\/b> attached to <mark>skeleton<\/mark>; <mark>face, eye &amp; tongue<\/mark> muscles", "<b>Involuntary skeletal sites:<\/b> <mark>diaphragm<\/mark> &amp; upper third of oesophagus"]}, {"t": "h", "no": "2.2", "title": "Connective tissue coverings", "top": true, "rep": true}, {"t": "list", "items": ["<mark>Epimysium<\/mark>: <mark>dense<\/mark> C.T. around the whole muscle", "<mark>Perimysium<\/mark>: <mark>dense<\/mark> C.T. around each bundle (fascicle)", "<mark>Endomysium<\/mark>: loose C.T. around each individual fibre", "<b>Functions:<\/b> carry <mark>blood vessels, lymphatics &amp; nerves<\/mark>; bind bundles to act as one unit"]}], "toc": ["02", "Skeletal Muscle — Organization & L/M"]}, {"id": "p8", "head": "Part 02 · Skeletal Muscle — Organization & L/M", "kind": "text", "blocks": [{"t": "h", "no": "2.3", "title": "The skeletal muscle fibre — shape & size"}, {"t": "list", "items": ["Long <mark>cylindrical<\/mark> fibre, <mark>1–40 mm<\/mark> in length", "Appears <mark>polygonal<\/mark> in cross section", "Fibres don't branch except in the tongue and face"]}, {"t": "h", "no": "2.4", "title": "Light & polarized microscopy", "rep": true}, {"t": "list", "items": ["Sarcolemma distinct", "Nuclei <mark>multiple, oval &amp; peripheral<\/mark>", "<mark>Acidophilic<\/mark> sarcoplasm with clear <mark>transverse striation<\/mark>", "<b>Polarized microscope:<\/b> A band = <mark>anisotropic<\/mark> (dark); I band = <mark>isotropic<\/mark> (light)"]}]}, {"id": "p9", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-1-0", "title": "Recall · Skeletal Muscle — Organization & L/M (1/2)", "groups": [{"title": "2.1 Sites", "items": [["Skeletal muscle", "is responsible for voluntary movement"], ["Sites:", "attached to skeleton; face, eye &amp; tongue muscles"], ["Involuntary skeletal sites:", "diaphragm &amp; upper third of oesophagus"]]}, {"title": "2.2 Connective tissue coverings", "items": [["Epimysium:", "dense C.T. around the whole muscle"], ["Perimysium:", "dense C.T. around each bundle (fascicle)"], ["Endomysium:", "loose C.T. around each individual fibre"], ["Functions:", "carry blood vessels, lymphatics &amp; nerves; bind bundles to act as one unit"]]}]}], "labName": "Recall · Skeletal Muscle — Organization & L/M (1/2)"}, {"id": "p10", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-1-1", "title": "Recall · Skeletal Muscle — Organization & L/M (2/2)", "groups": [{"title": "2.3 The skeletal muscle fibre — shape & size", "items": [["Long cylindrical", "fibre, 1–40 mm in length"], ["Appears polygonal", "in cross section"], ["Fibres don't branch", "except in the tongue and face"]]}, {"title": "2.4 Light & polarized microscopy", "items": [["Sarcolemma", "distinct"], ["Nuclei multiple", "oval &amp; peripheral"], ["Acidophilic sarcoplasm", "with clear transverse striation"], ["Polarized microscope:", "A band = anisotropic (dark); I band = isotropic (light)"]]}]}], "labName": "Recall · Skeletal Muscle — Organization & L/M (2/2)"}, {"id": "p11", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-03"}, {"t": "check", "q": "Q0265"}]}, {"id": "p12", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "TP-108"}, {"t": "flap", "q": "Q0258"}]}, {"id": "p13", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0240"}, {"t": "flap", "q": "Q0254"}]}, {"id": "p14", "head": "Part 03 · Skeletal Muscle — E/M & the Sarcomere", "kind": "text", "blocks": [{"t": "part", "no": "03", "title": "Skeletal Muscle — E/M & the Sarcomere", "sub": "Electron microscopy (E/M) · Myofibrils · The sarcomere · I band vs A band · Thin & thick filaments · The anchors — desmin & dystrophin"}, {"t": "h", "no": "3.1", "title": "Electron microscopy (E/M)", "rep": true}, {"t": "list", "items": ["<b>Membranous:<\/b> well-developed SER (<mark>sarcoplasmic reticulum<\/mark>), <mark>rows of mitochondria<\/mark> between myofibrils", "<mark>Numerous<\/mark> Golgi apparatus, <mark>few<\/mark> RER", "<b>Non-membranous:<\/b> well-developed parallel longitudinal myofibrils (thick &amp; thin myofilaments), <mark>few<\/mark> ribosomes", "<b>Inclusions:<\/b> <mark>myoglobin &amp; glycogen<\/mark>"]}, {"t": "h", "no": "3.2", "title": "Myofibrils"}, {"t": "list", "items": ["<b>Hierarchy:<\/b> muscle → fascicle → fibre → myofibril → myofilaments", "Myofibrils lie <mark>parallel to the long axis<\/mark> of the fibre", "Each myofibril is a series of <mark>sarcomeres<\/mark> of thin &amp; thick filaments"]}], "toc": ["03", "Skeletal Muscle — E/M & the Sarcomere"]}, {"id": "p15", "head": "Part 03 · Skeletal Muscle — E/M & the Sarcomere", "kind": "text", "blocks": [{"t": "list", "items": ["Transverse striations due to <mark>alternating dark &amp; light bands<\/mark> of myofibrils"]}, {"t": "h", "no": "3.3", "title": "The sarcomere", "top": true, "rep": true}, {"t": "list", "items": ["Sarcomere = distance between <mark>2 successive Z lines<\/mark>; <mark>structural &amp; functional<\/mark> unit of striated muscle", "Consists of an <mark>A band<\/mark> + half an <mark>I band<\/mark> on either side", "<mark>A band<\/mark>: <mark>thick + thin<\/mark> filaments; H zone: <mark>thick only<\/mark> (<mark>relaxed<\/mark> muscle)", "<mark>M line<\/mark>: dark line in middle of H zone", "<mark>I band<\/mark>: <mark>thin<\/mark> filaments only, bisected by Z line", "Z line contains <mark>α-actinin<\/mark>; <mark>thin<\/mark> filaments attach here"]}, {"t": "h", "no": "3.4", "title": "I band vs A band", "top": true, "rep": true}, {"t": "list", "items": ["<b>I band:<\/b> pale acidophilic (L/M); electron <mark>lucent<\/mark> with central dark <mark>Z line<\/mark> (E/M); <mark>actin only<\/mark>", "<b>A band:<\/b> dark acidophilic; electron <mark>dense<\/mark> with light <mark>H zone<\/mark>; actin &amp; myosin"]}]}, {"id": "p16", "head": "Part 03 · Skeletal Muscle — E/M & the Sarcomere", "kind": "text", "blocks": [{"t": "h", "no": "3.5", "title": "Thin & thick filaments"}, {"t": "list", "items": ["<b>Thin filament:<\/b> <mark>actin<\/mark>, <mark>troponin<\/mark>, <mark>tropomyosin<\/mark>", "F-<mark>actin<\/mark> = 2 strands of globular <mark>G-actin<\/mark> in a <mark>double helix<\/mark>", "<mark>Tropomyosin<\/mark> lies in <mark>grooves of actin<\/mark>; <mark>troponin<\/mark> attached to tropomyosin at intervals", "<mark>Troponin<\/mark> present in <mark>skeletal &amp; cardiac<\/mark> muscle only", "<b>Thick filament:<\/b> <mark>myosin<\/mark> — tail and two heads with ATPase &amp; <mark>actin-binding<\/mark> sites"]}, {"t": "h", "no": "3.6", "title": "The anchors — desmin & dystrophin", "top": true, "rep": true}, {"t": "list", "items": ["<b>Desmin:<\/b> <mark>intermediate filament<\/mark> joining <mark>Z disks<\/mark> of adjacent myofibrils", "Desmin absence → <mark>desmin-related myopathy (DRM)<\/mark>: <mark>disorganized myofibrils<\/mark>, leg weakness, may be fatal", "<mark>Dystrophin<\/mark>: binds <mark>actin<\/mark> to <mark>sarcolemma<\/mark>, then to <mark>extracellular matrix<\/mark>", "<mark>Dystrophin<\/mark> defect → Duchenne muscular dystrophy (atrophy of fibres)"]}]}, {"id": "p17", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-2-0", "title": "Recall · Skeletal Muscle — E/M & the Sarcomere (1/4)", "groups": [{"title": "3.1 Electron microscopy (E/M)", "items": [["Membranous:", "well-developed SER (sarcoplasmic reticulum), rows of mitochondria between myofibrils"], ["Numerous Golgi", "apparatus, few RER"], ["Non-membranous:", "well-developed parallel longitudinal myofibrils (thick &amp; thin myofilaments), few ribosomes"], ["Inclusions:", "myoglobin &amp; glycogen"]]}, {"title": "3.2 Myofibrils", "items": [["Hierarchy:", "muscle → fascicle → fibre → myofibril → myofilaments"], ["Myofibrils lie parallel to", "the long axis of the fibre"], ["Each myofibril is a", "series of sarcomeres of thin &amp; thick filaments"], ["Transverse striations due to", "alternating dark &amp; light bands of myofibrils"]]}]}], "labName": "Recall · Skeletal Muscle — E/M & the Sarcomere (1/4)"}, {"id": "p18", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-2-1", "title": "Recall · Skeletal Muscle — E/M & the Sarcomere (2/4)", "groups": [{"title": "3.3 The sarcomere", "items": [["Sarcomere =", "distance between 2 successive Z lines; structural &amp; functional unit of striated muscle"], ["Consists of an A band", "+ half an I band on either side"], ["A band:", "thick + thin filaments; H zone: thick only (relaxed muscle)"], ["M line:", "dark line in middle of H zone"], ["I band:", "thin filaments only, bisected by Z line"], ["Z line contains", "α-actinin; thin filaments attach here"]]}, {"title": "3.4 I band vs A band", "items": [["I band:", "pale acidophilic (L/M); electron lucent with central dark Z line (E/M); actin only"], ["A band:", "dark acidophilic; electron dense with light H zone; actin &amp; myosin"]]}]}], "labName": "Recall · Skeletal Muscle — E/M & the Sarcomere (2/4)"}, {"id": "p19", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-2-2", "title": "Recall · Skeletal Muscle — E/M & the Sarcomere (3/4)", "groups": [{"title": "3.5 Thin & thick filaments", "items": [["Thin filament:", "actin, troponin, tropomyosin"], ["F-actin =", "2 strands of globular G-actin in a double helix"], ["Tropomyosin lies in grooves", "of actin; troponin attached to tropomyosin at intervals"], ["Troponin present in", "skeletal &amp; cardiac muscle only"], ["Thick filament:", "myosin — tail and two heads with ATPase &amp; actin-binding sites"]]}]}], "labName": "Recall · Skeletal Muscle — E/M & the Sarcomere (3/4)"}, {"id": "p20", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-2-3", "title": "Recall · Skeletal Muscle — E/M & the Sarcomere (4/4)", "groups": [{"title": "3.6 The anchors — desmin & dystrophin", "items": [["Desmin:", "intermediate filament joining Z disks of adjacent myofibrils"], ["Desmin absence →", "desmin-related myopathy (DRM): disorganized myofibrils, leg weakness, may be fatal"], ["Dystrophin:", "binds actin to sarcolemma, then to extracellular matrix"], ["Dystrophin defect →", "Duchenne muscular dystrophy (atrophy of fibres)"]]}]}], "labName": "Recall · Skeletal Muscle — E/M & the Sarcomere (4/4)"}, {"id": "p21", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0255"}]}, {"id": "p22", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0260"}]}, {"id": "p23", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0256"}, {"t": "check", "q": "Q0865"}]}, {"id": "p24", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-04"}]}, {"id": "p25", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0244"}]}, {"id": "p26", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0267"}]}, {"id": "p27", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "TP-045"}]}, {"id": "p28", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-05"}]}, {"id": "p29", "head": "Part 04 · T Tubules, SR & Contraction", "kind": "text", "blocks": [{"t": "part", "no": "04", "title": "T Tubules, SR & Contraction", "sub": "The transverse tubular system (T tubule) · Sarcoplasmic reticulum & the triad · Contraction of the muscle"}, {"t": "h", "no": "4.1", "title": "The transverse tubular system (T tubule)", "top": true}, {"t": "list", "items": ["Finger-like invagination of <mark>sarcolemma<\/mark> surrounding each <mark>myofibril<\/mark>", "<b>Site:<\/b> at the <mark>A–I junction<\/mark> (skeletal)", "<b>Function:<\/b> conducts impulse from <mark>sarcolemma<\/mark> to deeper parts of muscle"]}, {"t": "h", "no": "4.2", "title": "Sarcoplasmic reticulum & the triad", "top": true, "rep": true}, {"t": "list", "items": ["SR is <mark>SER<\/mark>: <mark>longitudinal network<\/mark> + <mark>terminal cisternae<\/mark>", "Triad = 1 <mark>T tubule<\/mark> + 2 <mark>terminal cisternae<\/mark>", "2 triads per sarcomere, at the <mark>A–I junctions<\/mark>", "SR regulates contraction by Ca²⁺ release &amp; re-uptake → <mark>excitation–contraction coupling<\/mark>"]}], "toc": ["04", "T Tubules, SR & Contraction"]}, {"id": "p30", "head": "Part 04 · T Tubules, SR & Contraction", "kind": "text", "blocks": [{"t": "h", "no": "4.3", "title": "Contraction of the muscle", "top": true, "rep": true}, {"t": "list", "items": ["Nerve impulse → depolarization along sarcolemma into <mark>T tubules<\/mark> → Ca²⁺ release from <mark>sER<\/mark> + ATP from <mark>mitochondria<\/mark>", "Actin–myosin interaction pulls <mark>Z lines<\/mark> inward", "H zone <mark>disappears<\/mark>; I band <mark>decreases<\/mark>", "A band <mark>remains the same<\/mark>; sarcomere &amp; myofibril <mark>shorten<\/mark>"]}]}, {"id": "p31", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-3-0", "title": "Recall · T Tubules, SR & Contraction (1/2)", "groups": [{"title": "4.1 The transverse tubular system (T tubule)", "items": [["Finger-like invagination", "of sarcolemma surrounding each myofibril"], ["Site:", "at the A–I junction (skeletal)"], ["Function:", "conducts impulse from sarcolemma to deeper parts of muscle"]]}, {"title": "4.2 Sarcoplasmic reticulum & the triad", "items": [["SR is SER:", "longitudinal network + terminal cisternae"], ["Triad =", "1 T tubule + 2 terminal cisternae"], ["2 triads per", "sarcomere, at the A–I junctions"], ["SR regulates contraction by", "Ca²⁺ release &amp; re-uptake → excitation–contraction coupling"]]}]}], "labName": "Recall · T Tubules, SR & Contraction (1/2)"}, {"id": "p32", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-3-1", "title": "Recall · T Tubules, SR & Contraction (2/2)", "groups": [{"title": "4.3 Contraction of the muscle", "items": [["Nerve impulse →", "depolarization along sarcolemma into T tubules → Ca²⁺ release from sER + ATP from mitochondria"], ["Actin–myosin interaction", "pulls Z lines inward"], ["H zone", "disappears; I band decreases"], ["A band remains", "the same; sarcomere &amp; myofibril shorten"]]}]}], "labName": "Recall · T Tubules, SR & Contraction (2/2)"}, {"id": "p33", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "TP-029"}]}, {"id": "p34", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-06"}, {"t": "check", "q": "Q0262"}]}, {"id": "p35", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "TP-047"}, {"t": "check", "q": "Q0237"}]}, {"id": "p36", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0238"}]}, {"id": "p37", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0261"}]}, {"id": "p38", "head": "Part 05 · Fibre Types, Growth & Regeneration", "kind": "text", "blocks": [{"t": "part", "no": "05", "title": "Fibre Types, Growth & Regeneration", "sub": "Inclusions · Types of skeletal muscle fibres · Growth & regeneration · Effect of exercise"}, {"t": "h", "no": "5.1", "title": "Inclusions"}, {"t": "list", "items": ["<mark>Glycogen &amp; fat droplets<\/mark>: energy source for contraction", "<mark>Myoglobin<\/mark>: O₂-binding protein related to Hb, <mark>red to brown<\/mark>", "<mark>Myoglobin<\/mark> concentration determines red vs white fibre"]}, {"t": "h", "no": "5.2", "title": "Types of skeletal muscle fibres", "top": true, "rep": true}, {"t": "list", "items": ["<b>Red (type 1):<\/b> <mark>small<\/mark> diameter, much myoglobin, many mitochondria, <mark>few<\/mark> glycogen", "<b>Red:<\/b> aerobic oxidative phosphorylation of FAs; slow continuous (<mark>long-distance running<\/mark>); <mark>not easily<\/mark> fatigued", "<b>White (type 2):<\/b> <mark>larger<\/mark>, <mark>less<\/mark> myoglobin, more glycogen, <mark>few<\/mark> mitochondria"]}], "toc": ["05", "Fibre Types, Growth & Regeneration"]}, {"id": "p39", "head": "Part 05 · Fibre Types, Growth & Regeneration", "kind": "text", "blocks": [{"t": "list", "items": ["<b>White:<\/b> <mark>glycolysis<\/mark>; <mark>fast<\/mark> (sprinting, fingers); <mark>easily<\/mark> fatigued"]}, {"t": "h", "no": "5.3", "title": "Growth & regeneration", "top": true, "rep": true}, {"t": "list", "items": ["Growth in length by <mark>satellite cells<\/mark>", "Growth in width by <mark>synthesis of new proteins by ribosomes<\/mark>", "Regeneration by <mark>satellite cells<\/mark>: <mark>activation<\/mark> → <mark>proliferation<\/mark> → <mark>fusion<\/mark> into new fibres", "<mark>Satellite cells<\/mark> lie on the myofibre under the <mark>basal lamina<\/mark>"]}, {"t": "h", "no": "5.4", "title": "Effect of exercise", "top": true, "rep": true}, {"t": "list", "items": ["<b>Disuse atrophy:<\/b> <mark>prolonged inactivity<\/mark> → muscle shrinks", "<b>Hypertrophy:<\/b> <mark>strength training<\/mark> → ↑ size without ↑ fibre number", "<b>Anabolic steroids:<\/b> ↑ muscle mass; side effect <mark>liver cancer<\/mark>; detectable <mark>6 months<\/mark> after last dose"]}]}, {"id": "p40", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-4-0", "title": "Recall · Fibre Types, Growth & Regeneration (1/2)", "groups": [{"title": "5.1 Inclusions", "items": [["Glycogen &amp; fat droplets:", "energy source for contraction"], ["Myoglobin:", "O₂-binding protein related to Hb, red to brown"], ["Myoglobin concentration", "determines red vs white fibre"]]}, {"title": "5.2 Types of skeletal muscle fibres", "items": [["Red (type 1):", "small diameter, much myoglobin, many mitochondria, few glycogen"], ["Red:", "aerobic oxidative phosphorylation of FAs; slow continuous (long-distance running); not easily fatigued"], ["White (type 2):", "larger, less myoglobin, more glycogen, few mitochondria"], ["White:", "glycolysis; fast (sprinting, fingers); easily fatigued"]]}]}], "labName": "Recall · Fibre Types, Growth & Regeneration (1/2)"}, {"id": "p41", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-4-1", "title": "Recall · Fibre Types, Growth & Regeneration (2/2)", "groups": [{"title": "5.3 Growth & regeneration", "items": [["Growth in", "length by satellite cells"], ["Growth in width by", "synthesis of new proteins by ribosomes"], ["Regeneration by satellite cells:", "activation → proliferation → fusion into new fibres"], ["Satellite cells lie on", "the myofibre under the basal lamina"]]}, {"title": "5.4 Effect of exercise", "items": [["Disuse atrophy:", "prolonged inactivity → muscle shrinks"], ["Hypertrophy:", "strength training → ↑ size without ↑ fibre number"], ["Anabolic steroids:", "↑ muscle mass; side effect liver cancer; detectable 6 months after last dose"]]}]}], "labName": "Recall · Fibre Types, Growth & Regeneration (2/2)"}, {"id": "p42", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0259"}]}, {"id": "p43", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "TP-046"}, {"t": "flap", "q": "Q0257"}]}, {"id": "p44", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0264"}]}, {"id": "p45", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Y26-009"}, {"t": "flap", "q": "Q0268"}]}, {"id": "p46", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0247"}, {"t": "flap", "q": "Q0271"}]}, {"id": "p47", "head": "Part 06 · Cardiac Muscle", "kind": "text", "blocks": [{"t": "part", "no": "06", "title": "Cardiac Muscle", "sub": "General features & shape · Light microscopy · Electron microscopy · Intercalated discs · Regeneration in cardiac muscle · Pompe disease"}, {"t": "h", "no": "6.1", "title": "General features & shape"}, {"t": "list", "items": ["Contract <mark>spontaneously<\/mark> with <mark>rhythmic<\/mark> beat", "<mark>Short columnar<\/mark> cells joined by <mark>intercalated discs<\/mark> into long fibres", "Fibres <mark>branch &amp; anastomose<\/mark> forming a network", "Diameter <mark>intermediate between skeletal &amp; smooth<\/mark>"]}, {"t": "h", "no": "6.2", "title": "Light microscopy"}, {"t": "list", "items": ["Nucleus <mark>mono- or binucleated<\/mark>, oval &amp; <mark>central<\/mark>", "Acidophilic cytoplasm; striation <mark>less distinct<\/mark> than skeletal", "<mark>Poorly defined<\/mark> myofibrils"]}], "toc": ["06", "Cardiac Muscle"]}, {"id": "p48", "head": "Part 06 · Cardiac Muscle", "kind": "text", "blocks": [{"t": "h", "no": "6.3", "title": "Electron microscopy", "top": true}, {"t": "list", "items": ["Mitochondria <mark>more abundant<\/mark> than skeletal", "SR <mark>poorly defined<\/mark>; forms diads (1 <mark>T tubule<\/mark> + 1 SR profile) at <mark>Z line<\/mark>", "T tubules <mark>larger<\/mark> than skeletal, at <mark>Z discs<\/mark> not A–I junction", "<b>Inclusions:<\/b> glycogen (at nuclear poles), myoglobin, <mark>lipochrome<\/mark> pigment (↑ with age)"]}, {"t": "h", "no": "6.4", "title": "Intercalated discs", "top": true}, {"t": "list", "items": ["<mark>Step-like<\/mark> <mark>end-to-end<\/mark> junction with <mark>transverse &amp; longitudinal<\/mark> portions", "<b>Transverse:<\/b> <mark>fasciae adherentes<\/mark> (anchor actin) + desmosomes (prevent pulling apart)", "<b>Longitudinal:<\/b> <mark>large gap junctions<\/mark> → <mark>ionic continuity<\/mark>", "<mark>Gap junctions<\/mark> make cardiac muscle a <mark>functional syncytium<\/mark>"]}]}, {"id": "p49", "head": "Part 06 · Cardiac Muscle", "kind": "text", "blocks": [{"t": "h", "no": "6.5", "title": "Regeneration in cardiac muscle", "rep": true}, {"t": "list", "items": ["No <mark>satellite cells<\/mark> → cardiac muscle <mark>cannot regenerate<\/mark>", "<mark>Fibroblasts<\/mark> form fibrous C.T. scar to repair injury"]}, {"t": "h", "no": "6.6", "title": "Pompe disease"}, {"t": "list", "items": ["<b>Cause:<\/b> <mark>lysosomal glucosidase<\/mark> deficiency", "<mark>Glycogen<\/mark> accumulation → skeletal muscle &amp; heart problems; muscle <mark>hypotonia<\/mark>", "<b>Infant signs:<\/b> <mark>feeding difficulties<\/mark>, <mark>heart complications<\/mark>, <mark>breathing difficulties<\/mark>, muscle weakness"]}]}, {"id": "p50", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-5-0", "title": "Recall · Cardiac Muscle (1/3)", "groups": [{"title": "6.1 General features & shape", "items": [["Contract spontaneously", "with rhythmic beat"], ["Short columnar cells joined", "by intercalated discs into long fibres"], ["Fibres branch", "&amp; anastomose forming a network"], ["Diameter intermediate", "between skeletal &amp; smooth"]]}, {"title": "6.2 Light microscopy", "items": [["Nucleus mono-", "or binucleated, oval &amp; central"], ["Acidophilic cytoplasm", "striation less distinct than skeletal"], ["Poorly defined", "myofibrils"]]}]}], "labName": "Recall · Cardiac Muscle (1/3)"}, {"id": "p51", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-5-1", "title": "Recall · Cardiac Muscle (2/3)", "groups": [{"title": "6.3 Electron microscopy", "items": [["Mitochondria more", "abundant than skeletal"], ["SR poorly defined; forms diads", "(1 T tubule + 1 SR profile) at Z line"], ["T tubules larger than", "skeletal, at Z discs not A–I junction"], ["Inclusions:", "glycogen (at nuclear poles), myoglobin, lipochrome pigment (↑ with age)"]]}, {"title": "6.4 Intercalated discs", "items": [["Step-like end-to-end junction", "with transverse &amp; longitudinal portions"], ["Transverse:", "fasciae adherentes (anchor actin) + desmosomes (prevent pulling apart)"], ["Longitudinal:", "large gap junctions → ionic continuity"], ["Gap junctions make", "cardiac muscle a functional syncytium"]]}]}], "labName": "Recall · Cardiac Muscle (2/3)"}, {"id": "p52", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-5-2", "title": "Recall · Cardiac Muscle (3/3)", "groups": [{"title": "6.5 Regeneration in cardiac muscle", "items": [["No satellite cells →", "cardiac muscle cannot regenerate"], ["Fibroblasts form fibrous", "C.T. scar to repair injury"]]}, {"title": "6.6 Pompe disease", "items": [["Cause:", "lysosomal glucosidase deficiency"], ["Glycogen accumulation →", "skeletal muscle &amp; heart problems; muscle hypotonia"], ["Infant signs:", "feeding difficulties, heart complications, breathing difficulties, muscle weakness"]]}]}], "labName": "Recall · Cardiac Muscle (3/3)"}, {"id": "p53", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0277"}, {"t": "flap", "q": "TP-009"}]}, {"id": "p54", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "TP-087"}, {"t": "check", "q": "N-HIS-L1-07"}]}, {"id": "p55", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0278"}, {"t": "check", "q": "Q0290"}]}, {"id": "p56", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0245"}]}, {"id": "p57", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0279"}, {"t": "flap", "q": "TP-008"}]}, {"id": "p58", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L1-09"}, {"t": "check", "q": "Q0276"}]}, {"id": "p59", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-HIS-L1-11"}, {"t": "check", "q": "Q0241"}]}, {"id": "p60", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0280"}, {"t": "flap", "q": "Q0250"}]}, {"id": "p61", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0269"}, {"t": "check", "q": "N-HIS-L1-08"}]}, {"id": "p62", "head": "Part 07 · Skeletal vs Cardiac — Compared", "kind": "text", "blocks": [{"t": "part", "no": "07", "title": "Skeletal vs Cardiac — Compared", "sub": "Master comparison table · Numbers to remember · Protein → where → role · Triad vs diad"}, {"t": "h", "no": "7.1", "title": "Master comparison table"}, {"t": "list", "items": ["<b>Nuclei:<\/b> skeletal multiple peripheral vs cardiac 1–2 central", "<b>Branching:<\/b> skeletal no (except tongue/face) vs cardiac branch &amp; anastomose", "<b>T tubules:<\/b> skeletal at A–I junction vs cardiac larger at Z line", "Triad (skeletal) vs diad (cardiac)", "<b>Regeneration:<\/b> skeletal yes (satellite cells) vs cardiac no (scar)", "Intercalated discs only in cardiac"]}, {"t": "h", "no": "7.2", "title": "Numbers to remember"}, {"t": "list", "items": ["7 characteristics of muscle tissue; 3 thin filament proteins", "2 triads per sarcomere; skeletal fibre 1–40 mm", "Cardiac 1 or 2 nuclei; anabolic steroids detectable 6 months"]}], "toc": ["07", "Skeletal vs Cardiac — Compared"]}, {"id": "p63", "head": "Part 07 · Skeletal vs Cardiac — Compared", "kind": "text", "blocks": [{"t": "h", "no": "7.3", "title": "Protein → where → role"}, {"t": "list", "items": ["α-actinin at Z line; desmin between Z disks; dystrophin under sarcolemma", "Troponin on tropomyosin (skeletal &amp; cardiac only)", "Myoglobin in sarcoplasm, high in red fibres"]}, {"t": "h", "no": "7.4", "title": "Triad vs diad"}, {"t": "list", "items": ["<mark>Triad<\/mark>: 1 T tubule + 2 terminal cisternae at <mark>A–I junction<\/mark>, 2 per sarcomere", "<mark>Diad<\/mark>: 1 T tubule + 1 SR profile at <mark>Z line<\/mark>; SR poorly defined"]}]}, {"id": "p64", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-6-0", "title": "Recall · Skeletal vs Cardiac — Compared (1/2)", "groups": [{"title": "7.1 Master comparison table", "items": [["Nuclei:", "skeletal multiple peripheral vs cardiac 1–2 central"], ["Branching:", "skeletal no (except tongue/face) vs cardiac branch &amp; anastomose"], ["T tubules:", "skeletal at A–I junction vs cardiac larger at Z line"], ["Triad (skeletal)", "vs diad (cardiac)"], ["Regeneration:", "skeletal yes (satellite cells) vs cardiac no (scar)"], ["Intercalated discs", "only in cardiac"]]}, {"title": "7.2 Numbers to remember", "items": [["7 characteristics of", "muscle tissue; 3 thin filament proteins"], ["2 triads per", "sarcomere; skeletal fibre 1–40 mm"], ["Cardiac 1 or 2", "nuclei; anabolic steroids detectable 6 months"]]}]}], "labName": "Recall · Skeletal vs Cardiac — Compared (1/2)"}, {"id": "p65", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-6-1", "title": "Recall · Skeletal vs Cardiac — Compared (2/2)", "groups": [{"title": "7.3 Protein → where → role", "items": [["α-actinin at Z line", "desmin between Z disks; dystrophin under sarcolemma"], ["Troponin on", "tropomyosin (skeletal &amp; cardiac only)"], ["Myoglobin in", "sarcoplasm, high in red fibres"]]}, {"title": "7.4 Triad vs diad", "items": [["Triad:", "1 T tubule + 2 terminal cisternae at A–I junction, 2 per sarcomere"], ["Diad:", "1 T tubule + 1 SR profile at Z line; SR poorly defined"]]}]}], "labName": "Recall · Skeletal vs Cardiac — Compared (2/2)"}, {"id": "p66", "head": "Part 07 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-HIS-L1-10"}]}, {"id": "p67", "head": "Part 08 · Rapid Revision", "kind": "text", "blocks": [{"t": "part", "no": "08", "title": "Rapid Revision", "sub": "Must-know one-liners · Mnemonic vault & classic exam traps · Complete — the lecture's own questions"}, {"t": "h", "no": "8.1", "title": "Must-know one-liners"}, {"t": "list", "items": ["Q&amp;A recap of all parts (coverings, bands, filaments, triad, fibre types, cardiac features, Pompe)"]}, {"t": "h", "no": "8.2", "title": "Mnemonic vault & classic exam traps"}, {"t": "note", "kind": "mn", "html": "Epi›Peri›Endo; dArk=Anisotropic; One Slow Red Ox; Desmin→DRM, Dystrophin→DMD"}, {"t": "h", "no": "8.3", "title": "Complete — the lecture's own questions"}, {"t": "list", "items": ["Sarcosome = mitochondrion; sarcoplasmic reticulum = sER", "Skeletal muscle regenerates by division of satellite cells", "Junctions between cardiac fibres = intercalated discs"]}], "toc": ["08", "Rapid Revision"]}, {"id": "p68", "head": "Lab · Recall · Part 08", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l1-7-0", "title": "Recall · Rapid Revision", "groups": [{"title": "8.1 Must-know one-liners", "items": [["Q&amp;A recap of all parts", "(coverings, bands, filaments, triad, fibre types, cardiac features, Pompe)"]]}, {"title": "8.2 Mnemonic vault & classic exam traps", "items": [["Mnemonics:", "Epi›Peri›Endo; dArk=Anisotropic; One Slow Red Ox; Desmin→DRM, Dystrophin→DMD"]]}, {"title": "8.3 Complete — the lecture's own questions", "items": [["Sarcosome =", "mitochondrion; sarcoplasmic reticulum = sER"], ["Skeletal muscle regenerates", "by division of satellite cells"], ["Junctions between cardiac fibres =", "intercalated discs"]]}]}], "labName": "Recall · Rapid Revision"}, {"id": "p69", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "h", "no": "!", "title": "Exam traps & clinical points"}, {"t": "note", "kind": "trap", "html": "Extensibility = stretch without tearing; elasticity = recoil — don't swap"}, {"t": "note", "kind": "trap", "html": "Diaphragm &amp; upper third of oesophagus are skeletal yet involuntary"}, {"t": "note", "kind": "trap", "html": "Epimysium &amp; perimysium are dense C.T.; only endomysium is loose"}, {"t": "note", "kind": "trap", "html": "Troponin is in skeletal &amp; cardiac only — not smooth muscle"}, {"t": "note", "kind": "trap", "html": "A band never changes length in contraction — only H &amp; I shrink"}, {"t": "note", "kind": "trap", "html": "Hypertrophy = bigger fibres, not more fibres"}], "toc": ["!", "Exam traps & clinical"]}, {"id": "p70", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "trap", "html": "Skeletal = triad at A–I junction; cardiac = diad at Z line with larger T tubules, poor SR"}, {"t": "note", "kind": "trap", "html": "Skeletal fibres do branch in tongue &amp; face"}, {"t": "note", "kind": "trap", "html": "Cardiac nuclei may be binucleated but still central"}, {"t": "note", "kind": "cl", "html": "Desmin-related myopathy: absent desmin → disorganized myofibrils; progressive leg weakness spreading; cardiac/respiratory involvement → fatal"}, {"t": "note", "kind": "cl", "html": "Duchenne muscular dystrophy: dystrophin defect → atrophy of muscle fibres"}, {"t": "note", "kind": "cl", "html": "Anabolic steroids: ↑ muscle mass; liver cancer; detectable 6 months"}]}, {"id": "p71", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "cl", "html": "Pompe disease: lysosomal glucosidase deficiency → glycogen accumulation, hypotonia, heart &amp; breathing problems in infants"}, {"t": "note", "kind": "cl", "html": "Cardiac injury repaired by fibrous scar (no satellite cells)"}]}, {"id": "p72", "head": "End of the lecture", "kind": "text", "blocks": [{"t": "h", "no": "✓", "title": "End of the lecture"}, {"t": "progress"}, {"t": "actions"}, {"t": "end"}], "toc": ["✓", "End of the lecture"]}], "questions": {"Q0865": {"id": "Q0865", "stem": "In the muscle myofibril, the A band is formed of:", "top": true, "rep": "asked 3 years", "tag": "Final bank HIS Q11", "bank": true, "expl": "The A (dark) band is made of the thick filaments plus the thin filaments that lie between them, so its molecular structure is both actin and myosin. Myosin only is found in the H zone at the centre of the A band, and actin only in the light I band.", "type": "mcq", "opts": ["T tubules", "Myosin filaments only", "Sarcoplasmic reticulum", "Actin filaments only", "Actin and myosin filaments"], "ans": 4}, "Q0237": {"id": "Q0237", "stem": "Which of the following is true of mammalian skeletal muscle?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Skeletal muscle has triads: each T tubule lies between two terminal cisternae of the SR at the A–I junction. T tubules at the Z disk are the cardiac pattern, and troponin is present in both skeletal and cardiac muscle.", "type": "mcq", "opts": ["It possesses caveolae.", "Its T tubules are located at the Z disk.", "It possesses triads.", "T tubules are absent.", "Troponin is absent."], "ans": 2}, "Q0238": {"id": "Q0238", "stem": "Which of the following statements concerning triads in mammalian skeletal muscle is true?", "top": false, "rep": "", "tag": "Final bank HIS Q14", "bank": true, "expl": "A triad is one T tubule lying between two terminal cisternae of the SR, with 2 triads per sarcomere at the A–I junctions. Option d reverses the arrangement, and a Z-line site belongs to the cardiac diad; calcium release and re-uptake is the job of the SR, not the T tubule.", "type": "mcq", "opts": ["They consist of two terminal cisternae of the SR separated by a T tubule.", "They are located in the Z disk.", "They are characterized by a T tubule that sequesters calcium ions.", "They consist of two T tubules separated by a central terminal cisterna.", "They can be observed with the light microscope."], "ans": 0}, "Q0240": {"id": "Q0240", "stem": "Multiple biopsies were taken from different types of muscle. In one of these specimens, the researcher described cylindrical muscle fibers with distinct striations and multiple peripheral nuclei. He also found that in this muscle the fibers branch. The biopsy was taken from which of the following sites?", "top": false, "rep": "", "tag": "Final bank HIS Q15", "bank": true, "expl": "Distinct striations with multiple, oval, peripheral nuclei identify skeletal muscle, and skeletal fibres branch only in the tongue and face. Heart muscle also branches, but its nuclei are one or two and central; the biceps and the upper third of the oesophagus are skeletal muscle whose fibres do not branch.", "type": "mcq", "opts": ["Biceps", "Face muscles", "Heart muscle", "Muscle of the lower third of the esophagus", "Muscle of the upper third of the esophagus"], "ans": 1}, "Y26-009": {"id": "Y26-009", "stem": "An old woman is suffering from a disease diagnosed as muscular dystrophy. Its mechanism is:", "top": true, "rep": "", "tag": "Final bank HIS Q12", "bank": true, "expl": "Skeletal muscle regenerates by the activity of satellite cells, which are activated, proliferate and fuse to form new muscle fibres; when they fail to replace the degenerated fibres, the muscle atrophies, as in muscular dystrophy. Division by mitosis is how smooth muscle regenerates, and fibroblasts only form a fibrous scar (the repair of cardiac muscle, which has no satellite cells).", "type": "mcq", "opts": ["Fibroblasts fail to replace degenerated muscle fibers", "Muscle fibers fail to divide by mitosis to replace degeneration", "Satellite cells fail to replace degenerated muscle fibers", "Pericytes fail to replace degenerated muscle fibers", "Actin fails to replace degenerated muscle fibers"], "ans": 2}, "Q0241": {"id": "Q0241", "stem": "A 52-year-old man with a high blood cholesterol level had severe chest pain. Investigation showed a thrombus in a coronary artery that caused the anginal pain and led to death of part of his cardiac muscle (myocardial infarction). Repair of the damaged cardiac muscle will occur through which of the following?", "top": false, "rep": "", "tag": "Final bank HIS Q16", "bank": true, "expl": "Cardiac muscle has no satellite cells, so it cannot regenerate; the injury is repaired by fibroblasts forming fibrous connective tissue (a scar). Differentiation of satellite cells is how skeletal, not cardiac, muscle regenerates.", "type": "mcq", "opts": ["Activation of fibroblasts and fibrous tissue formation", "Differentiation of satellite cells", "Differentiation of undifferentiated mesenchymal cells (UMCs) into myocytes", "Change of pericytes into cardiac muscle cells", "Division of cardiac muscle fibers"], "ans": 0}, "Q0244": {"id": "Q0244", "stem": "The parents of a 5-year-old boy are concerned that their son tires easily. Physical examination reveals enlargement of the child's calf muscles. Serum levels of creatine kinase are elevated. A biopsy of calf muscle reveals muscle fiber necrosis, regenerating fibers, and fibrosis. The child is subsequently diagnosed with Duchenne muscular dystrophy. This X-linked recessive disease is caused by mutations in the gene for which of the following muscle proteins?", "top": true, "rep": "asked 2 years", "tag": "Final bank HIS Q1", "bank": true, "expl": "Duchenne muscular dystrophy is caused by a defect in dystrophin, the protein that binds actin to the sarcolemma and then to the extracellular matrix; the defect leads to atrophy of muscle fibres. Desmin, the tempting distractor, joins the Z disks of adjacent myofibrils, and its absence causes desmin-related myopathy.", "aimg": ["figs/GH-08_ans.jpg"], "acap": "Whole muscle → fascicle → muscle fibre; dystrophin linking the cytoskeleton to the basal lamina", "type": "mcq", "opts": ["Creatine kinase", "Desmin", "Dystrophin", "Glycogen phosphorylase", "Myosin"], "ans": 2}, "Q0245": {"id": "Q0245", "stem": "Arrow 2 indicates which of the following structures?", "top": true, "rep": "asked 2 years", "tag": "Final bank HIS Q2", "bank": true, "expl": "Arrow 2 marks a dark transverse line crossing the fibres where two cells meet end to end: an intercalated disc, the step-like junction between cardiac muscle cells (note the central oval nucleus at arrow 1). T tubules are invaginations of the sarcolemma that carry the impulse inward, not junctions between cells.", "img": ["figs/GH-11.jpg"], "cap": "Light micrograph of muscle tissue (longitudinal section)", "type": "mcq", "opts": ["Intercalated disk", "Motor end-plate", "Sarcoplasmic reticulum", "Tendinous junction", "Transverse tubule or T tubule"], "ans": 0}, "Q0247": {"id": "Q0247", "stem": "A 30-year-old woman begins a vigorous program of bodybuilding. After 6 months, her muscles have become prominent and strong. Which of the following physiologic changes underlies muscle enlargement in this woman?", "top": true, "rep": "asked 2 years", "tag": "Final bank HIS Q3", "bank": true, "expl": "Strength training causes hypertrophy: muscle size increases without an increase in the number of fibres, because each fibre grows in width by synthesis of new proteins by ribosomes. Option c (more fibres) is exactly what hypertrophy is not.", "type": "mcq", "opts": ["Deposition of newly formed adipocytes", "Increase in the diameter of individual muscle fibers", "Increase in the number of muscle fibers", "Thickening of the endomysium", "Thickening of the perimysium"], "ans": 1}, "Q0259": {"id": "Q0259", "stem": "Observation of histologic preparation of muscle reveals cross striations and peripherally located nuclei. The same tissue preparation for electron microscopy shows many mitochondria in rows between myofibrils and under the sarcolemma. Which of the following best describes this tissue?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q4", "bank": true, "expl": "Cross striations with multiple peripheral nuclei identify skeletal muscle (cardiac muscle has central nuclei and smooth muscle no striations), and many mitochondria mark red (type 1) fibres, which use aerobic oxidative phosphorylation. White (type 2) fibres, the fast ones, have few mitochondria and more glycogen.", "type": "mcq", "opts": ["Red skeletal muscle fibers", "Fast fibers", "White skeletal muscle fibers", "Smooth muscle", "Cardiac muscle"], "ans": 0}, "Q0260": {"id": "Q0260", "stem": "In the transmission electron micrograph of skeletal muscle shown below, which of the following is true of the zone labeled C?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q5", "bank": true, "expl": "Zone C is the I band, the light band on either side of the Z line, which contains thin (actin) filaments only, so thick and thin filaments do not overlap there. The Z line defines the sarcomere, and the H zone with its central M line lies in the middle of the A band, not in the I band.", "img": ["figs/GH-05.jpg"], "cap": "", "type": "mcq", "opts": ["It defines the sarcomere", "Thick filaments are anchored to this structure", "This structure bisects the H band and is formed predominantly of creatine kinase", "No overlap of thick and thin filaments occurs in this zone", "This portion of the A band consists solely of the rodlike portions of myosin"], "ans": 3}, "Q0261": {"id": "Q0261", "stem": "In a given muscle fiber at rest, the length of I band is 1.0 micron and the A band is 1.5 micron. Contraction of that muscle fiber results in a 10% shortening of the sarcomere. What is the length of the A band after the shortening produced by the muscle contraction?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q6", "bank": true, "expl": "During contraction the A band remains the same length; only the H zone (which disappears) and the I band (which decreases) shorten as the Z lines move inward. 1.35 micron wrongly applies the 10% shortening to the A band.", "aimg": ["figs/GH-04_ans.jpg", "figs/GH-04_ans2.jpg", "figs/GH-04_ans3.jpg", "figs/GH-04_ans4.jpg"], "acap": "EM of skeletal muscle; bands and lines in the contractile apparatus of skeletal muscle; skeletal muscle fibre with SR and T tubules around the myofibrils; muscle fibre — myofibrils with dark A and light I bands", "type": "mcq", "opts": ["1.5 micron", "1.35 micron", "1.0 micron", "0.90 micron", "0.45 micron"], "ans": 0}, "Q0262": {"id": "Q0262", "stem": "The sarcoplasmic reticulum of skeletal muscle functions in which of the following?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q7", "bank": true, "expl": "The SR (sER) stores calcium and regulates contraction by releasing it and taking it back up. During contraction calcium is released from the terminal cisternae, not transported into them (d), and the T tubules conduct the impulse rather than release calcium (e).", "type": "mcq", "opts": ["Cellular calcium storage", "Cellular glycogen storage", "Glycogen degradation", "Transport of calcium ions into the terminal cisternae during muscle contraction", "Calcium ion release from the transverse tubules during muscle relaxation"], "ans": 0}, "Q0264": {"id": "Q0264", "stem": "A 25-year-old boy sustains a tear in his gastrocnemius muscle when he is involved in a bicycle accident. Regeneration of muscle will occur through which of the following?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q8", "bank": true, "expl": "Skeletal muscle regenerates by the activity of satellite cells, which lie on the myofibre under the basal lamina: after injury they are activated, proliferate and fuse to form new skeletal muscle fibres. It is the satellite cells, not the damaged myofibres (c), that fuse.", "aimg": ["figs/GH-03_ans.jpg"], "acap": "Satellite cells — activation, proliferation, differentiation and return to quiescence", "type": "mcq", "opts": ["Differentiation of satellite cells", "Dedifferentiation of myocytes into myoblasts", "Fusion of damaged myofibers to form new myotubes", "Differentiation of fibroblasts to form myocytes", "Hyperplasia of existing myofibers"], "ans": 0}, "Q0265": {"id": "Q0265", "stem": "The endomysium is a connective tissue investment that surrounds which of the following?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q9", "bank": true, "expl": "The endomysium is loose C.T. surrounding each individual muscle fibre. Muscle bundles (fascicles) are surrounded by the dense perimysium and the whole muscle by the dense epimysium.", "aimg": ["figs/GH-12_ans.jpg"], "acap": "Connective tissue of skeletal muscle — epimysium, perimysium, endomysium", "type": "mcq", "opts": ["Individual muscle fibers", "Muscle fascicles", "Individual myofibrils", "An entire muscle", "Small bundles of muscle cells"], "ans": 0}, "Q0267": {"id": "Q0267", "stem": "In muscular dystrophy, the actin-binding protein dystrophin is absent or defective. Dystrophin contains a similar actin-binding domain to spectrin and alpha-actinin and has a similar structure. Which of the following is most likely to occur as a result of this deficiency?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q10", "bank": true, "expl": "Dystrophin binds actin to the sarcolemma and then to the extracellular matrix; because the I band is made of actin (thin filaments) only, its loss detaches the I bands from the cell membrane and leads to atrophy of fibres (DMD). Desmosomes of intercalated discs are a cardiac junction unrelated to dystrophin.", "type": "mcq", "opts": ["Enhanced smooth muscle contractility", "Deficiency in skeletal muscle actin synthesis", "Loss of binding of the I bands to the cell membrane", "Loss of organelle and vesicle transport throughout the muscle cell", "Loss of integrity of the desmosomes of the intercalated discs"], "ans": 2}, "Q0276": {"id": "Q0276", "stem": "What unique structure connects individual cardiac muscle cells end to end, forming long fibers?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Intercalated discs are step-like junctions forming end-to-end attachments between adjacent cardiac cells, joining short columnar cells into long fibres. T tubules are sarcolemmal invaginations that carry the impulse inward, not cell-to-cell junctions.", "type": "mcq", "opts": ["T tubule", "Caveolae", "Intercalated discs", "Dense bodies"], "ans": 2}, "Q0277": {"id": "Q0277", "stem": "Which statement accurately describes the nuclei of a cardiac muscle fiber?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac muscle cells are mono- or binucleated, with oval, central nuclei. Numerous, oval, peripheral nuclei describe skeletal muscle, and 'single' is incomplete because a cell may have two nuclei.", "type": "mcq", "opts": ["Numerous, oval and peripheral", "Single, oval and central", "Mono- or binucleated, oval and central", "Absent"], "ans": 2}, "Q0278": {"id": "Q0278", "stem": "In cardiac muscle, the sarcoplasmic reticulum is poorly defined and forms a structure with one T tubule at the Z line. What is this structure called?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "In cardiac muscle the poorly defined SR forms diads: one T tubule plus one SR profile at the Z line. A triad (1 T tubule + 2 terminal cisternae at the A–I junction) is the skeletal arrangement.", "type": "mcq", "opts": ["Triad", "Syncytium", "Diad", "Sarcomere"], "ans": 2}, "Q0279": {"id": "Q0279", "stem": "Which of the following cellular structures distributes electrochemical signals between cardiac myocytes to ensure a normal heart rhythm?", "top": true, "rep": "asked 2 years", "tag": "Final bank HIS Q13", "bank": true, "expl": "Large gap junctions in the longitudinal portion of the intercalated disc give ionic continuity between cardiac cells, so contraction is coordinated and the muscle behaves as a functional syncytium. Fascia adherens and macula adherens (desmosomes) lie in the transverse portion and only anchor actin or hold the cells together.", "type": "mcq", "opts": ["Endomysium", "Sarcomere", "Fascia adherens", "Gap junctions", "Macula adherens"], "ans": 3}, "Q0280": {"id": "Q0280", "stem": "Since cardiac muscle fibers do not regenerate, how are injuries to cardiac muscle primarily repaired?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac muscle has no satellite cells and cannot regenerate, so injuries are repaired by fibroblasts forming fibrous C.T. (a scar). Differentiation of satellite cells is the skeletal muscle mechanism.", "type": "mcq", "opts": ["Hypertrophy of existing cardiac muscle cells", "Mitotic division of existing cardiac muscle cells", "Formation of fibrous connective tissue by fibroblasts", "Differentiation of satellite cells"], "ans": 2}, "Q0290": {"id": "Q0290", "stem": "How are the T tubules organized differently in cardiac muscle compared with skeletal muscle?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac T tubules are larger than skeletal ones and meet the SR at the Z line, forming diads (1 T tubule + 1 SR profile). Triads at the A–I junction are the skeletal pattern, and T tubules are present in both.", "type": "mcq", "opts": ["In cardiac muscle, T tubules are absent.", "In cardiac muscle, they form a triad at the A–I junction.", "In cardiac muscle, they form a diad at the Z line.", "In cardiac muscle, they form a triad at the Z line."], "ans": 2}, "Q0250": {"id": "Q0250", "stem": "Does cardiac muscle regenerate? Explain.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac muscle lacks satellite cells, the cells that regenerate skeletal muscle, so its injuries heal by a fibrous scar made by fibroblasts.", "type": "written", "keyhtml": "No. Cardiac muscle has no satellite cells, so it cannot regenerate; an injury is repaired by fibroblasts forming fibrous connective tissue (a scar)."}, "Q0254": {"id": "Q0254", "stem": "Describe skeletal muscle fibers as seen under the light microscope.", "top": false, "rep": "asked 2 years", "tag": "Final bank HIS W1", "bank": true, "expl": "The light-microscope picture is a distinct sarcolemma, multiple oval peripheral nuclei and acidophilic sarcoplasm with clear transverse striations; fibre shape and the polarized-light bands complete the description.", "type": "written", "keyhtml": "• Fibre: long cylindrical cell (myocyte), 1–40 mm long; polygonal in cross section; does not branch except in the tongue and face\n• Sarcolemma (cell membrane): distinct\n• Nuclei: multiple, oval and peripheral in position\n• Sarcoplasm (cytoplasm): acidophilic, showing clear transverse striation (alternating dark and light bands)\n• Under the polarized microscope: A band = anisotropic (dark); I band = isotropic (light)"}, "Q0255": {"id": "Q0255", "stem": "Enumerate the organelles seen in skeletal muscle fibers by the electron microscope, and give the function of the sarcoplasmic reticulum, mitochondria, myofibrils and ribosomes.", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "The E/M organelle list (well-developed SR, rows of mitochondria, numerous Golgi, few RER, myofibrils, few ribosomes) and the functions come from the lecture's sections on E/M, the SR, contraction and growth.", "type": "written", "keyhtml": "A. Membranous organelles\n• Well-developed sER called the sarcoplasmic reticulum (longitudinal network + terminal cisternae) — regulates contraction by releasing and taking back calcium (excitation–contraction coupling)\n• Rows of mitochondria in between the myofibrils — supply ATP for contraction\n• Numerous Golgi apparatus\n• Few RER\nB. Non-membranous organelles\n• Myofilaments (thick and thin) forming well-developed, parallel, longitudinally arranged myofibrils — actin–myosin interaction produces contraction\n• Few ribosomes — synthesis of new proteins (growth of the fibre in width)\nC. Inclusions: myoglobin (oxygen-binding) and glycogen (energy source for contraction)"}, "Q0256": {"id": "Q0256", "stem": "Define and describe the sarcomere.", "top": false, "rep": "asked 2 years", "tag": "Final bank HIS W2", "bank": true, "expl": "The sarcomere runs from Z line to Z line and is an A band plus half an I band on each side; the I band holds thin filaments only, while the Z line is the α-actinin line where thin filaments attach.", "type": "written", "keyhtml": "Definition: the sarcomere is the distance between 2 successive Z lines; it is the basic structural and functional unit of striated muscle. It consists of a dark A band in the middle plus half a light I band on either side.\n• A band (dark): thick filaments with thin filaments between them\n• H zone: paler region in the centre of the A band; thick filaments only (relaxed muscle)\n• M line: dark line in the middle of the H zone (middle of the sarcomere)\n• I band (light): thin filaments only; bisected by the Z line\n• Z line: darker transverse line containing α-actinin; thin filaments attach here\nThick filaments occupy the central portion; thin filaments attach to the Z line and run between the thick ones but do not reach the centre of the A band — hence the H zone."}, "Q0257": {"id": "Q0257", "stem": "Differentiate between red and white skeletal muscle fibers.", "top": false, "rep": "asked 2 years", "tag": "Final bank HIS W3", "bank": true, "expl": "Myoglobin concentration decides whether a fibre is red or white: red (type 1) fibres are small, myoglobin- and mitochondria-rich, oxidative, slow and fatigue-resistant, while white (type 2) fibres are larger, glycogen-rich, glycolytic, fast and easily fatigued.", "type": "written", "keyhtml": "Feature | Red fibres (type 1) | White fibres (type 2)\nDiameter | Small | Larger\nMyoglobin | Large amount | Less\nGlycogen | Few | More (pale)\nMitochondria | Many | Few\nOxidative phosphorylation enzymes | Rich | Poor\nEnergy source | Aerobic oxidative phosphorylation of fatty acids | Glycolysis\nContraction | Slow, continuous over time (long-distance running) | Fast (sprinting; fingers — playing music and computer games)\nFatigue | Not easily fatigued | Easily fatigued"}, "Q0258": {"id": "Q0258", "stem": "Describe the connective tissue coverings of a skeletal muscle and give their functions.", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "Outside to in: epimysium (whole muscle, dense), perimysium (bundle, dense), endomysium (single fibre, loose); together they carry vessels and nerves and bind the bundles into one working unit.", "type": "written", "keyhtml": "1. Epimysium: dense C.T. surrounding the whole muscle\n2. Perimysium: dense C.T. surrounding each muscle bundle (fascicle)\n3. Endomysium: loose C.T. surrounding each individual muscle fibre\nFunctions:\n• Carry blood vessels, lymphatics and nerves to the muscle fibres\n• Firmly attach the muscle bundles together so they act as one unit"}, "Q0268": {"id": "Q0268", "stem": "A 7-year-old boy sustains a tear in his gastrocnemius muscle when he is involved in a bicycle accident.\n\nWill the tear in the skeletal muscle heal? If yes, how?", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "Satellite cells are the regenerative cells of skeletal muscle: after injury they are activated, divide and fuse to form new fibres.", "type": "written", "keyhtml": "Yes. Skeletal muscle regenerates by the activity of satellite cells, which lie on the myofibre under the basal lamina:\n• Activation of satellite cells after the injury\n• Proliferation — the satellite cells divide\n• Fusion (differentiation) to form new skeletal muscle fibres"}, "Q0269": {"id": "Q0269", "stem": "A 7-year-old boy sustains a tear in his gastrocnemius muscle when he is involved in a bicycle accident.\n\nIn cases of injury to cardiac muscle, will the cardiac muscle heal, and how?", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "Unlike skeletal muscle, cardiac muscle lacks satellite cells, so damaged fibres are replaced by a fibrous C.T. scar made by fibroblasts.", "type": "written", "keyhtml": "No, cardiac muscle cannot regenerate because it has no satellite cells. The injury is repaired by fibroblasts, which form fibrous connective tissue (a scar)."}, "Q0271": {"id": "Q0271", "stem": "A 30-year-old man begins a vigorous program of bodybuilding. After 6 months, his muscles have become prominent and strong.\n\nWhich physiologic change underlies the skeletal muscle enlargement in this man?", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "Hypertrophy means bigger fibres, not more fibres; growth in width comes from new proteins made by ribosomes.", "type": "written", "keyhtml": "Hypertrophy: strength training (contraction against resistance, e.g. weight lifting) increases muscle size without an increase in the number of fibres. Each fibre grows in width by synthesis of new proteins by ribosomes."}, "N-HIS-L1-01": {"id": "N-HIS-L1-01", "stem": "During a warm-up, a gymnast's hamstring muscles are stretched beyond their resting length without tearing. Which characteristic of muscular tissue does this demonstrate?", "top": false, "rep": "", "tag": "Final bank HIS Q17", "bank": true, "expl": "Extensibility is the ability of muscle to stretch beyond its resting length without tearing. Elasticity is the ability to recoil back to the original resting length after being stretched — the two are easily swapped.", "type": "mcq", "opts": ["Elasticity", "Excitability", "Extensibility", "Contractility", "Vascularity"], "ans": 2}, "N-HIS-L1-02": {"id": "N-HIS-L1-02", "stem": "While studying an electron micrograph of a skeletal muscle fibre, a student is asked to point to the sarcosomes. Which organelles should she point to?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "In muscle terminology a sarcosome is a mitochondrion, while the sarcoplasmic reticulum is the sER. Smooth endoplasmic reticulum is the tempting distractor because of the shared 'sarco-' prefix.", "type": "mcq", "opts": ["Smooth endoplasmic reticulum", "Mitochondria", "Golgi apparatus", "Rough endoplasmic reticulum", "Free ribosomes"], "ans": 1}, "N-HIS-L1-03": {"id": "N-HIS-L1-03", "stem": "Which of the following muscles is skeletal muscle, yet is listed in the lecture among the involuntary sites?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The diaphragm and the upper third of the oesophagus are skeletal muscle but are listed as involuntary sites. The heart is involuntary but is cardiac, not skeletal, muscle; tongue, face and eye muscles are voluntary skeletal muscle.", "type": "mcq", "opts": ["Tongue muscles", "Diaphragm", "Heart", "Face muscles", "Eye muscles"], "ans": 1}, "N-HIS-L1-04": {"id": "N-HIS-L1-04", "stem": "A researcher compares the thin filaments of skeletal, cardiac and smooth muscle. Which thin-filament protein is present in skeletal and cardiac muscle but not in smooth muscle?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The thin filament has three proteins — actin, tropomyosin and troponin — and troponin is found in skeletal and cardiac muscle only. Tropomyosin, which lies in the grooves of actin, is the closest distractor; myosin forms the thick filament.", "type": "mcq", "opts": ["Actin", "Tropomyosin", "Troponin", "Myosin", "α-actinin"], "ans": 2}, "N-HIS-L1-05": {"id": "N-HIS-L1-05", "stem": "A young man develops progressive weakness that begins in his leg muscles and later spreads to the rest of his body, eventually involving his cardiac and respiratory muscles. A muscle biopsy shows disorganized myofibrils. Absence of which protein best explains these findings?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Desmin is the intermediate filament joining the Z disks of adjacent myofibrils; its absence disorganizes the myofibrils and causes desmin-related myopathy, which starts in the legs and can become fatal when cardiac and respiratory muscles are involved. Dystrophin, the tempting distractor, links actin to the sarcolemma, and its defect causes Duchenne muscular dystrophy.", "type": "mcq", "opts": ["Dystrophin", "Desmin", "α-actinin", "Troponin", "Myoglobin"], "ans": 1}, "N-HIS-L1-06": {"id": "N-HIS-L1-06", "stem": "Which structure conducts the impulse from the sarcolemma to the deeper parts of a skeletal muscle fibre?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The T tubule is a finger-like invagination of the sarcolemma at the A–I junction that conducts the impulse to the deeper parts of the muscle. The terminal cisternae belong to the SR, which releases and takes back calcium rather than conducting the impulse.", "type": "mcq", "opts": ["Terminal cisterna", "T tubule", "Longitudinal sarcoplasmic reticulum", "Z line", "Intercalated disc"], "ans": 1}, "N-HIS-L1-07": {"id": "N-HIS-L1-07", "stem": "An electron micrograph of cardiac muscle from an elderly man shows abundant mitochondria, glycogen granules at the poles of the nucleus, and a pigment. Which inclusion of cardiac muscle increases in amount with age?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac inclusions are glycogen granules (especially at either pole of the nucleus), myoglobin and lipochrome pigment, and it is the lipochrome that increases with age. Glycogen and myoglobin are present but are not described as increasing with age.", "type": "mcq", "opts": ["Glycogen granules", "Myoglobin", "Lipochrome pigment", "Fat droplets"], "ans": 2}, "N-HIS-L1-08": {"id": "N-HIS-L1-08", "stem": "A 4-month-old infant has feeding and breathing difficulties, muscle hypotonia, generalized muscle weakness and heart complications. A muscle biopsy shows accumulation of glycogen. Which of the following is the underlying cause?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "This is Pompe disease: lysosomal glucosidase deficiency causes glycogen accumulation with skeletal muscle and heart problems, hypotonia, and feeding and breathing difficulties in infants. Dystrophin and desmin defects cause muscle disease (DMD and DRM) without glycogen accumulation.", "type": "mcq", "opts": ["Deficiency of lysosomal glucosidase", "Defect in dystrophin", "Absence of desmin", "Absence of satellite cells", "Deficiency of myoglobin"], "ans": 0}, "N-HIS-L1-09": {"id": "N-HIS-L1-09", "stem": "The cells of the myocardium are bound so firmly that they do not pull apart under constant contraction. Which junction of the intercalated disc is mainly responsible for this?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Desmosomes in the transverse portion of the intercalated disc bind cells together and prevent them pulling apart under constant contraction. Fasciae adherentes, also transverse, are anchoring sites for actin filaments, while gap junctions in the longitudinal portion give ionic continuity.", "type": "mcq", "opts": ["Large gap junctions", "Desmosomes (macula adherens)", "Fasciae adherentes", "T tubules"], "ans": 1}, "N-HIS-L1-10": {"id": "N-HIS-L1-10", "stem": "Compare skeletal and cardiac muscle as regards: (a) nuclei, (b) branching of fibres, (c) site of T tubules and their relation to the SR, (d) intercalated discs, and (e) regeneration.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "These five rows are the key differences in the lecture's skeletal-versus-cardiac master table.", "type": "written", "keyhtml": "Feature | Skeletal | Cardiac\nNuclei | Multiple, oval, peripheral | 1 or 2 (mono- or binucleated), oval, central\nBranching | No — except in the tongue and face | Branch and anastomose, forming a network\nT tubules &amp; SR | T tubules at the A–I junction; triad = 1 T tubule + 2 terminal cisternae; 2 triads per sarcomere; well-developed SR | Larger T tubules at the Z line; diad = 1 T tubule + 1 SR profile; poorly defined SR\nIntercalated discs | Absent | Present: fasciae adherentes and desmosomes (transverse portion), large gap junctions (longitudinal portion)\nRegeneration | Yes — by satellite cells | No — no satellite cells; repaired by a fibrous scar made by fibroblasts"}, "N-HIS-L1-11": {"id": "N-HIS-L1-11", "stem": "Describe the intercalated discs of cardiac muscle, giving the function of each component.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The transverse portion holds the cells together (fasciae adherentes and desmosomes), while the longitudinal gap junctions let ions pass so the heart contracts as a functional syncytium.", "type": "written", "keyhtml": "Definition: step-like junctions forming end-to-end attachments between adjacent cardiac muscle cells, with transverse and longitudinal portions.\na. Transverse portion:\n• Fasciae adherentes — anchoring sites for actin filaments\n• Desmosomes (macula adherens) — bind cells together and prevent them pulling apart under constant contraction\nb. Longitudinal portion:\n• Large gap junctions — ionic continuity between cells → coordinated contraction, so cardiac muscle behaves as a functional syncytium"}, "TP-045": {"id": "TP-045", "stem": "A 9-year-old boy presents with progressive weakness in his legs, difficulty climbing stairs and enlarged calf muscles. Muscle biopsy reveals absence of dystrophin protein. Which of the following is the most likely diagnosis?", "top": true, "rep": "", "tag": "Final bank HIS Q42", "bank": true, "expl": "Dystrophin binds actin to the sarcolemma and then to the extracellular matrix; its defect causes atrophy of muscle fibres — Duchenne muscular dystrophy. Desmin-related myopathy is due to absent desmin, Pompe disease to lysosomal glucosidase deficiency, and myasthenia gravis is a disease of the neuromuscular junction.", "type": "mcq", "opts": ["Becker muscular dystrophy", "Duchenne muscular dystrophy", "Myasthenia gravis", "Desmin-related myopathy", "Pompe disease"], "ans": 1}, "TP-046": {"id": "TP-046", "stem": "A biopsy from a long-distance runner shows muscle fibers that are small in size, contain abundant mitochondria and myoglobin, and resist fatigue. What is the type of these muscle fibers?", "top": true, "rep": "", "tag": "Final bank HIS Q43", "bank": true, "expl": "Red (type 1) fibres have a small diameter, a large amount of myoglobin, many mitochondria and rich oxidative enzymes, and contract slowly and continuously without fatiguing easily — the fibres of long-distance running. White (type 2) fibres are larger, rich in glycogen, use glycolysis and fatigue easily (sprinting).", "type": "mcq", "opts": ["Cardiac fibers", "Type I (Red fibers)", "Intermediate fibers", "Type II (White fibers)", "Smooth fibers"], "ans": 1}, "TP-008": {"id": "TP-008", "stem": "During a small group seminar, you are asked to discuss the histology of cardiac muscle. Define the intercalated disc.", "top": true, "rep": "", "tag": "Final bank HIS W10", "bank": true, "expl": "The intercalated disc is the step-like end-to-end junction unique to cardiac muscle. Its transverse part holds the cells together (fasciae adherentes, desmosomes) and its longitudinal gap junctions let ions pass, so the muscle acts as a functional syncytium.", "type": "written", "keyhtml": "Intercalated disc: a step-like junction forming end-to-end attachments between adjacent cardiac muscle cells (joining the short columnar cells into long fibres). It has two portions:\n• Transverse portion: fasciae adherentes (anchoring sites for actin filaments) + desmosomes / macula adherens (bind the cells together and prevent them pulling apart under constant contraction)\n• Longitudinal portion: large gap junctions (ionic continuity → coordinated contraction → functional syncytium)"}, "TP-009": {"id": "TP-009", "stem": "What is the diad (dyad), and at which level is it located?", "top": true, "rep": "", "tag": "Final bank HIS W11", "bank": true, "expl": "In cardiac muscle the SR is poorly defined, so each T tubule meets only one SR profile, forming a diad at the Z line. Skeletal muscle instead has triads (1 T tubule + 2 terminal cisternae) at the A–I junction.", "type": "written", "keyhtml": "Diad (cardiac muscle) = 1 T tubule + 1 profile (expansion) of the poorly defined sarcoplasmic reticulum.\n• Located at the level of the Z line (Z disc) — not at the A–I junction, where the skeletal-muscle triad lies\n• Cardiac T tubules are larger than those of skeletal muscle"}, "TP-029": {"id": "TP-029", "stem": "A 25-year-old athlete complains of sudden muscle weakness during training. His laboratory tests are normal, but electromyography reveals a delay in the spread of depolarization from the muscle cell membrane into the interior of the muscle fiber, indicating a structural defect in the tubular system of the skeletal muscle fiber. Describe the tubular system of skeletal muscle, mentioning the function of each tubule.", "top": true, "rep": "", "tag": "Final bank HIS W12", "bank": true, "expl": "The T tubule brings the signal in from the sarcolemma, and the SR releases and takes back Ca²⁺; their meeting point, the triad at each A–I junction, couples excitation to contraction. A defect in the T tubules therefore delays the spread of depolarization into the fibre.", "type": "written", "keyhtml": "1. T (transverse) tubules: finger-like invaginations of the sarcolemma that surround each myofibril, sent into the sarcoplasm at the A–I junction.\n• Function: conduct the impulse (depolarization) from the sarcolemma to the deeper parts of the muscle fibre — the step delayed in this patient.\n2. Sarcoplasmic reticulum (SR): well-developed smooth ER forming a longitudinal network around the myofibrils, with transverse parts called terminal cisternae.\n• Function: regulates contraction by releasing Ca²⁺ and taking it back (re-uptake).\n3. Triad: each T tubule lies between 2 terminal cisternae; 2 triads per sarcomere, at the A–I junctions. Together the T tubule and SR give excitation–contraction coupling."}, "TP-047": {"id": "TP-047", "stem": "A histological section of skeletal muscle shows a triad structure at the A–I junction. Which of the following components form this triad?", "top": true, "rep": "", "tag": "Final bank HIS Q44", "bank": true, "expl": "A triad is one T tubule lying between two terminal cisternae of the sarcoplasmic reticulum, with two triads per sarcomere at the A–I junctions. Two T tubules around one cisterna is the reversed arrangement, and caveolae replace T tubules in smooth muscle rather than forming triads.", "type": "mcq", "opts": ["Two T-tubules and one terminal cisterna", "One T-tubule and two terminal cisternae", "Three terminal cisternae", "Two T-tubules only", "One T-tubule and two caveolae"], "ans": 1}, "TP-087": {"id": "TP-087", "stem": "A histological section of cardiac muscle shows a diad structure.\na) What are the components of this diad?\nb) At which level is it located?", "top": true, "rep": "", "tag": "Final bank HIS W13", "bank": true, "expl": "Because cardiac SR is poorly defined, each T tubule pairs with a single SR profile, giving a diad at the Z line. The skeletal-muscle triad (1 T tubule + 2 terminal cisternae) sits at the A–I junction.", "type": "written", "keyhtml": "a) 1 T tubule + 1 profile (expansion) of the sarcoplasmic reticulum (the cardiac SR is poorly defined; cardiac T tubules are larger than skeletal ones).\nb) At the level of the Z line (Z disc) — not at the A–I junction as in the skeletal-muscle triad."}, "TP-108": {"id": "TP-108", "stem": "A 30-year-old man suffered a deep laceration in his thigh muscle. The biopsy shows separated bundles of muscle fibers surrounded by connective tissue layers containing blood vessels. A few weeks later, partial regeneration of the muscle was noticed.\na) Name the connective tissue components surrounding skeletal muscle.\nb) Name the cells responsible for regeneration of skeletal muscle.", "top": true, "rep": "", "tag": "Final bank HIS W14", "bank": true, "expl": "Skeletal muscle is wrapped by epimysium (whole muscle), perimysium (each bundle) and endomysium (each fibre); only the endomysium is loose C.T. It regenerates through satellite cells, unlike cardiac muscle, which has none and heals by a fibrous scar.", "type": "written", "keyhtml": "a) Connective tissue coverings (outside → in):\n• Epimysium — dense C.T. around the whole muscle\n• Perimysium — dense C.T. around each muscle bundle (fascicle)\n• Endomysium — loose C.T. around each individual muscle fibre\nThey carry blood vessels, lymphatics and nerves to the fibres and bind the bundles together to act as one unit.\nb) Satellite cells — stem cells lying on the muscle fibre under the basal lamina: after injury they are activated → proliferate (divide) → fuse to form new skeletal muscle fibres."}}, "labs": {}, "cards": [{"id": "HIS-L1-001", "text": "Muscular tissue: a basic tissue whose cells are {{c1::elongated}} and whose cytoplasm shows contractile elements called {{c2::myofibrils}}", "extra": "", "sec": "Part 01 · 1.1 Definition & characteristics"}, {"id": "HIS-L1-002", "text": "Muscle tissue — 4 of its 7 characteristics: {{c1::excitability}} · {{c2::contractility}} · {{c3::extensibility}} · {{c4::elasticity}}", "extra": "Mnemonic: Excited → Contracts → Extended → Elastic recoil.", "sec": "Part 01 · 1.1 Definition & characteristics"}, {"id": "HIS-L1-003", "text": "Excitability = ability to {{c1::respond to a stimulus (e.g. a nerve signal) that triggers contraction}}; contractility = ability to {{c2::shorten forcefully}}", "extra": "", "sec": "Part 01 · 1.1 Definition & characteristics"}, {"id": "HIS-L1-004", "text": "Extensibility = ability to {{c1::stretch beyond resting length without tearing}}; elasticity = ability to {{c2::recoil to the original resting length after being stretched}}", "extra": "Exam trap: don't swap them.", "sec": "Part 01 · 1.1 Definition & characteristics"}, {"id": "HIS-L1-005", "text": "Muscle tissue — the other 3 of its 7 characteristics: {{c1::highly cellular}} (myocytes) · {{c2::vascular}} (abundant blood vessels) · {{c3::control}} (voluntary or involuntary)", "extra": "", "sec": "Part 01 · 1.1 Definition & characteristics"}, {"id": "HIS-L1-006", "text": "Muscle types — striated: {{c1::skeletal & cardiac}} · involuntary: {{c2::cardiac & smooth}} → the striated but involuntary type: {{c3::cardiac}}", "extra": "Smooth muscle is the only non-striated type.", "sec": "Part 01 · 1.2 Classification — structure & function"}, {"id": "HIS-L1-007", "text": "Sarco- terms: sarcolemma = {{c1::cell membrane}} · sarcoplasm = {{c2::cytoplasm}} · sarcoplasmic reticulum = {{c3::sER}} · sarcosome = {{c4::mitochondrion}}", "extra": "Myocyte = muscle fibre.", "sec": "Part 01 · 1.3 Terms you will meet"}, {"id": "HIS-L1-008", "text": "Skeletal muscle (voluntary movement) sites: muscles attached to the {{c1::skeleton}} · head: {{c2::face, eye & tongue}} muscles", "extra": "", "sec": "Part 02 · 2.1 Sites"}, {"id": "HIS-L1-009", "text": "Skeletal muscle sites listed as involuntary: the {{c1::diaphragm}} & the {{c2::upper third of the oesophagus}}", "extra": "Exam trap: skeletal muscle, yet involuntary.", "sec": "Part 02 · 2.1 Sites"}, {"id": "HIS-L1-010", "text": "Skeletal muscle C.T. coverings: whole muscle → {{c1::epimysium}} · each bundle (fascicle) → {{c2::perimysium}} · each muscle fibre → {{c3::endomysium}}", "extra": "Outside → in: Epi › Peri › Endo.", "sec": "Part 02 · 2.2 Connective tissue coverings"}, {"id": "HIS-L1-011", "text": "The only loose C.T. covering of skeletal muscle: the {{c1::endomysium}} — epimysium & perimysium are {{c2::dense}} C.T.", "extra": "", "sec": "Part 02 · 2.2 Connective tissue coverings"}, {"id": "HIS-L1-012", "text": "Functions of the muscle C.T. coverings: carry {{c1::blood vessels, lymphatics & nerves}} to the fibres · {{c2::firmly attach the bundles together to act as one unit}}", "extra": "", "sec": "Part 02 · 2.2 Connective tissue coverings"}, {"id": "HIS-L1-013", "text": "Skeletal muscle fibre: long {{c1::cylindrical}} cell, {{c2::1–40 mm}} long; {{c3::polygonal}} in cross section", "extra": "", "sec": "Part 02 · 2.3 The skeletal muscle fibre — shape & size"}, {"id": "HIS-L1-014", "text": "Skeletal muscle fibres do not branch — except in the {{c1::tongue & face}}", "extra": "Striations + multiple peripheral nuclei + branching → face / tongue muscle.", "sec": "Part 02 · 2.3 The skeletal muscle fibre — shape & size"}, {"id": "HIS-L1-015", "text": "Skeletal muscle L/M: sarcolemma distinct · nuclei {{c1::multiple, oval & peripheral}} · sarcoplasm {{c2::acidophilic}} with clear {{c3::transverse striation}}", "extra": "", "sec": "Part 02 · 2.4 Light & polarized microscopy"}, {"id": "HIS-L1-016", "text": "Polarized microscope: A band = {{c1::anisotropic}} (dark) · I band = {{c2::isotropic}} (light)", "extra": "dArk = Anisotropic · lIght = Isotropic.", "sec": "Part 02 · 2.4 Light & polarized microscopy"}, {"id": "HIS-L1-017", "text": "Skeletal muscle E/M — membranous organelles: well-developed SER (= {{c1::sarcoplasmic reticulum}}) · {{c2::rows of mitochondria}} between myofibrils · {{c3::numerous}} Golgi · {{c4::few}} RER", "extra": "", "sec": "Part 03 · 3.1 Electron microscopy"}, {"id": "HIS-L1-018", "text": "Skeletal muscle E/M — non-membranous: {{c1::myofilaments (thick & thin)}} in parallel, longitudinal myofibrils · {{c2::few}} ribosomes; inclusions: {{c3::myoglobin & glycogen}}", "extra": "", "sec": "Part 03 · 3.1 Electron microscopy"}, {"id": "HIS-L1-019", "text": "Myofibrils lie {{c1::parallel to the long axis}} of the muscle fibre; each myofibril is a series of {{c2::sarcomeres}}", "extra": "", "sec": "Part 03 · 3.2 Myofibrils"}, {"id": "HIS-L1-020", "text": "Transverse striations of skeletal muscle = {{c1::alternating dark & light bands}} on each myofibril", "extra": "", "sec": "Part 03 · 3.2 Myofibrils"}, {"id": "HIS-L1-021", "text": "Sarcomere = distance between {{c1::2 successive Z lines}}; the basic {{c2::structural & functional}} unit of striated muscle", "extra": "", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-022", "text": "Sarcomere = a dark {{c1::A band}} in the middle + {{c2::half a light I band}} on either side", "extra": "", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-023", "text": "Filaments by region — I band: {{c1::thin only}} · H zone: {{c2::thick only}} · A band: {{c3::thick + thin}}", "extra": "I = thIn only · H = Heavy (thick) only · A = All. So thick & thin do not overlap in the I band.", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-024", "text": "Molecular structure — A band: {{c1::both actin & myosin}}; I band: {{c2::actin only}}", "extra": "", "sec": "Part 03 · 3.4 I band vs A band"}, {"id": "HIS-L1-025", "text": "H zone: paler region in the centre of the {{c1::A band}}, seen in {{c2::relaxed}} muscle; the {{c3::M line}} is the dark line in its middle", "extra": "", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-026", "text": "Z line: darker transverse line containing {{c1::α-actinin}}; the {{c2::thin}} filaments attach here; it bisects the {{c3::I band}}", "extra": "", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-027", "text": "The H zone exists because thin filaments attach to the Z line and run between the thick ones but {{c1::do not reach the centre of the A band}}", "extra": "", "sec": "Part 03 · 3.3 The sarcomere"}, {"id": "HIS-L1-028", "text": "E/M — I band: electron {{c1::lucent}} with a central dark {{c2::Z line}}; A band: electron {{c3::dense}} with a light {{c4::H zone}} in the middle", "extra": "", "sec": "Part 03 · 3.4 I band vs A band"}, {"id": "HIS-L1-029", "text": "Thin filament proteins: {{c1::actin}} · {{c2::tropomyosin}} · {{c3::troponin}}", "extra": "", "sec": "Part 03 · 3.5 Thin & thick filaments"}, {"id": "HIS-L1-030", "text": "F-actin = {{c1::2}} strands of globular {{c2::G-actin}} twisted in a {{c3::double helix}}", "extra": "", "sec": "Part 03 · 3.5 Thin & thick filaments"}, {"id": "HIS-L1-031", "text": "Tropomyosin: filaments lying in the {{c1::grooves of actin}}; troponin: attached to {{c2::tropomyosin}} at regular intervals", "extra": "", "sec": "Part 03 · 3.5 Thin & thick filaments"}, {"id": "HIS-L1-032", "text": "Troponin is found in {{c1::skeletal & cardiac}} muscle only — not in {{c2::smooth}} muscle", "extra": "Smooth muscle uses calmodulin instead.", "sec": "Part 03 · 3.5 Thin & thick filaments"}, {"id": "HIS-L1-033", "text": "Thick filament = {{c1::myosin}}: a tail + two heads carrying {{c2::ATPase activity}} & {{c3::actin-binding}} sites", "extra": "", "sec": "Part 03 · 3.5 Thin & thick filaments"}, {"id": "HIS-L1-034", "text": "Desmin: {{c1::intermediate filament}} that joins the {{c2::Z disks}} of adjacent myofibrils", "extra": "", "sec": "Part 03 · 3.6 The anchors — desmin & dystrophin"}, {"id": "HIS-L1-035", "text": "Absence of desmin → {{c1::desmin-related myopathy (DRM)}}: {{c2::disorganized myofibrils}} & atrophy of fibres", "extra": "", "sec": "Part 03 · 3.6 The anchors — desmin & dystrophin"}, {"id": "HIS-L1-036", "text": "DRM: progressive weakness beginning in the {{c1::leg muscles}}, then the rest of the body; can affect {{c2::cardiac & respiratory}} muscles → fatal", "extra": "", "sec": "Part 03 · 3.6 The anchors — desmin & dystrophin"}, {"id": "HIS-L1-037", "text": "Dystrophin binds {{c1::actin}} with the {{c2::sarcolemma}} of skeletal fibres, then to the {{c3::extracellular matrix}}", "extra": "So its loss detaches the I bands (actin only) from the cell membrane.", "sec": "Part 03 · 3.6 The anchors — desmin & dystrophin"}, {"id": "HIS-L1-038", "text": "Defect in {{c1::dystrophin}} → atrophy of muscle fibres = {{c2::Duchenne muscular dystrophy (DMD)}}", "extra": "Desmin → DRM · Dystrophin → DMD.", "sec": "Part 03 · 3.6 The anchors — desmin & dystrophin"}, {"id": "HIS-L1-039", "text": "T tubule: a finger-like invagination of the {{c1::sarcolemma}} that surrounds each {{c2::myofibril}}", "extra": "", "sec": "Part 04 · 4.1 The transverse tubular system"}, {"id": "HIS-L1-040", "text": "Skeletal T tubule: sent into the sarcoplasm at the {{c1::A–I junction}}; conducts the {{c2::impulse from the sarcolemma to the deeper parts}} of the muscle", "extra": "", "sec": "Part 04 · 4.1 The transverse tubular system"}, {"id": "HIS-L1-041", "text": "Sarcoplasmic reticulum = {{c1::SER}}: a {{c2::longitudinal network}} + transverse parts called {{c3::terminal cisternae}}", "extra": "", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-042", "text": "Triad = 1 {{c1::T tubule}} lying between 2 {{c2::terminal cisternae}} of the SR", "extra": "TRI-ad = 3 structures.", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-043", "text": "Skeletal muscle: {{c1::2}} triads per sarcomere, at the {{c2::A–I junctions}}", "extra": "One at each A–I junction.", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-044", "text": "SR function: regulates contraction by {{c1::release & re-uptake of Ca²⁺}}; with the T tubule it gives {{c2::excitation–contraction coupling}}", "extra": "", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-045", "text": "Skeletal SR (terminal cisternae) = the cell's {{c1::Ca²⁺ store}}: releases Ca²⁺ on {{c2::depolarisation}}, takes it back on {{c3::relaxation}}", "extra": "The triad's lateral parts = sites of Ca²⁺ sequestration & release.", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-046", "text": "In the triad, the {{c1::T tubule}} conducts the impulse inward; the {{c2::terminal cisternae (SR)}} release & take back Ca²⁺", "extra": "", "sec": "Part 04 · 4.2 Sarcoplasmic reticulum & the triad"}, {"id": "HIS-L1-047", "text": "Contraction: impulse → depolarization along the sarcolemma into the {{c1::T tubules}} → Ca²⁺ from the {{c2::sER}} + ATP from {{c3::mitochondria}} → actin–myosin interaction pulls the 2 {{c4::Z lines}} inward", "extra": "", "sec": "Part 04 · 4.3 Contraction of the muscle"}, {"id": "HIS-L1-048", "text": "During contraction: H zone {{c1::disappears}} · I band {{c2::decreases}} · A band {{c3::remains the same}}", "extra": "H & I say bye; A stays Always.", "sec": "Part 04 · 4.3 Contraction of the muscle"}, {"id": "HIS-L1-049", "text": "The H zone disappears in contraction because it now contains {{c1::both actin & myosin}}", "extra": "", "sec": "Part 04 · 4.3 Contraction of the muscle"}, {"id": "HIS-L1-050", "text": "In contraction the sarcomere & myofibril {{c1::shorten}} — the distance between the {{c2::Z lines}} shortens (filament sliding)", "extra": "", "sec": "Part 04 · 4.3 Contraction of the muscle"}, {"id": "HIS-L1-051", "text": "Rest: I band 1.0 µm, A band 1.5 µm; the sarcomere shortens 10% → A band after contraction = {{c1::1.5 µm}}", "extra": "The A band never changes length; only H & I shrink.", "sec": "Part 04 · 4.3 Contraction of the muscle (GD key)"}, {"id": "HIS-L1-052", "text": "Inclusions {{c1::glycogen & fat droplets}} = source of energy for muscle contraction", "extra": "", "sec": "Part 05 · 5.1 Inclusions"}, {"id": "HIS-L1-053", "text": "Myoglobin: {{c1::oxygen}}-binding protein, functionally & chemically related to {{c2::Hb}}; {{c3::red to brown}} in colour", "extra": "", "sec": "Part 05 · 5.1 Inclusions"}, {"id": "HIS-L1-054", "text": "A skeletal fibre is red or white according to its {{c1::myoglobin}} concentration", "extra": "", "sec": "Part 05 · 5.1 Inclusions"}, {"id": "HIS-L1-055", "text": "Red fibres = type {{c1::1}}; white fibres = type {{c2::2}}", "extra": "One Slow Red Ox — type 1 = slow, red, oxidative.", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-056", "text": "Diameter — red fibres: {{c1::small}}; white fibres: {{c2::larger}}", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-057", "text": "Mitochondria & oxidative phosphorylation enzymes — red fibres: {{c1::many / rich}}; white fibres: {{c2::few / poor}}", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-058", "text": "Myoglobin — red: {{c1::large amount}}; white: {{c2::less}} · Glycogen — red: {{c3::few}}; white: {{c4::more (pale)}}", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-059", "text": "Energy source — red fibres: {{c1::aerobic oxidative phosphorylation of fatty acids}}; white fibres: {{c2::glycolysis}}", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-060", "text": "Contraction & fatigue — red: {{c1::slow, continuous}}, {{c2::not easily}} fatigued; white: {{c3::fast}}, {{c4::easily}} fatigued", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-061", "text": "Typical use — red fibres: {{c1::long-distance running}}; white fibres: {{c2::sprinting; fingers (playing music, computer games)}}", "extra": "", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres"}, {"id": "HIS-L1-062", "text": "Cross striations + peripheral nuclei, and on E/M many mitochondria in rows between myofibrils → {{c1::red skeletal muscle fibres}}", "extra": "White (fast) fibres have few mitochondria.", "sec": "Part 05 · 5.2 Types of skeletal muscle fibres (quiz / GD key)"}, {"id": "HIS-L1-063", "text": "Skeletal muscle growth — in length: by {{c1::satellite cells}}; in width: by {{c2::synthesis of new proteins by ribosomes}}", "extra": "", "sec": "Part 05 · 5.3 Growth & regeneration"}, {"id": "HIS-L1-064", "text": "Skeletal muscle (e.g. a torn gastrocnemius) regenerates by {{c1::differentiation of satellite cells}}", "extra": "Not by fusion of the damaged myofibres themselves.", "sec": "Part 05 · 5.3 Growth & regeneration"}, {"id": "HIS-L1-065", "text": "Regeneration after injury: {{c1::activation}} of satellite cells → {{c2::proliferation}} (they divide) → {{c3::fusion}} to form new skeletal muscle fibres", "extra": "Some satellite cells return to quiescence.", "sec": "Part 05 · 5.3 Growth & regeneration"}, {"id": "HIS-L1-066", "text": "The satellite (stem) cell lies on the myofibre under the {{c1::basal lamina}}", "extra": "", "sec": "Part 05 · 5.3 Growth & regeneration"}, {"id": "HIS-L1-067", "text": "Muscular dystrophy mechanism: {{c1::satellite cells}} fail to replace degenerated muscle fibres", "extra": "Official key (Formative 1 Q8). Pamphlet: skeletal muscle regenerates by satellite cells; a dystrophin defect → atrophy of fibres.", "sec": "Part 05 · 5.3 Growth & regeneration (Formative 1 key)"}, {"id": "HIS-L1-068", "text": "Disuse atrophy: {{c1::prolonged inactivity}} → the muscle shrinks in mass", "extra": "", "sec": "Part 05 · 5.4 Effect of exercise"}, {"id": "HIS-L1-069", "text": "Hypertrophy is caused by {{c1::strength training}} — contraction against {{c2::resistance}} (e.g. weight lifting)", "extra": "", "sec": "Part 05 · 5.4 Effect of exercise"}, {"id": "HIS-L1-070", "text": "Bodybuilding enlarges muscle by ↑ {{c1::diameter of individual muscle fibres}} — {{c2::no increase}} in the number of fibres", "extra": "Hypertrophy = bigger fibres, not more fibres.", "sec": "Part 05 · 5.4 Effect of exercise"}, {"id": "HIS-L1-071", "text": "Anabolic steroids: ↑ muscle mass; serious side effect: {{c1::liver cancer}}; detectable in body fluids for {{c2::6 months}} after the last dose", "extra": "", "sec": "Part 05 · 5.4 Effect of exercise"}, {"id": "HIS-L1-072", "text": "Cardiac muscle fibres contract {{c1::spontaneously}} and display a {{c2::rhythmic}} beat", "extra": "", "sec": "Part 06 · 6.1 General features & shape"}, {"id": "HIS-L1-073", "text": "Cardiac fibres: individual {{c1::short columnar}} cells joined end-to-end by {{c2::intercalated discs}} into long fibres", "extra": "", "sec": "Part 06 · 6.1 General features & shape"}, {"id": "HIS-L1-074", "text": "Cardiac fibres {{c1::branch & anastomose}} into a network; their diameter is {{c2::intermediate between skeletal & smooth}} muscle", "extra": "", "sec": "Part 06 · 6.1 General features & shape"}, {"id": "HIS-L1-075", "text": "Cardiac nuclei: {{c1::mono- or binucleated}}, oval & {{c2::central}}", "extra": "Can be binucleated — still central.", "sec": "Part 06 · 6.2 Light microscopy"}, {"id": "HIS-L1-076", "text": "Cardiac L/M: acidophilic cytoplasm with {{c1::less distinct}} striation than skeletal; filaments in {{c2::poorly defined}} myofibrils", "extra": "", "sec": "Part 06 · 6.2 Light microscopy"}, {"id": "HIS-L1-077", "text": "Cardiac E/M: mitochondria {{c1::more abundant}} than in skeletal muscle; SR {{c2::poorly defined}}", "extra": "", "sec": "Part 06 · 6.3 Electron microscopy"}, {"id": "HIS-L1-078", "text": "Cardiac diad = 1 {{c1::T tubule}} + 1 {{c2::profile (expansion) of SR}}, at the level of the {{c3::Z line}}", "extra": "", "sec": "Part 06 · 6.3 Electron microscopy"}, {"id": "HIS-L1-079", "text": "Cardiac T tubules are {{c1::larger}} than skeletal ones and meet the SR at the {{c2::Z discs}}, not at the A–I junctions", "extra": "", "sec": "Part 06 · 6.3 Electron microscopy"}, {"id": "HIS-L1-080", "text": "Cardiac inclusions: glycogen granules at {{c1::either pole of the nucleus}} · myoglobin · {{c2::lipochrome}} pigment, which {{c3::increases with age}}", "extra": "", "sec": "Part 06 · 6.3 Electron microscopy"}, {"id": "HIS-L1-081", "text": "Skeletal: {{c1::triad}} at the {{c2::A–I junction}}; cardiac: {{c3::diad}} at the {{c4::Z line}}", "extra": "Di-ad = 2 structures · Tri-ad = 3.", "sec": "Part 07 · 7.4 Triad vs diad"}, {"id": "HIS-L1-082", "text": "Intercalated disc: a {{c1::step-like}} junction forming {{c2::end-to-end}} attachments between adjacent cardiac cells; it has {{c3::transverse & longitudinal}} portions", "extra": "", "sec": "Part 06 · 6.4 Intercalated discs"}, {"id": "HIS-L1-083", "text": "Intercalated disc — transverse portion: {{c1::fasciae adherentes}} + {{c2::desmosomes (macula adherens)}}; longitudinal portion: {{c3::large gap junctions}}", "extra": "Transverse holds, longitudinal talks.", "sec": "Part 06 · 6.4 Intercalated discs"}, {"id": "HIS-L1-084", "text": "Fasciae adherentes of the intercalated disc = anchoring sites for {{c1::actin filaments}}", "extra": "", "sec": "Part 06 · 6.4 Intercalated discs"}, {"id": "HIS-L1-085", "text": "Desmosomes of the intercalated disc {{c1::bind the cells together}} and prevent them {{c2::pulling apart under constant contraction}}", "extra": "", "sec": "Part 06 · 6.4 Intercalated discs"}, {"id": "HIS-L1-086", "text": "{{c1::Gap junctions}} of the intercalated disc give {{c2::ionic continuity}} → coordinated contraction → cardiac muscle acts as a {{c3::functional syncytium}}", "extra": "They pass the electrical signal from myocyte to myocyte, keeping a normal rhythm.", "sec": "Part 06 · 6.4 Intercalated discs"}, {"id": "HIS-L1-087", "text": "Cardiac muscle {{c1::cannot regenerate}} — it has no {{c2::satellite cells}}", "extra": "", "sec": "Part 06 · 6.5 Regeneration in cardiac muscle"}, {"id": "HIS-L1-088", "text": "Cardiac muscle injury (e.g. myocardial infarction) is repaired by {{c1::fibroblasts}} forming {{c2::fibrous C.T. (a scar)}}", "extra": "", "sec": "Part 06 · 6.5 Regeneration in cardiac muscle"}, {"id": "HIS-L1-089", "text": "Pompe disease: {{c1::lysosomal glucosidase}} deficiency → {{c2::glycogen}} accumulation → skeletal muscle & heart problems", "extra": "", "sec": "Part 06 · 6.6 Pompe disease"}, {"id": "HIS-L1-090", "text": "Pompe disease: muscle {{c1::hypotonia}}; signs in infants: {{c2::feeding difficulties}} · {{c3::heart complications}} · {{c4::breathing difficulties}} · muscle weakness", "extra": "", "sec": "Part 06 · 6.6 Pompe disease"}], "lib": "./", "prev": null, "next": {"href": "his-l2.html", "title": "Lecture 2 · Muscle Tissue and Synovial Membrane"}, "searchHint": "e.g. actin, diaphragm, many / rich"};
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = BOOK.pages.length, QS = BOOK.questions, LABS = BOOK.labs;
+const KEY = 'msk-book-' + BOOK.id + '-v1';
+const DEF = {read:{}, ans:{}, pred:{}, flap:{}, self:{}, draft:{}, labs:{}, cards:{}, exams:[], mist:{}, marks:{}, set:{theme:'system', size:1, rapid:false}, last:1};
+let S = JSON.parse(JSON.stringify(DEF));
+try { const t = JSON.parse(localStorage.getItem(KEY) || 'null'); if (t && typeof t === 'object') for (const k in DEF) if (t[k] !== undefined) S[k] = t[k]; } catch (e) {}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+const RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+const DUR = RM ? 0 : 720, EASE = 'cubic-bezier(.42,.02,.24,1)';
+
+/* ---------- settings ---------- */
+function applySet(){
+  const r = document.documentElement;
+  if (S.set.theme === 'light' || S.set.theme === 'dark') r.dataset.theme = S.set.theme; else r.removeAttribute('data-theme');
+  r.style.setProperty('--fsz', S.set.size || 1);
+  document.body.classList.toggle('rapid', !!S.set.rapid);
+}
+applySet();
+
+/* ---------- geometry ---------- */
+const stage = $('#stage'), book = $('#book'), pgL = $('#pgL'), pgR = $('#pgR'), leaf = $('#leaf'), lf = $('#lf'), lb = $('#lb');
+let mode = 'spread', at = Math.min(Math.max(+S.last || 1, 0), N - 1), busy = false, opened = false, laid = false, drawnMode = null;
+function layout(force){
+  // layout-viewport size: on phones innerWidth/innerHeight grow while the page is zoomed out (pinch, or a page that overflowed for a moment)
+  const de = document.documentElement, vw = de.clientWidth || window.innerWidth, vh = de.clientHeight || window.innerHeight;
+  const lenient = laid && mode === 'spread';   // a little hysteresis: a window right at the edge can't flip between one and two pages
+  const wide = lenient ? (vw >= 880 && vh >= 500) : (vw >= 900 && vh >= 520);
+  $('#mnav').hidden = !(opened && !wide);
+  const r = stage.getBoundingClientRect(); const W = r.width, H = r.height - 20;
+  let pw, ph;
+  if (wide){ ph = Math.min(H, 940); pw = ph * .72; const maxw = (W - 130) / 2; if (pw > maxw){ pw = maxw; ph = Math.min(H, pw / .72); } mode = 'spread'; }
+  else { pw = Math.min(W - 4, 640); ph = Math.max(H, 200); mode = 'single'; }   // phone on its side: the page fits between the bars and scrolls inside
+  laid = true;
+  const rs = document.documentElement.style, vpw = Math.floor(pw) + 'px', vph = Math.floor(ph) + 'px';
+  if (rs.getPropertyValue('--pw') !== vpw) rs.setProperty('--pw', vpw);
+  if (rs.getPropertyValue('--ph') !== vph) rs.setProperty('--ph', vph);
+  book.classList.toggle('single', mode === 'single');
+  // a new size only reflows the CSS; the pages are rebuilt only when the book switches between one and two pages,
+  // so a phone's sliding toolbar, the keyboard or a resizing frame can never reset the page you are reading
+  if (opened && (force || mode !== drawnMode)) draw();
+}
+window.addEventListener('resize', () => {
+  clearTimeout(layout.t);
+  layout.t = setTimeout(function again(){ if (busy){ layout.t = setTimeout(again, 120); return; } layout(); }, 80);
+});
+
+/* ---------- page rendering ---------- */
+const H = {};   // block renderers
+function P(i, side){
+  if (i < 0 || i >= N) return `<div class="pin"></div>`;
+  const pg = BOOK.pages[i];
+  const head = pg.head ? `<div class="rh"><span>${esc(pg.head)}</span><span>${esc(BOOK.short)}</span></div>` : '';
+  const body = (pg.blocks || []).map((b, k) => (H[b.t] ? H[b.t](b, pg, k) : '')).join('');
+  const ribbon = pg.kind !== 'cover' ? `<button class="ribbon ${S.marks[i] ? 'on' : ''}" data-act="mark" data-p="${i}" aria-label="Bookmark this page"></button>` : '';
+  return `<div class="pin" data-pid="${i}">${head}${body}</div>${ribbon}<div class="folio ${side || ''}">${i === 0 ? '' : i}</div>`;
+}
+function setPage(el, i, side){ el.dataset.page = i; el.innerHTML = P(i, side); }
+function draw(){
+  drawnMode = mode;
+  const keep = {};
+  for (const el of [pgL, pgR]){ const sc = el.querySelector('.pin'); if (sc && !el.hidden && el.dataset.page !== undefined) keep[el.dataset.page] = sc.scrollTop; }
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    setPage(pgL, L, 'l'); setPage(pgR, L + 1, 'r'); pgR.hidden = false;
+    mark(L); mark(L + 1);
+  } else { setPage(pgL, at, 'r'); pgR.hidden = true; mark(at); }
+  for (const el of [pgL, pgR]){ const t = keep[el.dataset.page], sc = el.querySelector('.pin'); if (t && sc) sc.scrollTop = t; }
+  upd();
+}
+function mark(i){ if (i >= 0 && i < N && !S.read[i]){ S.read[i] = 1; save(); } }
+function rerender(i){
+  for (const el of [pgL, pgR]){
+    if (el.hidden || +el.dataset.page !== i) continue;
+    const sc = el.querySelector('.pin'); const top = sc ? sc.scrollTop : 0;
+    el.innerHTML = P(i, el === pgL && mode === 'spread' ? 'l' : 'r');
+    const ns = el.querySelector('.pin'); if (ns) ns.scrollTop = top;
+  }
+}
+function pageOf(el){ const p = el.closest('[data-page]'); return p ? +p.dataset.page : -1; }
+function upd(){
+  S.last = at; save();
+  const L = mode === 'spread' ? at - (at % 2) : at;
+  const txt = mode === 'spread' ? (L === 0 ? `p. 1 of ${N - 1}` : `pp. ${L}–${Math.min(L + 1, N - 1)} of ${N - 1}`) : (at === 0 ? 'Contents' : `p. ${at} of ${N - 1}`);
+  $('#pgind').textContent = opened ? txt : '';
+  $('#mmid').textContent = (BOOK.pages[at].head || BOOK.short) + ' · ' + (at === 0 ? 'contents' : 'p. ' + at);
+  const nr = Object.keys(S.read).length; $('#progi').style.width = Math.round(100 * nr / N) + '%';
+  // the library's "Continue" button: which lecture and page this reader was on last
+  try { localStorage.setItem('msk-last-book', JSON.stringify({id: BOOK.id, href: location.pathname.split('/').pop() || '', title: BOOK.title, page: at, t: Date.now()})); } catch (e) {}
+  // the page number is kept in S.last only — never in the address bar: an embedded viewer treats a changed address
+  // as a new page and reloads it, which made the book reload on every page turn
+}
+
+/* ---------- page turning ---------- */
+function clearLeaf(){ leaf.hidden = true; leaf.getAnimations && leaf.getAnimations().forEach(a => a.cancel()); }
+function anim(el, frames, done){
+  if (!DUR || !el.animate){ done(); return; }
+  leaf.style.setProperty('--dur', DUR + 'ms');
+  const a = el.animate(frames, {duration: DUR, easing: EASE});
+  a.onfinish = done; a.oncancel = done;
+}
+function go(dir){
+  if (busy || !opened) return;
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    if (dir > 0){
+      if (L + 2 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = 'var(--pw)'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(L + 1, 'r'); lb.innerHTML = P(L + 2, 'l'); setPage(pgR, L + 3, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(-180deg)'}], () => { at = L + 2; setPage(pgL, L + 2, 'l'); clearLeaf(); busy = false; mark(at); mark(at + 1); upd(); });
+    } else {
+      if (L - 2 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'right center';
+      lf.innerHTML = P(L, 'l'); lb.innerHTML = P(L - 1, 'r'); setPage(pgL, L - 2, 'l'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], () => { at = L - 2; setPage(pgR, L - 1, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  } else {
+    if (dir > 0){
+      if (at + 1 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at, 'r'); lb.innerHTML = '<div class="pin"></div>'; setPage(pgL, at + 1, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)', opacity: 1}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .7}, {transform: 'rotateY(-180deg)', opacity: 0}], () => { at++; clearLeaf(); busy = false; mark(at); upd(); });
+    } else {
+      if (at - 1 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at - 1, 'r'); lb.innerHTML = '<div class="pin"></div>'; leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(-180deg)', opacity: 0}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .3}, {transform: 'rotateY(0deg)', opacity: 1}], () => { at--; setPage(pgL, at, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  }
+}
+function jump(i){
+  i = Math.max(0, Math.min(N - 1, i)); closeOv();
+  if (!opened) openBook(i); else { at = i; draw(); }
+}
+document.addEventListener('keydown', e => {
+  if (!opened || document.querySelector('#ovs .ov')) { if (e.key === 'Escape') closeOv(); return; }
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+});
+let tx0 = null, ty0 = 0;
+book.addEventListener('touchstart', e => { const t = e.touches[0]; if (e.target.closest('.nosw,input,textarea,button,svg')) { tx0 = null; return; } tx0 = t.clientX; ty0 = t.clientY; }, {passive: true});
+book.addEventListener('touchend', e => { if (tx0 === null) return; const t = e.changedTouches[0]; const dx = t.clientX - tx0, dy = t.clientY - ty0; tx0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1); }, {passive: true});
+
+/* ---------- home (closed book) ---------- */
+function examDays(d){ const t = new Date(d + 'T00:00:00'); const now = new Date(); const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()); return Math.round((t - a) / 864e5); }
+function chipFor(e){ const n = examDays(e.date); if (n < 0) return ''; return `<span class="cd">${esc(e.name)} · <b>${n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'}</b></span>`; }
+function stats(){
+  const nr = Object.keys(S.read).length;
+  const ids = Object.keys(S.ans).filter(q => QS[q]); const ok = ids.filter(q => S.ans[q].ok).length;
+  const learned = Object.values(S.cards).filter(c => c.step >= 2).length;
+  return {nr, ok, n: ids.length, learned};
+}
+function home(){
+  opened = false; book.hidden = true; $('#mnav').hidden = true; $('#pgind').textContent = '';
+  const st = stats();
+  const cont = S.last > 1 ? `Continue on page ${S.last}` : 'Open the book';
+  $('#home').hidden = false;
+  $('#home').innerHTML = `
+  <div class="cover" id="cover">
+    <div class="frame"></div>
+    <div class="k">THE HELPERS · SEM 3 · 2026–27</div>
+    <div class="t1">MSK</div>
+    <div class="t2">${esc(BOOK.subject.toUpperCase())}</div>
+    <div class="rule"></div>
+    <div class="t3">${esc(BOOK.coverLine)}</div>
+    <div class="t4">${esc(BOOK.coverNote)}</div>
+  </div>
+  <div class="side">
+    ${BOOK.lib ? `<a class="libl" href="${esc(BOOK.lib)}">← All lectures</a>` : ''}
+    <h1>${esc(BOOK.title)}</h1>
+    <p>${esc(BOOK.blurb)}</p>
+    <div class="chips">${(BOOK.exams || []).map(chipFor).join('')}</div>
+    <div class="stats">
+      <div class="stat"><b>${st.nr}/${N}</b><span>pages read</span></div>
+      <div class="stat"><b>${st.ok}/${st.n}</b><span>answered right</span></div>
+      <div class="stat"><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>
+    </div>
+    <button class="hbtn pri" data-act="open">${cont}</button>
+    <div class="hrow">
+      <button class="hbtn" data-act="open-cards">Flashcards</button>
+      <button class="hbtn" data-act="open-exam">Exam mode</button>
+    </div>
+  </div>`;
+  $('#chap').textContent = BOOK.short;
+}
+function openBook(i){
+  const go2 = () => { $('#home').hidden = true; book.hidden = false; opened = true; if (i !== undefined) at = i; layout(true); };
+  const c = $('#cover');
+  if (c && DUR && c.animate){ c.animate([{transform: 'perspective(1400px) rotateY(0)'}, {transform: 'perspective(1400px) rotateY(-80deg)', opacity: .2}], {duration: 520, easing: 'ease-in'}).onfinish = go2; }
+  else go2();
+}
+
+/* ---------- block renderers ---------- */
+H.part = b => `<div class="part"><span class="pn">${esc(b.no)}</span><div><small>Part ${esc(b.no)}</small><h2>${esc(b.title)}</h2>${b.sub ? `<p>${esc(b.sub)}</p>` : ''}</div><span class="big">${esc(b.no)}</span></div>`;
+H.h = b => `<h3 class="sh"><span class="num">${esc(b.no)}</span><span>${esc(b.title)}</span>${b.top || b.rep ? `<span class="sht">${b.top ? '<span class="tg top">★ Top priority</span>' : ''}${b.rep ? '<span class="tg">↻ High yield</span>' : ''}</span>` : ''}</h3>`;
+H.hook = b => `<p class="hook">${b.html}</p>`;
+H.p = b => `<p class="tx">${b.html}</p>`;
+H.list = b => `<ul class="ls">${b.items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const NL = {hy: 'High yield', trap: 'Exam trap', mn: 'Mnemonic', cl: 'Clinical', def: 'Definition', nb: 'N.B.'};
+H.note = b => `<aside class="note n-${b.kind}"><span class="nl">${esc(b.title || NL[b.kind])}</span>${b.html}</aside>`;
+H.flow = b => `<div class="flow">${b.steps.map(s => `<span>${s}</span>`).join('<i>→</i>')}</div>`;
+const TB = {};
+H.table = (b, pg, k) => {
+  const id = pg.id + '-' + k; const st = TB[id] || (TB[id] = {cv: false, rev: {}});
+  const rows = b.rows.map((r, ri) => `<tr>${r.map((c, ci) => { const cov = st.cv && ci > 0 && !st.rev[ri + ':' + ci]; return `<td${cov ? ` class="cv" data-act="rev" data-t="${id}" data-c="${ri}:${ci}"` : ''}>${cov ? '<span>' + c + '</span>' : c}</td>`; }).join('')}</tr>`).join('');
+  return `<div class="tbl"><div class="tbl-h"><span>${esc(b.cap || '')}</span>${b.cover !== false ? `<button class="mini ${st.cv ? 'on' : ''}" data-act="cover" data-t="${id}">${st.cv ? 'Show answers' : 'Cover answers'}</button>` : ''}</div><div class="tw"><table><thead><tr>${b.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+function qimg(q, ans){
+  const L = ans ? q.aimg : q.img; if (!L || !L.length) return '';
+  const cap = ans ? q.acap : q.cap;
+  return L.map((u, i) => `<figure class="qf"><img src="${esc(u)}" alt="${esc(cap || 'Figure for this question')}" loading="lazy">${i === L.length - 1 && cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('');
+}
+function qtags(q){
+  const t = [];
+  if (q.top) t.push('<span class="tg top">★ Top priority</span>');
+  if (q.rep) t.push(`<span class="tg">↻ ${esc(q.rep)}</span>`);
+  t.push(`<span class="tg">${esc(q.tag)}</span>`);
+  return t.join('');
+}
+function opts(q, st, act){
+  return q.opts.map((o, i) => {
+    let c = '';
+    if (st && st.show){ if (i === q.ans) c = 'ok'; else if (i === st.pick) c = 'bad'; }
+    else if (st && st.pick === i) c = 'pick';
+    return `<button class="op ${c}" data-act="${act}" data-q="${q.id}" data-i="${i}" ${st && st.show ? 'disabled' : ''}><span class="lt">${'ABCDEFGH'[i]}</span><span>${esc(o)}</span></button>`;
+  }).join('');
+}
+H.check = b => {
+  const q = QS[b.q]; if (!q) return ''; const a = S.ans[q.id];
+  const st = a ? {pick: a.pick, show: true} : null;
+  const res = a ? `<div class="res ${a.ok ? 'ok' : 'bad'}">${a.ok ? '✓ Correct' : '✗ Not quite — the answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>${qimg(q, 1)}<div class="row"><button class="btn" data-act="retry" data-q="${q.id}">Try again</button></div>` : '';
+  return `<div class="qb"><div class="qh">Check question ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'ans')}${res}</div>`;
+};
+H.predict = b => {
+  const q = QS[b.q]; if (!q) return ''; const p = S.pred[q.id] || {};
+  const st = p.lift ? {pick: p.pick, show: true} : (p.pick !== undefined ? {pick: p.pick} : null);
+  let tail = '';
+  if (p.pick !== undefined && !p.lift) tail = `<div class="row"><button class="btn lift" data-act="lift" data-q="${q.id}">Lift the flap ↑</button><span class="muted" style="font-size:.8em">You predicted ${'ABCDEFGH'[p.pick]}</span></div>`;
+  else if (p.lift) tail = `<div class="res ${p.pick === q.ans ? 'ok' : 'bad'}">${p.pick === q.ans ? '✓ Your prediction was right' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>`;
+  else tail = `<div class="flapc"><span class="muted" style="font-size:.82em">Pick your prediction, then lift the flap</span></div>`;
+  return `<div class="qb"><div class="qh">Predict, then reveal ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'pred')}${tail}</div>`;
+};
+H.flap = b => {
+  const q = QS[b.q]; if (!q) return ''; const lifted = S.flap[q.id]; const self = S.self[q.id];
+  const dr = `<textarea class="dr" data-act="draft" data-q="${q.id}" placeholder="Write your answer first (optional)…">${esc(S.draft[q.id] || '')}</textarea>`;
+  const body = lifted
+    ? `<div class="ans">${q.keyhtml}</div>${qimg(q, 1)}${q.expl ? `<div class="ex">${q.expl}</div>` : ''}<div class="row"><span class="muted" style="font-size:.78em">How did you do?</span><button class="btn ${self === 'got' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="got">Got it</button><button class="btn ${self === 'later' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="later">Review later</button></div>`
+    : `${dr}<div class="flapc"><button class="btn lift" data-act="flap" data-q="${q.id}">Lift the flap ↑</button></div>`;
+  return `<div class="qb"><div class="qh">Written question ${qtags(q)}</div><div class="qs" style="white-space:pre-line">${esc(q.stem)}</div>${qimg(q)}${body}</div>`;
+};
+H.title = b => `<div class="title-page"><div class="kick">${esc(b.kick)}</div><h1 class="ttl">${esc(b.title)}</h1><div class="sub">${esc(b.sub)}</div>
+  <div class="facts">${b.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div>
+  ${b.hook ? `<p class="hook">${b.hook}</p>` : ''}${b.note ? `<aside class="note n-hy"><span class="nl">${esc(b.note[0])}</span>${b.note[1]}</aside>` : ''}</div>`;
+H.contents = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  return `<h3 class="sh" style="margin-top:0"><span class="num">≡</span><span>Contents</span></h3>
+  <ul class="map">${items.map(([p, i]) => `<li><button data-act="jump" data-p="${i}"><span class="mn">${esc(p.toc[0])}</span><span class="mt">${esc(p.toc[1])}</span><span class="mp">p. ${i}</span></button></li>`).join('')}</ul>
+  <div class="legend"><i style="background:var(--sticky)"></i><span>Sticky notes = high-yield facts</span><i style="background:var(--trap-bg);border-left:3px solid var(--red)"></i><span>Exam traps</span>
+  <i style="background:var(--chip);border:1px solid var(--line)"></i><span>Check questions answer instantly</span><i style="background:var(--red)"></i><span>LAB pages: interactive drills</span></div>
+  <p class="tx" style="font-size:.86em">Turn pages with the arrows, the ← → keys, or a swipe. Tap the ribbon to bookmark a page. Every fact comes from this year's Helpers pamphlet; every question is from the checked question bank.</p>`;
+};
+H.actions = () => `<div class="row" style="gap:.6em;margin:.8em 0"><button class="btn pri" data-act="open-exam">Start exam mode</button><button class="btn" data-act="open-cards">Flashcards (${BOOK.cards.length})</button><button class="btn" data-act="open-mist">My mistakes</button></div>`;
+H.progress = () => {
+  const st = stats(); const labs = Object.keys(LABS); const ld = labs.filter(l => S.labs[l] && S.labs[l].done).length;
+  const ex = S.exams.length ? S.exams[S.exams.length - 1] : null;
+  const third = labs.length ? `<div><b>${ld}/${labs.length}</b><span>labs done</span></div>` : `<div><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>`;
+  return `<div class="facts"><div><b>${st.nr}/${N}</b><span>pages read</span></div><div><b>${st.ok}/${st.n}</b><span>questions right</span></div>${third}</div>
+  <p class="tx" style="font-size:.86em">${ex ? `Last exam: <b>${ex.score}/${ex.n}</b> in ${Math.round(ex.secs / 60)} min.` : 'No exam taken yet.'} ${Object.keys(S.mist).length ? `You have <b>${Object.keys(S.mist).length}</b> questions in your mistakes list.` : ''}</p>`;
+};
+H.lab = (b, pg) => { const L = LABS[b.lab]; return L ? labHTML(L, pg) : ''; };
+H.recall = b => {
+  const st = S.labs[b.id] || {}, rv = st.r || {}; let n = 0, k = 0;
+  const body = b.groups.map(g => `<div class="rcg">${esc(g.title)}</div>` + g.items.map(it => { const i = n++, on = !!rv[i]; if (on) k++;
+    return `<button class="rci ${on ? 'on' : ''}" data-act="rcv" data-l="${b.id}" data-i="${i}"><span class="cue">${it[0]}</span>${it[1] ? ` <span class="${on ? '' : 'hid'}">${it[1]}</span>` : ''}</button>`; }).join('')).join('');
+  return `<div class="labh"><span class="lb">LAB</span><h3>${esc(b.title)}</h3></div>
+    <p class="labi">Say the rest of each line out loud, then tap it to check. Tap again to cover it. <b>${k}/${n}</b> uncovered.</p>
+    <div class="modes"><button class="mini" data-act="rcall" data-l="${b.id}" data-n="${n}">Uncover all</button><button class="mini" data-act="rcno" data-l="${b.id}">Cover all</button></div>${body}`;
+};
+H.end = () => {
+  const nx = BOOK.next, pv = BOOK.prev;
+  return `<div class="endnav">${nx ? `<a href="${esc(nx.href)}"><span><small>Next lecture</small>${esc(nx.title)}</span><span>→</span></a>` : ''}
+    ${pv ? `<a href="${esc(pv.href)}"><span><small>Previous lecture</small>${esc(pv.title)}</span><span>←</span></a>` : ''}
+    ${BOOK.lib ? `<a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a>` : ''}</div>`;
+};
+
+/* ---------- labs ---------- */
+const LS = {};
+function lst(id, init){ return LS[id] || (LS[id] = init()); }
+function rnd(seed){ let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function shuffled(arr, seed){ const r = rnd(seed), a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function labDone(id){ if (!S.labs[id] || !S.labs[id].done){ S.labs[id] = {done: true}; save(); } }
+function labHTML(L, pg){
+  const head = `<div class="labh"><span class="lb">LAB</span><h3>${esc(L.title)}</h3></div><div class="labi">${L.intro}</div>`;
+  const foot = L.ref ? `<div class="ref">From the pamphlet · ${esc(L.ref)}</div>` : '';
+  return `<div class="labx nosw">${head}${LAB[L.type](L)}${foot}</div>`;
+}
+const LAB = {};
+// --- region map (cross-section) ---
+function sector(cx, cy, rx, ry, a1, a2){
+  const p = a => [cx + rx * Math.cos(a * Math.PI / 180), cy + ry * Math.sin(a * Math.PI / 180)];
+  const [x1, y1] = p(a1), [x2, y2] = p(a2); const large = ((a2 - a1 + 360) % 360) > 180 ? 1 : 0;
+  return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+}
+LAB.map = L => {
+  const st = lst(L.id, () => ({sel: null, mode: 'explore', qi: 0, score: 0, fb: null, order: shuffled(L.tests.map((_, i) => i), L.id)}));
+  const cx = 160, cy = 128, rx = 136, ry = 108;
+  const regs = L.regions.map(r => {
+    const on = st.sel === r.id, dim = st.sel && !on && st.mode === 'explore';
+    return `<path class="rg ${dim ? 'dim' : ''}" d="${sector(cx, cy, rx, ry, r.a1, r.a2)}" fill="${r.color}" data-act="map" data-l="${L.id}" data-id="${r.id}" ${on ? 'stroke="var(--navy)" stroke-width="4"' : ''}/>`;
+  }).join('');
+  const labels = L.regions.map(r => { const m = (r.a1 + ((r.a2 - r.a1 + 360) % 360) / 2) * Math.PI / 180; return `<text class="svgtxt" text-anchor="middle" x="${(cx + rx * .62 * Math.cos(m)).toFixed(1)}" y="${(cy + ry * .62 * Math.sin(m) + 4).toFixed(1)}">${esc(r.short)}</text>`; }).join('');
+  const septa = L.regions.map(r => { const a = r.a1 * Math.PI / 180; return `<line x1="${(cx + 26 * Math.cos(a)).toFixed(1)}" y1="${(cy + 26 * Math.sin(a)).toFixed(1)}" x2="${(cx + rx * Math.cos(a)).toFixed(1)}" y2="${(cy + ry * Math.sin(a)).toFixed(1)}" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="4 3"/>`; }).join('');
+  const svg = `<svg viewBox="0 0 320 262" role="img" aria-label="${esc(L.title)}">${regs}${septa}
+    <circle cx="${cx}" cy="${cy}" r="26" fill="var(--bone)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="var(--paper-2)" stroke="var(--ink-2)" stroke-width="1"/>
+    <text class="svgsm" x="${cx}" y="${cy + 42}" text-anchor="middle">FEMUR</text>${labels}
+    <text class="svgsm" x="8" y="254">${esc(L.caption || '')}</text></svg>`;
+  let info;
+  if (st.mode === 'explore'){
+    const r = L.regions.find(x => x.id === st.sel);
+    info = r ? `<h4>${esc(r.name)}</h4>${r.html}` : `<span class="muted">Tap a compartment to see its muscles and its nerve.</span>`;
+  } else {
+    const done = st.qi >= L.tests.length;
+    info = done ? `<h4>Score: ${st.score}/${L.tests.length}</h4><span class="muted">Press "Test me" again for a new round.</span>`
+      : `<h4>${esc(L.tests[st.order[st.qi]].q)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : '<span class="muted">Tap the compartment.</span>'}`;
+    if (done) labDone(L.id);
+  }
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="explore">Explore</button><button class="mini ${st.mode === 'test' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="test">Test me</button>${st.mode === 'test' ? `<span class="muted" style="font-size:.75em;align-self:center">Question ${Math.min(st.qi + 1, L.tests.length)} of ${L.tests.length} · score ${st.score}</span>` : ''}</div>
+    <div class="svgw">${svg}</div><div class="info">${info}</div>`;
+};
+// --- nerve / muscle / movement graph with nerve cuts ---
+function gstate(L){ return lst(L.id, () => ({sel: null, cut: {}, mode: 'explore'})); }
+function mstat(m, cut){ if (!m.nerves.length) return 'unk'; const c = m.nerves.filter(n => cut[n]).length; return c === 0 ? 'ok' : c === m.nerves.length ? 'lost' : 'weak'; }
+LAB.graph = L => {
+  const st = gstate(L);
+  const M = L.muscles, byId = {}; M.forEach(m => byId[m.id] = m);
+  let hlN = {}, hlM = {}, hlV = {};
+  if (st.mode === 'explore' && st.sel){
+    const [t, id] = st.sel;
+    if (t === 'n'){ hlN[id] = 1; M.forEach(m => { if (m.nerves.includes(id)){ hlM[m.id] = 1; m.moves.forEach(v => hlV[v] = 1); } }); }
+    if (t === 'm'){ const m = byId[id]; hlM[id] = 1; m.nerves.forEach(n => hlN[n] = 1); m.moves.forEach(v => hlV[v] = 1); }
+    if (t === 'v'){ hlV[id] = 1; M.forEach(m => { if (m.moves.includes(id)){ hlM[m.id] = 1; m.nerves.forEach(n => hlN[n] = 1); } }); }
+  }
+  const any = st.mode === 'explore' && st.sel;
+  const ch = (t, id, name, extra) => {
+    let c = '';
+    if (st.mode === 'explore'){ if (any) c = ((t === 'n' ? hlN : t === 'm' ? hlM : hlV)[id]) ? 'hl' : 'dim'; }
+    else { if (t === 'n' && st.cut[id]) c = 'cut'; if (t === 'm'){ const s = mstat(byId[id], st.cut); c = s === 'lost' ? 'lost' : s === 'weak' ? 'weak' : s === 'unk' ? 'unk' : ''; } if (t === 'v') c = extra || ''; }
+    return `<button class="chip ${c}" data-act="g" data-l="${L.id}" data-t="${t}" data-id="${id}">${t === 'n' && st.mode === 'cut' ? (st.cut[id] ? '✂ ' : '') : ''}${esc(name)}</button>`;
+  };
+  // movement status
+  const vstat = {};
+  let summary = '';
+  if (st.mode === 'cut'){
+    const lines = [];
+    L.moves.forEach(v => {
+      const ms = M.filter(m => m.moves.includes(v.id) && m.nerves.length);
+      const lost = ms.filter(m => mstat(m, st.cut) === 'lost'), weak = ms.filter(m => mstat(m, st.cut) === 'weak');
+      const s = lost.length === ms.length && ms.length ? 'lost' : (lost.length || weak.length) ? 'weak' : 'ok';
+      vstat[v.id] = s;
+      if (s !== 'ok'){
+        const still = ms.filter(m => mstat(m, st.cut) !== 'lost').map(m => m.name + (mstat(m, st.cut) === 'weak' ? ' (partly)' : ''));
+        lines.push(`<div><b>${esc(v.name)}</b><span class="st ${s}">${s === 'lost' ? 'LOST' : 'WEAKENED'}</span>${still.length ? `<br><span class="muted" style="font-size:.9em">Still working: ${esc(still.join(', '))}</span>` : ''}</div>`);
+      }
+    });
+    const nc = Object.keys(st.cut).filter(k => st.cut[k]).length;
+    summary = nc ? (lines.length ? lines.join('') : '<span class="muted">No movement is affected.</span>') : '<span class="muted">Tap a nerve to cut it, or choose a case below.</span>';
+  } else {
+    const sel = st.sel; let t = '<span class="muted">Tap any nerve, muscle or movement to light up everything connected to it.</span>';
+    if (sel){ const [k, id] = sel; const item = k === 'n' ? L.nerves.find(x => x.id === id) : k === 'm' ? byId[id] : L.moves.find(x => x.id === id); t = `<h4>${esc(item.name)}</h4>${item.note ? esc(item.note) : ''}`; }
+    summary = t;
+  }
+  const vchip = v => ch('v', v.id, v.name, st.mode === 'cut' ? (vstat[v.id] === 'lost' ? 'lost' : vstat[v.id] === 'weak' ? 'weak' : '') : '');
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="explore">Explore links</button><button class="mini ${st.mode === 'cut' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="cut">Cut a nerve</button>${st.mode === 'cut' ? `<button class="mini" data-act="gclear" data-l="${L.id}">Heal all</button>` : ''}</div>
+    ${st.mode === 'cut' ? `<div class="modes">${L.cases.map((c, i) => `<button class="mini" data-act="gcase" data-l="${L.id}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+    <div class="gcols"><div class="gcol"><h5>Nerves</h5>${L.nerves.map(n => ch('n', n.id, n.name)).join('')}</div>
+    <div class="gcol"><h5>Muscles</h5>${M.map(m => ch('m', m.id, m.name)).join('')}</div>
+    <div class="gcol"><h5>Movements</h5>${L.moves.map(vchip).join('')}</div></div>
+    <div class="info">${summary}</div>${L.footnote ? `<div class="muted" style="font-size:.74em">${L.footnote}</div>` : ''}`;
+};
+// --- sorter ---
+LAB.sort = L => {
+  const st = lst(L.id, () => ({sel: null, placed: {}, wrong: 0, shake: null, order: shuffled(L.items.map(x => x.id), L.id)}));
+  const pool = st.order.filter(id => !st.placed[id]);
+  const it = id => L.items.find(x => x.id === id);
+  const done = !pool.length; if (done) labDone(L.id);
+  return `<div class="pool">${pool.map(id => `<button class="chip ${st.sel === id ? 'sel' : ''} ${st.shake === id ? 'shake' : ''}" data-act="spick" data-l="${L.id}" data-id="${id}">${esc(it(id).name)}</button>`).join('') || ''}</div>
+   ${done ? `<div class="done">✓ All sorted${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ' with no mistakes'}</div>` : `<div class="muted" style="font-size:.78em;margin:-.3em 0 .5em">${st.sel ? 'Now tap the right box.' : 'Tap an item, then tap its box.'}${st.wrong ? ` Wrong tries: ${st.wrong}.` : ''}</div>`}
+   <div class="bins">${L.bins.map(b => `<button class="bin" data-act="sdrop" data-l="${L.id}" data-b="${b.id}"><h5>${esc(b.name)}</h5>${b.sub ? `<small>${esc(b.sub)}</small>` : ''}<span class="in">${st.order.filter(id => st.placed[id] === b.id).map(id => `<span class="chip ok">${esc(it(id).name)}</span>`).join('')}</span></button>`).join('')}</div>
+   <div class="row"><button class="btn" data-act="sreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- sequence ---
+LAB.seq = L => {
+  const st = lst(L.id, () => ({n: 0, wrong: 0, shake: null, order: shuffled(L.steps.map((_, i) => i), L.id + 's')}));
+  const done = st.n >= L.steps.length; if (done) labDone(L.id);
+  return `<div class="info" style="min-height:0"><h4>${esc(L.prompt)}</h4></div>
+   <div class="seqline">${st.n ? L.steps.slice(0, st.n).map((s, i) => `<span class="n">${i + 1}</span><span class="chip ok">${esc(s)}</span>`).join('') : '<span class="muted" style="font-size:.78em">Your order appears here.</span>'}</div>
+   <div class="pool">${st.order.filter(i => i >= st.n).map(i => `<button class="chip ${st.shake === i ? 'shake' : ''}" data-act="qpick" data-l="${L.id}" data-i="${i}">${esc(L.steps[i])}</button>`).join('')}</div>
+   ${done ? `<div class="done">✓ Correct order${L.mnemonic ? ' — ' + esc(L.mnemonic) : ''}${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ''}</div>` : (st.wrong ? `<div class="muted" style="font-size:.78em">Wrong tries: ${st.wrong}</div>` : '')}
+   <div class="row"><button class="btn" data-act="qreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- labelled diagram ---
+const DRAW = {};
+LAB.diagram = L => {
+  const st = lst(L.id, () => ({mode: 'labels', rev: {}, qi: 0, score: 0, fb: null, order: shuffled(L.pins.map(p => p.id), L.id)}));
+  const pins = L.pins.map((p, i) => {
+    const shown = st.mode === 'labels' || (st.mode === 'test' && st.rev[p.id]);
+    let c = st.mode === 'test' && st.rev[p.id] ? 'on' : '';
+    if (st.mode === 'find' && st.fb && st.fb[2] === p.id) c = st.fb[0];
+    const lx = p.lx !== undefined ? p.lx : p.x + 9, anchor = p.anchor || 'start';
+    return `<g class="pinbtn ${c}" data-act="pin" data-l="${L.id}" data-id="${p.id}"><circle class="d" cx="${p.x}" cy="${p.y}" r="7"/><text x="${p.x}" y="${p.y + 2.8}" text-anchor="middle">${i + 1}</text>${shown ? `<text class="plab" x="${lx}" y="${p.ly !== undefined ? p.ly : p.y + 3}" text-anchor="${anchor}">${esc(p.short || p.name)}</text>` : ''}</g>`;
+  }).join('');
+  let info;
+  if (st.mode === 'labels') info = `<span class="muted">All labels shown. Switch to "Test me" (tap a number to reveal it) or "Find it" (find the named structure).</span>`;
+  else if (st.mode === 'test') info = `<span class="muted">Say the name of each numbered structure, then tap it to check. Revealed ${Object.keys(st.rev).length} of ${L.pins.length}.</span>`;
+  else {
+    const done = st.qi >= st.order.length; if (done) labDone(L.id);
+    info = done ? `<h4>Score: ${st.score}/${st.order.length}</h4><span class="muted">Choose "Find it" again for a new round.</span>`
+      : `<h4>Find: ${esc(L.pins.find(p => p.id === st.order[st.qi]).name)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : `<span class="muted">Tap its number · ${st.qi + 1} of ${st.order.length} · score ${st.score}</span>`}`;
+  }
+  return `<div class="modes">${[['labels', 'Labels on'], ['test', 'Test me'], ['find', 'Find it']].map(([m, n]) => `<button class="mini ${st.mode === m ? 'on' : ''}" data-act="dmode" data-l="${L.id}" data-v="${m}">${n}</button>`).join('')}</div>
+   <div class="svgw"><svg viewBox="${L.viewBox}" role="img" aria-label="${esc(L.title)}">${DRAW[L.draw] ? DRAW[L.draw]() : ''}${pins}</svg></div>
+   ${st.mode === 'labels' ? `<ol class="key">${L.pins.map(p => `<li>${esc(p.name)}</li>`).join('')}</ol>` : st.mode === 'test' ? `<ol class="key">${L.pins.map(p => `<li>${st.rev[p.id] ? esc(p.name) : '<span class="muted">tap ' + (L.pins.indexOf(p) + 1) + ' to check</span>'}</li>`).join('')}</ol>` : ''}<div class="info">${info}</div>`;
+};
+DRAW.femtri = () => {
+  // schematic femoral triangle: base = inguinal ligament (top), lateral side = sartorius (left), medial side = adductor longus (right)
+  const A = [44, 46], B = [296, 46], C = [176, 286];
+  const tri = `${A} ${B} ${C}`;
+  return `<defs><clipPath id="ftc"><polygon points="${tri}"/></clipPath>
+    <pattern id="lym" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="var(--cl)"/></pattern></defs>
+   <rect x="6" y="14" width="328" height="290" rx="14" fill="var(--skin)"/>
+   <g clip-path="url(#ftc)" opacity=".9">
+     <rect x="44" y="46" width="64" height="240" fill="#cfa18f"/><rect x="108" y="46" width="62" height="240" fill="#d9ae9c"/>
+     <rect x="170" y="46" width="62" height="240" fill="#e3bba9"/><rect x="232" y="46" width="64" height="240" fill="#d9ae9c"/>
+   </g>
+   <line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="30" y1="40" x2="310" y2="40" stroke="var(--bone)" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="40" x2="310" y2="40" stroke="var(--ink-2)" stroke-width="1" stroke-dasharray="3 3"/>
+   <path d="M118,48 L214,48 L200,150 L132,150 Z" fill="rgba(255,255,255,.22)" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="5 3"/>
+   <path d="M104,46 C104,90 108,140 118,190" stroke="#e2b93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M146,46 C146,110 154,180 168,262" stroke="#c0392b" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M174,46 C174,110 176,180 178,262" stroke="#2f5fb3" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M193,48 L209,48 L201,96 Z" fill="url(#lym)" stroke="var(--cl)" stroke-width="1.2"/>
+   <text class="svgsm" x="22" y="170" transform="rotate(-90 22 170)" text-anchor="middle">LATERAL</text>
+   <text class="svgsm" x="322" y="170" transform="rotate(90 322 170)" text-anchor="middle">MEDIAL</text>
+   <text class="svgsm" x="170" y="300" text-anchor="middle">SCHEMATIC FRONT VIEW · NOT TO SCALE</text>`;
+};
+
+/* ---------- click handling ---------- */
+const A = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = A[a.dataset.act]; if (f){ e.preventDefault(); f(a, e); }
+});
+document.addEventListener('input', e => { const a = e.target.closest('[data-act="draft"]'); if (a){ S.draft[a.dataset.q] = a.value; save(); } });
+A.next = () => go(1); A.prev = () => go(-1);
+A.home = () => { closeOv(); home(); };
+A.open = () => openBook(S.last > 0 ? S.last : 1);
+A.jump = a => jump(+a.dataset.p);
+A.mark = a => { const i = +a.dataset.p; if (S.marks[i]) delete S.marks[i]; else S.marks[i] = 1; save(); rerender(i); toast(S.marks[i] ? 'Bookmarked' : 'Bookmark removed'); };
+A.cover = a => { const t = TB[a.dataset.t]; t.cv = !t.cv; t.rev = {}; rerender(pageOf(a)); };
+A.rev = a => { const t = TB[a.dataset.t]; t.rev[a.dataset.c] = 1; rerender(pageOf(a)); };
+A.ans = a => { const q = QS[a.dataset.q], i = +a.dataset.i; const ok = i === q.ans; S.ans[q.id] = {pick: i, ok, t: Date.now()}; if (ok) delete S.mist[q.id]; else S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.retry = a => { delete S.ans[a.dataset.q]; save(); rerender(pageOf(a)); };
+A.pred = a => { const p = S.pred[a.dataset.q] || {}; if (p.lift) return; p.pick = +a.dataset.i; S.pred[a.dataset.q] = p; save(); rerender(pageOf(a)); };
+A.lift = a => { const q = QS[a.dataset.q]; const p = S.pred[q.id]; p.lift = 1; if (p.pick !== q.ans) S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.flap = a => { S.flap[a.dataset.q] = 1; save(); rerender(pageOf(a)); };
+A.self = a => { S.self[a.dataset.q] = a.dataset.v; save(); rerender(pageOf(a)); };
+const rcst = id => { const st = S.labs[id] || (S.labs[id] = {}); st.r = st.r || {}; return st; };
+A.rcv = a => { const st = rcst(a.dataset.l), i = a.dataset.i; if (st.r[i]) delete st.r[i]; else st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcall = a => { const st = rcst(a.dataset.l); for (let i = 0; i < +a.dataset.n; i++) st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcno = a => { const st = rcst(a.dataset.l); st.r = {}; save(); rerender(pageOf(a)); };
+// labs
+A.map = a => { const L = LABS[a.dataset.l], st = LS[L.id];
+  if (st.mode === 'explore') st.sel = st.sel === a.dataset.id ? null : a.dataset.id;
+  else if (st.qi < L.tests.length){ const t = L.tests[st.order[st.qi]]; if (a.dataset.id === t.a){ st.score += st.fb && st.fb[0] === 'bad' ? 0 : 1; st.qi++; st.fb = null; toast('✓ Correct'); } else st.fb = ['bad', 'Not this one — ' + L.regions.find(r => r.id === a.dataset.id).name + '. Try again.']; }
+  rerender(pageOf(a)); };
+A.mapmode = a => { const st = LS[a.dataset.l]; st.mode = a.dataset.v; st.sel = null; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(st.order, String(Date.now())); rerender(pageOf(a)); };
+A.g = a => { const L = LABS[a.dataset.l], st = gstate(L), t = a.dataset.t, id = a.dataset.id;
+  if (st.mode === 'explore') st.sel = st.sel && st.sel[0] === t && st.sel[1] === id ? null : [t, id];
+  else if (t === 'n') st.cut[id] = !st.cut[id];
+  rerender(pageOf(a)); };
+A.gmode = a => { const st = gstate(LABS[a.dataset.l]); st.mode = a.dataset.v; st.sel = null; rerender(pageOf(a)); };
+A.gclear = a => { const st = gstate(LABS[a.dataset.l]); st.cut = {}; rerender(pageOf(a)); };
+A.gcase = a => { const L = LABS[a.dataset.l], st = gstate(L), c = L.cases[+a.dataset.i]; st.cut = {}; c.cut.forEach(n => st.cut[n] = true); labDone(L.id); rerender(pageOf(a)); };
+A.spick = a => { const st = LS[a.dataset.l]; st.sel = st.sel === a.dataset.id ? null : a.dataset.id; st.shake = null; rerender(pageOf(a)); };
+A.sdrop = a => { const L = LABS[a.dataset.l], st = LS[L.id]; if (!st.sel) return; const it = L.items.find(x => x.id === st.sel);
+  if (it.bin === a.dataset.b){ st.placed[it.id] = it.bin; st.sel = null; st.shake = null; } else { st.wrong++; st.shake = it.id; toast('Not there — try another box'); }
+  rerender(pageOf(a)); };
+A.sreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.qpick = a => { const L = LABS[a.dataset.l], st = LS[L.id], i = +a.dataset.i; if (i === st.n){ st.n++; st.shake = null; } else { st.wrong++; st.shake = i; } rerender(pageOf(a)); };
+A.qreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.dmode = a => { const L = LABS[a.dataset.l], st = LS[L.id]; st.mode = a.dataset.v; st.rev = {}; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(L.pins.map(p => p.id), String(Date.now())); rerender(pageOf(a)); };
+A.pin = a => { const L = LABS[a.dataset.l], st = LS[L.id], id = a.dataset.id;
+  if (st.mode === 'test'){ if (st.rev[id]) delete st.rev[id]; else st.rev[id] = 1; }
+  else if (st.mode === 'find' && st.qi < st.order.length){ const t = st.order[st.qi];
+    if (id === t){ st.score += st.fb && st.fb[0] === 'bad' && st.fb[3] === t ? 0 : 1; st.qi++; st.fb = ['ok', '✓ Correct', id, t]; setTimeout(() => { if (st.fb && st.fb[2] === id){ st.fb = null; rerender(pageOf(document.querySelector(`[data-l="${L.id}"]`) || a)); } }, 700); }
+    else st.fb = ['bad', 'That is ' + L.pins.find(p => p.id === id).name + '. Try again.', id, t]; }
+  rerender(pageOf(a)); };
+
+/* ---------- overlays ---------- */
+function ov(title, body, cls){
+  $('#ovs').innerHTML = `<div class="ov" data-act="ovbg"><div class="panel ${cls || ''}" role="dialog" aria-label="${esc(title)}"><div class="ph"><h2>${esc(title)}</h2><button class="x" data-act="close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="pb" id="pbody">${body}</div></div></div>`;
+}
+function closeOv(){ $('#ovs').innerHTML = ''; if (!opened) home(); }
+A.close = closeOv;
+A.ovbg = (a, e) => { if (e.target === a) closeOv(); };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+
+// contents
+A['open-toc'] = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  const labs = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.kind === 'lab');
+  const marks = Object.keys(S.marks).map(Number).sort((a, b) => a - b);
+  ov('Contents', `${BOOK.lib ? `<div class="endnav" style="margin-top:0"><a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a></div>` : ''}<div class="lst">${items.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span><b>${esc(p.toc[0])}</b> · ${esc(p.toc[1])}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Labs</h3><div class="lst">${labs.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(p.labName || p.head)}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Bookmarks</h3>${marks.length ? `<div class="lst">${marks.map(i => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(BOOK.pages[i].head || 'Page ' + i)}</span></button>`).join('')}</div>` : '<p class="muted">No bookmarks yet. Tap the ribbon at the top of a page.</p>'}`);
+};
+// search
+function pageText(p){ const out = []; (p.blocks || []).forEach(b => { ['title', 'html', 'sub', 'hook'].forEach(k => { if (typeof b[k] === 'string') out.push(b[k]); }); if (b.items) out.push(b.items.join(' ')); if (b.rows) out.push(b.rows.flat().join(' ')); if (b.q && QS[b.q]) out.push(QS[b.q].stem); if (b.lab && LABS[b.lab]) out.push(LABS[b.lab].title + ' ' + LABS[b.lab].intro); }); return out.join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); }
+const PT = BOOK.pages.map(pageText);
+A['open-search'] = () => { ov('Search the book', `<input class="srch" id="sq" type="search" placeholder="${esc(BOOK.searchHint || 'Search this lecture')}" aria-label="Search"><div class="lst" id="sres"></div>`);
+  const inp = $('#sq'); inp.focus(); inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase(); const r = $('#sres');
+    if (q.length < 2){ r.innerHTML = ''; return; }
+    const hits = [];
+    PT.forEach((t, i) => { const j = t.toLowerCase().indexOf(q); if (j >= 0) hits.push([i, t.slice(Math.max(0, j - 40), j + q.length + 60)]); });
+    r.innerHTML = hits.length ? hits.map(([i, s]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>…${esc(s)}…</span></button>`).join('') : '<p class="muted">Nothing found.</p>';
+  }); };
+// settings
+A['open-set'] = () => {
+  const seg = (k, vals) => `<div class="seg">${vals.map(([v, n]) => `<button class="${String(S.set[k]) === String(v) ? 'on' : ''}" data-act="set" data-k="${k}" data-v="${v}">${n}</button>`).join('')}</div>`;
+  ov('Settings', `<div class="setrow"><span>Theme</span>${seg('theme', [['system', 'Auto'], ['light', 'Day'], ['dark', 'Night']])}</div>
+   <div class="setrow"><span>Text size</span>${seg('size', [[0.9, 'S'], [1, 'M'], [1.15, 'L']])}</div>
+   <div class="setrow"><span>Rapid revision<br><small class="muted">Hides running text; keeps tables, notes, questions and labs.</small></span>${seg('rapid', [[false, 'Off'], [true, 'On']])}</div>
+   <div class="setrow"><span>Progress<br><small class="muted">Saved in this browser only.</small></span><button class="btn" data-act="reset">Reset all progress</button></div>`);
+};
+A.set = a => { let v = a.dataset.v; if (a.dataset.k === 'size') v = +v; if (a.dataset.k === 'rapid') v = v === 'true'; S.set[a.dataset.k] = v; save(); applySet(); A['open-set'](); if (opened) draw(); };
+A.reset = a => { if (a.dataset.sure){ S = JSON.parse(JSON.stringify(DEF)); for (const k in LS) delete LS[k]; save(); applySet(); closeOv(); toast('Progress reset'); if (opened) draw(); } else { a.dataset.sure = 1; a.textContent = 'Tap again to confirm'; } };
+
+/* ---------- flashcards (spaced repetition) ---------- */
+const STEPS = [60e3, 600e3, 864e5, 1728e5, 3456e5, 6912e5];
+const STEPN = ['1 min', '10 min', '1 day', '2 days', '4 days', '8 days'];
+let FC = null;
+function fcQueue(mode){
+  const now = Date.now(); const c = BOOK.cards;
+  if (mode === 'cram') return c.map(x => x.id);
+  const due = c.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).sort((a, b) => S.cards[a.id].due - S.cards[b.id].due).map(x => x.id);
+  const fresh = c.filter(x => !S.cards[x.id]).map(x => x.id);
+  return due.concat(fresh);
+}
+function cloze(t, rev, all){
+  let k = 0;
+  return esc(t).replace(/\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}/g, (m, n, ans, hint) => { const i = k++; const r = all || rev[i]; return `<span class="blank ${r ? 'r' : ''}" data-act="fcb" data-i="${i}">${r ? ans : (hint ? esc(hint) : '·····')}</span>`; });
+}
+A['open-cards'] = () => { FC = {mode: 'learn', q: fcQueue('learn'), i: 0, rev: {}, all: false}; fcDraw(); };
+function fcDraw(){
+  const c = FC.q[FC.i] ? BOOK.cards.find(x => x.id === FC.q[FC.i]) : null;
+  const now = Date.now(); const due = BOOK.cards.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).length; const fresh = BOOK.cards.filter(x => !S.cards[x.id]).length; const learned = Object.values(S.cards).filter(x => x.step >= 2).length;
+  const top = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg"><button class="${FC.mode === 'learn' ? 'on' : ''}" data-act="fcmode" data-v="learn">Due &amp; new</button><button class="${FC.mode === 'cram' ? 'on' : ''}" data-act="fcmode" data-v="cram">Cram all</button></div>
+   <div class="meter"><span>Due <b>${due}</b></span><span>New <b>${fresh}</b></span><span>Learned <b>${learned}/${BOOK.cards.length}</b></span></div></div>`;
+  let body;
+  if (!c){
+    const nxt = Object.values(S.cards).map(x => x.due).filter(d => d > now).sort((a, b) => a - b)[0];
+    body = `<div class="fc" style="text-align:center"><div class="big">✓</div><p>All caught up${FC.mode === 'cram' ? ' — you went through every card' : ''}.</p>${nxt ? `<p class="muted">Next card is due ${new Date(nxt).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'})}.</p>` : ''}<div class="row" style="justify-content:center"><button class="btn pri" data-act="fcmode" data-v="cram">Cram all cards</button></div></div>`;
+  } else {
+    const nb = (c.text.match(/\{\{c\d+::/g) || []).length; const allShown = FC.all || Object.keys(FC.rev).length >= nb;
+    const s = S.cards[c.id]; const step = s ? s.step : -1;
+    const lab = i => STEPN[Math.min(Math.max(i, 0), STEPS.length - 1)];
+    body = `<div class="fc"><div class="ctx">${esc(c.sec)} · card ${FC.i + 1} of ${FC.q.length}</div><div>${cloze(c.text, FC.rev, FC.all)}</div>${allShown && c.extra ? `<div class="fcx">${esc(c.extra)}</div>` : ''}</div>
+      ${allShown ? `<div class="grade"><button class="g0" data-act="fcg" data-v="0">Again<small>${lab(0)}</small></button><button class="g1" data-act="fcg" data-v="1">Good<small>${lab(step + 1)}</small></button><button class="g2" data-act="fcg" data-v="2">Easy<small>${lab(step + 2)}</small></button></div>`
+      : `<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" data-act="fcall">Show answer</button><span class="muted" style="font-size:12px">or tap each blank</span></div>`}`;
+  }
+  ov('Flashcards · ' + BOOK.short, top + body);
+}
+A.fcmode = a => { FC = {mode: a.dataset.v, q: fcQueue(a.dataset.v), i: 0, rev: {}, all: false}; fcDraw(); };
+A.fcb = a => { FC.rev[a.dataset.i] = 1; fcDraw(); };
+A.fcall = () => { FC.all = true; fcDraw(); };
+A.fcg = a => { const id = FC.q[FC.i]; const v = +a.dataset.v; const s = S.cards[id] || {step: -1};
+  if (v === 0) s.step = 0; else s.step = Math.min((s.step < 0 ? -1 : s.step) + v, STEPS.length - 1);
+  s.due = Date.now() + STEPS[Math.max(s.step, 0)]; S.cards[id] = s; save();
+  if (v === 0 && FC.mode === 'learn') FC.q.push(id);
+  FC.i++; FC.rev = {}; FC.all = false; fcDraw(); };
+
+/* ---------- exam mode & mistakes ---------- */
+let EX = null;
+const MCQ = Object.values(QS).filter(q => q.type === 'mcq');
+A['open-exam'] = () => {
+  const nB = MCQ.filter(q => q.bank).length;
+  const past = S.exams.slice(-5).reverse();
+  ov('Exam mode · ' + BOOK.short, `<p>Questions from the Final question bank for this lecture${MCQ.length > nB ? ', plus checked extra practice questions' : ''}. You see your score, your time and every mistake at the end.</p>
+   <div class="setrow"><span>Questions</span><div class="seg">${[10, 20, 0].map(n => `<button data-act="exstart" data-n="${n}">${n || 'All ' + MCQ.length}</button>`).join('')}</div></div>
+   <div class="setrow"><span>Only Final-bank questions</span><div class="seg"><button class="${!(EX && EX.all) ? 'on' : ''}" data-act="exonly" data-v="1">Yes (${nB})</button><button class="${EX && EX.all ? 'on' : ''}" data-act="exonly" data-v="0">Add extras (${MCQ.length})</button></div></div>
+   ${past.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Past attempts</h3><div class="lst">${past.map(x => `<div class="it" style="cursor:default;border:1px solid var(--line);border-radius:10px;padding:8px 11px"><b>${x.score}/${x.n}</b>&nbsp; <span class="muted">${new Date(x.date).toLocaleString([], {weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})} · ${Math.max(1, Math.round(x.secs / 60))} min</span></div>`).join('')}</div>` : ''}`);
+};
+A.exonly = a => { EX = EX || {}; EX.all = a.dataset.v === '0'; A['open-exam'](); };
+A.exstart = a => {
+  const all = EX && EX.all; const pool = MCQ.filter(q => all || q.bank);
+  const n = +a.dataset.n || pool.length; const qs = shuffled(pool.map(q => q.id), String(Date.now())).slice(0, Math.min(n, pool.length));
+  EX = {all, qs, i: 0, picks: {}, t0: Date.now(), kind: 'exam'}; exDraw();
+};
+function exDraw(){
+  if (EX.i >= EX.qs.length) return exEnd();
+  const q = QS[EX.qs[EX.i]];
+  if (EX.kind === 'retry'){
+    const p = EX.picks[q.id];
+    const st = p !== undefined ? {pick: p, show: true} : null;
+    ov('Mistakes · retry ' + (EX.i + 1) + ' of ' + EX.qs.length, `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'exp')}${p !== undefined ? `<div class="res ${p === q.ans ? 'ok' : 'bad'}">${p === q.ans ? '✓ Correct — removed from your mistakes' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div><div class="row"><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next question' : 'Finish'}</button></div>` : ''}</div>`);
+    return;
+  }
+  const p = EX.picks[q.id];
+  ov(`Question ${EX.i + 1} of ${EX.qs.length}`, `<div class="meter"><span>Answered <b>${Object.keys(EX.picks).length}</b></span><span>Time <b id="extime">0:00</b></span></div>
+   <div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, p !== undefined ? {pick: p} : null, 'exp')}</div>
+   <div class="row" style="justify-content:space-between"><button class="btn" data-act="exback" ${EX.i ? '' : 'disabled'}>Back</button><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next' : 'Finish exam'}</button></div>`);
+  tick();
+}
+function tick(){ const el = $('#extime'); if (!el || !EX) return; const s = Math.round((Date.now() - EX.t0) / 1000); el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); clearTimeout(tick.t); tick.t = setTimeout(tick, 1000); }
+A.exp = a => { const q = QS[a.dataset.q], i = +a.dataset.i;
+  if (EX.kind === 'retry'){ if (EX.picks[q.id] !== undefined) return; EX.picks[q.id] = i; S.ans[q.id] = {pick: i, ok: i === q.ans, t: Date.now()}; if (i === q.ans) delete S.mist[q.id]; save(); exDraw(); return; }
+  EX.picks[q.id] = i; exDraw(); };
+A.exnext = () => { EX.i++; exDraw(); };
+A.exback = () => { if (EX.i) EX.i--; exDraw(); };
+function exEnd(){
+  clearTimeout(tick.t);
+  if (EX.kind === 'retry'){ const left = Object.keys(S.mist).length; ov('Mistakes', `<div class="fc" style="text-align:center"><div class="big">${EX.qs.filter(id => EX.picks[id] === QS[id].ans).length}/${EX.qs.length}</div><p>${left ? left + ' questions still in your mistakes list.' : 'Your mistakes list is empty.'}</p></div>`); return; }
+  const secs = Math.round((Date.now() - EX.t0) / 1000); let score = 0; const wrong = [];
+  EX.qs.forEach(id => { const q = QS[id], p = EX.picks[id]; const ok = p === q.ans; if (ok){ score++; delete S.mist[id]; } else { S.mist[id] = 1; wrong.push([q, p]); } S.ans[id] = {pick: p === undefined ? -1 : p, ok, t: Date.now()}; });
+  S.exams.push({date: Date.now(), n: EX.qs.length, score, secs}); save();
+  ov('Exam result', `<div class="fc" style="text-align:center"><div class="big">${score}/${EX.qs.length}</div><p>${Math.round(100 * score / EX.qs.length)}% · ${Math.floor(secs / 60)} min ${secs % 60} s</p></div>
+   ${wrong.length ? `<h3 style="font:700 15px var(--f-head);margin:16px 0 4px">Review your mistakes</h3>${wrong.map(([q, p]) => `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, {pick: p === undefined ? -1 : p, show: true}, 'none')}<div class="ex">${q.expl}</div></div>`).join('')}` : '<p style="text-align:center">No mistakes. Well done.</p>'}
+   <div class="row"><button class="btn pri" data-act="open-exam">New exam</button>${wrong.length ? '<button class="btn" data-act="open-mist">Retry my mistakes</button>' : ''}</div>`);
+  if (opened) draw();
+}
+A['open-mist'] = () => {
+  const ids = Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq');
+  const later = Object.keys(S.self).filter(id => S.self[id] === 'later' && QS[id]);
+  ov('My mistakes', `${ids.length ? `<p>${ids.length} question${ids.length > 1 ? 's' : ''} you got wrong. Retry them; a right answer removes it from the list.</p><div class="row"><button class="btn pri" data-act="mretry">Retry all</button></div>
+    <div class="lst">${ids.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem)}</span></button>`).join('')}</div>` : '<p class="muted">No mistakes yet. Wrong answers in check questions, predictions and exams collect here.</p>'}
+    ${later.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Written answers to review</h3><div class="lst">${later.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem.split('\n')[0])}</span></button>`).join('')}</div>` : ''}`);
+};
+A.mretry = () => { const ids = shuffled(Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq'), String(Date.now())); if (!ids.length) return; EX = {qs: ids, i: 0, picks: {}, t0: Date.now(), kind: 'retry'}; exDraw(); };
+A.jumpq = a => { const id = a.dataset.q; const i = BOOK.pages.findIndex(p => (p.blocks || []).some(b => b.q === id)); if (i >= 0) jump(i); else toast('This question is only in exam mode'); };
+A.none = () => {};
+
+/* ---------- start ---------- */
+function start(){
+  layout();
+  home();   // the cover's "Continue on page N" button returns to the saved page
+}
+start();
+})();
+</script>
+
+</body>
+</html>

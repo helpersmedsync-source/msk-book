@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1834">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MSK Book">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>MSK Interactive Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout concept: a Helpers-blue cloth volume lying open on a walnut desk — two pages per spread on wide screens, one page on phones;
+   text pages face lab pages; sticky notes, red section numbers and lift-the-flap questions like a real study book. */
+:root{
+  --desk:#6a4a30; --desk-2:#4f3522; --paper:#fbf9f3; --paper-2:#f1ece0; --edge:#ddd3bd;
+  --ink:#1c2333; --ink-2:#4b5569; --muted:#7c8597; --line:#e3dccb; --card:#ffffff;
+  --navy:#0b1f45; --navy-ink:#0b1f45; --band:#0b1f45; --band-ink:#ffffff; --blue:#2e86de; --red:#d64545;
+  --ok:#1e9e62; --ok-bg:#e6f6ee; --bad:#d64545; --bad-bg:#fdeceb; --chip:#edf3fb; --hl:#fff0a1;
+  --sticky:#ffe57a; --sticky-ink:#3a3000; --trap-bg:#fdf0ef; --mn:#7b4fc9; --mn-bg:#f3eefb; --cl:#13836f; --cl-bg:#e8f5f2; --def-bg:#edf3fb; --nb-bg:#f2f2ef;
+  --cover-1:#d9d2c2; --cover-2:#e8e2d4; --leather:#11295a; --leather-2:#0a1c40; --gold:#d9b45e;
+  --bar:rgba(10,24,52,.86); --bar-ink:#f4f6fb; --skin:#f6e3d3; --musc:#e8a8a0; --musc-2:#d98c84; --bone:#fbf6ea;
+  --fsz:1; --pw:520px; --ph:720px;
+  --f-head:'Poppins','Segoe UI',system-ui,sans-serif; --f-body:'Lato','Segoe UI',system-ui,sans-serif; --f-hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:var(--f-body);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255,240,215,.10), transparent 62%),
+    repeating-linear-gradient(91deg, rgba(0,0,0,.045) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89.3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 31px),
+    repeating-linear-gradient(90.6deg, rgba(0,0,0,.035) 0 6px, transparent 6px 57px),
+    linear-gradient(180deg, var(--desk), var(--desk-2));
+  background-color:var(--desk)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+#app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{flex:none;display:flex;align-items:center;gap:6px;height:50px;margin-top:8px;padding:0 8px 0 12px;border-radius:14px;background:var(--bar);color:var(--bar-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;background:none;border:0;padding:0}
+.brand b{font:700 15px var(--f-head);letter-spacing:.01em;white-space:nowrap}
+.brand span{font:500 11px var(--f-head);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .sp{flex:1}
+.pgind{font:600 12px var(--f-head);opacity:.85;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:10px;border:0;background:transparent;color:var(--bar-ink);cursor:pointer;font:600 12px var(--f-head)}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:18px;height:18px;flex:none}
+.ib .lb{white-space:nowrap}
+.ib.on{background:rgba(255,255,255,.16)}
+.prog{height:3px;border-radius:2px;background:rgba(255,255,255,.15);overflow:hidden;width:70px}
+.prog i{display:block;height:100%;background:var(--gold)}
+@media (max-width:1100px){ .ib .lb{display:none} }
+.brand .bw{font-style:normal}
+@media (max-width:640px){ .brand span,.brand .bw,.prog,.pgind{display:none} .bar{gap:2px;padding:0 4px 0 10px} .ib{padding:0 7px} }
+
+/* ---------- desk & book ---------- */
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2600px;perspective-origin:50% 50%}
+.book.single{width:var(--pw)}
+.book::before{content:"";position:absolute;inset:-9px -12px -11px -12px;border-radius:12px;background:linear-gradient(90deg,var(--leather-2),var(--leather) 6%,var(--leather) 94%,var(--leather-2));box-shadow:0 28px 50px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.35)}
+.book.single::before{inset:-7px -9px -9px -9px}
+.pg{position:absolute;top:0;width:var(--pw);height:var(--ph);background:var(--paper);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}
+.pg-l{left:0;border-radius:6px 2px 2px 6px;background:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(90deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:-2px 0 0 var(--edge),-4px 0 0 var(--paper-2),-6px 1px 0 var(--edge)}
+.pg-r{left:var(--pw);border-radius:2px 6px 6px 2px;background:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(270deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:2px 0 0 var(--edge),4px 0 0 var(--paper-2),6px 1px 0 var(--edge)}
+.book.single .pg-l{border-radius:4px 6px 6px 4px;background:linear-gradient(to right,rgba(0,0,0,.10),transparent 5%),var(--paper);box-shadow:3px 0 0 var(--edge),5px 1px 0 var(--paper-2)}
+.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph);transform-style:preserve-3d;pointer-events:none;z-index:6}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.05) 70%,rgba(0,0,0,.10));animation:shade var(--dur,700ms) ease-in-out}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.turn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:64px;border-radius:12px;border:0;background:rgba(0,0,0,.28);color:#fff;cursor:pointer;z-index:8;display:grid;place-items:center}
+.turn:hover{background:rgba(0,0,0,.45)}
+.turn svg{width:22px;height:22px}
+.turn.prev{left:-56px}.turn.next{right:-56px}
+.book.single .turn{display:none}
+.mnav{display:none}
+@media (max-width:899px), (max-height:519px){ .mnav{display:flex} }
+.mnav{flex:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 8px}
+.mnav button{flex:none;height:42px;min-width:56px;border-radius:12px;border:0;background:var(--bar);color:var(--bar-ink);font:600 13px var(--f-head);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px}
+.mnav .mid{flex:1;text-align:center;color:#fff;font:600 12px var(--f-head);text-shadow:0 1px 2px rgba(0,0,0,.4);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- closed book (home) ---------- */
+.home{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:12px;overflow:auto;z-index:9}
+.cover{position:relative;width:min(340px,82vw);aspect-ratio:.72;border-radius:6px 16px 16px 6px;color:var(--gold);
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.08),transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px),linear-gradient(135deg,var(--leather),var(--leather-2));
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.28),inset 13px 0 0 rgba(255,255,255,.05),0 26px 46px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 24px 36px;box-sizing:border-box;transform-origin:left center}
+.cover .frame{position:absolute;inset:14px 14px 14px 24px;border:1px solid rgba(217,180,94,.55);border-radius:4px 10px 10px 4px;pointer-events:none}
+.cover .k{font:600 10px var(--f-head);letter-spacing:.32em;opacity:.85}
+.cover .t1{font:700 clamp(44px,13vw,64px)/1 var(--f-head);letter-spacing:.04em;margin:14px 0 2px;color:var(--gold)}
+.cover .t2{font:600 20px var(--f-head);letter-spacing:.06em;color:#f3e6c4}
+.cover .rule{width:56%;height:1px;background:rgba(217,180,94,.6);margin:16px 0}
+.cover .t3{font:500 13px/1.45 var(--f-head);color:#eadcb8;max-width:16em}
+.cover .t4{margin-top:18px;font:italic 400 12px var(--f-body);color:#d9c9a0;opacity:.85}
+.side{display:flex;flex-direction:column;gap:12px;width:min(340px,86vw);color:#fff}
+.side h1{font:700 22px/1.2 var(--f-head);margin:0;text-wrap:balance;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.side p{margin:0;font-size:14px;line-height:1.5;color:#f1e8dc;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cd{font:600 12px var(--f-head);padding:6px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.cd b{color:var(--gold)}
+.hbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;cursor:pointer;font:600 14px var(--f-head);background:var(--card);color:var(--navy-ink);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.hbtn.pri{background:var(--gold);color:#1d1606}
+.hbtn svg{width:18px;height:18px}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:rgba(0,0,0,.32);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.12)}
+.stat b{display:block;font:700 18px var(--f-head);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 10.5px var(--f-head);letter-spacing:.05em;color:#e8dcc6;text-transform:uppercase}
+
+/* ---------- page content ---------- */
+.pin{position:absolute;inset:0;padding:6.2% 7% 8.2% 7.4%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;box-sizing:border-box;
+  font-size:clamp(12px, calc(var(--pw) * .0262 * var(--fsz)), 19px);line-height:1.5;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pg-l .pin{padding-right:8.4%}.pg-r .pin{padding-left:8.6%}
+.rh{display:flex;justify-content:space-between;gap:1em;padding-right:2.6em;font:600 .6em var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1em;padding-bottom:.6em;border-bottom:1px solid var(--line)}
+.folio{position:absolute;bottom:2.6%;font:600 .78em var(--f-head);color:var(--muted);font-size:clamp(10px,calc(var(--pw)*.022),14px)}
+.pg-l .folio,.leaf .folio.l{left:7%}.pg-r .folio,.leaf .folio.r{right:7%}.book.single .folio{right:7%;left:auto}
+.ribbon{position:absolute;top:-2px;right:9%;width:clamp(16px,calc(var(--pw)*.04),24px);height:clamp(34px,calc(var(--pw)*.085),52px);border:0;padding:0;cursor:pointer;background:var(--line);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);opacity:.75;z-index:2}
+.ribbon.on{background:var(--red);opacity:1}
+.part{display:flex;gap:.8em;align-items:center;background:var(--band);color:var(--band-ink);border-radius:.6em;padding:.85em 1em;margin:0 0 1em;position:relative;overflow:hidden}
+.part .pn{flex:none;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:700 .95em var(--f-head);box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.part small{display:block;font:600 .6em var(--f-head);letter-spacing:.16em;opacity:.8;text-transform:uppercase}
+.part h2{margin:.05em 0 0;font:700 1.18em/1.2 var(--f-head);text-wrap:balance}
+.part p{margin:.25em 0 0;font-size:.78em;opacity:.85}
+.part .big{position:absolute;right:.2em;bottom:-.25em;font:700 3.6em/1 var(--f-head);opacity:.09}
+.sh{display:flex;align-items:center;gap:.55em;margin:1.1em 0 .45em;font:700 1.02em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sh .num{flex:none;min-width:2.1em;height:2.1em;padding:0 .2em;border-radius:1.05em;display:grid;place-items:center;background:var(--red);color:#fff;font:700 .66em var(--f-head);letter-spacing:.02em;box-sizing:border-box}
+.hook{font:italic 400 1em/1.45 var(--f-body);color:var(--ink-2);margin:.2em 0 .6em;padding-left:.7em;border-left:2px solid var(--red)}
+.tx{margin:.45em 0}
+.ls{margin:.4em 0 .6em;padding-left:1.1em}.ls li{margin:.18em 0}
+mark{background:var(--hl);color:inherit;padding:0 .14em;border-radius:.18em}
+.note{margin:.85em 0;padding:.65em .8em .7em;border-radius:.45em;position:relative}
+.note .nl{display:block;font:700 .6em var(--f-head);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2em}
+.n-hy{background:var(--sticky);color:var(--sticky-ink);border-radius:2px;transform:rotate(-1deg);box-shadow:0 .35em .7em rgba(0,0,0,.18);margin:1.1em .2em}
+.n-hy::before{content:"";position:absolute;top:-.55em;left:50%;width:4.4em;height:1.1em;transform:translateX(-50%) rotate(2deg);background:rgba(255,255,255,.45);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.n-hy .nl{font:700 1.3em/1 var(--f-hand);letter-spacing:0;text-transform:none;margin-bottom:.25em}
+.n-trap{background:var(--trap-bg);border-left:.28em solid var(--red)}.n-trap .nl{color:var(--red)}
+.n-mn{background:var(--mn-bg);border-left:.28em solid var(--mn)}.n-mn .nl{color:var(--mn)}
+.n-cl{background:var(--cl-bg);border-left:.28em solid var(--cl)}.n-cl .nl{color:var(--cl)}
+.n-def{background:var(--def-bg);border-left:.28em solid var(--blue)}.n-def .nl{color:var(--blue)}
+.n-nb{background:var(--nb-bg);border-left:.28em solid var(--muted)}.n-nb .nl{color:var(--muted)}
+.tbl{margin:.8em 0}
+.tbl-h{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:.35em}
+.tbl-h span{font:700 .66em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:.84em;line-height:1.38}
+.tbl th{background:var(--band);color:var(--band-ink);font:600 .82em var(--f-head);letter-spacing:.03em;text-align:left;padding:.45em .5em}
+.tbl th:first-child{border-radius:.35em 0 0 0}.tbl th:last-child{border-radius:0 .35em 0 0}
+.tbl td{padding:.42em .5em;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:700;color:var(--navy-ink)}
+.tbl td.cv{cursor:pointer;color:transparent;border-radius:.3em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none}
+.tbl td.cv *{visibility:hidden}
+.mini{font:600 .7em var(--f-head);padding:.38em .75em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.on{background:var(--band);color:var(--band-ink);border-color:transparent}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;margin:.7em 0}
+.flow span{background:var(--chip);border:1px solid var(--line);border-radius:.4em;padding:.3em .55em;font-size:.86em}
+.flow i{font-style:normal;color:var(--red);font-weight:700}
+
+/* questions */
+.qb{border:1px solid var(--line);background:var(--card);border-radius:.6em;padding:.7em .8em .8em;margin:.9em 0}
+.qh{display:flex;flex-wrap:wrap;align-items:center;gap:.35em .5em;font:700 .58em var(--f-head);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.tg{font:600 1em var(--f-head);letter-spacing:.06em;padding:.15em .55em;border-radius:1em;background:var(--chip);color:var(--ink-2)}
+.tg.top{background:#fff1cf;color:#8a5a00}
+:root[data-theme="dark"] .tg.top{background:#4a3a12;color:#f6d27a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tg.top{background:#4a3a12;color:#f6d27a} }
+.qs{font-weight:700;margin:.5em 0 .55em;line-height:1.42}
+.op{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;padding:.45em .6em;margin:.32em 0;border-radius:.5em;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:.95em;line-height:1.35;cursor:pointer}
+.op:hover{border-color:var(--blue)}
+.op .lt{flex:none;width:1.55em;height:1.55em;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:700 .72em var(--f-head);color:var(--ink-2);margin-top:.05em}
+.op.ok{border-color:var(--ok);background:var(--ok-bg)}.op.ok .lt{background:var(--ok);color:#fff;border-color:var(--ok)}
+.op.bad{border-color:var(--bad);background:var(--bad-bg)}.op.bad .lt{background:var(--bad);color:#fff;border-color:var(--bad)}
+.op.pick{border-color:var(--blue);background:var(--chip)}
+.op[disabled]{cursor:default}
+.res{font:700 .8em var(--f-head);margin:.5em 0 .1em}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.ex{margin-top:.45em;padding:.55em .7em;border-left:.25em solid var(--blue);background:var(--chip);border-radius:.3em;font-size:.9em;line-height:1.45}
+.ex b{color:var(--navy-ink)}
+.row{display:flex;flex-wrap:wrap;gap:.45em;align-items:center;margin-top:.55em}
+.btn{font:600 .74em var(--f-head);padding:.5em .95em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--band);color:var(--band-ink);border-color:transparent}
+.btn.lift{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;font-family:var(--f-hand);font-size:1.05em;font-weight:700}
+.flapc{margin-top:.5em;border-radius:.45em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 6px,var(--cover-2) 6px 12px);padding:.9em;text-align:center}
+.ans{margin-top:.5em;padding:.6em .75em;border-left:.25em solid var(--ok);background:var(--ok-bg);border-radius:.3em;font-size:.92em;white-space:pre-line;line-height:1.45}
+textarea.dr{width:100%;box-sizing:border-box;min-height:4.2em;margin-top:.4em;border:1px dashed var(--line);border-radius:.45em;background:var(--paper);color:var(--ink);font:inherit;font-size:.9em;padding:.5em;resize:vertical}
+
+/* labs */
+.labh{display:flex;align-items:center;gap:.55em;margin:0 0 .5em}
+.labh .lb{flex:none;background:var(--red);color:#fff;font:700 .6em var(--f-head);letter-spacing:.16em;padding:.3em .65em;border-radius:.3em}
+.labh h3{margin:0;font:700 1.08em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.labi{font-size:.88em;color:var(--ink-2);margin:.2em 0 .6em}
+.modes{display:flex;flex-wrap:wrap;gap:.35em;margin:.3em 0 .6em}
+.svgw{background:var(--paper-2);border:1px solid var(--line);border-radius:.6em;padding:.4em;margin:.3em 0}
+.svgw svg{display:block;width:100%;height:auto;max-height:calc(var(--ph) * .44)}
+.rg{cursor:pointer;stroke:var(--paper);stroke-width:2.5;transition:filter .15s, opacity .15s}
+.rg:hover{filter:brightness(1.07)}
+.rg.dim{opacity:.35}
+.svgtxt{font:700 11px var(--f-head);fill:var(--ink);pointer-events:none;letter-spacing:.06em}
+.svgsm{font:600 8.5px var(--f-head);fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+.pinbtn{cursor:pointer}
+.pinbtn circle.d{fill:var(--card);stroke:var(--navy);stroke-width:1.6}
+.pinbtn.on circle.d{fill:var(--sticky);stroke:var(--red)}
+.pinbtn.ok circle.d{fill:var(--ok)}
+.pinbtn.bad circle.d{fill:var(--bad)}
+.pinbtn text{font:700 8px var(--f-head);fill:var(--navy-ink);pointer-events:none}
+.plab{font:700 8.6px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;pointer-events:none}
+.key{columns:2;column-gap:1.2em;margin:.3em 0 .4em;padding-left:1.6em;font-size:.8em;line-height:1.45}.key li{break-inside:avoid}
+.info{background:var(--card);border:1px solid var(--line);border-radius:.55em;padding:.55em .7em;font-size:.88em;margin:.4em 0;min-height:2.6em}
+.info h4{margin:0 0 .2em;font:700 .95em var(--f-head);color:var(--navy-ink)}
+.fb{font:700 .8em var(--f-head);margin:.3em 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:.35em;margin:.4em 0 .7em;min-height:1.8em}
+.chip{font:700 .74em var(--f-body);padding:.36em .62em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.2;text-align:left}
+.chip.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok);cursor:default}
+.chip.hl{background:var(--band);color:var(--band-ink);border-color:transparent}
+.chip.dim{opacity:.35}
+.chip.cut{background:var(--bad);color:#fff;border-color:transparent}
+.chip.lost{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.chip.weak{background:#fff4d6;border-color:#e0a422;color:#8a5a00}
+:root[data-theme="dark"] .chip.weak{background:#433513;color:#f3cf74}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.weak{background:#433513;color:#f3cf74} }
+.chip.unk{border-style:dashed}
+.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.4em,1fr));gap:.45em}
+.bin{border:1.5px dashed var(--edge);border-radius:.6em;padding:.45em;min-height:4.2em;cursor:pointer;background:var(--paper);text-align:left;display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.bin:hover{border-color:var(--blue)}
+.bin h5{margin:0;font:700 .68em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.bin small{font-size:.66em;color:var(--muted);margin-top:-.25em}
+.bin .in{display:flex;flex-wrap:wrap;gap:.25em}
+.seqline{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.2em;margin:.3em 0 .6em;padding:.4em;border-radius:.5em;background:var(--paper-2);border:1px solid var(--line)}
+.seqline .n{font:700 .62em var(--f-head);color:var(--muted)}
+.gcols{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:.5em}
+.gcols h5{margin:0 0 .3em;font:700 .62em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gcol{display:flex;flex-direction:column;gap:.3em;align-items:stretch}
+.gcol .chip{font-size:.68em}
+.st{font:700 .62em var(--f-head);padding:.12em .5em;border-radius:1em;margin-left:.3em;white-space:nowrap}
+.st.lost{background:var(--bad);color:#fff}.st.weak{background:#e0a422;color:#fff}.st.ok{background:var(--ok);color:#fff}
+.done{margin:.5em 0;padding:.5em .7em;border-radius:.45em;background:var(--ok-bg);color:var(--ok);font:700 .82em var(--f-head)}
+.ref{margin-top:.8em;font:600 .62em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.title-page{display:flex;flex-direction:column;min-height:100%;justify-content:center;gap:.6em}
+.kick{font:600 .66em var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ttl{margin:0;font:700 1.95em/1.12 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sub{color:var(--ink-2);font-size:.95em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.6em 0}
+.facts div{background:var(--paper-2);border:1px solid var(--line);border-radius:.55em;padding:.55em;text-align:center}
+.facts b{display:block;font:700 1.35em var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.facts span{font:600 .58em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.map{list-style:none;padding:0;margin:.4em 0;display:flex;flex-direction:column;gap:.3em}
+.map li button{width:100%;display:flex;align-items:center;gap:.6em;padding:.45em .55em;border-radius:.5em;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;color:var(--ink)}
+.map li button:hover{border-color:var(--blue)}
+.map .mn{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--band);color:var(--band-ink);font:700 .7em var(--f-head)}
+.map .mt{flex:1;font:600 .86em var(--f-head);color:var(--navy-ink)}
+.map .mp{font:600 .7em var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:.35em .6em;align-items:center;font-size:.82em;margin:.5em 0}
+.legend i{font-style:normal;width:1.8em;height:1.3em;border-radius:.25em;display:inline-block}
+body.rapid .tx, body.rapid .hook{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.55);padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.panel{background:var(--paper);color:var(--ink);width:min(680px,100%);max-height:100%;overflow:auto;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+.ph{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.ph h2{margin:0;font:700 17px var(--f-head);color:var(--navy-ink);flex:1;min-width:0}
+.ph .x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.pb{padding:14px 16px 18px}
+.pb .qb{font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 12px;font:600 13px var(--f-head);cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--band);color:var(--band-ink)}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px 18px 16px;min-height:150px;font-size:17px;line-height:1.55;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.fc .ctx{font:600 11px var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.blank{display:inline-block;min-width:3.2em;border-radius:6px;padding:0 .35em;margin:0 .1em;background:var(--chip);border:1px dashed var(--blue);color:transparent;cursor:pointer;line-height:1.35}
+.blank.r{background:var(--hl);border-style:solid;border-color:transparent;color:var(--ink);font-weight:700;cursor:default}
+.fcx{margin-top:12px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.grade button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;cursor:pointer;font:700 14px var(--f-head);color:var(--ink)}
+.grade small{display:block;font:500 11px var(--f-body);color:var(--muted)}
+.grade .g0{border-color:var(--bad);color:var(--bad)}.grade .g1{border-color:var(--blue);color:var(--blue)}.grade .g2{border-color:var(--ok);color:var(--ok)}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font:600 12px var(--f-head);color:var(--muted);margin:10px 0}
+.meter b{color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.big{font:700 40px var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.lst{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.lst button.it{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;cursor:pointer;color:var(--ink);font-size:14px}
+.lst .pgn{font:700 12px var(--f-head);color:var(--blue);flex:none;font-variant-numeric:tabular-nums}
+input.srch{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 14px;font-size:15px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bar);color:var(--bar-ink);padding:9px 16px;border-radius:12px;font:600 13px var(--f-head);z-index:60;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+/* section priority chips */
+.sh .sht{display:inline-flex;flex-wrap:wrap;gap:.3em;margin-left:auto}
+.sh .sht .tg{font-size:.56em;white-space:nowrap}
+/* recall lab: the start of each fact stays visible, the rest is covered until tapped */
+.rcg{margin:.85em 0 .3em;font:700 .72em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.rci{display:block;width:100%;text-align:left;margin:.3em 0;padding:.45em .6em;border-radius:.45em;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.92em;line-height:1.45;cursor:pointer}
+.rci .cue{font-weight:700;color:var(--navy-ink)}
+.rci .hid{color:transparent;border-radius:.25em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rci.on{border-color:var(--ok);background:var(--ok-bg)}
+/* figures in questions */
+.qf{margin:.5em 0 .6em;text-align:center}
+.qf img{max-width:100%;max-height:calc(var(--ph) * .42);border-radius:.4em;border:1px solid var(--line);background:#fff}
+.panel .qf img{max-height:46vh}
+.qf figcaption{font-size:.74em;color:var(--muted);margin-top:.25em}
+/* links back to the library and on to the next lecture */
+.libl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--f-head);color:#fff;text-decoration:none;padding:7px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+.endnav{display:flex;flex-direction:column;gap:.5em;margin:.8em 0}
+.endnav a{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.7em .85em;border-radius:.6em;border:1px solid var(--line);background:var(--card);color:var(--navy-ink);text-decoration:none;font:600 .9em var(--f-head)}
+.endnav a small{display:block;font:500 .78em var(--f-body);color:var(--muted)}
+/* iPhone/iPad: Safari zooms into any text field under 16px when it is tapped */
+@supports (-webkit-touch-callout:none){ input.srch,textarea.dr{font-size:16px} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <button class="brand" data-act="home" aria-label="Back to the cover"><b>MSK<em class="bw"> Interactive</em> Book</b><span id="chap"></span></button>
+    <div class="sp"></div>
+    <span class="pgind" id="pgind"></span>
+    <div class="prog" title="Pages read"><i id="progi" style="width:0"></i></div>
+    <button class="ib" data-act="open-toc" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="lb">Contents</span></button>
+    <button class="ib" data-act="open-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="lb">Search</span></button>
+    <button class="ib" data-act="open-cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v11"/></svg><span class="lb">Flashcards</span></button>
+    <button class="ib" data-act="open-exam" aria-label="Exam mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg><span class="lb">Exam</span></button>
+    <button class="ib" data-act="open-mist" aria-label="Mistakes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg><span class="lb">Mistakes</span></button>
+    <button class="ib" data-act="open-set" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lb">Settings</span></button>
+  </header>
+  <main class="stage" id="stage">
+    <div class="book" id="book" hidden>
+      <div class="pg pg-l" id="pgL"></div>
+      <div class="pg pg-r" id="pgR"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front" id="lf"></div><div class="face back" id="lb"></div></div>
+      <button class="turn prev" data-act="prev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="turn next" data-act="next" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="home" id="home"></div>
+  </main>
+  <nav class="mnav" id="mnav" hidden>
+    <button data-act="prev" aria-label="Previous page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="mid" id="mmid"></span>
+    <button data-act="next" aria-label="Next page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+<div id="ovs"></div>
+
+<script>
+const BOOK = {"id": "ana-l5", "title": "Anatomy · Lecture 5 — Innervation of the Upper Limb", "short": "Anatomy L5 · Innervation of the Upper Limb", "subject": "Anatomy", "coverLine": "Lecture 5 · Innervation of the Upper Limb", "coverNote": "Interactive edition", "blurb": "The pamphlet as a book you can work with: the key facts part by part, a recall lab for each part, check questions that answer instantly, written questions with lift-the-flap answers, flashcards with spaced repetition and an exam mode.", "exams": [{"name": "Final", "date": "2026-11-09"}, {"name": "Practical", "date": "2026-11-11"}], "pages": [{"id": "p0", "head": "", "kind": "cover", "blocks": [{"t": "contents"}]}, {"id": "p1", "head": "Lecture 5", "kind": "text", "blocks": [{"t": "title", "kick": "MSK Module · Anatomy · Lecture 5", "title": "Innervation of the Upper Limb", "sub": "The Brachial Plexus · Branches of the Plexus · Radial Nerve · Median Nerve · Ulnar Nerve · Musculocutaneous & Axillary · Nerves Compared · Rapid Revision", "facts": [["8", "pamphlet parts"], ["29", "check questions"], ["15", "Final-bank questions"]], "hook": "Exam trap to remember: No branches arise from the divisions; of the trunks only the upper trunk (C5, C6) gives branches", "note": ["In the Final", "The upper limb comes as <b>MCQ only<\/b>, about 4–5 questions in all. 6 of its questions are <b>top priority<\/b>: the department used them this year."]}]}, {"id": "p2", "head": "Part 01 · The Brachial Plexus", "kind": "text", "blocks": [{"t": "part", "no": "01", "title": "The Brachial Plexus", "sub": "Spinal nerves & nerve plexuses · The brachial plexus · Stages of the brachial plexus · The five terminal nerves"}, {"t": "h", "no": "1.1", "title": "Spinal nerves & nerve plexuses"}, {"t": "list", "items": ["Spinal nerve divides into dorsal and <mark>ventral rami<\/mark>", "<b>Nerve plexuses:<\/b> <mark>ventral rami<\/mark> traveling together", "Cervical plexus <mark>C1–C5<\/mark>; brachial plexus <mark>C5–T1<\/mark>", "<b>Thoracic nerves (12 pairs):<\/b> <mark>no plexus<\/mark> in thoracic region", "Lumbar plexus <mark>L1–L4<\/mark>; <mark>sacral<\/mark> plexus <mark>L4–S4<\/mark> (sciatic nerve)"]}, {"t": "h", "no": "1.2", "title": "The brachial plexus", "top": true, "rep": true}, {"t": "list", "items": ["Provides motor and sensory innervation to the upper limb", "Formed of <mark>ventral rami<\/mark> of C5, 6, 7, 8 and T1", "Originates in <mark>neck<\/mark>; descends through <mark>cervicoaxillary canal<\/mark> to the <mark>axilla<\/mark>"]}], "toc": ["01", "The Brachial Plexus"]}, {"id": "p3", "head": "Part 01 · The Brachial Plexus", "kind": "text", "blocks": [{"t": "list", "items": ["<b>Stages mnemonic:<\/b> 'Really Tired? Drink Coffee in Bed!' (<mark>roots<\/mark>, <mark>trunks<\/mark>, <mark>divisions<\/mark>, <mark>cords<\/mark>, <mark>branches<\/mark>)", "Upper trunk C5+C6; middle trunk C7; lower trunk C8+T1", "<mark>Trunks<\/mark> pass downward and laterally over the <mark>first rib<\/mark>", "<mark>Cords<\/mark> (lateral, medial, posterior) named relative to the <mark>axillary artery<\/mark>"]}, {"t": "h", "no": "1.3", "title": "Stages of the brachial plexus"}, {"t": "list", "items": ["5 roots (C5–T1 ventral rami)", "<b>3 trunks:<\/b> upper, middle, lower", "<b>6 divisions:<\/b> anterior and posterior", "<b>3 cords:<\/b> lateral, medial, posterior", "<b>5 terminal branches:<\/b> musculocutaneous, median, ulnar, radial, axillary"]}]}, {"id": "p4", "head": "Part 01 · The Brachial Plexus", "kind": "text", "blocks": [{"t": "h", "no": "1.4", "title": "The five terminal nerves"}, {"t": "list", "items": ["<b>Lateral cord:<\/b> musculocutaneous (C5,6,7) and lateral root of median (C5,6,7)", "<b>Medial cord:<\/b> ulnar (C8, T1) and medial root of median (C8, T1) <span class=\"muted\" style=\"font-size:.85em\">(N.B. The ulnar root value differs between two slides (C8, T1 · C7, 8, T1), so it is not asked in this book.)<\/span>", "<mark>Posterior<\/mark> cord: axillary (<mark>C5, 6<\/mark>) and radial (C5–T1)", "Musculocutaneous, median, ulnar from <mark>anterior<\/mark> divisions; radial and axillary from <mark>posterior<\/mark>"]}, {"t": "note", "kind": "nb", "html": "Ulnar root value given as C8, T1 (cords slide) and C7, 8, T1 (origin slide)"}]}, {"id": "p5", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-0-0", "title": "Recall · The Brachial Plexus (1/3)", "groups": [{"title": "1.1 Spinal nerves & nerve plexuses", "items": [["Spinal nerve divides", "into dorsal and ventral rami"], ["Nerve plexuses:", "ventral rami traveling together"], ["Cervical plexus", "C1–C5; brachial plexus C5–T1"], ["Thoracic nerves (12 pairs):", "no plexus in thoracic region"], ["Lumbar plexus L1–L4", "sacral plexus L4–S4 (sciatic nerve)"]]}]}], "labName": "Recall · The Brachial Plexus (1/3)"}, {"id": "p6", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-0-1", "title": "Recall · The Brachial Plexus (2/3)", "groups": [{"title": "1.2 The brachial plexus", "items": [["Provides motor and", "sensory innervation to the upper limb"], ["Formed of ventral rami", "of C5, 6, 7, 8 and T1"], ["Originates in neck; descends", "through cervicoaxillary canal to the axilla"], ["Stages mnemonic:", "'Really Tired? Drink Coffee in Bed!' (roots, trunks, divisions, cords, branches)"], ["Upper trunk C5+C6", "middle trunk C7; lower trunk C8+T1"], ["Trunks pass downward", "and laterally over the first rib"], ["Cords (lateral, medial, posterior)", "named relative to the axillary artery"]]}]}], "labName": "Recall · The Brachial Plexus (2/3)"}, {"id": "p7", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-0-2", "title": "Recall · The Brachial Plexus (3/3)", "groups": [{"title": "1.3 Stages of the brachial plexus", "items": [["5 roots", "(C5–T1 ventral rami)"], ["3 trunks:", "upper, middle, lower"], ["6 divisions:", "anterior and posterior"], ["3 cords:", "lateral, medial, posterior"], ["5 terminal branches:", "musculocutaneous, median, ulnar, radial, axillary"]]}, {"title": "1.4 The five terminal nerves", "items": [["Lateral cord:", "musculocutaneous (C5,6,7) and lateral root of median (C5,6,7)"], ["Posterior cord:", "axillary (C5, 6) and radial (C5–T1)"], ["Musculocutaneous, median, ulnar from", "anterior divisions; radial and axillary from posterior"]]}]}], "labName": "Recall · The Brachial Plexus (3/3)"}, {"id": "p8", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-10"}, {"t": "check", "q": "Q0138"}]}, {"id": "p9", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-04"}, {"t": "flap", "q": "Q0036"}]}, {"id": "p10", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-11"}]}, {"id": "p11", "head": "Part 02 · Branches of the Plexus", "kind": "text", "blocks": [{"t": "part", "no": "02", "title": "Branches of the Plexus", "sub": "Branches of the brachial plexus by level · All branches from the cords"}, {"t": "h", "no": "2.1", "title": "Branches of the brachial plexus by level", "top": true, "rep": true}, {"t": "list", "items": ["<mark>Roots<\/mark>: dorsal scapular (C5), long thoracic (C5,6,7), phrenic (C3,4,5) to <mark>diaphragm<\/mark>", "<b>Trunks:<\/b> only <mark>upper<\/mark> trunk gives branches — <mark>nerve to subclavius<\/mark> and suprascapular (C5,6)", "No branches from the divisions", "<b>Lateral cord:<\/b> lateral pectoral (C5,6,7)", "<b>Medial cord:<\/b> medial pectoral; medial cutaneous nerves of arm and forearm (<mark>C8, T1<\/mark>)", "<mark>Posterior cord<\/mark>: <mark>upper<\/mark> and lower <mark>subscapular<\/mark> (C5,6); thoracodorsal (C6,7,8)"]}], "toc": ["02", "Branches of the Plexus"]}, {"id": "p12", "head": "Part 02 · Branches of the Plexus", "kind": "text", "blocks": [{"t": "h", "no": "2.2", "title": "All branches from the cords", "top": true, "rep": true}, {"t": "list", "items": ["<b>Lateral cord (2LM):<\/b> lateral pectoral, lateral root of median, musculocutaneous", "<b>Medial cord (4MU):<\/b> medial pectoral, medial root of median, medial cutaneous arm and forearm, <mark>ulnar<\/mark>", "<b>Posterior cord (ULTRA):<\/b> <mark>upper subscapular<\/mark>, <mark>lower subscapular<\/mark>, <mark>thoracodorsal<\/mark>, <mark>radial<\/mark>, <mark>axillary<\/mark>", "<mark>Thoracodorsal<\/mark> (nerve to latissimus dorsi) lies between the 2 subscapular nerves"]}]}, {"id": "p13", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-1-0", "title": "Recall · Branches of the Plexus (1/2)", "groups": [{"title": "2.1 Branches of the brachial plexus by level", "items": [["Roots:", "dorsal scapular (C5), long thoracic (C5,6,7), phrenic (C3,4,5) to diaphragm"], ["Trunks:", "only upper trunk gives branches — nerve to subclavius and suprascapular (C5,6)"], ["No branches", "from the divisions"], ["Lateral cord:", "lateral pectoral (C5,6,7)"], ["Medial cord:", "medial pectoral; medial cutaneous nerves of arm and forearm (C8, T1)"], ["Posterior cord:", "upper and lower subscapular (C5,6); thoracodorsal (C6,7,8)"]]}]}], "labName": "Recall · Branches of the Plexus (1/2)"}, {"id": "p14", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-1-1", "title": "Recall · Branches of the Plexus (2/2)", "groups": [{"title": "2.2 All branches from the cords", "items": [["Lateral cord (2LM):", "lateral pectoral, lateral root of median, musculocutaneous"], ["Medial cord (4MU):", "medial pectoral, medial root of median, medial cutaneous arm and forearm, ulnar"], ["Posterior cord (ULTRA):", "upper subscapular, lower subscapular, thoracodorsal, radial, axillary"], ["Thoracodorsal (nerve to latissimus", "dorsi) lies between the 2 subscapular nerves"]]}]}], "labName": "Recall · Branches of the Plexus (2/2)"}, {"id": "p15", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0161"}, {"t": "check", "q": "N-ANA-L5-02"}]}, {"id": "p16", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-03"}, {"t": "check", "q": "Q0085"}]}, {"id": "p17", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0140"}, {"t": "flap", "q": "N-ANA-L5-09"}]}, {"id": "p18", "head": "Part 03 · Radial Nerve", "kind": "text", "blocks": [{"t": "part", "no": "03", "title": "Radial Nerve", "sub": "Origin & course · Distribution of the radial nerve"}, {"t": "h", "no": "3.1", "title": "Origin & course"}, {"t": "list", "items": ["Root value <mark>C5, 6, 7, 8, T1<\/mark>; branch of <mark>posterior<\/mark> cord", "In axilla runs <mark>behind the axillary artery<\/mark>", "Passes to <mark>spiral groove<\/mark> in <mark>posterior<\/mark> compartment of arm", "Reaches groove between <mark>brachioradialis<\/mark> and <mark>brachialis<\/mark>", "Divides into <mark>superficial and deep<\/mark> terminal branches", "Deep branch = <mark>posterior interosseous nerve<\/mark>"]}], "toc": ["03", "Radial Nerve"]}, {"id": "p19", "head": "Part 03 · Radial Nerve", "kind": "text", "blocks": [{"t": "h", "no": "3.2", "title": "Distribution of the radial nerve"}, {"t": "list", "items": ["<b>Axilla:<\/b> posterior cutaneous nerve of arm; triceps long head", "<b>Upper arm:<\/b> triceps medial and lateral heads, small part <mark>brachialis<\/mark>, <mark>brachioradialis<\/mark>, extensor carpi", "<b>Upper arm:<\/b> lower lateral cutaneous of arm, posterior cutaneous of forearm", "<b>Deep branch:<\/b> ECRB, <mark>supinator<\/mark>, ED, EDM, ECU, APL, EPL, EPB, <mark>extensor indicis<\/mark>", "<b>Superficial branch:<\/b> lateral dorsum of hand and lateral 3½ fingers", "Supplies <mark>nearly all extensor muscles<\/mark> and skin of posterior upper limb", "Wrist drop illustrated with radial nerve path"]}]}, {"id": "p20", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-2-0", "title": "Recall · Radial Nerve (1/2)", "groups": [{"title": "3.1 Origin & course", "items": [["Root value C5, 6", "7, 8, T1; branch of posterior cord"], ["In axilla", "runs behind the axillary artery"], ["Passes to spiral", "groove in posterior compartment of arm"], ["Reaches groove", "between brachioradialis and brachialis"], ["Divides into", "superficial and deep terminal branches"], ["Deep branch =", "posterior interosseous nerve"]]}]}], "labName": "Recall · Radial Nerve (1/2)"}, {"id": "p21", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-2-1", "title": "Recall · Radial Nerve (2/2)", "groups": [{"title": "3.2 Distribution of the radial nerve", "items": [["Axilla:", "posterior cutaneous nerve of arm; triceps long head"], ["Upper arm:", "triceps medial and lateral heads, small part brachialis, brachioradialis, extensor carpi"], ["Upper arm:", "lower lateral cutaneous of arm, posterior cutaneous of forearm"], ["Deep branch:", "ECRB, supinator, ED, EDM, ECU, APL, EPL, EPB, extensor indicis"], ["Superficial branch:", "lateral dorsum of hand and lateral 3½ fingers"], ["Supplies nearly all extensor", "muscles and skin of posterior upper limb"], ["Wrist drop", "illustrated with radial nerve path"]]}]}], "labName": "Recall · Radial Nerve (2/2)"}, {"id": "p22", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-05"}, {"t": "check", "q": "Q0090"}]}, {"id": "p23", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-ANA-L5-01"}]}, {"id": "p24", "head": "Part 04 · Median Nerve", "kind": "text", "blocks": [{"t": "part", "no": "04", "title": "Median Nerve", "sub": "Formation · Course in the arm, forearm & hand · Distribution of the median nerve"}, {"t": "h", "no": "4.1", "title": "Formation"}, {"t": "list", "items": ["Formed of <mark>lateral<\/mark> root (C5,6,7) and <mark>medial<\/mark> root (<mark>C8, T1<\/mark>)", "Roots unite in the <mark>axilla<\/mark> on <mark>lateral<\/mark> side of axillary artery", "Overall root value C5–T1"]}, {"t": "h", "no": "4.2", "title": "Course in the arm, forearm & hand"}, {"t": "list", "items": ["<b>Arm:<\/b> descends first <mark>lateral<\/mark> then <mark>medial<\/mark> to brachial artery", "Enters forearm between the two heads of <mark>pronator teres<\/mark>", "<b>Forearm:<\/b> middle of front, <mark>deep to<\/mark> <mark>flexor digitorum superficialis<\/mark>"]}], "toc": ["04", "Median Nerve"]}, {"id": "p25", "head": "Part 04 · Median Nerve", "kind": "text", "blocks": [{"t": "list", "items": ["Enters palm <mark>deep to<\/mark> flexor retinaculum in the <mark>carpal tunnel<\/mark>", "Distal to flexor retinaculum divides into <mark>medial<\/mark> and <mark>lateral<\/mark> divisions"]}, {"t": "h", "no": "4.3", "title": "Distribution of the median nerve", "top": true}, {"t": "list", "items": ["Flexor muscles except FCU and medial half of FDP", "Thenar eminence and lateral 2 lumbricals", "<b>Five hand muscles:<\/b> APB, FPB, <mark>opponens pollicis<\/mark>, 1st and 2nd lumbricals (LOAF)", "Skin of the <mark>palm<\/mark>; palmar surface and nail bed of lateral 3½ digits", "Palmar cutaneous and digital cutaneous branches"]}]}, {"id": "p26", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-3-0", "title": "Recall · Median Nerve (1/2)", "groups": [{"title": "4.1 Formation", "items": [["Formed of lateral root", "(C5,6,7) and medial root (C8, T1)"], ["Roots unite in the", "axilla on lateral side of axillary artery"], ["Overall root", "value C5–T1"]]}, {"title": "4.2 Course in the arm, forearm & hand", "items": [["Arm:", "descends first lateral then medial to brachial artery"], ["Enters forearm between", "the two heads of pronator teres"], ["Forearm:", "middle of front, deep to flexor digitorum superficialis"], ["Enters palm deep to", "flexor retinaculum in the carpal tunnel"], ["Distal to flexor retinaculum", "divides into medial and lateral divisions"]]}]}], "labName": "Recall · Median Nerve (1/2)"}, {"id": "p27", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-3-1", "title": "Recall · Median Nerve (2/2)", "groups": [{"title": "4.3 Distribution of the median nerve", "items": [["Flexor muscles except", "FCU and medial half of FDP"], ["Thenar eminence", "and lateral 2 lumbricals"], ["Five hand muscles:", "APB, FPB, opponens pollicis, 1st and 2nd lumbricals (LOAF)"], ["Skin of the palm; palmar", "surface and nail bed of lateral 3½ digits"], ["Palmar cutaneous", "and digital cutaneous branches"]]}]}], "labName": "Recall · Median Nerve (2/2)"}, {"id": "p28", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-06"}, {"t": "flap", "q": "TP-124"}]}, {"id": "p29", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-ANA-L5-07"}, {"t": "check", "q": "Q0143"}]}, {"id": "p30", "head": "Part 05 · Ulnar Nerve", "kind": "text", "blocks": [{"t": "part", "no": "05", "title": "Ulnar Nerve", "sub": "Origin & course · Distribution of the ulnar nerve"}, {"t": "h", "no": "5.1", "title": "Origin & course", "top": true, "rep": true}, {"t": "list", "items": ["Origin C7, 8, T1 (origin slide) or C8, T1 from medial cord", "Descends <mark>in front of<\/mark> the arm", "Reaches back of medial epicondyle", "Enters forearm between two heads of <mark>flexor carpi ulnaris<\/mark>", "Enters palm <mark>in front of<\/mark> flexor retinaculum, near <mark>pisiform<\/mark> and <mark>hook of hamate<\/mark>", "Ends by dividing into superficial and deep terminal branches"]}], "toc": ["05", "Ulnar Nerve"]}, {"id": "p31", "head": "Part 05 · Ulnar Nerve", "kind": "text", "blocks": [{"t": "h", "no": "5.2", "title": "Distribution of the ulnar nerve", "rep": true}, {"t": "list", "items": ["<b>Forearm:<\/b> <mark>flexor carpi ulnaris<\/mark> and medial half of FDP", "<b>Hand:<\/b> all muscles except <mark>thenar eminence<\/mark> and <mark>lateral 2 lumbricals<\/mark>", "<b>Skin:<\/b> <mark>palmar and dorsal<\/mark> aspects of medial 1½ digits", "At wrist median is deep to flexor retinaculum; <mark>ulnar<\/mark> is in front of it"]}]}, {"id": "p32", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-4-0", "title": "Recall · Ulnar Nerve (1/2)", "groups": [{"title": "5.1 Origin & course", "items": [["Origin C7, 8, T1", "(origin slide) or C8, T1 from medial cord"], ["Descends in", "front of the arm"], ["Reaches back", "of medial epicondyle"], ["Enters forearm between", "two heads of flexor carpi ulnaris"], ["Enters palm in front of", "flexor retinaculum, near pisiform and hook of hamate"], ["Ends by dividing", "into superficial and deep terminal branches"]]}]}], "labName": "Recall · Ulnar Nerve (1/2)"}, {"id": "p33", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-4-1", "title": "Recall · Ulnar Nerve (2/2)", "groups": [{"title": "5.2 Distribution of the ulnar nerve", "items": [["Forearm:", "flexor carpi ulnaris and medial half of FDP"], ["Hand:", "all muscles except thenar eminence and lateral 2 lumbricals"], ["Skin:", "palmar and dorsal aspects of medial 1½ digits"], ["At wrist median is deep", "to flexor retinaculum; ulnar is in front of it"]]}]}], "labName": "Recall · Ulnar Nerve (2/2)"}, {"id": "p34", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0139"}, {"t": "check", "q": "Q0086"}]}, {"id": "p35", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0091"}]}, {"id": "p36", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0088"}]}, {"id": "p37", "head": "Part 06 · Musculocutaneous & Axillary", "kind": "text", "blocks": [{"t": "part", "no": "06", "title": "Musculocutaneous & Axillary", "sub": "Musculocutaneous nerve (C5, 6, 7) · Axillary nerve (C5, 6)"}, {"t": "h", "no": "6.1", "title": "Musculocutaneous nerve (C5, 6, 7)", "rep": true}, {"t": "list", "items": ["Root value <mark>C5, 6, 7<\/mark>; from <mark>lateral<\/mark> cord", "Pierces <mark>coracobrachialis<\/mark> then descends between <mark>biceps<\/mark> and <mark>brachialis<\/mark>", "Supplies <mark>coracobrachialis<\/mark>, <mark>biceps<\/mark>, <mark>brachialis<\/mark> (BBC)", "Continues as <mark>lateral cutaneous nerve of the forearm<\/mark>"]}, {"t": "h", "no": "6.2", "title": "Axillary nerve (C5, 6)", "rep": true}, {"t": "list", "items": ["Branch of <mark>posterior<\/mark> cord; <mark>C5, 6<\/mark>", "Passes posteriorly related to surgical neck of humerus", "Divides into <mark>anterior and posterior<\/mark> branches", "Supplies <mark>teres minor<\/mark> and <mark>deltoid<\/mark>", "Skin <mark>overlying the deltoid<\/mark>"]}], "toc": ["06", "Musculocutaneous & Axillary"]}, {"id": "p38", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-5-0", "title": "Recall · Musculocutaneous & Axillary", "groups": [{"title": "6.1 Musculocutaneous nerve (C5, 6, 7)", "items": [["Root value C5", "6, 7; from lateral cord"], ["Pierces coracobrachialis then", "descends between biceps and brachialis"], ["Supplies coracobrachialis", "biceps, brachialis (BBC)"], ["Continues as lateral", "cutaneous nerve of the forearm"]]}, {"title": "6.2 Axillary nerve (C5, 6)", "items": [["Branch of", "posterior cord; C5, 6"], ["Passes posteriorly related", "to surgical neck of humerus"], ["Divides into", "anterior and posterior branches"], ["Supplies teres", "minor and deltoid"], ["Skin overlying", "the deltoid"]]}]}], "labName": "Recall · Musculocutaneous & Axillary"}, {"id": "p39", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0093"}]}, {"id": "p40", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0094"}, {"t": "flap", "q": "Q0021"}]}, {"id": "p41", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0022"}, {"t": "flap", "q": "Q0149"}]}, {"id": "p42", "head": "Part 07 · Nerves Compared", "kind": "text", "blocks": [{"t": "part", "no": "07", "title": "Nerves Compared", "sub": "Terminal nerve master table · Cutaneous supply of the hand"}, {"t": "h", "no": "7.1", "title": "Terminal nerve master table"}, {"t": "list", "items": ["<b>Musculocutaneous:<\/b> C5,6,7; lateral cord; pierces coracobrachialis", "<b>Median:<\/b> C5–T1, 2 roots; pronator teres heads, carpal tunnel", "<b>Ulnar:<\/b> medial cord; behind medial epicondyle; in front of flexor retinaculum", "<b>Radial:<\/b> C5–T1; posterior cord; spiral groove; nearly all extensors", "<b>Axillary:<\/b> C5,6; posterior cord; surgical neck; teres minor and deltoid"]}, {"t": "h", "no": "7.2", "title": "Cutaneous supply of the hand", "top": true}, {"t": "list", "items": ["<mark>Median<\/mark>: palmar surface and nail bed of lateral 3½ digits; skin of palm", "<mark>Ulnar<\/mark>: palmar and dorsal aspects of medial 1½ digits", "<mark>Radial<\/mark>: dorsal aspect of lateral 3½ digits"]}], "toc": ["07", "Nerves Compared"]}, {"id": "p43", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-6-0", "title": "Recall · Nerves Compared", "groups": [{"title": "7.1 Terminal nerve master table", "items": [["Musculocutaneous:", "C5,6,7; lateral cord; pierces coracobrachialis"], ["Median:", "C5–T1, 2 roots; pronator teres heads, carpal tunnel"], ["Ulnar:", "medial cord; behind medial epicondyle; in front of flexor retinaculum"], ["Radial:", "C5–T1; posterior cord; spiral groove; nearly all extensors"], ["Axillary:", "C5,6; posterior cord; surgical neck; teres minor and deltoid"]]}, {"title": "7.2 Cutaneous supply of the hand", "items": [["Median:", "palmar surface and nail bed of lateral 3½ digits; skin of palm"], ["Ulnar:", "palmar and dorsal aspects of medial 1½ digits"], ["Radial:", "dorsal aspect of lateral 3½ digits"]]}]}], "labName": "Recall · Nerves Compared"}, {"id": "p44", "head": "Part 07 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-ANA-L5-08"}, {"t": "check", "q": "Q0159"}]}, {"id": "p45", "head": "Part 08 · Rapid Revision", "kind": "text", "blocks": [{"t": "part", "no": "08", "title": "Rapid Revision", "sub": "Must-know one-liners · Mnemonic vault & classic exam traps"}, {"t": "h", "no": "8.1", "title": "Must-know one-liners"}, {"t": "list", "items": ["Nerve plexuses are ventral rami traveling together", "Trunks pass over the first rib; cords named relative to axillary artery", "Phrenic nerve (C3,4,5) supplies the diaphragm", "Thoracodorsal root value C6, 7, 8", "Axillary nerve related to surgical neck of humerus"]}, {"t": "h", "no": "8.2", "title": "Mnemonic vault & classic exam traps"}, {"t": "list", "items": ["5-3-6-3-5: roots, trunks, divisions, cords, terminal branches", "2LM lateral, 4MU medial, ULTRA posterior cord", "<b>LOAF:<\/b> median hand muscles; BBC: musculocutaneous muscles", "<b>3½ + 1½:<\/b> median/radial lateral 3½, ulnar medial 1½"]}], "toc": ["08", "Rapid Revision"]}, {"id": "p46", "head": "Lab · Recall · Part 08", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-ana-l5-7-0", "title": "Recall · Rapid Revision", "groups": [{"title": "8.1 Must-know one-liners", "items": [["Nerve plexuses", "are ventral rami traveling together"], ["Trunks pass over the", "first rib; cords named relative to axillary artery"], ["Phrenic nerve", "(C3,4,5) supplies the diaphragm"], ["Thoracodorsal root", "value C6, 7, 8"], ["Axillary nerve related", "to surgical neck of humerus"]]}, {"title": "8.2 Mnemonic vault & classic exam traps", "items": [["5-3-6-3-5:", "roots, trunks, divisions, cords, terminal branches"], ["2LM lateral", "4MU medial, ULTRA posterior cord"], ["LOAF:", "median hand muscles; BBC: musculocutaneous muscles"], ["3½ + 1½:", "median/radial lateral 3½, ulnar medial 1½"]]}]}], "labName": "Recall · Rapid Revision"}, {"id": "p47", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "h", "no": "!", "title": "Exam traps & clinical points"}, {"t": "note", "kind": "trap", "html": "No branches arise from the divisions; of the trunks only the upper trunk (C5, C6) gives branches"}, {"t": "note", "kind": "trap", "html": "Phrenic nerve (C3, 4, 5) is listed with the root branches"}, {"t": "note", "kind": "trap", "html": "Thoracodorsal is C6, 7, 8, unlike the two subscapular nerves (C5, 6)"}, {"t": "note", "kind": "trap", "html": "At the wrist median passes deep to flexor retinaculum (carpal tunnel); ulnar passes in front of it"}, {"t": "note", "kind": "trap", "html": "Ulnar root value: C7, 8, T1 (origin slide) vs C8, T1 (cords slide)"}], "toc": ["!", "Exam traps & clinical"]}, {"id": "p48", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "trap", "html": "Deep branch of radial = posterior interosseous nerve"}, {"t": "note", "kind": "trap", "html": "Axillary nerve supplies teres minor + deltoid"}, {"t": "note", "kind": "cl", "html": "Wrist drop shown with the radial nerve path (figure)"}, {"t": "note", "kind": "cl", "html": "Ulnar nerve at the wrist labelled 'dangerous position' on the slide"}]}, {"id": "p49", "head": "End of the lecture", "kind": "text", "blocks": [{"t": "h", "no": "✓", "title": "End of the lecture"}, {"t": "progress"}, {"t": "actions"}, {"t": "end"}], "toc": ["✓", "End of the lecture"]}], "questions": {"Q0021": {"id": "Q0021", "stem": "Injury of the axillary nerve affects which muscles?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The axillary nerve (C5, 6), a branch of the posterior cord, ends by dividing into anterior and posterior branches that supply teres minor and deltoid and the skin overlying the deltoid.", "type": "written", "keyhtml": "Teres minor and deltoid (the axillary nerve also supplies the area of skin overlying the deltoid)."}, "Q0022": {"id": "Q0022", "stem": "Fracture of the surgical neck of the humerus leads to injury of which nerve?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The axillary nerve (C5, 6), a branch of the posterior cord, passes posteriorly in relation to the surgical neck of the humerus, so a fracture there can injure it. It supplies teres minor and deltoid and the skin overlying the deltoid.", "type": "written", "keyhtml": "The axillary nerve: it passes posteriorly in relation to the surgical neck of the humerus to reach the back of the limb."}, "Q0036": {"id": "Q0036", "stem": "Describe the anatomical position of the brachial plexus.", "top": false, "rep": "", "tag": "Final bank ANA W20", "bank": true, "expl": "The pamphlet states that the brachial plexus takes origin in the neck and descends through the cervicoaxillary canal to reach the axilla. Its trunks pass downward and laterally over the first rib, and its three cords are named by their relation to the axillary artery.", "type": "written", "keyhtml": "• It takes origin in the neck: its roots are the ventral rami of C5–C8 (in the neck) and T1 (in the thorax).\n• Its trunks (upper C5 + C6, middle C7, lower C8 + T1) pass downward and laterally over the first rib.\n• It descends through the cervicoaxillary canal to reach the axilla.\n• Its cords lie lateral, medial and posterior to the axillary artery (and are named by this relation); the terminal nerves arise from the cords."}, "Q0085": {"id": "Q0085", "stem": "A 29-year-old man comes in with a stab wound. He now cannot raise his arm above the horizontal plane and exhibits a condition known as 'winged scapula'. Which of the following structures of the brachial plexus would most likely be damaged?", "top": false, "rep": "asked 3 years", "tag": "Final bank ANA Q56", "bank": true, "expl": "Winging of the scapula with weakness raising the arm above 90° is paralysis of serratus anterior, supplied by the long thoracic nerve (Lecture 1). The long thoracic nerve (C5, 6, 7) is a branch of the roots of the brachial plexus; the upper trunk gives only the nerve to subclavius and the suprascapular nerve.", "type": "mcq", "opts": ["Medial cord", "Posterior cord", "Lower trunk", "Upper trunk", "Roots"], "ans": 4}, "Q0086": {"id": "Q0086", "stem": "A man injures his wrist on broken glass. Which of the following structures entering the palm superficial to the flexor retinaculum may be damaged?", "top": false, "rep": "asked 3 years", "tag": "Final bank ANA Q57", "bank": true, "expl": "The ulnar nerve enters the palm in front of (superficial to) the flexor retinaculum, close to the pisiform and hook of hamate, with the ulnar artery beside it in the 'dangerous position' shown at the wrist. The median nerve passes deep to the flexor retinaculum in the carpal tunnel with the long flexor tendons, so every option containing the median nerve or a long flexor tendon is wrong.", "type": "mcq", "opts": ["Ulnar nerve and median nerve", "Median nerve and flexor digitorum profundus", "Median nerve and flexor pollicis longus", "Ulnar artery and ulnar nerve", "Ulnar nerve and flexor digitorum superficialis"], "ans": 3}, "Q0088": {"id": "Q0088", "stem": "A 31-year-old patient complains of sensory loss over the anterior and posterior surfaces of the medial third of the hand and the medial one and one-half fingers. He is diagnosed by a physician as having 'funny bone' symptoms. Which of the following nerves is injured?", "top": false, "rep": "asked 3 years", "tag": "Final bank ANA Q58", "bank": true, "expl": "The ulnar nerve supplies the skin of the palmar and dorsal aspects of the medial 1½ digits, and it reaches the back of the medial epicondyle at the elbow. The median nerve supplies the palm and the palmar surface and nail bed of the lateral 3½ digits, and the radial nerve the dorsal aspect of the lateral 3½ digits.", "type": "mcq", "opts": ["Axillary", "Radial", "Median", "Ulnar", "Musculocutaneous"], "ans": 3}, "Q0090": {"id": "Q0090", "stem": "The posterior interosseous nerve is a branch of the:", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The radial nerve reaches the groove between brachioradialis and brachialis and divides into superficial and deep terminal branches; the deep branch is the posterior interosseous nerve. It should not be confused with the anterior interosseous nerve, a branch of the median nerve.", "type": "mcq", "opts": ["Median nerve", "Ulnar nerve", "Radial nerve", "Musculocutaneous nerve", "Axillary nerve"], "ans": 2}, "Q0091": {"id": "Q0091", "stem": "An 18-year-old male is brought to the emergency department after an injury while playing rugby. Imaging reveals a transverse fracture of the medial epicondyle of the humerus. Which nerve is most frequently injured by the jagged edges of the broken bone at this location?", "top": false, "rep": "asked 3 years", "tag": "Extra practice", "bank": false, "expl": "The ulnar nerve descends in the front of the arm, then reaches the back of the medial epicondyle and enters the forearm between the two heads of flexor carpi ulnaris, so a medial epicondyle fracture can injure it. The radial nerve lies in the spiral groove and the axillary nerve is related to the surgical neck of the humerus.", "type": "mcq", "opts": ["Axillary", "Median", "Musculocutaneous", "Radial", "Ulnar"], "ans": 4}, "Q0093": {"id": "Q0093", "stem": "A 32-year-old woman is admitted to the emergency department after an automobile collision. Radiographic examination reveals multiple fractures of the humerus. Flexion and supination of the forearm are severely weakened. She also has loss of sensation on the lateral surface of the forearm. Which of the following nerves has most likely been injured?", "top": false, "rep": "asked 3 years", "tag": "Final bank ANA Q59", "bank": true, "expl": "The musculocutaneous nerve supplies coracobrachialis, biceps and brachialis (BBC) and continues as the lateral cutaneous nerve of the forearm; biceps flexes and supinates the forearm, so its loss weakens both movements and numbs the lateral forearm. The lateral cutaneous nerve of the forearm is only the sensory continuation and cannot explain the weakness, and the medial cord does not supply these muscles or the lateral forearm skin.", "type": "mcq", "opts": ["Musculocutaneous", "Median", "Axillary", "Medial cord of the brachial plexus", "Lateral cutaneous nerve of the forearm"], "ans": 0}, "Q0094": {"id": "Q0094", "stem": "A 10-year-old boy falls off his bike, has difficulty in moving his shoulder, and is brought to the ER. His radiograph and angiograph reveal a fracture of the surgical neck of his humerus and bleeding from the point of the fracture. Which of the following nerves is most likely injured as a result of this accident?", "top": false, "rep": "asked 3 years", "tag": "Final bank ANA Q60", "bank": true, "expl": "The axillary nerve (C5, 6; posterior cord) passes posteriorly in relation to the surgical neck of the humerus, so a fracture there can injure it, weakening deltoid and teres minor. The radial nerve, also from the posterior cord, runs in the spiral groove of the posterior compartment of the arm instead.", "type": "mcq", "opts": ["Musculocutaneous", "Axillary", "Median", "Radial", "Ulnar"], "ans": 1}, "Q0138": {"id": "Q0138", "stem": "The brachial plexus is formed by:", "top": true, "rep": "asked 4 years", "tag": "Final bank ANA Q51", "bank": true, "expl": "The brachial plexus is formed of the ventral rami of spinal nerves C5, 6, 7, 8 and T1; nerve plexuses are ventral rami traveling together. These ventral rami are called the 'roots' of the plexus, which makes 'ventral roots' the tempting wrong answer.", "type": "mcq", "opts": ["C5–T1 dorsal rami", "C5–T1 dorsal roots", "C5–T1 ventral rami", "C5–T1 spinal nerve trunks", "C5–T1 ventral roots"], "ans": 2}, "Q0139": {"id": "Q0139", "stem": "Fracture of the medial epicondyle of the humerus will lead to injury of which of the following nerves?", "top": true, "rep": "asked 4 years", "tag": "Final bank ANA Q52", "bank": true, "expl": "The ulnar nerve descends in the front of the arm, then reaches the back of the medial epicondyle to enter the forearm between the two heads of flexor carpi ulnaris, so a medial epicondyle fracture puts it at risk. The median nerve instead enters the forearm between the two heads of pronator teres, and the radial nerve lies in the spiral groove.", "type": "mcq", "opts": ["Musculocutaneous nerve", "Ulnar nerve", "Median nerve", "Axillary nerve", "Radial nerve"], "ans": 1}, "Q0140": {"id": "Q0140", "stem": "The medial cord of the brachial plexus has five collateral branches; four of the five carry the word \"medial\" in their names. Which branch of the medial cord does not carry the word \"medial\" in its name?", "top": true, "rep": "asked 4 years", "tag": "Final bank ANA Q53", "bank": true, "expl": "The medial cord gives five branches (4MU): medial pectoral nerve, medial root of the median nerve, medial cutaneous nerves of the arm and of the forearm, and the ulnar nerve. Only the medial root of the median nerve comes from the medial cord; the radial and axillary nerves arise from the posterior cord and the musculocutaneous from the lateral cord.", "type": "mcq", "opts": ["Ulnar nerve", "Radial nerve", "Median nerve", "Axillary nerve", "Musculocutaneous nerve"], "ans": 0}, "Q0143": {"id": "Q0143", "stem": "A 41-year-old man sustains a penetrating injury just above the cubital fossa. Afterwards he cannot oppose his thumb to the rest of his fingers and has lost sensation over the palmar surface of the lateral 3½ digits. Which of the following movements is most affected?", "top": false, "rep": "", "tag": "Final bank ANA Q61", "bank": true, "expl": "Loss of thumb opposition with sensory loss over the palmar lateral 3½ digits is a median nerve injury; above the elbow this paralyses the median-supplied forearm flexors, including both pronators (pronator teres and pronator quadratus), so wrist flexion and forearm pronation are most affected. Flexion of the ring and little fingers is partly preserved because the ulnar nerve supplies the medial half of flexor digitorum profundus.", "type": "mcq", "opts": ["Wrist flexion and forearm pronation", "Wrist extension and finger abduction", "Elbow extension and forearm supination", "Finger flexion of the ring and little fingers"], "ans": 0}, "Q0149": {"id": "Q0149", "stem": "A 30-year-old motorcyclist suffers a fracture of the surgical neck of the humerus. After healing, he notices weakness in shoulder abduction and numbness over the lateral aspect of the shoulder.\n1. Which nerve is injured?\n2. Which movements are affected?\n3. What is the area of sensory loss?", "top": false, "rep": "", "tag": "Final bank ANA W19", "bank": true, "expl": "The axillary nerve passes posteriorly in relation to the surgical neck of the humerus and supplies teres minor and deltoid and the skin overlying the deltoid. The deltoid's middle fibres abduct the arm from 15° to 90° and teres minor laterally rotates the arm (Lecture 2).", "type": "written", "keyhtml": "1. The axillary nerve (C5, 6; branch of the posterior cord), which passes posteriorly in relation to the surgical neck of the humerus.\n2. Movements of deltoid and teres minor:\n• Abduction of the arm from 15° to 90° (deltoid, middle fibres)\n• Flexion and medial rotation (anterior fibres) and extension and lateral rotation (posterior fibres) of deltoid\n• Lateral rotation of the arm (teres minor)\n3. The area of skin overlying the deltoid."}, "Q0159": {"id": "Q0159", "stem": "The cutaneous supply of the dorsum of the hand is from:", "top": true, "rep": "asked 2 years", "tag": "Final bank ANA Q54", "bank": true, "expl": "On the dorsum, the radial nerve supplies the lateral side of the dorsum of the hand and the dorsal aspect of the lateral 3½ digits, the ulnar nerve the dorsal aspect of the medial 1½ digits, and the median nerve the nail beds of the lateral 3½ digits. 'Ulnar and radial' misses the median nail-bed territory.", "type": "mcq", "opts": ["Ulnar and posterior interosseous nerves", "Ulnar and median nerves", "Ulnar and radial nerves", "Ulnar, median and radial nerves", "Ulnar, anterior and posterior interosseous nerves"], "ans": 3}, "Q0161": {"id": "Q0161", "stem": "Which of the following nerves is NOT a branch from the roots of the brachial plexus?", "top": true, "rep": "asked 2 years", "tag": "Final bank ANA Q55", "bank": true, "expl": "The branches of the roots are the dorsal scapular (C5), long thoracic (C5, 6, 7) — the nerve to serratus anterior — and phrenic (C3, 4, 5) nerves. The thoracodorsal nerve (C6, 7, 8) arises from the posterior cord.", "type": "mcq", "opts": ["Dorsal scapular", "Thoracodorsal", "Long thoracic", "Phrenic", "Nerve to serratus anterior"], "ans": 1}, "N-ANA-L5-01": {"id": "N-ANA-L5-01", "stem": "Describe the radial nerve under the following headings:\n(a) Origin and root value\n(b) Course from the axilla to its termination\n(c) Terminal branches\n(d) Cutaneous supply in the hand", "top": false, "rep": "", "tag": "Final bank ANA W21", "bank": true, "expl": "All points come from Part 03: origin and course in 3.1, branches and skin supply in 3.2. Overall, the radial nerve supplies nearly all the extensor muscles and the skin of the posterior aspect of the upper limb.", "type": "written", "keyhtml": "(a) Branch of the posterior cord of the brachial plexus; root value C5, 6, 7, 8, T1.\n(b) In the axilla it runs behind the axillary artery; it passes to the spiral groove in the posterior compartment of the arm, then reaches the groove between brachioradialis and brachialis.\n(c) There it divides into superficial and deep terminal branches. The deep branch is the posterior interosseous nerve, supplying extensor carpi radialis brevis, supinator, extensor digitorum, extensor digiti minimi, extensor carpi ulnaris, abductor pollicis longus, extensor pollicis longus, extensor pollicis brevis and extensor indicis.\n(d) The superficial branch supplies the skin of the lateral side of the dorsum of the hand and the dorsal aspect of the lateral 3½ fingers."}, "N-ANA-L5-02": {"id": "N-ANA-L5-02", "stem": "A student is building a labelled model of the brachial plexus and attaches each named branch to the part of the plexus it arises from. Which of the following parts will have no branches attached?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "No branches arise from the divisions. The roots give the dorsal scapular, long thoracic and phrenic nerves, and the upper trunk is the only trunk that gives branches (nerve to subclavius and suprascapular nerve), which makes it the tempting wrong answer.", "type": "mcq", "opts": ["Roots", "Upper trunk", "Divisions", "Medial cord", "Posterior cord"], "ans": 2}, "N-ANA-L5-03": {"id": "N-ANA-L5-03", "stem": "A stab wound to the neck injures the upper trunk of the brachial plexus. Which of the following nerves arises directly from the injured trunk?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Of the trunks, only the upper trunk (C5, C6) gives branches: the nerve to subclavius and the suprascapular nerve. The dorsal scapular (C5) and long thoracic nerves arise from the roots, the lateral pectoral from the lateral cord and the thoracodorsal from the posterior cord.", "type": "mcq", "opts": ["Dorsal scapular nerve", "Long thoracic nerve", "Suprascapular nerve", "Lateral pectoral nerve", "Thoracodorsal nerve"], "ans": 2}, "N-ANA-L5-04": {"id": "N-ANA-L5-04", "stem": "Which part of the brachial plexus is formed by the union of the ventral rami of C8 and T1?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "C5 and C6 unite to form the upper trunk, C7 becomes the middle trunk, and C8 and T1 unite to form the lower trunk; the trunks pass downward and laterally over the first rib. The cords are formed later, when the anterior and posterior divisions recombine.", "type": "mcq", "opts": ["Upper trunk", "Middle trunk", "Lower trunk", "Medial cord", "Posterior cord"], "ans": 2}, "N-ANA-L5-05": {"id": "N-ANA-L5-05", "stem": "A 30-year-old man sustains a fracture of the shaft of the humerus. On examination he has wrist drop. Which nerve has most likely been injured?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "After running behind the axillary artery, the radial nerve passes to the spiral groove in the posterior compartment of the arm and supplies nearly all the extensor muscles; the lecture illustrates wrist drop with the radial nerve path. The axillary nerve is related to the surgical neck of the humerus and the ulnar nerve to the back of the medial epicondyle.", "type": "mcq", "opts": ["Axillary", "Musculocutaneous", "Radial", "Median", "Ulnar"], "ans": 2}, "N-ANA-L5-06": {"id": "N-ANA-L5-06", "stem": "During dissection of the front of the elbow, a student follows a nerve that enters the forearm by passing between the two heads of pronator teres and then descends along the middle of the front of the forearm, deep to flexor digitorum superficialis. Which nerve is the student following?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The median nerve enters the forearm between the two heads of pronator teres, descends deep to flexor digitorum superficialis and enters the palm deep to the flexor retinaculum in the carpal tunnel. The ulnar nerve also passes between two heads of a muscle, but those of flexor carpi ulnaris, after passing behind the medial epicondyle.", "type": "mcq", "opts": ["Median", "Ulnar", "Radial", "Musculocutaneous", "Posterior interosseous"], "ans": 0}, "N-ANA-L5-07": {"id": "N-ANA-L5-07", "stem": "A 50-year-old woman has compression of the nerve that passes deep to the flexor retinaculum in the carpal tunnel. Which of the following muscles is most likely to be weak?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The median nerve passes deep to the flexor retinaculum in the carpal tunnel and then divides to supply its five hand muscles (LOAF): lumbricals 1 and 2, opponens pollicis, abductor pollicis brevis and flexor pollicis brevis. The third lumbrical and flexor carpi ulnaris are supplied by the ulnar nerve, and extensor indicis and brachioradialis by the radial nerve.", "type": "mcq", "opts": ["Opponens pollicis", "Third lumbrical", "Flexor carpi ulnaris", "Extensor indicis", "Brachioradialis"], "ans": 0}, "N-ANA-L5-08": {"id": "N-ANA-L5-08", "stem": "Compare the median and ulnar nerves as regards:\n(a) How each enters the forearm\n(b) Relation to the flexor retinaculum at the wrist\n(c) Muscles supplied in the forearm\n(d) Cutaneous supply of the hand", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "All points come from 4.2–4.3 and 5.1–5.2, summarised in the 7.1 master table; the relation to the flexor retinaculum is the lecture's classic exam trap.", "type": "written", "keyhtml": "(a) Median: passes between the two heads of pronator teres. Ulnar: reaches the back of the medial epicondyle, then passes between the two heads of flexor carpi ulnaris.\n(b) Median: passes deep to the flexor retinaculum in the carpal tunnel, then divides into medial and lateral divisions. Ulnar: passes in front of the flexor retinaculum, close to the pisiform and hook of hamate, then divides into superficial and deep terminal branches.\n(c) Median: the flexor muscles except flexor carpi ulnaris and the medial half of flexor digitorum profundus. Ulnar: flexor carpi ulnaris and the medial half of flexor digitorum profundus.\n(d) Median: skin of the palm and the palmar surface and nail bed of the lateral 3½ digits. Ulnar: palmar and dorsal aspects of the medial 1½ digits."}, "N-ANA-L5-09": {"id": "N-ANA-L5-09", "stem": "Enumerate the branches of the three cords of the brachial plexus.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "All branches are listed in 2.2 with the mnemonics 2LM, 4MU and ULTRA. The five terminal nerves (musculocutaneous, median, ulnar, radial, axillary) arise from the cords, while the divisions give no branches.", "type": "written", "keyhtml": "• Lateral cord (2LM): lateral pectoral nerve, lateral root of the median nerve, musculocutaneous nerve.\n• Medial cord (4MU): medial pectoral nerve, medial root of the median nerve, medial cutaneous nerve of the arm, medial cutaneous nerve of the forearm, ulnar nerve.\n• Posterior cord (ULTRA): upper subscapular nerve, lower subscapular nerve, thoracodorsal nerve (nerve to latissimus dorsi, between the two subscapular nerves), radial nerve, axillary nerve."}, "N-ANA-L5-10": {"id": "N-ANA-L5-10", "stem": "Which of the following nerve plexuses is formed by the ventral rami of L4–S4 and gives rise to the sciatic nerve?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Nerve plexuses are ventral rami traveling together: the cervical plexus is C1–C5, the brachial plexus C5–T1, the lumbar plexus L1–L4 and the sacral plexus L4–S4, which gives the sciatic nerve. The lumbar plexus (L1–L4) is the tempting answer because it shares L4, but the sciatic nerve is listed with the sacral plexus.", "type": "mcq", "opts": ["Cervical plexus", "Brachial plexus", "Lumbar plexus", "Sacral plexus"], "ans": 3}, "N-ANA-L5-11": {"id": "N-ANA-L5-11", "stem": "Which of the following terminal nerves of the brachial plexus arises from the posterior cord and carries fibres from the posterior divisions?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The posterior cord gives the axillary (C5, 6) and radial (C5–T1) nerves, both from the posterior divisions. The musculocutaneous, median and ulnar nerves come from the lateral and medial cords and the anterior divisions, and the lateral pectoral nerve is a branch of the lateral cord, not a terminal nerve.", "type": "mcq", "opts": ["Musculocutaneous", "Median", "Ulnar", "Axillary", "Lateral pectoral"], "ans": 3}, "TP-124": {"id": "TP-124", "stem": "Which muscles of the upper limb have a double nerve supply? Mention the nerves supplying each.", "top": true, "rep": "", "tag": "Final bank ANA W50", "bank": true, "expl": "Pectoralis major is supplied by the medial and lateral pectoral nerves and subscapularis by the upper and lower subscapular nerves. Brachialis receives the musculocutaneous and radial nerves, while flexor digitorum profundus is supplied by the median nerve except its medial half, which is ulnar. Levator scapulae is also supplied by C4, which is why it keeps working after a complete brachial plexus lesion.", "type": "written", "keyhtml": "1. Pectoralis major: medial and lateral pectoral nerves.\n2. Subscapularis: upper and lower subscapular nerves.\n3. Brachialis: musculocutaneous and radial nerves (the radial nerve supplies a small part).\n4. Flexor digitorum profundus: ulnar nerve (medial half) and median nerve (anterior interosseous branch) for the rest of the muscle.\n5. Levator scapulae: dorsal scapular nerve, and also the C4 nerve."}}, "labs": {}, "cards": [{"id": "ANA-L5-001", "text": "Nerve plexuses = {{c1::ventral rami}} traveling together", "extra": "Not dorsal rami, not roots.", "sec": "Part 01 · 1.1 Spinal nerves & nerve plexuses"}, {"id": "ANA-L5-002", "text": "Ventral rami of the plexuses — cervical {{c1::C1–C5}} · brachial {{c2::C5–T1}} · lumbar {{c3::L1–L4}} · sacral {{c4::L4–S4}}", "extra": "", "sec": "Part 01 · 1.1 Spinal nerves & nerve plexuses"}, {"id": "ANA-L5-003", "text": "The {{c1::sacral}} plexus (L4–S4) gives rise to the sciatic nerve", "extra": "Not the lumbar plexus (L1–L4), although both share L4.", "sec": "Part 01 · 1.1 Spinal nerves & nerve plexuses"}, {"id": "ANA-L5-004", "text": "Thoracic region: {{c1::no plexus}} — {{c2::12}} pairs of thoracic nerves", "extra": "", "sec": "Part 01 · 1.1 Spinal nerves & nerve plexuses"}, {"id": "ANA-L5-005", "text": "The brachial plexus is formed of the {{c1::ventral rami}} of spinal nerves {{c2::C5, 6, 7, 8 & T1}}", "extra": "These ventral rami are the 'roots' of the plexus — so 'ventral roots' is the trap option.", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-006", "text": "The brachial plexus takes origin in the {{c1::neck}} and descends through the {{c2::cervicoaxillary canal}} to reach the {{c3::axilla}}", "extra": "It provides the motor and sensory innervation of the upper limb.", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-007", "text": "Stages of the brachial plexus, in order: {{c1::roots}} → {{c2::trunks}} → {{c3::divisions}} → {{c4::cords}} → {{c5::branches}}", "extra": "Mnemonic: Really Tired? Drink Coffee in Bed!", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-008", "text": "Brachial plexus counts — roots {{c1::5}} · trunks {{c2::3}} · divisions {{c3::6}} · cords {{c4::3}} · terminal branches {{c5::5}}", "extra": "5 · 3 · 6 · 3 · 5", "sec": "Part 01 · 1.3 Stages of the brachial plexus"}, {"id": "ANA-L5-009", "text": "Roots of the brachial plexus: C5–C8 arise in the {{c1::neck}}; T1 arises in the {{c2::thorax}}", "extra": "Roots = anterior primary (ventral) rami.", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-010", "text": "Trunks of the brachial plexus — upper = {{c1::C5 + C6}} · middle = {{c2::C7}} · lower = {{c3::C8 + T1}}", "extra": "", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-011", "text": "The trunks of the brachial plexus pass downward and laterally over the {{c1::first rib}}", "extra": "", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-012", "text": "Fibres of each trunk redistribute into {{c1::anterior and posterior}} divisions, which recombine to form the {{c2::cords}}", "extra": "", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-013", "text": "The three cords (lateral, medial, posterior) are named by their relation to the {{c1::axillary artery}}", "extra": "", "sec": "Part 01 · 1.2 The brachial plexus"}, {"id": "ANA-L5-014", "text": "Terminal nerves of the lateral cord: {{c1::musculocutaneous nerve}} + {{c2::lateral root of the median nerve}}", "extra": "Both C5, 6, 7.", "sec": "Part 01 · 1.4 The five terminal nerves"}, {"id": "ANA-L5-015", "text": "Terminal nerves of the medial cord: {{c1::ulnar nerve}} + {{c2::medial root of the median nerve}}", "extra": "", "sec": "Part 01 · 1.4 The five terminal nerves"}, {"id": "ANA-L5-016", "text": "Terminal nerves of the posterior cord: {{c1::axillary nerve}} + {{c2::radial nerve}}", "extra": "", "sec": "Part 01 · 1.4 The five terminal nerves"}, {"id": "ANA-L5-017", "text": "Musculocutaneous, median & ulnar nerves carry the {{c1::anterior}} divisions; radial & axillary nerves carry the {{c2::posterior}} divisions", "extra": "Anterior divisions → lateral & medial cords; posterior divisions → posterior cord.", "sec": "Part 01 · 1.4 The five terminal nerves"}, {"id": "ANA-L5-018", "text": "Root value — musculocutaneous {{c1::C5, 6, 7}} · axillary {{c2::C5, 6}} · radial {{c3::C5, 6, 7, 8, T1}}", "extra": "Median: lateral root C5, 6, 7 + medial root C8, T1.", "sec": "Part 01 · 1.4 The five terminal nerves"}, {"id": "ANA-L5-019", "text": "Branches of the roots of the brachial plexus: {{c1::dorsal scapular nerve}} · {{c2::long thoracic nerve}} · {{c3::phrenic nerve}}", "extra": "The thoracodorsal nerve is NOT a root branch (posterior cord).", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-020", "text": "Root value of the root branches — dorsal scapular {{c1::C5}} · long thoracic {{c2::C5, 6, 7}} · phrenic {{c3::C3, 4, 5}}", "extra": "", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-021", "text": "The phrenic nerve (C3, 4, 5) supplies the {{c1::diaphragm}}", "extra": "Listed with the root branches of the brachial plexus.", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-022", "text": "The long thoracic nerve (a root branch) is the nerve to {{c1::serratus anterior}}", "extra": "Formative 3 Q27: both names are root branches.", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-023", "text": "Stab wound → winged scapula + cannot raise the arm above the horizontal → damaged part of the brachial plexus: {{c1::roots}}", "extra": "Serratus anterior palsy → long thoracic nerve (C5, 6, 7) → a branch of the roots.", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-024", "text": "Thoracodorsal nerve: root value {{c1::C6, 7, 8}}; arises from the {{c2::posterior cord}}", "extra": "Not a root branch (Formative 3 Q27). Unlike the two subscapular nerves (C5, 6).", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-025", "text": "The thoracodorsal nerve = nerve to {{c1::latissimus dorsi}}; it arises between the two {{c2::subscapular}} nerves", "extra": "", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-026", "text": "Of the trunks, only the {{c1::upper}} trunk (C5, C6) gives branches: {{c2::nerve to subclavius}} & {{c3::suprascapular nerve}}", "extra": "", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-027", "text": "Branches arising from the divisions of the brachial plexus: {{c1::none}}", "extra": "Branches come from roots, upper trunk and cords only.", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-028", "text": "Lateral cord branches (2LM): {{c1::lateral pectoral n.}} · {{c2::lateral root of the median n.}} · {{c3::musculocutaneous n.}}", "extra": "2LM = 2 Lateral + Musculocutaneous.", "sec": "Part 02 · 2.2 All branches from the cords"}, {"id": "ANA-L5-029", "text": "Medial cord branches (4MU): {{c1::medial pectoral n.}} · {{c2::medial root of the median n.}} · {{c3::medial cutaneous n. of the arm}} · {{c4::medial cutaneous n. of the forearm}} · {{c5::ulnar n.}}", "extra": "4MU = 4 Medial + Ulnar.", "sec": "Part 02 · 2.2 All branches from the cords"}, {"id": "ANA-L5-030", "text": "The only medial-cord branch whose name does not carry the word 'medial': the {{c1::ulnar}} nerve", "extra": "Anatomy quiz 5 Q1.", "sec": "Part 02 · 2.2 All branches from the cords"}, {"id": "ANA-L5-031", "text": "Posterior cord branches (ULTRA): {{c1::upper subscapular}} · {{c2::lower subscapular}} · {{c3::thoracodorsal}} · {{c4::radial}} · {{c5::axillary}}", "extra": "ULTRA = Upper subscapular, Lower subscapular, Thoracodorsal, Radial, Axillary.", "sec": "Part 02 · 2.2 All branches from the cords"}, {"id": "ANA-L5-032", "text": "Root value — lateral pectoral {{c1::C5, 6, 7}} · medial pectoral {{c2::C8, T1}} · upper & lower subscapular {{c3::C5, 6}}", "extra": "Medial cutaneous nerves of arm & forearm: C8, T1.", "sec": "Part 02 · 2.1 Branches of the brachial plexus by level"}, {"id": "ANA-L5-033", "text": "Radial nerve: branch of the {{c1::posterior}} cord; root value {{c2::C5, 6, 7, 8, T1}}", "extra": "", "sec": "Part 03 · 3.1 Radial nerve — origin & course"}, {"id": "ANA-L5-034", "text": "In the axilla the radial nerve runs {{c1::behind the axillary artery}}", "extra": "", "sec": "Part 03 · 3.1 Radial nerve — origin & course"}, {"id": "ANA-L5-035", "text": "In the arm the radial nerve passes in the {{c1::spiral groove}}, in the {{c2::posterior}} compartment of the arm", "extra": "Hence humeral shaft fracture → radial nerve → wrist drop.", "sec": "Part 03 · 3.1 Radial nerve — origin & course"}, {"id": "ANA-L5-036", "text": "The radial nerve ends in the groove between {{c1::brachioradialis}} and {{c2::brachialis}} by dividing into {{c3::superficial and deep}} terminal branches", "extra": "", "sec": "Part 03 · 3.1 Radial nerve — origin & course"}, {"id": "ANA-L5-037", "text": "{{c2::Posterior interosseous nerve}} = the deep terminal branch of the {{c1::radial}} nerve", "extra": "Not the anterior interosseous nerve (a median branch).", "sec": "Part 03 · 3.1 Radial nerve — origin & course"}, {"id": "ANA-L5-038", "text": "Radial nerve branches in the axilla: {{c1::posterior cutaneous n. of the arm}} + {{c2::triceps (long head)}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-039", "text": "Radial nerve muscle branches in the upper arm: triceps ({{c1::medial & lateral heads}}) · {{c2::brachioradialis}} · a small part of {{c3::brachialis}}", "extra": "Also extensor carpi (radialis longus) and the elbow joint, before the nerve divides.", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-040", "text": "Radial nerve cutaneous branches in the upper arm: {{c1::lower lateral cutaneous n. of the arm}} + {{c2::posterior cutaneous n. of the forearm}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-041", "text": "Deep branch of radial (posterior interosseous) — wrist & forearm muscles: {{c1::extensor carpi radialis brevis}} · {{c2::supinator}} · {{c3::extensor carpi ulnaris}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-042", "text": "Deep branch of radial (posterior interosseous) — finger extensors: {{c1::extensor digitorum}} · {{c2::extensor digiti minimi}} · {{c3::extensor indicis}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-043", "text": "Deep branch of radial (posterior interosseous) — thumb muscles: {{c1::abductor pollicis longus}} · {{c2::extensor pollicis longus}} · {{c3::extensor pollicis brevis}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-044", "text": "Superficial branch of the radial nerve supplies the skin of the {{c1::lateral side of the dorsum of the hand}} and the {{c2::dorsal aspect of the lateral 3½ fingers}}", "extra": "", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-045", "text": "Radial nerve overall supplies: {{c1::nearly all extensor muscles}} · skin of the {{c2::posterior aspect}} of the upper limb · dorsal aspect of the lateral {{c3::3½}} digits", "extra": "Posterior skin via the posterior cutaneous nerves of the arm & forearm.", "sec": "Part 03 · 3.2 Distribution of the radial nerve"}, {"id": "ANA-L5-046", "text": "Median nerve roots: lateral root ({{c1::C5, 6, 7}}) from the {{c2::lateral}} cord + medial root ({{c3::C8, T1}}) from the {{c4::medial}} cord", "extra": "", "sec": "Part 04 · 4.1 Median nerve — formation"}, {"id": "ANA-L5-047", "text": "The two roots of the median nerve unite in the {{c1::axilla}}, on the {{c2::lateral}} side of the axillary artery", "extra": "", "sec": "Part 04 · 4.1 Median nerve — formation"}, {"id": "ANA-L5-048", "text": "Median nerve in the arm: descends at first {{c1::lateral}}, then {{c2::medial}} to the brachial artery", "extra": "", "sec": "Part 04 · 4.2 Median nerve — course in the arm, forearm & hand"}, {"id": "ANA-L5-049", "text": "The median nerve enters the forearm between the two heads of {{c1::pronator teres}}", "extra": "Ulnar enters between the two heads of flexor carpi ulnaris.", "sec": "Part 04 · 4.2 Median nerve — course in the arm, forearm & hand"}, {"id": "ANA-L5-050", "text": "In the forearm the median nerve descends along the middle of the front of the forearm, deep to {{c1::flexor digitorum superficialis}}", "extra": "", "sec": "Part 04 · 4.2 Median nerve — course in the arm, forearm & hand"}, {"id": "ANA-L5-051", "text": "The median nerve enters the palm {{c1::deep to}} the flexor retinaculum, in the {{c2::carpal tunnel}}", "extra": "Ulnar nerve passes in front of the retinaculum.", "sec": "Part 04 · 4.2 Median nerve — course in the arm, forearm & hand"}, {"id": "ANA-L5-052", "text": "Division in the hand — median nerve (distal to the flexor retinaculum): {{c1::medial & lateral divisions}}; ulnar nerve: {{c2::superficial & deep terminal branches}}", "extra": "", "sec": "Part 04 · 4.2 Median nerve — course in the arm, forearm & hand"}, {"id": "ANA-L5-053", "text": "Median nerve in the forearm supplies the flexor muscles except {{c1::flexor carpi ulnaris}} and the {{c2::medial half of flexor digitorum profundus}}", "extra": "Those two are ulnar.", "sec": "Part 04 · 4.3 Distribution of the median nerve"}, {"id": "ANA-L5-054", "text": "Median nerve's 5 hand muscles: {{c1::lumbricals 1 & 2}} · {{c2::opponens pollicis}} · {{c3::abductor pollicis brevis}} · {{c4::flexor pollicis brevis}}", "extra": "LOAF.", "sec": "Part 04 · 4.3 Distribution of the median nerve"}, {"id": "ANA-L5-055", "text": "Median nerve skin: the {{c1::palm}} + the {{c2::palmar surface & nail bed}} of the lateral 3½ digits", "extra": "", "sec": "Part 04 · 4.3 Distribution of the median nerve"}, {"id": "ANA-L5-056", "text": "Median nerve cut above the elbow (cannot oppose thumb, palmar lateral 3½ digits numb) → movements most affected: {{c1::wrist flexion and forearm pronation}}", "extra": "Median forearm flexors and both pronators lost; ring & little finger flexion partly kept (ulnar half of FDP).", "sec": "Part 04 · 4.3 Distribution of the median nerve"}, {"id": "ANA-L5-057", "text": "The ulnar nerve descends in the {{c1::front}} of the arm, then reaches the {{c2::back of the medial epicondyle}}", "extra": "", "sec": "Part 05 · 5.1 Ulnar nerve — origin & course"}, {"id": "ANA-L5-058", "text": "The ulnar nerve enters the forearm between the two heads of {{c1::flexor carpi ulnaris}}", "extra": "Median: between the two heads of pronator teres.", "sec": "Part 05 · 5.1 Ulnar nerve — origin & course"}, {"id": "ANA-L5-059", "text": "Fracture of the medial epicondyle of the humerus → injury of the {{c1::ulnar}} nerve", "extra": "Surgical neck → axillary; shaft (spiral groove) → radial.", "sec": "Part 05 · 5.1 Ulnar nerve — origin & course"}, {"id": "ANA-L5-060", "text": "The ulnar nerve enters the palm {{c1::in front of}} the flexor retinaculum, close to the {{c2::pisiform}} and {{c3::hook of hamate}}", "extra": "Exam trap: median deep to the retinaculum, ulnar in front of it.", "sec": "Part 05 · 5.1 Ulnar nerve — origin & course"}, {"id": "ANA-L5-061", "text": "Wrist cut on broken glass — structures entering the palm superficial to the flexor retinaculum: {{c1::ulnar nerve}} & {{c2::ulnar artery}}", "extra": "The 'dangerous position' at the wrist; median nerve & long flexor tendons are deep, in the carpal tunnel.", "sec": "Part 05 · 5.1 Ulnar nerve — origin & course"}, {"id": "ANA-L5-062", "text": "Ulnar nerve forearm muscles: {{c1::flexor carpi ulnaris}} + {{c2::medial half of flexor digitorum profundus}}", "extra": "", "sec": "Part 05 · 5.2 Distribution of the ulnar nerve"}, {"id": "ANA-L5-063", "text": "Ulnar nerve supplies all the muscles of the hand except the {{c1::thenar eminence}} and the {{c2::lateral 2 lumbricals}}", "extra": "The 5 exceptions (LOAF) are median.", "sec": "Part 05 · 5.2 Distribution of the ulnar nerve"}, {"id": "ANA-L5-064", "text": "Ulnar nerve skin: {{c1::palmar and dorsal}} aspects of the medial {{c2::1½}} digits", "extra": "", "sec": "Part 05 · 5.2 Distribution of the ulnar nerve"}, {"id": "ANA-L5-065", "text": "'Funny bone' symptoms — sensory loss over the front & back of the medial third of the hand and medial 1½ fingers → {{c1::ulnar}} nerve", "extra": "The ulnar nerve lies behind the medial epicondyle.", "sec": "Part 05 · 5.2 Distribution of the ulnar nerve"}, {"id": "ANA-L5-066", "text": "Musculocutaneous nerve: root value {{c1::C5, 6, 7}}; from the {{c2::lateral}} cord", "extra": "", "sec": "Part 06 · 6.1 Musculocutaneous nerve (C5, 6, 7)"}, {"id": "ANA-L5-067", "text": "The musculocutaneous nerve pierces {{c1::coracobrachialis}}, then descends between {{c2::biceps}} and {{c3::brachialis}}", "extra": "", "sec": "Part 06 · 6.1 Musculocutaneous nerve (C5, 6, 7)"}, {"id": "ANA-L5-068", "text": "Musculocutaneous nerve muscles: {{c1::biceps}} · {{c2::brachialis}} · {{c3::coracobrachialis}}", "extra": "BBC.", "sec": "Part 06 · 6.1 Musculocutaneous nerve (C5, 6, 7)"}, {"id": "ANA-L5-069", "text": "The musculocutaneous nerve continues as the {{c1::lateral cutaneous nerve of the forearm}}", "extra": "", "sec": "Part 06 · 6.1 Musculocutaneous nerve (C5, 6, 7)"}, {"id": "ANA-L5-070", "text": "Humerus fractures + weak forearm flexion & supination + numb lateral forearm → {{c1::musculocutaneous}} nerve", "extra": "Biceps flexes & supinates; the lateral cutaneous n. of the forearm alone cannot explain the weakness.", "sec": "Part 06 · 6.1 Musculocutaneous nerve (C5, 6, 7)"}, {"id": "ANA-L5-071", "text": "Axillary nerve: branch of the {{c1::posterior}} cord; root value {{c2::C5, 6}}", "extra": "Also called the circumflex nerve.", "sec": "Part 06 · 6.2 Axillary nerve (C5, 6)"}, {"id": "ANA-L5-072", "text": "The axillary nerve passes posteriorly in relation to the {{c1::surgical neck of the humerus}}", "extra": "", "sec": "Part 06 · 6.2 Axillary nerve (C5, 6)"}, {"id": "ANA-L5-073", "text": "The axillary nerve ends by dividing into {{c1::anterior and posterior}} branches", "extra": "", "sec": "Part 06 · 6.2 Axillary nerve (C5, 6)"}, {"id": "ANA-L5-074", "text": "Axillary nerve supplies {{c1::teres minor}} & {{c2::deltoid}} + the skin {{c3::overlying the deltoid}}", "extra": "", "sec": "Part 06 · 6.2 Axillary nerve (C5, 6)"}, {"id": "ANA-L5-075", "text": "Fracture of the surgical neck of the humerus → {{c1::axillary}} nerve injury → weak shoulder {{c2::abduction}} + numbness over the {{c3::deltoid (lateral shoulder)}}", "extra": "Deltoid & teres minor lost (teres minor = lateral rotation).", "sec": "Part 06 · 6.2 Axillary nerve (C5, 6)"}, {"id": "ANA-L5-076", "text": "Skin of the dorsum of the hand — dorsal lateral 3½ digits: {{c1::radial}} · dorsal medial 1½ digits: {{c2::ulnar}} · nail beds of lateral 3½ digits: {{c3::median}}", "extra": "So the dorsum is supplied by all three — ulnar, median & radial (Formative 3 Q8).", "sec": "Part 07 · 7.2 Cutaneous supply of the hand"}], "lib": "./", "prev": {"href": "ana-l4.html", "title": "Lecture 4 · Movements of the Hand"}, "next": {"href": "ana-ni.html", "title": "Nerve Injury · Nerve Injury of the Upper Limb"}, "searchHint": "e.g. cords, anterior, ulnar artery"};
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = BOOK.pages.length, QS = BOOK.questions, LABS = BOOK.labs;
+const KEY = 'msk-book-' + BOOK.id + '-v1';
+const DEF = {read:{}, ans:{}, pred:{}, flap:{}, self:{}, draft:{}, labs:{}, cards:{}, exams:[], mist:{}, marks:{}, set:{theme:'system', size:1, rapid:false}, last:1};
+let S = JSON.parse(JSON.stringify(DEF));
+try { const t = JSON.parse(localStorage.getItem(KEY) || 'null'); if (t && typeof t === 'object') for (const k in DEF) if (t[k] !== undefined) S[k] = t[k]; } catch (e) {}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+const RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+const DUR = RM ? 0 : 720, EASE = 'cubic-bezier(.42,.02,.24,1)';
+
+/* ---------- settings ---------- */
+function applySet(){
+  const r = document.documentElement;
+  if (S.set.theme === 'light' || S.set.theme === 'dark') r.dataset.theme = S.set.theme; else r.removeAttribute('data-theme');
+  r.style.setProperty('--fsz', S.set.size || 1);
+  document.body.classList.toggle('rapid', !!S.set.rapid);
+}
+applySet();
+
+/* ---------- geometry ---------- */
+const stage = $('#stage'), book = $('#book'), pgL = $('#pgL'), pgR = $('#pgR'), leaf = $('#leaf'), lf = $('#lf'), lb = $('#lb');
+let mode = 'spread', at = Math.min(Math.max(+S.last || 1, 0), N - 1), busy = false, opened = false, laid = false, drawnMode = null;
+function layout(force){
+  // layout-viewport size: on phones innerWidth/innerHeight grow while the page is zoomed out (pinch, or a page that overflowed for a moment)
+  const de = document.documentElement, vw = de.clientWidth || window.innerWidth, vh = de.clientHeight || window.innerHeight;
+  const lenient = laid && mode === 'spread';   // a little hysteresis: a window right at the edge can't flip between one and two pages
+  const wide = lenient ? (vw >= 880 && vh >= 500) : (vw >= 900 && vh >= 520);
+  $('#mnav').hidden = !(opened && !wide);
+  const r = stage.getBoundingClientRect(); const W = r.width, H = r.height - 20;
+  let pw, ph;
+  if (wide){ ph = Math.min(H, 940); pw = ph * .72; const maxw = (W - 130) / 2; if (pw > maxw){ pw = maxw; ph = Math.min(H, pw / .72); } mode = 'spread'; }
+  else { pw = Math.min(W - 4, 640); ph = Math.max(H, 200); mode = 'single'; }   // phone on its side: the page fits between the bars and scrolls inside
+  laid = true;
+  const rs = document.documentElement.style, vpw = Math.floor(pw) + 'px', vph = Math.floor(ph) + 'px';
+  if (rs.getPropertyValue('--pw') !== vpw) rs.setProperty('--pw', vpw);
+  if (rs.getPropertyValue('--ph') !== vph) rs.setProperty('--ph', vph);
+  book.classList.toggle('single', mode === 'single');
+  // a new size only reflows the CSS; the pages are rebuilt only when the book switches between one and two pages,
+  // so a phone's sliding toolbar, the keyboard or a resizing frame can never reset the page you are reading
+  if (opened && (force || mode !== drawnMode)) draw();
+}
+window.addEventListener('resize', () => {
+  clearTimeout(layout.t);
+  layout.t = setTimeout(function again(){ if (busy){ layout.t = setTimeout(again, 120); return; } layout(); }, 80);
+});
+
+/* ---------- page rendering ---------- */
+const H = {};   // block renderers
+function P(i, side){
+  if (i < 0 || i >= N) return `<div class="pin"></div>`;
+  const pg = BOOK.pages[i];
+  const head = pg.head ? `<div class="rh"><span>${esc(pg.head)}</span><span>${esc(BOOK.short)}</span></div>` : '';
+  const body = (pg.blocks || []).map((b, k) => (H[b.t] ? H[b.t](b, pg, k) : '')).join('');
+  const ribbon = pg.kind !== 'cover' ? `<button class="ribbon ${S.marks[i] ? 'on' : ''}" data-act="mark" data-p="${i}" aria-label="Bookmark this page"></button>` : '';
+  return `<div class="pin" data-pid="${i}">${head}${body}</div>${ribbon}<div class="folio ${side || ''}">${i === 0 ? '' : i}</div>`;
+}
+function setPage(el, i, side){ el.dataset.page = i; el.innerHTML = P(i, side); }
+function draw(){
+  drawnMode = mode;
+  const keep = {};
+  for (const el of [pgL, pgR]){ const sc = el.querySelector('.pin'); if (sc && !el.hidden && el.dataset.page !== undefined) keep[el.dataset.page] = sc.scrollTop; }
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    setPage(pgL, L, 'l'); setPage(pgR, L + 1, 'r'); pgR.hidden = false;
+    mark(L); mark(L + 1);
+  } else { setPage(pgL, at, 'r'); pgR.hidden = true; mark(at); }
+  for (const el of [pgL, pgR]){ const t = keep[el.dataset.page], sc = el.querySelector('.pin'); if (t && sc) sc.scrollTop = t; }
+  upd();
+}
+function mark(i){ if (i >= 0 && i < N && !S.read[i]){ S.read[i] = 1; save(); } }
+function rerender(i){
+  for (const el of [pgL, pgR]){
+    if (el.hidden || +el.dataset.page !== i) continue;
+    const sc = el.querySelector('.pin'); const top = sc ? sc.scrollTop : 0;
+    el.innerHTML = P(i, el === pgL && mode === 'spread' ? 'l' : 'r');
+    const ns = el.querySelector('.pin'); if (ns) ns.scrollTop = top;
+  }
+}
+function pageOf(el){ const p = el.closest('[data-page]'); return p ? +p.dataset.page : -1; }
+function upd(){
+  S.last = at; save();
+  const L = mode === 'spread' ? at - (at % 2) : at;
+  const txt = mode === 'spread' ? (L === 0 ? `p. 1 of ${N - 1}` : `pp. ${L}–${Math.min(L + 1, N - 1)} of ${N - 1}`) : (at === 0 ? 'Contents' : `p. ${at} of ${N - 1}`);
+  $('#pgind').textContent = opened ? txt : '';
+  $('#mmid').textContent = (BOOK.pages[at].head || BOOK.short) + ' · ' + (at === 0 ? 'contents' : 'p. ' + at);
+  const nr = Object.keys(S.read).length; $('#progi').style.width = Math.round(100 * nr / N) + '%';
+  // the library's "Continue" button: which lecture and page this reader was on last
+  try { localStorage.setItem('msk-last-book', JSON.stringify({id: BOOK.id, href: location.pathname.split('/').pop() || '', title: BOOK.title, page: at, t: Date.now()})); } catch (e) {}
+  // the page number is kept in S.last only — never in the address bar: an embedded viewer treats a changed address
+  // as a new page and reloads it, which made the book reload on every page turn
+}
+
+/* ---------- page turning ---------- */
+function clearLeaf(){ leaf.hidden = true; leaf.getAnimations && leaf.getAnimations().forEach(a => a.cancel()); }
+function anim(el, frames, done){
+  if (!DUR || !el.animate){ done(); return; }
+  leaf.style.setProperty('--dur', DUR + 'ms');
+  const a = el.animate(frames, {duration: DUR, easing: EASE});
+  a.onfinish = done; a.oncancel = done;
+}
+function go(dir){
+  if (busy || !opened) return;
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    if (dir > 0){
+      if (L + 2 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = 'var(--pw)'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(L + 1, 'r'); lb.innerHTML = P(L + 2, 'l'); setPage(pgR, L + 3, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(-180deg)'}], () => { at = L + 2; setPage(pgL, L + 2, 'l'); clearLeaf(); busy = false; mark(at); mark(at + 1); upd(); });
+    } else {
+      if (L - 2 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'right center';
+      lf.innerHTML = P(L, 'l'); lb.innerHTML = P(L - 1, 'r'); setPage(pgL, L - 2, 'l'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], () => { at = L - 2; setPage(pgR, L - 1, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  } else {
+    if (dir > 0){
+      if (at + 1 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at, 'r'); lb.innerHTML = '<div class="pin"></div>'; setPage(pgL, at + 1, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)', opacity: 1}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .7}, {transform: 'rotateY(-180deg)', opacity: 0}], () => { at++; clearLeaf(); busy = false; mark(at); upd(); });
+    } else {
+      if (at - 1 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at - 1, 'r'); lb.innerHTML = '<div class="pin"></div>'; leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(-180deg)', opacity: 0}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .3}, {transform: 'rotateY(0deg)', opacity: 1}], () => { at--; setPage(pgL, at, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  }
+}
+function jump(i){
+  i = Math.max(0, Math.min(N - 1, i)); closeOv();
+  if (!opened) openBook(i); else { at = i; draw(); }
+}
+document.addEventListener('keydown', e => {
+  if (!opened || document.querySelector('#ovs .ov')) { if (e.key === 'Escape') closeOv(); return; }
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+});
+let tx0 = null, ty0 = 0;
+book.addEventListener('touchstart', e => { const t = e.touches[0]; if (e.target.closest('.nosw,input,textarea,button,svg')) { tx0 = null; return; } tx0 = t.clientX; ty0 = t.clientY; }, {passive: true});
+book.addEventListener('touchend', e => { if (tx0 === null) return; const t = e.changedTouches[0]; const dx = t.clientX - tx0, dy = t.clientY - ty0; tx0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1); }, {passive: true});
+
+/* ---------- home (closed book) ---------- */
+function examDays(d){ const t = new Date(d + 'T00:00:00'); const now = new Date(); const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()); return Math.round((t - a) / 864e5); }
+function chipFor(e){ const n = examDays(e.date); if (n < 0) return ''; return `<span class="cd">${esc(e.name)} · <b>${n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'}</b></span>`; }
+function stats(){
+  const nr = Object.keys(S.read).length;
+  const ids = Object.keys(S.ans).filter(q => QS[q]); const ok = ids.filter(q => S.ans[q].ok).length;
+  const learned = Object.values(S.cards).filter(c => c.step >= 2).length;
+  return {nr, ok, n: ids.length, learned};
+}
+function home(){
+  opened = false; book.hidden = true; $('#mnav').hidden = true; $('#pgind').textContent = '';
+  const st = stats();
+  const cont = S.last > 1 ? `Continue on page ${S.last}` : 'Open the book';
+  $('#home').hidden = false;
+  $('#home').innerHTML = `
+  <div class="cover" id="cover">
+    <div class="frame"></div>
+    <div class="k">THE HELPERS · SEM 3 · 2026–27</div>
+    <div class="t1">MSK</div>
+    <div class="t2">${esc(BOOK.subject.toUpperCase())}</div>
+    <div class="rule"></div>
+    <div class="t3">${esc(BOOK.coverLine)}</div>
+    <div class="t4">${esc(BOOK.coverNote)}</div>
+  </div>
+  <div class="side">
+    ${BOOK.lib ? `<a class="libl" href="${esc(BOOK.lib)}">← All lectures</a>` : ''}
+    <h1>${esc(BOOK.title)}</h1>
+    <p>${esc(BOOK.blurb)}</p>
+    <div class="chips">${(BOOK.exams || []).map(chipFor).join('')}</div>
+    <div class="stats">
+      <div class="stat"><b>${st.nr}/${N}</b><span>pages read</span></div>
+      <div class="stat"><b>${st.ok}/${st.n}</b><span>answered right</span></div>
+      <div class="stat"><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>
+    </div>
+    <button class="hbtn pri" data-act="open">${cont}</button>
+    <div class="hrow">
+      <button class="hbtn" data-act="open-cards">Flashcards</button>
+      <button class="hbtn" data-act="open-exam">Exam mode</button>
+    </div>
+  </div>`;
+  $('#chap').textContent = BOOK.short;
+}
+function openBook(i){
+  const go2 = () => { $('#home').hidden = true; book.hidden = false; opened = true; if (i !== undefined) at = i; layout(true); };
+  const c = $('#cover');
+  if (c && DUR && c.animate){ c.animate([{transform: 'perspective(1400px) rotateY(0)'}, {transform: 'perspective(1400px) rotateY(-80deg)', opacity: .2}], {duration: 520, easing: 'ease-in'}).onfinish = go2; }
+  else go2();
+}
+
+/* ---------- block renderers ---------- */
+H.part = b => `<div class="part"><span class="pn">${esc(b.no)}</span><div><small>Part ${esc(b.no)}</small><h2>${esc(b.title)}</h2>${b.sub ? `<p>${esc(b.sub)}</p>` : ''}</div><span class="big">${esc(b.no)}</span></div>`;
+H.h = b => `<h3 class="sh"><span class="num">${esc(b.no)}</span><span>${esc(b.title)}</span>${b.top || b.rep ? `<span class="sht">${b.top ? '<span class="tg top">★ Top priority</span>' : ''}${b.rep ? '<span class="tg">↻ High yield</span>' : ''}</span>` : ''}</h3>`;
+H.hook = b => `<p class="hook">${b.html}</p>`;
+H.p = b => `<p class="tx">${b.html}</p>`;
+H.list = b => `<ul class="ls">${b.items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const NL = {hy: 'High yield', trap: 'Exam trap', mn: 'Mnemonic', cl: 'Clinical', def: 'Definition', nb: 'N.B.'};
+H.note = b => `<aside class="note n-${b.kind}"><span class="nl">${esc(b.title || NL[b.kind])}</span>${b.html}</aside>`;
+H.flow = b => `<div class="flow">${b.steps.map(s => `<span>${s}</span>`).join('<i>→</i>')}</div>`;
+const TB = {};
+H.table = (b, pg, k) => {
+  const id = pg.id + '-' + k; const st = TB[id] || (TB[id] = {cv: false, rev: {}});
+  const rows = b.rows.map((r, ri) => `<tr>${r.map((c, ci) => { const cov = st.cv && ci > 0 && !st.rev[ri + ':' + ci]; return `<td${cov ? ` class="cv" data-act="rev" data-t="${id}" data-c="${ri}:${ci}"` : ''}>${cov ? '<span>' + c + '</span>' : c}</td>`; }).join('')}</tr>`).join('');
+  return `<div class="tbl"><div class="tbl-h"><span>${esc(b.cap || '')}</span>${b.cover !== false ? `<button class="mini ${st.cv ? 'on' : ''}" data-act="cover" data-t="${id}">${st.cv ? 'Show answers' : 'Cover answers'}</button>` : ''}</div><div class="tw"><table><thead><tr>${b.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+function qimg(q, ans){
+  const L = ans ? q.aimg : q.img; if (!L || !L.length) return '';
+  const cap = ans ? q.acap : q.cap;
+  return L.map((u, i) => `<figure class="qf"><img src="${esc(u)}" alt="${esc(cap || 'Figure for this question')}" loading="lazy">${i === L.length - 1 && cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('');
+}
+function qtags(q){
+  const t = [];
+  if (q.top) t.push('<span class="tg top">★ Top priority</span>');
+  if (q.rep) t.push(`<span class="tg">↻ ${esc(q.rep)}</span>`);
+  t.push(`<span class="tg">${esc(q.tag)}</span>`);
+  return t.join('');
+}
+function opts(q, st, act){
+  return q.opts.map((o, i) => {
+    let c = '';
+    if (st && st.show){ if (i === q.ans) c = 'ok'; else if (i === st.pick) c = 'bad'; }
+    else if (st && st.pick === i) c = 'pick';
+    return `<button class="op ${c}" data-act="${act}" data-q="${q.id}" data-i="${i}" ${st && st.show ? 'disabled' : ''}><span class="lt">${'ABCDEFGH'[i]}</span><span>${esc(o)}</span></button>`;
+  }).join('');
+}
+H.check = b => {
+  const q = QS[b.q]; if (!q) return ''; const a = S.ans[q.id];
+  const st = a ? {pick: a.pick, show: true} : null;
+  const res = a ? `<div class="res ${a.ok ? 'ok' : 'bad'}">${a.ok ? '✓ Correct' : '✗ Not quite — the answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>${qimg(q, 1)}<div class="row"><button class="btn" data-act="retry" data-q="${q.id}">Try again</button></div>` : '';
+  return `<div class="qb"><div class="qh">Check question ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'ans')}${res}</div>`;
+};
+H.predict = b => {
+  const q = QS[b.q]; if (!q) return ''; const p = S.pred[q.id] || {};
+  const st = p.lift ? {pick: p.pick, show: true} : (p.pick !== undefined ? {pick: p.pick} : null);
+  let tail = '';
+  if (p.pick !== undefined && !p.lift) tail = `<div class="row"><button class="btn lift" data-act="lift" data-q="${q.id}">Lift the flap ↑</button><span class="muted" style="font-size:.8em">You predicted ${'ABCDEFGH'[p.pick]}</span></div>`;
+  else if (p.lift) tail = `<div class="res ${p.pick === q.ans ? 'ok' : 'bad'}">${p.pick === q.ans ? '✓ Your prediction was right' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>`;
+  else tail = `<div class="flapc"><span class="muted" style="font-size:.82em">Pick your prediction, then lift the flap</span></div>`;
+  return `<div class="qb"><div class="qh">Predict, then reveal ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'pred')}${tail}</div>`;
+};
+H.flap = b => {
+  const q = QS[b.q]; if (!q) return ''; const lifted = S.flap[q.id]; const self = S.self[q.id];
+  const dr = `<textarea class="dr" data-act="draft" data-q="${q.id}" placeholder="Write your answer first (optional)…">${esc(S.draft[q.id] || '')}</textarea>`;
+  const body = lifted
+    ? `<div class="ans">${q.keyhtml}</div>${qimg(q, 1)}${q.expl ? `<div class="ex">${q.expl}</div>` : ''}<div class="row"><span class="muted" style="font-size:.78em">How did you do?</span><button class="btn ${self === 'got' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="got">Got it</button><button class="btn ${self === 'later' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="later">Review later</button></div>`
+    : `${dr}<div class="flapc"><button class="btn lift" data-act="flap" data-q="${q.id}">Lift the flap ↑</button></div>`;
+  return `<div class="qb"><div class="qh">Written question ${qtags(q)}</div><div class="qs" style="white-space:pre-line">${esc(q.stem)}</div>${qimg(q)}${body}</div>`;
+};
+H.title = b => `<div class="title-page"><div class="kick">${esc(b.kick)}</div><h1 class="ttl">${esc(b.title)}</h1><div class="sub">${esc(b.sub)}</div>
+  <div class="facts">${b.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div>
+  ${b.hook ? `<p class="hook">${b.hook}</p>` : ''}${b.note ? `<aside class="note n-hy"><span class="nl">${esc(b.note[0])}</span>${b.note[1]}</aside>` : ''}</div>`;
+H.contents = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  return `<h3 class="sh" style="margin-top:0"><span class="num">≡</span><span>Contents</span></h3>
+  <ul class="map">${items.map(([p, i]) => `<li><button data-act="jump" data-p="${i}"><span class="mn">${esc(p.toc[0])}</span><span class="mt">${esc(p.toc[1])}</span><span class="mp">p. ${i}</span></button></li>`).join('')}</ul>
+  <div class="legend"><i style="background:var(--sticky)"></i><span>Sticky notes = high-yield facts</span><i style="background:var(--trap-bg);border-left:3px solid var(--red)"></i><span>Exam traps</span>
+  <i style="background:var(--chip);border:1px solid var(--line)"></i><span>Check questions answer instantly</span><i style="background:var(--red)"></i><span>LAB pages: interactive drills</span></div>
+  <p class="tx" style="font-size:.86em">Turn pages with the arrows, the ← → keys, or a swipe. Tap the ribbon to bookmark a page. Every fact comes from this year's Helpers pamphlet; every question is from the checked question bank.</p>`;
+};
+H.actions = () => `<div class="row" style="gap:.6em;margin:.8em 0"><button class="btn pri" data-act="open-exam">Start exam mode</button><button class="btn" data-act="open-cards">Flashcards (${BOOK.cards.length})</button><button class="btn" data-act="open-mist">My mistakes</button></div>`;
+H.progress = () => {
+  const st = stats(); const labs = Object.keys(LABS); const ld = labs.filter(l => S.labs[l] && S.labs[l].done).length;
+  const ex = S.exams.length ? S.exams[S.exams.length - 1] : null;
+  const third = labs.length ? `<div><b>${ld}/${labs.length}</b><span>labs done</span></div>` : `<div><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>`;
+  return `<div class="facts"><div><b>${st.nr}/${N}</b><span>pages read</span></div><div><b>${st.ok}/${st.n}</b><span>questions right</span></div>${third}</div>
+  <p class="tx" style="font-size:.86em">${ex ? `Last exam: <b>${ex.score}/${ex.n}</b> in ${Math.round(ex.secs / 60)} min.` : 'No exam taken yet.'} ${Object.keys(S.mist).length ? `You have <b>${Object.keys(S.mist).length}</b> questions in your mistakes list.` : ''}</p>`;
+};
+H.lab = (b, pg) => { const L = LABS[b.lab]; return L ? labHTML(L, pg) : ''; };
+H.recall = b => {
+  const st = S.labs[b.id] || {}, rv = st.r || {}; let n = 0, k = 0;
+  const body = b.groups.map(g => `<div class="rcg">${esc(g.title)}</div>` + g.items.map(it => { const i = n++, on = !!rv[i]; if (on) k++;
+    return `<button class="rci ${on ? 'on' : ''}" data-act="rcv" data-l="${b.id}" data-i="${i}"><span class="cue">${it[0]}</span>${it[1] ? ` <span class="${on ? '' : 'hid'}">${it[1]}</span>` : ''}</button>`; }).join('')).join('');
+  return `<div class="labh"><span class="lb">LAB</span><h3>${esc(b.title)}</h3></div>
+    <p class="labi">Say the rest of each line out loud, then tap it to check. Tap again to cover it. <b>${k}/${n}</b> uncovered.</p>
+    <div class="modes"><button class="mini" data-act="rcall" data-l="${b.id}" data-n="${n}">Uncover all</button><button class="mini" data-act="rcno" data-l="${b.id}">Cover all</button></div>${body}`;
+};
+H.end = () => {
+  const nx = BOOK.next, pv = BOOK.prev;
+  return `<div class="endnav">${nx ? `<a href="${esc(nx.href)}"><span><small>Next lecture</small>${esc(nx.title)}</span><span>→</span></a>` : ''}
+    ${pv ? `<a href="${esc(pv.href)}"><span><small>Previous lecture</small>${esc(pv.title)}</span><span>←</span></a>` : ''}
+    ${BOOK.lib ? `<a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a>` : ''}</div>`;
+};
+
+/* ---------- labs ---------- */
+const LS = {};
+function lst(id, init){ return LS[id] || (LS[id] = init()); }
+function rnd(seed){ let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function shuffled(arr, seed){ const r = rnd(seed), a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function labDone(id){ if (!S.labs[id] || !S.labs[id].done){ S.labs[id] = {done: true}; save(); } }
+function labHTML(L, pg){
+  const head = `<div class="labh"><span class="lb">LAB</span><h3>${esc(L.title)}</h3></div><div class="labi">${L.intro}</div>`;
+  const foot = L.ref ? `<div class="ref">From the pamphlet · ${esc(L.ref)}</div>` : '';
+  return `<div class="labx nosw">${head}${LAB[L.type](L)}${foot}</div>`;
+}
+const LAB = {};
+// --- region map (cross-section) ---
+function sector(cx, cy, rx, ry, a1, a2){
+  const p = a => [cx + rx * Math.cos(a * Math.PI / 180), cy + ry * Math.sin(a * Math.PI / 180)];
+  const [x1, y1] = p(a1), [x2, y2] = p(a2); const large = ((a2 - a1 + 360) % 360) > 180 ? 1 : 0;
+  return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+}
+LAB.map = L => {
+  const st = lst(L.id, () => ({sel: null, mode: 'explore', qi: 0, score: 0, fb: null, order: shuffled(L.tests.map((_, i) => i), L.id)}));
+  const cx = 160, cy = 128, rx = 136, ry = 108;
+  const regs = L.regions.map(r => {
+    const on = st.sel === r.id, dim = st.sel && !on && st.mode === 'explore';
+    return `<path class="rg ${dim ? 'dim' : ''}" d="${sector(cx, cy, rx, ry, r.a1, r.a2)}" fill="${r.color}" data-act="map" data-l="${L.id}" data-id="${r.id}" ${on ? 'stroke="var(--navy)" stroke-width="4"' : ''}/>`;
+  }).join('');
+  const labels = L.regions.map(r => { const m = (r.a1 + ((r.a2 - r.a1 + 360) % 360) / 2) * Math.PI / 180; return `<text class="svgtxt" text-anchor="middle" x="${(cx + rx * .62 * Math.cos(m)).toFixed(1)}" y="${(cy + ry * .62 * Math.sin(m) + 4).toFixed(1)}">${esc(r.short)}</text>`; }).join('');
+  const septa = L.regions.map(r => { const a = r.a1 * Math.PI / 180; return `<line x1="${(cx + 26 * Math.cos(a)).toFixed(1)}" y1="${(cy + 26 * Math.sin(a)).toFixed(1)}" x2="${(cx + rx * Math.cos(a)).toFixed(1)}" y2="${(cy + ry * Math.sin(a)).toFixed(1)}" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="4 3"/>`; }).join('');
+  const svg = `<svg viewBox="0 0 320 262" role="img" aria-label="${esc(L.title)}">${regs}${septa}
+    <circle cx="${cx}" cy="${cy}" r="26" fill="var(--bone)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="var(--paper-2)" stroke="var(--ink-2)" stroke-width="1"/>
+    <text class="svgsm" x="${cx}" y="${cy + 42}" text-anchor="middle">FEMUR</text>${labels}
+    <text class="svgsm" x="8" y="254">${esc(L.caption || '')}</text></svg>`;
+  let info;
+  if (st.mode === 'explore'){
+    const r = L.regions.find(x => x.id === st.sel);
+    info = r ? `<h4>${esc(r.name)}</h4>${r.html}` : `<span class="muted">Tap a compartment to see its muscles and its nerve.</span>`;
+  } else {
+    const done = st.qi >= L.tests.length;
+    info = done ? `<h4>Score: ${st.score}/${L.tests.length}</h4><span class="muted">Press "Test me" again for a new round.</span>`
+      : `<h4>${esc(L.tests[st.order[st.qi]].q)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : '<span class="muted">Tap the compartment.</span>'}`;
+    if (done) labDone(L.id);
+  }
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="explore">Explore</button><button class="mini ${st.mode === 'test' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="test">Test me</button>${st.mode === 'test' ? `<span class="muted" style="font-size:.75em;align-self:center">Question ${Math.min(st.qi + 1, L.tests.length)} of ${L.tests.length} · score ${st.score}</span>` : ''}</div>
+    <div class="svgw">${svg}</div><div class="info">${info}</div>`;
+};
+// --- nerve / muscle / movement graph with nerve cuts ---
+function gstate(L){ return lst(L.id, () => ({sel: null, cut: {}, mode: 'explore'})); }
+function mstat(m, cut){ if (!m.nerves.length) return 'unk'; const c = m.nerves.filter(n => cut[n]).length; return c === 0 ? 'ok' : c === m.nerves.length ? 'lost' : 'weak'; }
+LAB.graph = L => {
+  const st = gstate(L);
+  const M = L.muscles, byId = {}; M.forEach(m => byId[m.id] = m);
+  let hlN = {}, hlM = {}, hlV = {};
+  if (st.mode === 'explore' && st.sel){
+    const [t, id] = st.sel;
+    if (t === 'n'){ hlN[id] = 1; M.forEach(m => { if (m.nerves.includes(id)){ hlM[m.id] = 1; m.moves.forEach(v => hlV[v] = 1); } }); }
+    if (t === 'm'){ const m = byId[id]; hlM[id] = 1; m.nerves.forEach(n => hlN[n] = 1); m.moves.forEach(v => hlV[v] = 1); }
+    if (t === 'v'){ hlV[id] = 1; M.forEach(m => { if (m.moves.includes(id)){ hlM[m.id] = 1; m.nerves.forEach(n => hlN[n] = 1); } }); }
+  }
+  const any = st.mode === 'explore' && st.sel;
+  const ch = (t, id, name, extra) => {
+    let c = '';
+    if (st.mode === 'explore'){ if (any) c = ((t === 'n' ? hlN : t === 'm' ? hlM : hlV)[id]) ? 'hl' : 'dim'; }
+    else { if (t === 'n' && st.cut[id]) c = 'cut'; if (t === 'm'){ const s = mstat(byId[id], st.cut); c = s === 'lost' ? 'lost' : s === 'weak' ? 'weak' : s === 'unk' ? 'unk' : ''; } if (t === 'v') c = extra || ''; }
+    return `<button class="chip ${c}" data-act="g" data-l="${L.id}" data-t="${t}" data-id="${id}">${t === 'n' && st.mode === 'cut' ? (st.cut[id] ? '✂ ' : '') : ''}${esc(name)}</button>`;
+  };
+  // movement status
+  const vstat = {};
+  let summary = '';
+  if (st.mode === 'cut'){
+    const lines = [];
+    L.moves.forEach(v => {
+      const ms = M.filter(m => m.moves.includes(v.id) && m.nerves.length);
+      const lost = ms.filter(m => mstat(m, st.cut) === 'lost'), weak = ms.filter(m => mstat(m, st.cut) === 'weak');
+      const s = lost.length === ms.length && ms.length ? 'lost' : (lost.length || weak.length) ? 'weak' : 'ok';
+      vstat[v.id] = s;
+      if (s !== 'ok'){
+        const still = ms.filter(m => mstat(m, st.cut) !== 'lost').map(m => m.name + (mstat(m, st.cut) === 'weak' ? ' (partly)' : ''));
+        lines.push(`<div><b>${esc(v.name)}</b><span class="st ${s}">${s === 'lost' ? 'LOST' : 'WEAKENED'}</span>${still.length ? `<br><span class="muted" style="font-size:.9em">Still working: ${esc(still.join(', '))}</span>` : ''}</div>`);
+      }
+    });
+    const nc = Object.keys(st.cut).filter(k => st.cut[k]).length;
+    summary = nc ? (lines.length ? lines.join('') : '<span class="muted">No movement is affected.</span>') : '<span class="muted">Tap a nerve to cut it, or choose a case below.</span>';
+  } else {
+    const sel = st.sel; let t = '<span class="muted">Tap any nerve, muscle or movement to light up everything connected to it.</span>';
+    if (sel){ const [k, id] = sel; const item = k === 'n' ? L.nerves.find(x => x.id === id) : k === 'm' ? byId[id] : L.moves.find(x => x.id === id); t = `<h4>${esc(item.name)}</h4>${item.note ? esc(item.note) : ''}`; }
+    summary = t;
+  }
+  const vchip = v => ch('v', v.id, v.name, st.mode === 'cut' ? (vstat[v.id] === 'lost' ? 'lost' : vstat[v.id] === 'weak' ? 'weak' : '') : '');
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="explore">Explore links</button><button class="mini ${st.mode === 'cut' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="cut">Cut a nerve</button>${st.mode === 'cut' ? `<button class="mini" data-act="gclear" data-l="${L.id}">Heal all</button>` : ''}</div>
+    ${st.mode === 'cut' ? `<div class="modes">${L.cases.map((c, i) => `<button class="mini" data-act="gcase" data-l="${L.id}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+    <div class="gcols"><div class="gcol"><h5>Nerves</h5>${L.nerves.map(n => ch('n', n.id, n.name)).join('')}</div>
+    <div class="gcol"><h5>Muscles</h5>${M.map(m => ch('m', m.id, m.name)).join('')}</div>
+    <div class="gcol"><h5>Movements</h5>${L.moves.map(vchip).join('')}</div></div>
+    <div class="info">${summary}</div>${L.footnote ? `<div class="muted" style="font-size:.74em">${L.footnote}</div>` : ''}`;
+};
+// --- sorter ---
+LAB.sort = L => {
+  const st = lst(L.id, () => ({sel: null, placed: {}, wrong: 0, shake: null, order: shuffled(L.items.map(x => x.id), L.id)}));
+  const pool = st.order.filter(id => !st.placed[id]);
+  const it = id => L.items.find(x => x.id === id);
+  const done = !pool.length; if (done) labDone(L.id);
+  return `<div class="pool">${pool.map(id => `<button class="chip ${st.sel === id ? 'sel' : ''} ${st.shake === id ? 'shake' : ''}" data-act="spick" data-l="${L.id}" data-id="${id}">${esc(it(id).name)}</button>`).join('') || ''}</div>
+   ${done ? `<div class="done">✓ All sorted${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ' with no mistakes'}</div>` : `<div class="muted" style="font-size:.78em;margin:-.3em 0 .5em">${st.sel ? 'Now tap the right box.' : 'Tap an item, then tap its box.'}${st.wrong ? ` Wrong tries: ${st.wrong}.` : ''}</div>`}
+   <div class="bins">${L.bins.map(b => `<button class="bin" data-act="sdrop" data-l="${L.id}" data-b="${b.id}"><h5>${esc(b.name)}</h5>${b.sub ? `<small>${esc(b.sub)}</small>` : ''}<span class="in">${st.order.filter(id => st.placed[id] === b.id).map(id => `<span class="chip ok">${esc(it(id).name)}</span>`).join('')}</span></button>`).join('')}</div>
+   <div class="row"><button class="btn" data-act="sreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- sequence ---
+LAB.seq = L => {
+  const st = lst(L.id, () => ({n: 0, wrong: 0, shake: null, order: shuffled(L.steps.map((_, i) => i), L.id + 's')}));
+  const done = st.n >= L.steps.length; if (done) labDone(L.id);
+  return `<div class="info" style="min-height:0"><h4>${esc(L.prompt)}</h4></div>
+   <div class="seqline">${st.n ? L.steps.slice(0, st.n).map((s, i) => `<span class="n">${i + 1}</span><span class="chip ok">${esc(s)}</span>`).join('') : '<span class="muted" style="font-size:.78em">Your order appears here.</span>'}</div>
+   <div class="pool">${st.order.filter(i => i >= st.n).map(i => `<button class="chip ${st.shake === i ? 'shake' : ''}" data-act="qpick" data-l="${L.id}" data-i="${i}">${esc(L.steps[i])}</button>`).join('')}</div>
+   ${done ? `<div class="done">✓ Correct order${L.mnemonic ? ' — ' + esc(L.mnemonic) : ''}${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ''}</div>` : (st.wrong ? `<div class="muted" style="font-size:.78em">Wrong tries: ${st.wrong}</div>` : '')}
+   <div class="row"><button class="btn" data-act="qreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- labelled diagram ---
+const DRAW = {};
+LAB.diagram = L => {
+  const st = lst(L.id, () => ({mode: 'labels', rev: {}, qi: 0, score: 0, fb: null, order: shuffled(L.pins.map(p => p.id), L.id)}));
+  const pins = L.pins.map((p, i) => {
+    const shown = st.mode === 'labels' || (st.mode === 'test' && st.rev[p.id]);
+    let c = st.mode === 'test' && st.rev[p.id] ? 'on' : '';
+    if (st.mode === 'find' && st.fb && st.fb[2] === p.id) c = st.fb[0];
+    const lx = p.lx !== undefined ? p.lx : p.x + 9, anchor = p.anchor || 'start';
+    return `<g class="pinbtn ${c}" data-act="pin" data-l="${L.id}" data-id="${p.id}"><circle class="d" cx="${p.x}" cy="${p.y}" r="7"/><text x="${p.x}" y="${p.y + 2.8}" text-anchor="middle">${i + 1}</text>${shown ? `<text class="plab" x="${lx}" y="${p.ly !== undefined ? p.ly : p.y + 3}" text-anchor="${anchor}">${esc(p.short || p.name)}</text>` : ''}</g>`;
+  }).join('');
+  let info;
+  if (st.mode === 'labels') info = `<span class="muted">All labels shown. Switch to "Test me" (tap a number to reveal it) or "Find it" (find the named structure).</span>`;
+  else if (st.mode === 'test') info = `<span class="muted">Say the name of each numbered structure, then tap it to check. Revealed ${Object.keys(st.rev).length} of ${L.pins.length}.</span>`;
+  else {
+    const done = st.qi >= st.order.length; if (done) labDone(L.id);
+    info = done ? `<h4>Score: ${st.score}/${st.order.length}</h4><span class="muted">Choose "Find it" again for a new round.</span>`
+      : `<h4>Find: ${esc(L.pins.find(p => p.id === st.order[st.qi]).name)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : `<span class="muted">Tap its number · ${st.qi + 1} of ${st.order.length} · score ${st.score}</span>`}`;
+  }
+  return `<div class="modes">${[['labels', 'Labels on'], ['test', 'Test me'], ['find', 'Find it']].map(([m, n]) => `<button class="mini ${st.mode === m ? 'on' : ''}" data-act="dmode" data-l="${L.id}" data-v="${m}">${n}</button>`).join('')}</div>
+   <div class="svgw"><svg viewBox="${L.viewBox}" role="img" aria-label="${esc(L.title)}">${DRAW[L.draw] ? DRAW[L.draw]() : ''}${pins}</svg></div>
+   ${st.mode === 'labels' ? `<ol class="key">${L.pins.map(p => `<li>${esc(p.name)}</li>`).join('')}</ol>` : st.mode === 'test' ? `<ol class="key">${L.pins.map(p => `<li>${st.rev[p.id] ? esc(p.name) : '<span class="muted">tap ' + (L.pins.indexOf(p) + 1) + ' to check</span>'}</li>`).join('')}</ol>` : ''}<div class="info">${info}</div>`;
+};
+DRAW.femtri = () => {
+  // schematic femoral triangle: base = inguinal ligament (top), lateral side = sartorius (left), medial side = adductor longus (right)
+  const A = [44, 46], B = [296, 46], C = [176, 286];
+  const tri = `${A} ${B} ${C}`;
+  return `<defs><clipPath id="ftc"><polygon points="${tri}"/></clipPath>
+    <pattern id="lym" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="var(--cl)"/></pattern></defs>
+   <rect x="6" y="14" width="328" height="290" rx="14" fill="var(--skin)"/>
+   <g clip-path="url(#ftc)" opacity=".9">
+     <rect x="44" y="46" width="64" height="240" fill="#cfa18f"/><rect x="108" y="46" width="62" height="240" fill="#d9ae9c"/>
+     <rect x="170" y="46" width="62" height="240" fill="#e3bba9"/><rect x="232" y="46" width="64" height="240" fill="#d9ae9c"/>
+   </g>
+   <line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="30" y1="40" x2="310" y2="40" stroke="var(--bone)" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="40" x2="310" y2="40" stroke="var(--ink-2)" stroke-width="1" stroke-dasharray="3 3"/>
+   <path d="M118,48 L214,48 L200,150 L132,150 Z" fill="rgba(255,255,255,.22)" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="5 3"/>
+   <path d="M104,46 C104,90 108,140 118,190" stroke="#e2b93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M146,46 C146,110 154,180 168,262" stroke="#c0392b" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M174,46 C174,110 176,180 178,262" stroke="#2f5fb3" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M193,48 L209,48 L201,96 Z" fill="url(#lym)" stroke="var(--cl)" stroke-width="1.2"/>
+   <text class="svgsm" x="22" y="170" transform="rotate(-90 22 170)" text-anchor="middle">LATERAL</text>
+   <text class="svgsm" x="322" y="170" transform="rotate(90 322 170)" text-anchor="middle">MEDIAL</text>
+   <text class="svgsm" x="170" y="300" text-anchor="middle">SCHEMATIC FRONT VIEW · NOT TO SCALE</text>`;
+};
+
+/* ---------- click handling ---------- */
+const A = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = A[a.dataset.act]; if (f){ e.preventDefault(); f(a, e); }
+});
+document.addEventListener('input', e => { const a = e.target.closest('[data-act="draft"]'); if (a){ S.draft[a.dataset.q] = a.value; save(); } });
+A.next = () => go(1); A.prev = () => go(-1);
+A.home = () => { closeOv(); home(); };
+A.open = () => openBook(S.last > 0 ? S.last : 1);
+A.jump = a => jump(+a.dataset.p);
+A.mark = a => { const i = +a.dataset.p; if (S.marks[i]) delete S.marks[i]; else S.marks[i] = 1; save(); rerender(i); toast(S.marks[i] ? 'Bookmarked' : 'Bookmark removed'); };
+A.cover = a => { const t = TB[a.dataset.t]; t.cv = !t.cv; t.rev = {}; rerender(pageOf(a)); };
+A.rev = a => { const t = TB[a.dataset.t]; t.rev[a.dataset.c] = 1; rerender(pageOf(a)); };
+A.ans = a => { const q = QS[a.dataset.q], i = +a.dataset.i; const ok = i === q.ans; S.ans[q.id] = {pick: i, ok, t: Date.now()}; if (ok) delete S.mist[q.id]; else S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.retry = a => { delete S.ans[a.dataset.q]; save(); rerender(pageOf(a)); };
+A.pred = a => { const p = S.pred[a.dataset.q] || {}; if (p.lift) return; p.pick = +a.dataset.i; S.pred[a.dataset.q] = p; save(); rerender(pageOf(a)); };
+A.lift = a => { const q = QS[a.dataset.q]; const p = S.pred[q.id]; p.lift = 1; if (p.pick !== q.ans) S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.flap = a => { S.flap[a.dataset.q] = 1; save(); rerender(pageOf(a)); };
+A.self = a => { S.self[a.dataset.q] = a.dataset.v; save(); rerender(pageOf(a)); };
+const rcst = id => { const st = S.labs[id] || (S.labs[id] = {}); st.r = st.r || {}; return st; };
+A.rcv = a => { const st = rcst(a.dataset.l), i = a.dataset.i; if (st.r[i]) delete st.r[i]; else st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcall = a => { const st = rcst(a.dataset.l); for (let i = 0; i < +a.dataset.n; i++) st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcno = a => { const st = rcst(a.dataset.l); st.r = {}; save(); rerender(pageOf(a)); };
+// labs
+A.map = a => { const L = LABS[a.dataset.l], st = LS[L.id];
+  if (st.mode === 'explore') st.sel = st.sel === a.dataset.id ? null : a.dataset.id;
+  else if (st.qi < L.tests.length){ const t = L.tests[st.order[st.qi]]; if (a.dataset.id === t.a){ st.score += st.fb && st.fb[0] === 'bad' ? 0 : 1; st.qi++; st.fb = null; toast('✓ Correct'); } else st.fb = ['bad', 'Not this one — ' + L.regions.find(r => r.id === a.dataset.id).name + '. Try again.']; }
+  rerender(pageOf(a)); };
+A.mapmode = a => { const st = LS[a.dataset.l]; st.mode = a.dataset.v; st.sel = null; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(st.order, String(Date.now())); rerender(pageOf(a)); };
+A.g = a => { const L = LABS[a.dataset.l], st = gstate(L), t = a.dataset.t, id = a.dataset.id;
+  if (st.mode === 'explore') st.sel = st.sel && st.sel[0] === t && st.sel[1] === id ? null : [t, id];
+  else if (t === 'n') st.cut[id] = !st.cut[id];
+  rerender(pageOf(a)); };
+A.gmode = a => { const st = gstate(LABS[a.dataset.l]); st.mode = a.dataset.v; st.sel = null; rerender(pageOf(a)); };
+A.gclear = a => { const st = gstate(LABS[a.dataset.l]); st.cut = {}; rerender(pageOf(a)); };
+A.gcase = a => { const L = LABS[a.dataset.l], st = gstate(L), c = L.cases[+a.dataset.i]; st.cut = {}; c.cut.forEach(n => st.cut[n] = true); labDone(L.id); rerender(pageOf(a)); };
+A.spick = a => { const st = LS[a.dataset.l]; st.sel = st.sel === a.dataset.id ? null : a.dataset.id; st.shake = null; rerender(pageOf(a)); };
+A.sdrop = a => { const L = LABS[a.dataset.l], st = LS[L.id]; if (!st.sel) return; const it = L.items.find(x => x.id === st.sel);
+  if (it.bin === a.dataset.b){ st.placed[it.id] = it.bin; st.sel = null; st.shake = null; } else { st.wrong++; st.shake = it.id; toast('Not there — try another box'); }
+  rerender(pageOf(a)); };
+A.sreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.qpick = a => { const L = LABS[a.dataset.l], st = LS[L.id], i = +a.dataset.i; if (i === st.n){ st.n++; st.shake = null; } else { st.wrong++; st.shake = i; } rerender(pageOf(a)); };
+A.qreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.dmode = a => { const L = LABS[a.dataset.l], st = LS[L.id]; st.mode = a.dataset.v; st.rev = {}; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(L.pins.map(p => p.id), String(Date.now())); rerender(pageOf(a)); };
+A.pin = a => { const L = LABS[a.dataset.l], st = LS[L.id], id = a.dataset.id;
+  if (st.mode === 'test'){ if (st.rev[id]) delete st.rev[id]; else st.rev[id] = 1; }
+  else if (st.mode === 'find' && st.qi < st.order.length){ const t = st.order[st.qi];
+    if (id === t){ st.score += st.fb && st.fb[0] === 'bad' && st.fb[3] === t ? 0 : 1; st.qi++; st.fb = ['ok', '✓ Correct', id, t]; setTimeout(() => { if (st.fb && st.fb[2] === id){ st.fb = null; rerender(pageOf(document.querySelector(`[data-l="${L.id}"]`) || a)); } }, 700); }
+    else st.fb = ['bad', 'That is ' + L.pins.find(p => p.id === id).name + '. Try again.', id, t]; }
+  rerender(pageOf(a)); };
+
+/* ---------- overlays ---------- */
+function ov(title, body, cls){
+  $('#ovs').innerHTML = `<div class="ov" data-act="ovbg"><div class="panel ${cls || ''}" role="dialog" aria-label="${esc(title)}"><div class="ph"><h2>${esc(title)}</h2><button class="x" data-act="close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="pb" id="pbody">${body}</div></div></div>`;
+}
+function closeOv(){ $('#ovs').innerHTML = ''; if (!opened) home(); }
+A.close = closeOv;
+A.ovbg = (a, e) => { if (e.target === a) closeOv(); };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+
+// contents
+A['open-toc'] = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  const labs = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.kind === 'lab');
+  const marks = Object.keys(S.marks).map(Number).sort((a, b) => a - b);
+  ov('Contents', `${BOOK.lib ? `<div class="endnav" style="margin-top:0"><a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a></div>` : ''}<div class="lst">${items.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span><b>${esc(p.toc[0])}</b> · ${esc(p.toc[1])}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Labs</h3><div class="lst">${labs.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(p.labName || p.head)}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Bookmarks</h3>${marks.length ? `<div class="lst">${marks.map(i => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(BOOK.pages[i].head || 'Page ' + i)}</span></button>`).join('')}</div>` : '<p class="muted">No bookmarks yet. Tap the ribbon at the top of a page.</p>'}`);
+};
+// search
+function pageText(p){ const out = []; (p.blocks || []).forEach(b => { ['title', 'html', 'sub', 'hook'].forEach(k => { if (typeof b[k] === 'string') out.push(b[k]); }); if (b.items) out.push(b.items.join(' ')); if (b.rows) out.push(b.rows.flat().join(' ')); if (b.q && QS[b.q]) out.push(QS[b.q].stem); if (b.lab && LABS[b.lab]) out.push(LABS[b.lab].title + ' ' + LABS[b.lab].intro); }); return out.join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); }
+const PT = BOOK.pages.map(pageText);
+A['open-search'] = () => { ov('Search the book', `<input class="srch" id="sq" type="search" placeholder="${esc(BOOK.searchHint || 'Search this lecture')}" aria-label="Search"><div class="lst" id="sres"></div>`);
+  const inp = $('#sq'); inp.focus(); inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase(); const r = $('#sres');
+    if (q.length < 2){ r.innerHTML = ''; return; }
+    const hits = [];
+    PT.forEach((t, i) => { const j = t.toLowerCase().indexOf(q); if (j >= 0) hits.push([i, t.slice(Math.max(0, j - 40), j + q.length + 60)]); });
+    r.innerHTML = hits.length ? hits.map(([i, s]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>…${esc(s)}…</span></button>`).join('') : '<p class="muted">Nothing found.</p>';
+  }); };
+// settings
+A['open-set'] = () => {
+  const seg = (k, vals) => `<div class="seg">${vals.map(([v, n]) => `<button class="${String(S.set[k]) === String(v) ? 'on' : ''}" data-act="set" data-k="${k}" data-v="${v}">${n}</button>`).join('')}</div>`;
+  ov('Settings', `<div class="setrow"><span>Theme</span>${seg('theme', [['system', 'Auto'], ['light', 'Day'], ['dark', 'Night']])}</div>
+   <div class="setrow"><span>Text size</span>${seg('size', [[0.9, 'S'], [1, 'M'], [1.15, 'L']])}</div>
+   <div class="setrow"><span>Rapid revision<br><small class="muted">Hides running text; keeps tables, notes, questions and labs.</small></span>${seg('rapid', [[false, 'Off'], [true, 'On']])}</div>
+   <div class="setrow"><span>Progress<br><small class="muted">Saved in this browser only.</small></span><button class="btn" data-act="reset">Reset all progress</button></div>`);
+};
+A.set = a => { let v = a.dataset.v; if (a.dataset.k === 'size') v = +v; if (a.dataset.k === 'rapid') v = v === 'true'; S.set[a.dataset.k] = v; save(); applySet(); A['open-set'](); if (opened) draw(); };
+A.reset = a => { if (a.dataset.sure){ S = JSON.parse(JSON.stringify(DEF)); for (const k in LS) delete LS[k]; save(); applySet(); closeOv(); toast('Progress reset'); if (opened) draw(); } else { a.dataset.sure = 1; a.textContent = 'Tap again to confirm'; } };
+
+/* ---------- flashcards (spaced repetition) ---------- */
+const STEPS = [60e3, 600e3, 864e5, 1728e5, 3456e5, 6912e5];
+const STEPN = ['1 min', '10 min', '1 day', '2 days', '4 days', '8 days'];
+let FC = null;
+function fcQueue(mode){
+  const now = Date.now(); const c = BOOK.cards;
+  if (mode === 'cram') return c.map(x => x.id);
+  const due = c.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).sort((a, b) => S.cards[a.id].due - S.cards[b.id].due).map(x => x.id);
+  const fresh = c.filter(x => !S.cards[x.id]).map(x => x.id);
+  return due.concat(fresh);
+}
+function cloze(t, rev, all){
+  let k = 0;
+  return esc(t).replace(/\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}/g, (m, n, ans, hint) => { const i = k++; const r = all || rev[i]; return `<span class="blank ${r ? 'r' : ''}" data-act="fcb" data-i="${i}">${r ? ans : (hint ? esc(hint) : '·····')}</span>`; });
+}
+A['open-cards'] = () => { FC = {mode: 'learn', q: fcQueue('learn'), i: 0, rev: {}, all: false}; fcDraw(); };
+function fcDraw(){
+  const c = FC.q[FC.i] ? BOOK.cards.find(x => x.id === FC.q[FC.i]) : null;
+  const now = Date.now(); const due = BOOK.cards.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).length; const fresh = BOOK.cards.filter(x => !S.cards[x.id]).length; const learned = Object.values(S.cards).filter(x => x.step >= 2).length;
+  const top = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg"><button class="${FC.mode === 'learn' ? 'on' : ''}" data-act="fcmode" data-v="learn">Due &amp; new</button><button class="${FC.mode === 'cram' ? 'on' : ''}" data-act="fcmode" data-v="cram">Cram all</button></div>
+   <div class="meter"><span>Due <b>${due}</b></span><span>New <b>${fresh}</b></span><span>Learned <b>${learned}/${BOOK.cards.length}</b></span></div></div>`;
+  let body;
+  if (!c){
+    const nxt = Object.values(S.cards).map(x => x.due).filter(d => d > now).sort((a, b) => a - b)[0];
+    body = `<div class="fc" style="text-align:center"><div class="big">✓</div><p>All caught up${FC.mode === 'cram' ? ' — you went through every card' : ''}.</p>${nxt ? `<p class="muted">Next card is due ${new Date(nxt).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'})}.</p>` : ''}<div class="row" style="justify-content:center"><button class="btn pri" data-act="fcmode" data-v="cram">Cram all cards</button></div></div>`;
+  } else {
+    const nb = (c.text.match(/\{\{c\d+::/g) || []).length; const allShown = FC.all || Object.keys(FC.rev).length >= nb;
+    const s = S.cards[c.id]; const step = s ? s.step : -1;
+    const lab = i => STEPN[Math.min(Math.max(i, 0), STEPS.length - 1)];
+    body = `<div class="fc"><div class="ctx">${esc(c.sec)} · card ${FC.i + 1} of ${FC.q.length}</div><div>${cloze(c.text, FC.rev, FC.all)}</div>${allShown && c.extra ? `<div class="fcx">${esc(c.extra)}</div>` : ''}</div>
+      ${allShown ? `<div class="grade"><button class="g0" data-act="fcg" data-v="0">Again<small>${lab(0)}</small></button><button class="g1" data-act="fcg" data-v="1">Good<small>${lab(step + 1)}</small></button><button class="g2" data-act="fcg" data-v="2">Easy<small>${lab(step + 2)}</small></button></div>`
+      : `<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" data-act="fcall">Show answer</button><span class="muted" style="font-size:12px">or tap each blank</span></div>`}`;
+  }
+  ov('Flashcards · ' + BOOK.short, top + body);
+}
+A.fcmode = a => { FC = {mode: a.dataset.v, q: fcQueue(a.dataset.v), i: 0, rev: {}, all: false}; fcDraw(); };
+A.fcb = a => { FC.rev[a.dataset.i] = 1; fcDraw(); };
+A.fcall = () => { FC.all = true; fcDraw(); };
+A.fcg = a => { const id = FC.q[FC.i]; const v = +a.dataset.v; const s = S.cards[id] || {step: -1};
+  if (v === 0) s.step = 0; else s.step = Math.min((s.step < 0 ? -1 : s.step) + v, STEPS.length - 1);
+  s.due = Date.now() + STEPS[Math.max(s.step, 0)]; S.cards[id] = s; save();
+  if (v === 0 && FC.mode === 'learn') FC.q.push(id);
+  FC.i++; FC.rev = {}; FC.all = false; fcDraw(); };
+
+/* ---------- exam mode & mistakes ---------- */
+let EX = null;
+const MCQ = Object.values(QS).filter(q => q.type === 'mcq');
+A['open-exam'] = () => {
+  const nB = MCQ.filter(q => q.bank).length;
+  const past = S.exams.slice(-5).reverse();
+  ov('Exam mode · ' + BOOK.short, `<p>Questions from the Final question bank for this lecture${MCQ.length > nB ? ', plus checked extra practice questions' : ''}. You see your score, your time and every mistake at the end.</p>
+   <div class="setrow"><span>Questions</span><div class="seg">${[10, 20, 0].map(n => `<button data-act="exstart" data-n="${n}">${n || 'All ' + MCQ.length}</button>`).join('')}</div></div>
+   <div class="setrow"><span>Only Final-bank questions</span><div class="seg"><button class="${!(EX && EX.all) ? 'on' : ''}" data-act="exonly" data-v="1">Yes (${nB})</button><button class="${EX && EX.all ? 'on' : ''}" data-act="exonly" data-v="0">Add extras (${MCQ.length})</button></div></div>
+   ${past.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Past attempts</h3><div class="lst">${past.map(x => `<div class="it" style="cursor:default;border:1px solid var(--line);border-radius:10px;padding:8px 11px"><b>${x.score}/${x.n}</b>&nbsp; <span class="muted">${new Date(x.date).toLocaleString([], {weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})} · ${Math.max(1, Math.round(x.secs / 60))} min</span></div>`).join('')}</div>` : ''}`);
+};
+A.exonly = a => { EX = EX || {}; EX.all = a.dataset.v === '0'; A['open-exam'](); };
+A.exstart = a => {
+  const all = EX && EX.all; const pool = MCQ.filter(q => all || q.bank);
+  const n = +a.dataset.n || pool.length; const qs = shuffled(pool.map(q => q.id), String(Date.now())).slice(0, Math.min(n, pool.length));
+  EX = {all, qs, i: 0, picks: {}, t0: Date.now(), kind: 'exam'}; exDraw();
+};
+function exDraw(){
+  if (EX.i >= EX.qs.length) return exEnd();
+  const q = QS[EX.qs[EX.i]];
+  if (EX.kind === 'retry'){
+    const p = EX.picks[q.id];
+    const st = p !== undefined ? {pick: p, show: true} : null;
+    ov('Mistakes · retry ' + (EX.i + 1) + ' of ' + EX.qs.length, `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'exp')}${p !== undefined ? `<div class="res ${p === q.ans ? 'ok' : 'bad'}">${p === q.ans ? '✓ Correct — removed from your mistakes' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div><div class="row"><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next question' : 'Finish'}</button></div>` : ''}</div>`);
+    return;
+  }
+  const p = EX.picks[q.id];
+  ov(`Question ${EX.i + 1} of ${EX.qs.length}`, `<div class="meter"><span>Answered <b>${Object.keys(EX.picks).length}</b></span><span>Time <b id="extime">0:00</b></span></div>
+   <div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, p !== undefined ? {pick: p} : null, 'exp')}</div>
+   <div class="row" style="justify-content:space-between"><button class="btn" data-act="exback" ${EX.i ? '' : 'disabled'}>Back</button><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next' : 'Finish exam'}</button></div>`);
+  tick();
+}
+function tick(){ const el = $('#extime'); if (!el || !EX) return; const s = Math.round((Date.now() - EX.t0) / 1000); el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); clearTimeout(tick.t); tick.t = setTimeout(tick, 1000); }
+A.exp = a => { const q = QS[a.dataset.q], i = +a.dataset.i;
+  if (EX.kind === 'retry'){ if (EX.picks[q.id] !== undefined) return; EX.picks[q.id] = i; S.ans[q.id] = {pick: i, ok: i === q.ans, t: Date.now()}; if (i === q.ans) delete S.mist[q.id]; save(); exDraw(); return; }
+  EX.picks[q.id] = i; exDraw(); };
+A.exnext = () => { EX.i++; exDraw(); };
+A.exback = () => { if (EX.i) EX.i--; exDraw(); };
+function exEnd(){
+  clearTimeout(tick.t);
+  if (EX.kind === 'retry'){ const left = Object.keys(S.mist).length; ov('Mistakes', `<div class="fc" style="text-align:center"><div class="big">${EX.qs.filter(id => EX.picks[id] === QS[id].ans).length}/${EX.qs.length}</div><p>${left ? left + ' questions still in your mistakes list.' : 'Your mistakes list is empty.'}</p></div>`); return; }
+  const secs = Math.round((Date.now() - EX.t0) / 1000); let score = 0; const wrong = [];
+  EX.qs.forEach(id => { const q = QS[id], p = EX.picks[id]; const ok = p === q.ans; if (ok){ score++; delete S.mist[id]; } else { S.mist[id] = 1; wrong.push([q, p]); } S.ans[id] = {pick: p === undefined ? -1 : p, ok, t: Date.now()}; });
+  S.exams.push({date: Date.now(), n: EX.qs.length, score, secs}); save();
+  ov('Exam result', `<div class="fc" style="text-align:center"><div class="big">${score}/${EX.qs.length}</div><p>${Math.round(100 * score / EX.qs.length)}% · ${Math.floor(secs / 60)} min ${secs % 60} s</p></div>
+   ${wrong.length ? `<h3 style="font:700 15px var(--f-head);margin:16px 0 4px">Review your mistakes</h3>${wrong.map(([q, p]) => `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, {pick: p === undefined ? -1 : p, show: true}, 'none')}<div class="ex">${q.expl}</div></div>`).join('')}` : '<p style="text-align:center">No mistakes. Well done.</p>'}
+   <div class="row"><button class="btn pri" data-act="open-exam">New exam</button>${wrong.length ? '<button class="btn" data-act="open-mist">Retry my mistakes</button>' : ''}</div>`);
+  if (opened) draw();
+}
+A['open-mist'] = () => {
+  const ids = Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq');
+  const later = Object.keys(S.self).filter(id => S.self[id] === 'later' && QS[id]);
+  ov('My mistakes', `${ids.length ? `<p>${ids.length} question${ids.length > 1 ? 's' : ''} you got wrong. Retry them; a right answer removes it from the list.</p><div class="row"><button class="btn pri" data-act="mretry">Retry all</button></div>
+    <div class="lst">${ids.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem)}</span></button>`).join('')}</div>` : '<p class="muted">No mistakes yet. Wrong answers in check questions, predictions and exams collect here.</p>'}
+    ${later.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Written answers to review</h3><div class="lst">${later.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem.split('\n')[0])}</span></button>`).join('')}</div>` : ''}`);
+};
+A.mretry = () => { const ids = shuffled(Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq'), String(Date.now())); if (!ids.length) return; EX = {qs: ids, i: 0, picks: {}, t0: Date.now(), kind: 'retry'}; exDraw(); };
+A.jumpq = a => { const id = a.dataset.q; const i = BOOK.pages.findIndex(p => (p.blocks || []).some(b => b.q === id)); if (i >= 0) jump(i); else toast('This question is only in exam mode'); };
+A.none = () => {};
+
+/* ---------- start ---------- */
+function start(){
+  layout();
+  home();   // the cover's "Continue on page N" button returns to the saved page
+}
+start();
+})();
+</script>
+
+</body>
+</html>

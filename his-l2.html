@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1834">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MSK Book">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>MSK Interactive Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout concept: a Helpers-blue cloth volume lying open on a walnut desk — two pages per spread on wide screens, one page on phones;
+   text pages face lab pages; sticky notes, red section numbers and lift-the-flap questions like a real study book. */
+:root{
+  --desk:#6a4a30; --desk-2:#4f3522; --paper:#fbf9f3; --paper-2:#f1ece0; --edge:#ddd3bd;
+  --ink:#1c2333; --ink-2:#4b5569; --muted:#7c8597; --line:#e3dccb; --card:#ffffff;
+  --navy:#0b1f45; --navy-ink:#0b1f45; --band:#0b1f45; --band-ink:#ffffff; --blue:#2e86de; --red:#d64545;
+  --ok:#1e9e62; --ok-bg:#e6f6ee; --bad:#d64545; --bad-bg:#fdeceb; --chip:#edf3fb; --hl:#fff0a1;
+  --sticky:#ffe57a; --sticky-ink:#3a3000; --trap-bg:#fdf0ef; --mn:#7b4fc9; --mn-bg:#f3eefb; --cl:#13836f; --cl-bg:#e8f5f2; --def-bg:#edf3fb; --nb-bg:#f2f2ef;
+  --cover-1:#d9d2c2; --cover-2:#e8e2d4; --leather:#11295a; --leather-2:#0a1c40; --gold:#d9b45e;
+  --bar:rgba(10,24,52,.86); --bar-ink:#f4f6fb; --skin:#f6e3d3; --musc:#e8a8a0; --musc-2:#d98c84; --bone:#fbf6ea;
+  --fsz:1; --pw:520px; --ph:720px;
+  --f-head:'Poppins','Segoe UI',system-ui,sans-serif; --f-body:'Lato','Segoe UI',system-ui,sans-serif; --f-hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:var(--f-body);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255,240,215,.10), transparent 62%),
+    repeating-linear-gradient(91deg, rgba(0,0,0,.045) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89.3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 31px),
+    repeating-linear-gradient(90.6deg, rgba(0,0,0,.035) 0 6px, transparent 6px 57px),
+    linear-gradient(180deg, var(--desk), var(--desk-2));
+  background-color:var(--desk)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+#app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{flex:none;display:flex;align-items:center;gap:6px;height:50px;margin-top:8px;padding:0 8px 0 12px;border-radius:14px;background:var(--bar);color:var(--bar-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;background:none;border:0;padding:0}
+.brand b{font:700 15px var(--f-head);letter-spacing:.01em;white-space:nowrap}
+.brand span{font:500 11px var(--f-head);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .sp{flex:1}
+.pgind{font:600 12px var(--f-head);opacity:.85;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:10px;border:0;background:transparent;color:var(--bar-ink);cursor:pointer;font:600 12px var(--f-head)}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:18px;height:18px;flex:none}
+.ib .lb{white-space:nowrap}
+.ib.on{background:rgba(255,255,255,.16)}
+.prog{height:3px;border-radius:2px;background:rgba(255,255,255,.15);overflow:hidden;width:70px}
+.prog i{display:block;height:100%;background:var(--gold)}
+@media (max-width:1100px){ .ib .lb{display:none} }
+.brand .bw{font-style:normal}
+@media (max-width:640px){ .brand span,.brand .bw,.prog,.pgind{display:none} .bar{gap:2px;padding:0 4px 0 10px} .ib{padding:0 7px} }
+
+/* ---------- desk & book ---------- */
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2600px;perspective-origin:50% 50%}
+.book.single{width:var(--pw)}
+.book::before{content:"";position:absolute;inset:-9px -12px -11px -12px;border-radius:12px;background:linear-gradient(90deg,var(--leather-2),var(--leather) 6%,var(--leather) 94%,var(--leather-2));box-shadow:0 28px 50px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.35)}
+.book.single::before{inset:-7px -9px -9px -9px}
+.pg{position:absolute;top:0;width:var(--pw);height:var(--ph);background:var(--paper);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}
+.pg-l{left:0;border-radius:6px 2px 2px 6px;background:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(90deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:-2px 0 0 var(--edge),-4px 0 0 var(--paper-2),-6px 1px 0 var(--edge)}
+.pg-r{left:var(--pw);border-radius:2px 6px 6px 2px;background:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(270deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:2px 0 0 var(--edge),4px 0 0 var(--paper-2),6px 1px 0 var(--edge)}
+.book.single .pg-l{border-radius:4px 6px 6px 4px;background:linear-gradient(to right,rgba(0,0,0,.10),transparent 5%),var(--paper);box-shadow:3px 0 0 var(--edge),5px 1px 0 var(--paper-2)}
+.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph);transform-style:preserve-3d;pointer-events:none;z-index:6}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.05) 70%,rgba(0,0,0,.10));animation:shade var(--dur,700ms) ease-in-out}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.turn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:64px;border-radius:12px;border:0;background:rgba(0,0,0,.28);color:#fff;cursor:pointer;z-index:8;display:grid;place-items:center}
+.turn:hover{background:rgba(0,0,0,.45)}
+.turn svg{width:22px;height:22px}
+.turn.prev{left:-56px}.turn.next{right:-56px}
+.book.single .turn{display:none}
+.mnav{display:none}
+@media (max-width:899px), (max-height:519px){ .mnav{display:flex} }
+.mnav{flex:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 8px}
+.mnav button{flex:none;height:42px;min-width:56px;border-radius:12px;border:0;background:var(--bar);color:var(--bar-ink);font:600 13px var(--f-head);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px}
+.mnav .mid{flex:1;text-align:center;color:#fff;font:600 12px var(--f-head);text-shadow:0 1px 2px rgba(0,0,0,.4);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- closed book (home) ---------- */
+.home{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:12px;overflow:auto;z-index:9}
+.cover{position:relative;width:min(340px,82vw);aspect-ratio:.72;border-radius:6px 16px 16px 6px;color:var(--gold);
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.08),transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px),linear-gradient(135deg,var(--leather),var(--leather-2));
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.28),inset 13px 0 0 rgba(255,255,255,.05),0 26px 46px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 24px 36px;box-sizing:border-box;transform-origin:left center}
+.cover .frame{position:absolute;inset:14px 14px 14px 24px;border:1px solid rgba(217,180,94,.55);border-radius:4px 10px 10px 4px;pointer-events:none}
+.cover .k{font:600 10px var(--f-head);letter-spacing:.32em;opacity:.85}
+.cover .t1{font:700 clamp(44px,13vw,64px)/1 var(--f-head);letter-spacing:.04em;margin:14px 0 2px;color:var(--gold)}
+.cover .t2{font:600 20px var(--f-head);letter-spacing:.06em;color:#f3e6c4}
+.cover .rule{width:56%;height:1px;background:rgba(217,180,94,.6);margin:16px 0}
+.cover .t3{font:500 13px/1.45 var(--f-head);color:#eadcb8;max-width:16em}
+.cover .t4{margin-top:18px;font:italic 400 12px var(--f-body);color:#d9c9a0;opacity:.85}
+.side{display:flex;flex-direction:column;gap:12px;width:min(340px,86vw);color:#fff}
+.side h1{font:700 22px/1.2 var(--f-head);margin:0;text-wrap:balance;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.side p{margin:0;font-size:14px;line-height:1.5;color:#f1e8dc;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cd{font:600 12px var(--f-head);padding:6px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.cd b{color:var(--gold)}
+.hbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;cursor:pointer;font:600 14px var(--f-head);background:var(--card);color:var(--navy-ink);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.hbtn.pri{background:var(--gold);color:#1d1606}
+.hbtn svg{width:18px;height:18px}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:rgba(0,0,0,.32);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.12)}
+.stat b{display:block;font:700 18px var(--f-head);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 10.5px var(--f-head);letter-spacing:.05em;color:#e8dcc6;text-transform:uppercase}
+
+/* ---------- page content ---------- */
+.pin{position:absolute;inset:0;padding:6.2% 7% 8.2% 7.4%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;box-sizing:border-box;
+  font-size:clamp(12px, calc(var(--pw) * .0262 * var(--fsz)), 19px);line-height:1.5;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pg-l .pin{padding-right:8.4%}.pg-r .pin{padding-left:8.6%}
+.rh{display:flex;justify-content:space-between;gap:1em;padding-right:2.6em;font:600 .6em var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1em;padding-bottom:.6em;border-bottom:1px solid var(--line)}
+.folio{position:absolute;bottom:2.6%;font:600 .78em var(--f-head);color:var(--muted);font-size:clamp(10px,calc(var(--pw)*.022),14px)}
+.pg-l .folio,.leaf .folio.l{left:7%}.pg-r .folio,.leaf .folio.r{right:7%}.book.single .folio{right:7%;left:auto}
+.ribbon{position:absolute;top:-2px;right:9%;width:clamp(16px,calc(var(--pw)*.04),24px);height:clamp(34px,calc(var(--pw)*.085),52px);border:0;padding:0;cursor:pointer;background:var(--line);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);opacity:.75;z-index:2}
+.ribbon.on{background:var(--red);opacity:1}
+.part{display:flex;gap:.8em;align-items:center;background:var(--band);color:var(--band-ink);border-radius:.6em;padding:.85em 1em;margin:0 0 1em;position:relative;overflow:hidden}
+.part .pn{flex:none;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:700 .95em var(--f-head);box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.part small{display:block;font:600 .6em var(--f-head);letter-spacing:.16em;opacity:.8;text-transform:uppercase}
+.part h2{margin:.05em 0 0;font:700 1.18em/1.2 var(--f-head);text-wrap:balance}
+.part p{margin:.25em 0 0;font-size:.78em;opacity:.85}
+.part .big{position:absolute;right:.2em;bottom:-.25em;font:700 3.6em/1 var(--f-head);opacity:.09}
+.sh{display:flex;align-items:center;gap:.55em;margin:1.1em 0 .45em;font:700 1.02em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sh .num{flex:none;min-width:2.1em;height:2.1em;padding:0 .2em;border-radius:1.05em;display:grid;place-items:center;background:var(--red);color:#fff;font:700 .66em var(--f-head);letter-spacing:.02em;box-sizing:border-box}
+.hook{font:italic 400 1em/1.45 var(--f-body);color:var(--ink-2);margin:.2em 0 .6em;padding-left:.7em;border-left:2px solid var(--red)}
+.tx{margin:.45em 0}
+.ls{margin:.4em 0 .6em;padding-left:1.1em}.ls li{margin:.18em 0}
+mark{background:var(--hl);color:inherit;padding:0 .14em;border-radius:.18em}
+.note{margin:.85em 0;padding:.65em .8em .7em;border-radius:.45em;position:relative}
+.note .nl{display:block;font:700 .6em var(--f-head);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2em}
+.n-hy{background:var(--sticky);color:var(--sticky-ink);border-radius:2px;transform:rotate(-1deg);box-shadow:0 .35em .7em rgba(0,0,0,.18);margin:1.1em .2em}
+.n-hy::before{content:"";position:absolute;top:-.55em;left:50%;width:4.4em;height:1.1em;transform:translateX(-50%) rotate(2deg);background:rgba(255,255,255,.45);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.n-hy .nl{font:700 1.3em/1 var(--f-hand);letter-spacing:0;text-transform:none;margin-bottom:.25em}
+.n-trap{background:var(--trap-bg);border-left:.28em solid var(--red)}.n-trap .nl{color:var(--red)}
+.n-mn{background:var(--mn-bg);border-left:.28em solid var(--mn)}.n-mn .nl{color:var(--mn)}
+.n-cl{background:var(--cl-bg);border-left:.28em solid var(--cl)}.n-cl .nl{color:var(--cl)}
+.n-def{background:var(--def-bg);border-left:.28em solid var(--blue)}.n-def .nl{color:var(--blue)}
+.n-nb{background:var(--nb-bg);border-left:.28em solid var(--muted)}.n-nb .nl{color:var(--muted)}
+.tbl{margin:.8em 0}
+.tbl-h{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:.35em}
+.tbl-h span{font:700 .66em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:.84em;line-height:1.38}
+.tbl th{background:var(--band);color:var(--band-ink);font:600 .82em var(--f-head);letter-spacing:.03em;text-align:left;padding:.45em .5em}
+.tbl th:first-child{border-radius:.35em 0 0 0}.tbl th:last-child{border-radius:0 .35em 0 0}
+.tbl td{padding:.42em .5em;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:700;color:var(--navy-ink)}
+.tbl td.cv{cursor:pointer;color:transparent;border-radius:.3em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none}
+.tbl td.cv *{visibility:hidden}
+.mini{font:600 .7em var(--f-head);padding:.38em .75em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.on{background:var(--band);color:var(--band-ink);border-color:transparent}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;margin:.7em 0}
+.flow span{background:var(--chip);border:1px solid var(--line);border-radius:.4em;padding:.3em .55em;font-size:.86em}
+.flow i{font-style:normal;color:var(--red);font-weight:700}
+
+/* questions */
+.qb{border:1px solid var(--line);background:var(--card);border-radius:.6em;padding:.7em .8em .8em;margin:.9em 0}
+.qh{display:flex;flex-wrap:wrap;align-items:center;gap:.35em .5em;font:700 .58em var(--f-head);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.tg{font:600 1em var(--f-head);letter-spacing:.06em;padding:.15em .55em;border-radius:1em;background:var(--chip);color:var(--ink-2)}
+.tg.top{background:#fff1cf;color:#8a5a00}
+:root[data-theme="dark"] .tg.top{background:#4a3a12;color:#f6d27a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tg.top{background:#4a3a12;color:#f6d27a} }
+.qs{font-weight:700;margin:.5em 0 .55em;line-height:1.42}
+.op{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;padding:.45em .6em;margin:.32em 0;border-radius:.5em;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:.95em;line-height:1.35;cursor:pointer}
+.op:hover{border-color:var(--blue)}
+.op .lt{flex:none;width:1.55em;height:1.55em;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:700 .72em var(--f-head);color:var(--ink-2);margin-top:.05em}
+.op.ok{border-color:var(--ok);background:var(--ok-bg)}.op.ok .lt{background:var(--ok);color:#fff;border-color:var(--ok)}
+.op.bad{border-color:var(--bad);background:var(--bad-bg)}.op.bad .lt{background:var(--bad);color:#fff;border-color:var(--bad)}
+.op.pick{border-color:var(--blue);background:var(--chip)}
+.op[disabled]{cursor:default}
+.res{font:700 .8em var(--f-head);margin:.5em 0 .1em}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.ex{margin-top:.45em;padding:.55em .7em;border-left:.25em solid var(--blue);background:var(--chip);border-radius:.3em;font-size:.9em;line-height:1.45}
+.ex b{color:var(--navy-ink)}
+.row{display:flex;flex-wrap:wrap;gap:.45em;align-items:center;margin-top:.55em}
+.btn{font:600 .74em var(--f-head);padding:.5em .95em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--band);color:var(--band-ink);border-color:transparent}
+.btn.lift{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;font-family:var(--f-hand);font-size:1.05em;font-weight:700}
+.flapc{margin-top:.5em;border-radius:.45em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 6px,var(--cover-2) 6px 12px);padding:.9em;text-align:center}
+.ans{margin-top:.5em;padding:.6em .75em;border-left:.25em solid var(--ok);background:var(--ok-bg);border-radius:.3em;font-size:.92em;white-space:pre-line;line-height:1.45}
+textarea.dr{width:100%;box-sizing:border-box;min-height:4.2em;margin-top:.4em;border:1px dashed var(--line);border-radius:.45em;background:var(--paper);color:var(--ink);font:inherit;font-size:.9em;padding:.5em;resize:vertical}
+
+/* labs */
+.labh{display:flex;align-items:center;gap:.55em;margin:0 0 .5em}
+.labh .lb{flex:none;background:var(--red);color:#fff;font:700 .6em var(--f-head);letter-spacing:.16em;padding:.3em .65em;border-radius:.3em}
+.labh h3{margin:0;font:700 1.08em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.labi{font-size:.88em;color:var(--ink-2);margin:.2em 0 .6em}
+.modes{display:flex;flex-wrap:wrap;gap:.35em;margin:.3em 0 .6em}
+.svgw{background:var(--paper-2);border:1px solid var(--line);border-radius:.6em;padding:.4em;margin:.3em 0}
+.svgw svg{display:block;width:100%;height:auto;max-height:calc(var(--ph) * .44)}
+.rg{cursor:pointer;stroke:var(--paper);stroke-width:2.5;transition:filter .15s, opacity .15s}
+.rg:hover{filter:brightness(1.07)}
+.rg.dim{opacity:.35}
+.svgtxt{font:700 11px var(--f-head);fill:var(--ink);pointer-events:none;letter-spacing:.06em}
+.svgsm{font:600 8.5px var(--f-head);fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+.pinbtn{cursor:pointer}
+.pinbtn circle.d{fill:var(--card);stroke:var(--navy);stroke-width:1.6}
+.pinbtn.on circle.d{fill:var(--sticky);stroke:var(--red)}
+.pinbtn.ok circle.d{fill:var(--ok)}
+.pinbtn.bad circle.d{fill:var(--bad)}
+.pinbtn text{font:700 8px var(--f-head);fill:var(--navy-ink);pointer-events:none}
+.plab{font:700 8.6px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;pointer-events:none}
+.key{columns:2;column-gap:1.2em;margin:.3em 0 .4em;padding-left:1.6em;font-size:.8em;line-height:1.45}.key li{break-inside:avoid}
+.info{background:var(--card);border:1px solid var(--line);border-radius:.55em;padding:.55em .7em;font-size:.88em;margin:.4em 0;min-height:2.6em}
+.info h4{margin:0 0 .2em;font:700 .95em var(--f-head);color:var(--navy-ink)}
+.fb{font:700 .8em var(--f-head);margin:.3em 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:.35em;margin:.4em 0 .7em;min-height:1.8em}
+.chip{font:700 .74em var(--f-body);padding:.36em .62em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.2;text-align:left}
+.chip.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok);cursor:default}
+.chip.hl{background:var(--band);color:var(--band-ink);border-color:transparent}
+.chip.dim{opacity:.35}
+.chip.cut{background:var(--bad);color:#fff;border-color:transparent}
+.chip.lost{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.chip.weak{background:#fff4d6;border-color:#e0a422;color:#8a5a00}
+:root[data-theme="dark"] .chip.weak{background:#433513;color:#f3cf74}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.weak{background:#433513;color:#f3cf74} }
+.chip.unk{border-style:dashed}
+.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.4em,1fr));gap:.45em}
+.bin{border:1.5px dashed var(--edge);border-radius:.6em;padding:.45em;min-height:4.2em;cursor:pointer;background:var(--paper);text-align:left;display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.bin:hover{border-color:var(--blue)}
+.bin h5{margin:0;font:700 .68em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.bin small{font-size:.66em;color:var(--muted);margin-top:-.25em}
+.bin .in{display:flex;flex-wrap:wrap;gap:.25em}
+.seqline{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.2em;margin:.3em 0 .6em;padding:.4em;border-radius:.5em;background:var(--paper-2);border:1px solid var(--line)}
+.seqline .n{font:700 .62em var(--f-head);color:var(--muted)}
+.gcols{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:.5em}
+.gcols h5{margin:0 0 .3em;font:700 .62em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gcol{display:flex;flex-direction:column;gap:.3em;align-items:stretch}
+.gcol .chip{font-size:.68em}
+.st{font:700 .62em var(--f-head);padding:.12em .5em;border-radius:1em;margin-left:.3em;white-space:nowrap}
+.st.lost{background:var(--bad);color:#fff}.st.weak{background:#e0a422;color:#fff}.st.ok{background:var(--ok);color:#fff}
+.done{margin:.5em 0;padding:.5em .7em;border-radius:.45em;background:var(--ok-bg);color:var(--ok);font:700 .82em var(--f-head)}
+.ref{margin-top:.8em;font:600 .62em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.title-page{display:flex;flex-direction:column;min-height:100%;justify-content:center;gap:.6em}
+.kick{font:600 .66em var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ttl{margin:0;font:700 1.95em/1.12 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sub{color:var(--ink-2);font-size:.95em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.6em 0}
+.facts div{background:var(--paper-2);border:1px solid var(--line);border-radius:.55em;padding:.55em;text-align:center}
+.facts b{display:block;font:700 1.35em var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.facts span{font:600 .58em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.map{list-style:none;padding:0;margin:.4em 0;display:flex;flex-direction:column;gap:.3em}
+.map li button{width:100%;display:flex;align-items:center;gap:.6em;padding:.45em .55em;border-radius:.5em;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;color:var(--ink)}
+.map li button:hover{border-color:var(--blue)}
+.map .mn{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--band);color:var(--band-ink);font:700 .7em var(--f-head)}
+.map .mt{flex:1;font:600 .86em var(--f-head);color:var(--navy-ink)}
+.map .mp{font:600 .7em var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:.35em .6em;align-items:center;font-size:.82em;margin:.5em 0}
+.legend i{font-style:normal;width:1.8em;height:1.3em;border-radius:.25em;display:inline-block}
+body.rapid .tx, body.rapid .hook{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.55);padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.panel{background:var(--paper);color:var(--ink);width:min(680px,100%);max-height:100%;overflow:auto;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+.ph{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.ph h2{margin:0;font:700 17px var(--f-head);color:var(--navy-ink);flex:1;min-width:0}
+.ph .x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.pb{padding:14px 16px 18px}
+.pb .qb{font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 12px;font:600 13px var(--f-head);cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--band);color:var(--band-ink)}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px 18px 16px;min-height:150px;font-size:17px;line-height:1.55;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.fc .ctx{font:600 11px var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.blank{display:inline-block;min-width:3.2em;border-radius:6px;padding:0 .35em;margin:0 .1em;background:var(--chip);border:1px dashed var(--blue);color:transparent;cursor:pointer;line-height:1.35}
+.blank.r{background:var(--hl);border-style:solid;border-color:transparent;color:var(--ink);font-weight:700;cursor:default}
+.fcx{margin-top:12px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.grade button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;cursor:pointer;font:700 14px var(--f-head);color:var(--ink)}
+.grade small{display:block;font:500 11px var(--f-body);color:var(--muted)}
+.grade .g0{border-color:var(--bad);color:var(--bad)}.grade .g1{border-color:var(--blue);color:var(--blue)}.grade .g2{border-color:var(--ok);color:var(--ok)}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font:600 12px var(--f-head);color:var(--muted);margin:10px 0}
+.meter b{color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.big{font:700 40px var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.lst{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.lst button.it{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;cursor:pointer;color:var(--ink);font-size:14px}
+.lst .pgn{font:700 12px var(--f-head);color:var(--blue);flex:none;font-variant-numeric:tabular-nums}
+input.srch{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 14px;font-size:15px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bar);color:var(--bar-ink);padding:9px 16px;border-radius:12px;font:600 13px var(--f-head);z-index:60;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+/* section priority chips */
+.sh .sht{display:inline-flex;flex-wrap:wrap;gap:.3em;margin-left:auto}
+.sh .sht .tg{font-size:.56em;white-space:nowrap}
+/* recall lab: the start of each fact stays visible, the rest is covered until tapped */
+.rcg{margin:.85em 0 .3em;font:700 .72em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.rci{display:block;width:100%;text-align:left;margin:.3em 0;padding:.45em .6em;border-radius:.45em;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.92em;line-height:1.45;cursor:pointer}
+.rci .cue{font-weight:700;color:var(--navy-ink)}
+.rci .hid{color:transparent;border-radius:.25em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rci.on{border-color:var(--ok);background:var(--ok-bg)}
+/* figures in questions */
+.qf{margin:.5em 0 .6em;text-align:center}
+.qf img{max-width:100%;max-height:calc(var(--ph) * .42);border-radius:.4em;border:1px solid var(--line);background:#fff}
+.panel .qf img{max-height:46vh}
+.qf figcaption{font-size:.74em;color:var(--muted);margin-top:.25em}
+/* links back to the library and on to the next lecture */
+.libl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--f-head);color:#fff;text-decoration:none;padding:7px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+.endnav{display:flex;flex-direction:column;gap:.5em;margin:.8em 0}
+.endnav a{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.7em .85em;border-radius:.6em;border:1px solid var(--line);background:var(--card);color:var(--navy-ink);text-decoration:none;font:600 .9em var(--f-head)}
+.endnav a small{display:block;font:500 .78em var(--f-body);color:var(--muted)}
+/* iPhone/iPad: Safari zooms into any text field under 16px when it is tapped */
+@supports (-webkit-touch-callout:none){ input.srch,textarea.dr{font-size:16px} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <button class="brand" data-act="home" aria-label="Back to the cover"><b>MSK<em class="bw"> Interactive</em> Book</b><span id="chap"></span></button>
+    <div class="sp"></div>
+    <span class="pgind" id="pgind"></span>
+    <div class="prog" title="Pages read"><i id="progi" style="width:0"></i></div>
+    <button class="ib" data-act="open-toc" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="lb">Contents</span></button>
+    <button class="ib" data-act="open-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="lb">Search</span></button>
+    <button class="ib" data-act="open-cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v11"/></svg><span class="lb">Flashcards</span></button>
+    <button class="ib" data-act="open-exam" aria-label="Exam mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg><span class="lb">Exam</span></button>
+    <button class="ib" data-act="open-mist" aria-label="Mistakes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg><span class="lb">Mistakes</span></button>
+    <button class="ib" data-act="open-set" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lb">Settings</span></button>
+  </header>
+  <main class="stage" id="stage">
+    <div class="book" id="book" hidden>
+      <div class="pg pg-l" id="pgL"></div>
+      <div class="pg pg-r" id="pgR"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front" id="lf"></div><div class="face back" id="lb"></div></div>
+      <button class="turn prev" data-act="prev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="turn next" data-act="next" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="home" id="home"></div>
+  </main>
+  <nav class="mnav" id="mnav" hidden>
+    <button data-act="prev" aria-label="Previous page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="mid" id="mmid"></span>
+    <button data-act="next" aria-label="Next page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+<div id="ovs"></div>
+
+<script>
+const BOOK = {"id": "his-l2", "title": "Histology · Lecture 2 — Muscle Tissue and Synovial Membrane", "short": "Histology L2 · Muscle Tissue and Synovial Membrane", "subject": "Histology", "coverLine": "Lecture 2 · Muscle Tissue & Synovial Membrane", "coverNote": "Interactive edition", "blurb": "The pamphlet as a book you can work with: the key facts part by part, a recall lab for each part, check questions that answer instantly, written questions with lift-the-flap answers, flashcards with spaced repetition and an exam mode.", "exams": [{"name": "Final", "date": "2026-11-09"}, {"name": "Practical", "date": "2026-11-11"}], "pages": [{"id": "p0", "head": "", "kind": "cover", "blocks": [{"t": "contents"}]}, {"id": "p1", "head": "Lecture 2", "kind": "text", "blocks": [{"t": "title", "kick": "MSK Module · Histology · Lecture 2", "title": "Muscle Tissue & Synovial Membrane", "sub": "Smooth Muscle — Light Microscopy · Smooth Muscle — E/M & Contraction · Joints & Synovial Membrane · Articular Cartilage & Osteoarthritis · The Three Muscle Types Compared · Rapid Revision", "facts": [["6", "pamphlet parts"], ["29", "check questions"], ["16", "Final-bank questions"]], "hook": "Exam trap to remember: No striations ≠ no myofilaments — actin &amp; myosin present but irregular", "note": ["In the Final", "This lecture comes as <b>MCQ + essay<\/b>. 5 of its questions are <b>top priority<\/b>: the department used them this year."]}]}, {"id": "p2", "head": "Part 01 · Smooth Muscle — Light Microscopy", "kind": "text", "blocks": [{"t": "part", "no": "01", "title": "Smooth Muscle — Light Microscopy", "sub": "Overview & sites · General appearance · Light microscopy (L/M)"}, {"t": "h", "no": "1.1", "title": "Overview & sites"}, {"t": "list", "items": ["<b>Smooth muscle:<\/b> <mark>non-striated<\/mark>, <mark>involuntary<\/mark>; broad central part, <mark>tapering ends<\/mark>", "<b>Sites:<\/b> wall of <mark>blood vessels<\/mark>", "<mark>Viscera<\/mark>: GIT, respiratory &amp; urinary tracts", "<b>Skin:<\/b> <mark>erector pili<\/mark> muscle"]}, {"t": "h", "no": "1.2", "title": "General appearance"}, {"t": "list", "items": ["Small, <mark>non-branching<\/mark>, <mark>spindle (fusiform)<\/mark> cells", "<mark>Smallest<\/mark> diameter of the three muscle types", "<b>Length variable:<\/b> <mark>20 µm<\/mark> (small blood vessels) → <mark>500 µm<\/mark> (<mark>pregnant uterus<\/mark>)", "<b>Arranged in layers:<\/b> <mark>circular, longitudinal or oblique<\/mark>"]}], "toc": ["01", "Smooth Muscle — Light Microscopy"]}, {"id": "p3", "head": "Part 01 · Smooth Muscle — Light Microscopy", "kind": "text", "blocks": [{"t": "h", "no": "1.3", "title": "Light microscopy (L/M)", "top": true}, {"t": "list", "items": ["Nucleus <mark>single<\/mark>, oval &amp; <mark>central<\/mark>", "Cytoplasm <mark>homogeneous<\/mark>, <mark>acidophilic<\/mark>, <mark>no striations<\/mark>", "Actin &amp; myosin present but arranged <mark>irregularly<\/mark> → no striation", "Contraction <mark>weak, slow<\/mark>, involuntary"]}]}, {"id": "p4", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-0-0", "title": "Recall · Smooth Muscle — Light Microscopy (1/2)", "groups": [{"title": "1.1 Overview & sites", "items": [["Smooth muscle:", "non-striated, involuntary; broad central part, tapering ends"], ["Sites:", "wall of blood vessels"], ["Viscera:", "GIT, respiratory &amp; urinary tracts"], ["Skin:", "erector pili muscle"]]}, {"title": "1.2 General appearance", "items": [["Small, non-branching", "spindle (fusiform) cells"], ["Smallest diameter", "of the three muscle types"], ["Length variable:", "20 µm (small blood vessels) → 500 µm (pregnant uterus)"], ["Arranged in layers:", "circular, longitudinal or oblique"]]}]}], "labName": "Recall · Smooth Muscle — Light Microscopy (1/2)"}, {"id": "p5", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-0-1", "title": "Recall · Smooth Muscle — Light Microscopy (2/2)", "groups": [{"title": "1.3 Light microscopy (L/M)", "items": [["Nucleus single", "oval &amp; central"], ["Cytoplasm homogeneous", "acidophilic, no striations"], ["Actin &amp; myosin present but arranged irregularly →", "no striation"], ["Contraction weak", "slow, involuntary"]]}]}], "labName": "Recall · Smooth Muscle — Light Microscopy (2/2)"}, {"id": "p6", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0282"}, {"t": "check", "q": "N-HIS-L2-08"}]}, {"id": "p7", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0281"}, {"t": "check", "q": "Y26-012"}]}, {"id": "p8", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0242"}, {"t": "check", "q": "Q0283"}]}, {"id": "p9", "head": "Part 02 · Smooth Muscle — E/M & Contraction", "kind": "text", "blocks": [{"t": "part", "no": "02", "title": "Smooth Muscle — E/M & Contraction", "sub": "Electron microscopy — five features · Filament lattice & cell junctions · Contraction & its regulation · Regeneration"}, {"t": "h", "no": "2.1", "title": "Electron microscopy — five features", "top": true}, {"t": "list", "items": ["<b>Dense bodies:<\/b> darkly stained <mark>α-actinin<\/mark> on inner plasmalemma &amp; <mark>sarcoplasm<\/mark>; correspond to <mark>Z line<\/mark>", "<mark>Caveolae<\/mark>: sarcolemmal <mark>invaginations<\/mark> that function like T tubules", "No T tubules", "No sarcomere (irregular actin &amp; myosin)", "SR <mark>poorly defined<\/mark>"]}, {"t": "h", "no": "2.2", "title": "Filament lattice & cell junctions", "top": true, "rep": true}, {"t": "list", "items": ["<mark>Intermediate filaments<\/mark> &amp; <mark>actin<\/mark> insert into dense bodies → <mark>lattice<\/mark>-like arrangement", "<mark>Gap junctions<\/mark> permit rapid passage of impulse cell to cell", "No <mark>troponin<\/mark> — <mark>calmodulin<\/mark> instead"]}], "toc": ["02", "Smooth Muscle — E/M & Contraction"]}, {"id": "p10", "head": "Part 02 · Smooth Muscle — E/M & Contraction", "kind": "text", "blocks": [{"t": "list", "items": ["Released Ca²⁺ initiates contraction by binding <mark>calmodulin<\/mark>"]}, {"t": "h", "no": "2.3", "title": "Contraction & its regulation"}, {"t": "list", "items": ["<mark>Gap junctions<\/mark> → <mark>caveolae<\/mark> conduct impulse → Ca²⁺ release from <mark>sarcolemmal vesicles<\/mark>", "<mark>Calmodulin<\/mark> binds Ca²⁺ → lattice on <mark>dense bodies<\/mark> shortens", "SR few, <mark>not involved in Ca²⁺ storage<\/mark>"]}, {"t": "h", "no": "2.4", "title": "Regeneration", "rep": true}, {"t": "list", "items": ["Smooth muscle can divide by mitosis and regenerate"]}]}, {"id": "p11", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-1-0", "title": "Recall · Smooth Muscle — E/M & Contraction (1/2)", "groups": [{"title": "2.1 Electron microscopy — five features", "items": [["Dense bodies:", "darkly stained α-actinin on inner plasmalemma &amp; sarcoplasm; correspond to Z line"], ["Caveolae:", "sarcolemmal invaginations that function like T tubules"], ["No T", "tubules"], ["No sarcomere", "(irregular actin &amp; myosin)"], ["SR poorly", "defined"]]}, {"title": "2.2 Filament lattice & cell junctions", "items": [["Intermediate filaments &amp; actin", "insert into dense bodies → lattice-like arrangement"], ["Gap junctions permit rapid", "passage of impulse cell to cell"], ["No troponin —", "calmodulin instead"], ["Released Ca²⁺", "initiates contraction by binding calmodulin"]]}]}], "labName": "Recall · Smooth Muscle — E/M & Contraction (1/2)"}, {"id": "p12", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-1-1", "title": "Recall · Smooth Muscle — E/M & Contraction (2/2)", "groups": [{"title": "2.3 Contraction & its regulation", "items": [["Gap junctions →", "caveolae conduct impulse → Ca²⁺ release from sarcolemmal vesicles"], ["Calmodulin binds Ca²⁺ →", "lattice on dense bodies shortens"], ["SR few", "not involved in Ca²⁺ storage"]]}, {"title": "2.4 Regeneration", "items": [["Smooth muscle can", "divide by mitosis and regenerate"]]}]}], "labName": "Recall · Smooth Muscle — E/M & Contraction (2/2)"}, {"id": "p13", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "TP-088"}, {"t": "check", "q": "Q0284"}]}, {"id": "p14", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0285"}, {"t": "flap", "q": "N-HIS-L2-09"}]}, {"id": "p15", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0287"}, {"t": "check", "q": "N-HIS-L2-05"}]}, {"id": "p16", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0288"}]}, {"id": "p17", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L2-04"}, {"t": "check", "q": "Q0239"}]}, {"id": "p18", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0289"}, {"t": "flap", "q": "Q0270"}]}, {"id": "p19", "head": "Part 03 · Joints & Synovial Membrane", "kind": "text", "blocks": [{"t": "part", "no": "03", "title": "Joints & Synovial Membrane", "sub": "Types of joints · The synovial joint · Synovial fluid · Synovium (synovial membrane)"}, {"t": "h", "no": "3.1", "title": "Types of joints"}, {"t": "list", "items": ["Bones are connected via joints", "<mark>Synarthrosis<\/mark>: limited mobility", "<mark>Diarthrosis (synovial joint)<\/mark>: free movement, e.g. elbow, knee"]}, {"t": "h", "no": "3.2", "title": "The synovial joint", "rep": true}, {"t": "list", "items": ["Bone ends covered with <mark>hyaline<\/mark> cartilage without perichondrium", "Joint cavity contains <mark>synovial fluid<\/mark>", "Covered by <mark>fibrous capsule<\/mark> lined internally by <mark>synovial membrane<\/mark>", "Articular capsule = <mark>fibrous layer<\/mark> (outer) + <mark>synovial membrane<\/mark> (inner)"]}], "toc": ["03", "Joints & Synovial Membrane"]}, {"id": "p20", "head": "Part 03 · Joints & Synovial Membrane", "kind": "text", "blocks": [{"t": "h", "no": "3.3", "title": "Synovial fluid"}, {"t": "list", "items": ["Contains <mark>hyaluronic acid<\/mark> &amp; <mark>lubricin<\/mark>", "<b>Functions:<\/b> <mark>lubricant<\/mark>; supplies O₂ &amp; nutrients to articular cartilage"]}, {"t": "h", "no": "3.4", "title": "Synovium (synovial membrane)", "top": true, "rep": true}, {"t": "list", "items": ["Internal lining of <mark>joint capsule<\/mark>, 2 cell types", "<b>Type A:<\/b> <mark>macrophage<\/mark>-like, <mark>phagocytic<\/mark>", "<b>Type B:<\/b> <mark>fibroblast<\/mark>-like, secrete <mark>hyaluronic acid &amp; lubricin<\/mark>"]}]}, {"id": "p21", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-2-0", "title": "Recall · Joints & Synovial Membrane (1/2)", "groups": [{"title": "3.1 Types of joints", "items": [["Bones are", "connected via joints"], ["Synarthrosis:", "limited mobility"], ["Diarthrosis (synovial joint):", "free movement, e.g. elbow, knee"]]}, {"title": "3.2 The synovial joint", "items": [["Bone ends covered", "with hyaline cartilage without perichondrium"], ["Joint cavity", "contains synovial fluid"], ["Covered by fibrous", "capsule lined internally by synovial membrane"], ["Articular capsule =", "fibrous layer (outer) + synovial membrane (inner)"]]}, {"title": "3.3 Synovial fluid", "items": [["Contains hyaluronic", "acid &amp; lubricin"], ["Functions:", "lubricant; supplies O₂ &amp; nutrients to articular cartilage"]]}]}], "labName": "Recall · Joints & Synovial Membrane (1/2)"}, {"id": "p22", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-2-1", "title": "Recall · Joints & Synovial Membrane (2/2)", "groups": [{"title": "3.4 Synovium (synovial membrane)", "items": [["Internal lining of", "joint capsule, 2 cell types"], ["Type A:", "macrophage-like, phagocytic"], ["Type B:", "fibroblast-like, secrete hyaluronic acid &amp; lubricin"]]}]}], "labName": "Recall · Joints & Synovial Membrane (2/2)"}, {"id": "p23", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-HIS-L2-11"}, {"t": "flap", "q": "Q0253"}]}, {"id": "p24", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0291"}, {"t": "check", "q": "N-HIS-L2-02"}]}, {"id": "p25", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L2-01"}, {"t": "flap", "q": "Q0293"}]}, {"id": "p26", "head": "Part 04 · Articular Cartilage & Osteoarthritis", "kind": "text", "blocks": [{"t": "part", "no": "04", "title": "Articular Cartilage & Osteoarthritis", "sub": "Articular cartilage · Because it lacks perichondrium… · Osteoarthritis"}, {"t": "h", "no": "4.1", "title": "Articular cartilage"}, {"t": "list", "items": ["Covers <mark>articular surfaces of bones<\/mark>; hyaline cartilage lacking <mark>perichondrium<\/mark>"]}, {"t": "h", "no": "4.2", "title": "Because it lacks perichondrium…"}, {"t": "list", "items": ["<b>Advantage:<\/b> smooth surface → friction-free <mark>movement<\/mark>", "<b>Drawback:<\/b> <mark>poor nutrition<\/mark>, via <mark>synovial fluid<\/mark>", "<b>Drawback:<\/b> cannot regenerate", "Joint <mark>movement<\/mark> increases exchange between <mark>synovial fluid<\/mark> and cartilage"]}, {"t": "h", "no": "4.3", "title": "Osteoarthritis", "top": true, "rep": true}, {"t": "list", "items": ["<mark>Wear &amp; tear<\/mark> over many years — hip, knee", "Degeneration of <mark>articular cartilage<\/mark> → <mark>bone rubs on bone<\/mark> → joint <mark>pain<\/mark>"]}], "toc": ["04", "Articular Cartilage & Osteoarthritis"]}, {"id": "p27", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-3-0", "title": "Recall · Articular Cartilage & Osteoarthritis", "groups": [{"title": "4.1 Articular cartilage", "items": [["Covers articular surfaces", "of bones; hyaline cartilage lacking perichondrium"]]}, {"title": "4.2 Because it lacks perichondrium…", "items": [["Advantage:", "smooth surface → friction-free movement"], ["Drawback:", "poor nutrition, via synovial fluid"], ["Drawback:", "cannot regenerate"], ["Joint movement increases", "exchange between synovial fluid and cartilage"]]}, {"title": "4.3 Osteoarthritis", "items": [["Wear &amp; tear over many years —", "hip, knee"], ["Degeneration of articular cartilage →", "bone rubs on bone → joint pain"]]}]}], "labName": "Recall · Articular Cartilage & Osteoarthritis"}, {"id": "p28", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L2-03"}]}, {"id": "p29", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0299"}]}, {"id": "p30", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-HIS-L2-10"}]}, {"id": "p31", "head": "Part 05 · The Three Muscle Types Compared", "kind": "text", "blocks": [{"t": "part", "no": "05", "title": "The Three Muscle Types Compared", "sub": "Master comparison table · Clue → muscle type · Regeneration in the three types"}, {"t": "h", "no": "5.1", "title": "Master comparison table"}, {"t": "list", "items": ["<b>Nucleus:<\/b> skeletal multinucleated peripheral; cardiac 1–2 central; smooth single central", "<b>T tubules:<\/b> skeletal between A &amp; I bands; cardiac larger at Z line; smooth <mark>none<\/mark> (caveolae)", "<b>SR:<\/b> skeletal stores Ca²⁺; cardiac Ca²⁺ <mark>actively transported from extracellular sources<\/mark>; smooth few, not Ca²⁺ store", "<b>Junctions:<\/b> skeletal <mark>none<\/mark>; cardiac <mark>intercalated discs<\/mark>; smooth <mark>gap junctions<\/mark>", "<b>Nerve supply:<\/b> skeletal <mark>somatic<\/mark>; cardiac &amp; smooth <mark>autonomic<\/mark>", "<b>C.T. coverings:<\/b> only skeletal has epi/perimysium; cardiac &amp; smooth <mark>endomysium<\/mark>"]}], "toc": ["05", "The Three Muscle Types Compared"]}, {"id": "p32", "head": "Part 05 · The Three Muscle Types Compared", "kind": "text", "blocks": [{"t": "h", "no": "5.2", "title": "Clue → muscle type"}, {"t": "list", "items": ["<mark>Intercalated discs<\/mark>, T tubules at Z line, no regeneration → cardiac", "Dense bodies, calmodulin, caveolae → <mark>smooth<\/mark>", "Satellite cells, peripheral nuclei, epi/peri/endomysium, somatic → skeletal"]}, {"t": "h", "no": "5.3", "title": "Regeneration in the three types"}, {"t": "list", "items": ["<b>Skeletal:<\/b> yes, via satellite cells in shallow depressions on cell surface", "<b>Cardiac:<\/b> no regeneration", "<b>Smooth:<\/b> <mark>yes, by mitosis<\/mark>"]}]}, {"id": "p33", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-4-0", "title": "Recall · The Three Muscle Types Compared (1/2)", "groups": [{"title": "5.1 Master comparison table", "items": [["Nucleus:", "skeletal multinucleated peripheral; cardiac 1–2 central; smooth single central"], ["T tubules:", "skeletal between A &amp; I bands; cardiac larger at Z line; smooth none (caveolae)"], ["SR:", "skeletal stores Ca²⁺; cardiac Ca²⁺ actively transported from extracellular sources; smooth few, not Ca²⁺ store"], ["Junctions:", "skeletal none; cardiac intercalated discs; smooth gap junctions"], ["Nerve supply:", "skeletal somatic; cardiac &amp; smooth autonomic"], ["C.T. coverings:", "only skeletal has epi/perimysium; cardiac &amp; smooth endomysium"]]}]}], "labName": "Recall · The Three Muscle Types Compared (1/2)"}, {"id": "p34", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-4-1", "title": "Recall · The Three Muscle Types Compared (2/2)", "groups": [{"title": "5.2 Clue → muscle type", "items": [["Intercalated discs, T tubules", "at Z line, no regeneration → cardiac"], ["Dense bodies, calmodulin, caveolae →", "smooth"], ["Satellite cells, peripheral", "nuclei, epi/peri/endomysium, somatic → skeletal"]]}, {"title": "5.3 Regeneration in the three types", "items": [["Skeletal:", "yes, via satellite cells in shallow depressions on cell surface"], ["Cardiac:", "no regeneration"], ["Smooth:", "yes, by mitosis"]]}]}], "labName": "Recall · The Three Muscle Types Compared (2/2)"}, {"id": "p35", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L2-07"}, {"t": "flap", "q": "Q0275"}]}, {"id": "p36", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-HIS-L2-06"}]}, {"id": "p37", "head": "Part 06 · Rapid Revision", "kind": "text", "blocks": [{"t": "part", "no": "06", "title": "Rapid Revision", "sub": "Must-know one-liners · Mnemonic vault & classic exam traps · Ask yourself — the lecture MCQs"}, {"t": "h", "no": "6.1", "title": "Must-know one-liners"}, {"t": "list", "items": ["Q&amp;A recap of smooth muscle, synovial joint, synovial cells, articular cartilage, OA"]}, {"t": "h", "no": "6.2", "title": "Mnemonic vault & classic exam traps"}, {"t": "list", "items": ["2 V + E sites; No-No-Poor; Keep CALM; mAcrophage A / fiBroblast B"]}, {"t": "h", "no": "6.3", "title": "Ask yourself — the lecture MCQs"}, {"t": "list", "items": ["Basal lamina of muscle fibre is part of <mark>endomysium<\/mark>", "Triad lateral components = sites for Ca²⁺ sequestration &amp; release", "Smooth muscle Ca²⁺ binds calmodulin", "<b>Unique to cardiac:<\/b> intercalated discs", "Child gastrocnemius tear regenerates by differentiation of satellite cells"]}], "toc": ["06", "Rapid Revision"]}, {"id": "p38", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-his-l2-5-0", "title": "Recall · Rapid Revision", "groups": [{"title": "6.1 Must-know one-liners", "items": [["Q&amp;A recap of smooth", "muscle, synovial joint, synovial cells, articular cartilage, OA"]]}, {"title": "6.2 Mnemonic vault & classic exam traps", "items": [["2 V + E sites", "No-No-Poor; Keep CALM; mAcrophage A / fiBroblast B"]]}, {"title": "6.3 Ask yourself — the lecture MCQs", "items": [["Basal lamina of", "muscle fibre is part of endomysium"], ["Triad lateral components =", "sites for Ca²⁺ sequestration &amp; release"], ["Smooth muscle", "Ca²⁺ binds calmodulin"], ["Unique to cardiac:", "intercalated discs"], ["Child gastrocnemius tear", "regenerates by differentiation of satellite cells"]]}]}], "labName": "Recall · Rapid Revision"}, {"id": "p39", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "h", "no": "!", "title": "Exam traps & clinical points"}, {"t": "note", "kind": "trap", "html": "No striations ≠ no myofilaments — actin &amp; myosin present but irregular"}, {"t": "note", "kind": "trap", "html": "Smooth SR is not the Ca²⁺ store — Ca²⁺ released by sarcolemmal vesicles"}, {"t": "note", "kind": "trap", "html": "Type B (fibroblast-like), not type A, secretes hyaluronic acid &amp; lubricin"}, {"t": "note", "kind": "trap", "html": "Central nuclei occur in cardiac and smooth — intercalated disc is unique to cardiac"}, {"t": "note", "kind": "trap", "html": "Only skeletal muscle has epimysium &amp; perimysium"}, {"t": "note", "kind": "trap", "html": "Cardiac &amp; smooth both autonomic; only cardiac is rhythmic"}], "toc": ["!", "Exam traps & clinical"]}, {"id": "p40", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "cl", "html": "Osteoarthritis: wear &amp; tear (hip, knee) → degeneration of articular cartilage (cannot regenerate, no perichondrium) → bone rubbing &amp; pain"}]}, {"id": "p41", "head": "End of the lecture", "kind": "text", "blocks": [{"t": "h", "no": "✓", "title": "End of the lecture"}, {"t": "progress"}, {"t": "actions"}, {"t": "end"}], "toc": ["✓", "End of the lecture"]}], "questions": {"Y26-012": {"id": "Y26-012", "stem": "Why are smooth muscles unstriated?", "top": true, "rep": "", "tag": "Final bank HIS Q20", "bank": true, "expl": "In striated muscle the cross striations come from the alternating dark and light bands of parallel myofibrils. In smooth muscle actin and myosin are present but arranged irregularly, with no sarcomere, so no striations are seen — 'no striations' does not mean the thick or thin filaments are absent.", "type": "mcq", "opts": ["Due to absence of thick filaments", "Due to absence of thin filaments", "Due to the higher proportion of actin to myosin than in striated muscles", "Because they are grouped into bundles", "Due to absence of parallel myofibrils"], "ans": 4}, "Q0239": {"id": "Q0239", "stem": "Regeneration of smooth muscle fibers after injury occurs through which of the following?", "top": false, "rep": "", "tag": "Final bank HIS Q22", "bank": true, "expl": "Smooth muscle can divide by mitosis and regenerate. Differentiation of satellite cells is how skeletal muscle regenerates, and cardiac muscle is the type that cannot regenerate.", "type": "mcq", "opts": ["Division of smooth muscle cells", "Fibrosis only", "No regeneration, as smooth myocytes are static cells", "Differentiation of satellite cells", "No regeneration, as there are no satellite cells"], "ans": 0}, "Q0242": {"id": "Q0242", "stem": "A researcher examining myocytes under the microscope finds spindle-shaped cells, each with a single central nucleus. What type of muscle is this?", "top": false, "rep": "", "tag": "Final bank HIS Q23", "bank": true, "expl": "Smooth muscle fibres are small, non-branching spindle (fusiform) cells, each with a single, oval, central nucleus. Cardiac muscle also has central nuclei (1 or 2), but its cells branch; face muscles and the upper oesophagus are skeletal muscle with multiple peripheral nuclei.", "type": "mcq", "opts": ["Face muscle", "Cardiac muscle", "Skeletal muscle", "Smooth muscle", "Muscle of the upper third of the esophagus"], "ans": 3}, "Q0253": {"id": "Q0253", "stem": "Name the structures labelled A–E.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "A synovial joint has bone ends capped by articular (hyaline) cartilage, a joint cavity containing synovial fluid, and an articular capsule made of an outer fibrous layer lined internally by the synovial membrane.", "img": ["figs/Q0253.jpg"], "cap": "Diagram of a synovial joint, labels A–E", "type": "written", "keyhtml": "A: Synovial (joint) cavity\nB: Fibrous capsule (fibrous layer of the articular capsule)\nC: Articular cartilage\nD: Bone\nE: Synovial membrane"}, "Q0270": {"id": "Q0270", "stem": "A 7-year-old boy sustains a tear in his gastrocnemius muscle when he is involved in a bicycle accident.\n\nIn cases of injury to smooth muscle, will the smooth muscle heal? If yes, how?", "top": false, "rep": "asked 2 years", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle cells can divide by mitosis, so injured smooth muscle regenerates. This differs from skeletal muscle, which regenerates via satellite cells, and cardiac muscle, which cannot regenerate.", "type": "written", "keyhtml": "Yes. Smooth muscle cells can divide by mitosis, so smooth muscle can regenerate.\n(Compare: skeletal muscle regenerates via satellite cells; cardiac muscle cannot regenerate.)"}, "Q0275": {"id": "Q0275", "stem": "In a table, compare skeletal, cardiac and smooth muscle fibers.", "top": false, "rep": "", "tag": "Final bank HIS W6", "bank": true, "expl": "Nuclei, striations, T tubules, cell junctions, nerve supply and regeneration are the key differences between the three muscle types. Intercalated discs are found only in cardiac muscle, and only skeletal muscle has epimysium and perimysium.", "type": "written", "keyhtml": "Feature | Skeletal | Cardiac | Smooth\nSite | Attached to the skeleton; tongue, diaphragm, upper part of the oesophagus, facial muscles | Heart | Wall of blood vessels and viscera (GIT, respiratory &amp; urinary tracts); erector pili muscle of the skin\nFibre shape | Long, cylindrical, parallel to each other | Branching cells arranged in layers; C.T. (vessels &amp; nerves) between layers | Fusiform (spindle), elongated with tapered ends\nCross striations | Transverse light &amp; dark bands | Less distinct | Not striated\nNucleus | Multinucleated, peripheral | 1 or 2, oval, central | Single, oval, central\nMitochondria, glycogen &amp; myoglobin | Yes, numerous | Yes — more mitochondria, glycogen &amp; myoglobin | Yes\nC.T. coverings | Epimysium, perimysium &amp; endomysium | Endomysium | Endomysium\nMyofilaments | Form sarcomeres | Form sarcomeres | Present but irregular — no sarcomere; dense bodies\nSR | Well developed with terminal cisterns; stores Ca²⁺ | Poorly defined, small terminals | Few; not involved in Ca²⁺ storage\nT tubules | Present, between A &amp; I bands | Present, larger, at the Z line | Absent — replaced by caveolae\nCell junctions | None | Intercalated discs (desmosomes, fasciae adherentes &amp; gap junctions) | Gap junctions\nCa²⁺ control | SR releases Ca²⁺ on depolarisation; Ca²⁺ returns on relaxation | Ca²⁺ actively transported from extracellular sources | Caveolae conduct the impulse; Ca²⁺ released from sarcolemmal vesicles and binds calmodulin (no troponin)\nNerve supply | Somatic | Autonomic | Autonomic\nContraction | Voluntary | Involuntary, rhythmic | Involuntary\nRegeneration | Yes — satellite cells | No | Yes — mitosis"}, "Q0281": {"id": "Q0281", "stem": "Smooth muscle cells are generally described as having which shape?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle cells are small, non-branching, spindle (fusiform) cells with a broad central part and tapering ends. Branching cells are a feature of cardiac muscle.", "type": "mcq", "opts": ["Cylindrical and branching", "Flat and polygonal", "Cuboidal", "Spindle (fusiform)-shaped"], "ans": 3}, "Q0282": {"id": "Q0282", "stem": "Which of the following sites contains smooth muscle?", "top": false, "rep": "", "tag": "Final bank HIS Q24", "bank": true, "expl": "Smooth muscle is found in the wall of blood vessels and viscera (GIT, respiratory and urinary tracts) and in the erector pili muscle of the skin. Muscle attached to the skeleton, the tongue and the diaphragm are skeletal muscle sites, and the myocardium is cardiac.", "type": "mcq", "opts": ["Muscle attached to the skeleton", "Myocardium of the heart", "Wall of the blood vessels and viscera", "Tongue and diaphragm"], "ans": 2}, "Q0283": {"id": "Q0283", "stem": "By light microscopy (L/M), the cytoplasm of smooth muscle cells is described as:", "top": false, "rep": "", "tag": "Final bank HIS Q25", "bank": true, "expl": "Under L/M the cytoplasm of smooth muscle is homogeneous and acidophilic with no striations, because actin and myosin are present but arranged irregularly. Distinct striations are a feature of skeletal muscle.", "type": "mcq", "opts": ["Acidophilic with distinct striations", "Basophilic with indistinct striations", "Homogeneous and acidophilic with no striations", "Homogeneous and basophilic with distinct striations"], "ans": 2}, "Q0284": {"id": "Q0284", "stem": "In smooth muscle, small, darkly stained structures are present on the internal surface of the plasmalemma and in the sarcoplasm. They are formed of α-actinin and correspond to the Z line of striated muscle. What are they called?", "top": false, "rep": "", "tag": "Final bank HIS Q26", "bank": true, "expl": "Dense bodies are small, darkly stained α-actinin structures on the internal surface of the plasmalemma and in the sarcoplasm, corresponding to the Z line. Caveolae are sarcolemmal invaginations that do the job of T tubules, and smooth muscle has no sarcomeres.", "type": "mcq", "opts": ["Intercalated discs", "Sarcomeres", "Caveolae", "Dense bodies"], "ans": 3}, "Q0285": {"id": "Q0285", "stem": "T tubules are absent in smooth muscle. Which structures in the sarcolemma function like T tubules in conducting contraction impulses?", "top": false, "rep": "", "tag": "Final bank HIS Q27", "bank": true, "expl": "Caveolae are invaginations of the sarcolemma that function like T tubules, conducting contraction impulses. Gap junctions instead connect neighbouring fibres, passing the impulse from one cell to another.", "type": "mcq", "opts": ["Dense bodies", "Intermediate filaments", "Caveolae (invaginations)", "Gap junctions"], "ans": 2}, "Q0287": {"id": "Q0287", "stem": "Which of the following is absent in smooth muscle cells compared to the skeletal muscle?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q18", "bank": true, "expl": "Smooth muscle has no troponin; instead, released Ca²⁺ initiates contraction by binding to calmodulin. Calmodulin is therefore present, not absent, in smooth muscle.", "aimg": ["figs/GH-10_ans.jpg", "figs/GH-10_ans2.jpg", "figs/GH-10_ans3.jpg"], "acap": "Sarcomere — thin filament (actin, tropomyosin, troponin) and myosin; thin and thick filament proteins; ultrastructure comparison of skeletal, cardiac and smooth muscle", "type": "mcq", "opts": ["Troponin", "Calmodulin", "Calcium", "Myosin light chain kinase", "Actin & tropomyosin interaction"], "ans": 0}, "Q0288": {"id": "Q0288", "stem": "Unlike skeletal and cardiac muscle, which protein is absent in smooth muscle, and which molecule takes its place in regulating contraction?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle has no troponin; released Ca²⁺ initiates contraction by binding to calmodulin instead. Option b reverses the two proteins.", "type": "mcq", "opts": ["Actin is absent; myosin takes its place", "Calmodulin is absent; troponin takes its place", "Troponin is absent; calmodulin takes its place", "Myoglobin is absent; glycogen takes its place"], "ans": 2}, "Q0289": {"id": "Q0289", "stem": "Based on regeneration capability, which type of muscle can divide by mitosis and regenerate?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle can divide by mitosis and regenerate. Skeletal muscle regenerates via satellite cells, while cardiac muscle cannot regenerate.", "type": "mcq", "opts": ["Cardiac muscle", "Skeletal muscle", "Smooth muscle", "Both cardiac and skeletal muscle"], "ans": 2}, "Q0291": {"id": "Q0291", "stem": "Describe the histological structure of a synovial joint.", "top": false, "rep": "asked 2 years", "tag": "Final bank HIS W4", "bank": true, "expl": "A synovial joint has bone ends covered by hyaline cartilage without perichondrium, a joint cavity containing synovial fluid, and a fibrous capsule lined internally by the synovial membrane.", "type": "written", "keyhtml": "• Bone ends: both covered with articular cartilage — hyaline cartilage without perichondrium; its smooth surface allows friction-free movement\n• Joint (synovial) cavity: contains synovial fluid (hyaluronic acid &amp; lubricin), which lubricates the joint and supplies O₂ &amp; nutrients to the articular cartilage\n• Fibrous capsule: covers the joint\n• Synovial membrane (synovium): lines the capsule internally; formed of 2 cell types — type A (macrophage-like, phagocytic) and type B (fibroblast-like, secrete hyaluronic acid &amp; lubricin)\n• Articular capsule = outer fibrous layer + inner synovial membrane"}, "Q0293": {"id": "Q0293", "stem": "Enumerate the cells lining the synovial membrane and mention their functions.", "top": false, "rep": "asked 2 years", "tag": "Final bank HIS W5", "bank": true, "expl": "Type A synovial cells are macrophage-like and phagocytic, while type B cells are fibroblast-like and secrete hyaluronic acid and lubricin.", "type": "written", "keyhtml": "The synovium (internal lining of the joint capsule) is formed of 2 cell types:\n• Type A cells — macrophage-like: phagocytic\n• Type B cells — fibroblast-like: secrete hyaluronic acid and lubricin, the contents of the synovial fluid (lubricant; supplies O₂ &amp; nutrients to the articular cartilage)"}, "Q0299": {"id": "Q0299", "stem": "In the diagram of the joint below, C represents which of the following?", "top": true, "rep": "asked 4 years", "tag": "Final bank HIS Q19", "bank": true, "expl": "Label C is the articular cartilage, hyaline cartilage without perichondrium capping each bone end, and osteoarthritis is degeneration of this cartilage after years of wear and tear until bone rubs on bone. The phagocytic type A and secretory type B cells lie in the synovial membrane, which is also where rheumatoid arthritis starts, as chronic synovitis.", "img": ["figs/GH-14.jpg"], "cap": "", "type": "mcq", "opts": ["Site of macrophage cells that phagocytose particles from the synovial joint", "Site of cells that synthesize the synovial fluid", "Initial site of damage in osteoarthritis", "Initial site of inflammation in rheumatoid arthritis", "Perichondrium"], "ans": 2}, "N-HIS-L2-01": {"id": "N-HIS-L2-01", "stem": "What type of cells line the synovial membrane and produce synovial fluid?", "top": true, "rep": "", "tag": "Final bank HIS Q21", "bank": true, "expl": "The synovium, the internal lining of the joint capsule, is formed of two cell types: type B cells are fibroblast-like and secrete hyaluronic acid and lubricin, the contents of synovial fluid. Macrophages are the tempting distractor: the macrophage-like type A cells are only phagocytic.", "type": "mcq", "opts": ["Macrophages", "Fibroblasts", "Osteoblasts", "Epithelial cells", "Chondroblasts"], "ans": 1}, "N-HIS-L2-02": {"id": "N-HIS-L2-02", "stem": "A physiotherapist tells a patient recovering from a knee injury that gentle joint movement helps the synovial fluid 'feed' the joint cartilage. Besides acting as a lubricant, which function of synovial fluid is she referring to?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Synovial fluid lubricates the joint and supplies O₂ and nutrients to the articular cartilage, and joint movement increases the exchange between fluid and cartilage. Phagocytosis is the job of type A synovial cells, and hyaluronic acid and lubricin are secreted by type B cells, not by the fluid itself.", "type": "mcq", "opts": ["Supplying O₂ and nutrients to the articular cartilage", "Phagocytosing particles in the joint cavity", "Secreting hyaluronic acid and lubricin", "Forming a perichondrium over the articular cartilage", "Regenerating worn articular cartilage"], "ans": 0}, "N-HIS-L2-03": {"id": "N-HIS-L2-03", "stem": "A 68-year-old woman has had worsening knee pain for many years. Her doctor explains that years of wear and tear have caused degeneration of her articular cartilage, so that bone now rubs on bone. Which feature of articular cartilage explains why it cannot regenerate?", "top": false, "rep": "", "tag": "Final bank HIS Q28", "bank": true, "expl": "Articular cartilage is hyaline cartilage without perichondrium: this gives a smooth, friction-free surface, but its nutrition is poor and it cannot regenerate, so cartilage lost in osteoarthritis is not replaced. Being bathed in synovial fluid is how it is nourished, not the reason it cannot regenerate.", "type": "mcq", "opts": ["It lacks a perichondrium", "It is lined by the synovial membrane", "It is enclosed by the fibrous capsule", "It contains macrophage-like type A cells", "It is bathed in synovial fluid rich in lubricin"], "ans": 0}, "N-HIS-L2-04": {"id": "N-HIS-L2-04", "stem": "When a smooth muscle cell in the wall of the gut is stimulated, the Ca²⁺ that initiates its contraction is released from which of the following?", "top": false, "rep": "", "tag": "Final bank HIS Q29", "bank": true, "expl": "In smooth muscle the SR is scanty and not involved in Ca²⁺ storage; after the caveolae conduct the impulse, Ca²⁺ is released from sarcolemmal vesicles and binds calmodulin. Terminal cisterns of the SR are the Ca²⁺ store of skeletal muscle.", "type": "mcq", "opts": ["Terminal cisterns of the sarcoplasmic reticulum", "Sarcolemmal vesicles", "Dense bodies", "T tubules", "Intercalated discs"], "ans": 1}, "N-HIS-L2-05": {"id": "N-HIS-L2-05", "stem": "The smooth muscle cells in the wall of the intestine contract together because an electrical impulse passes rapidly from one cell to the next. Which structures allow this?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle fibres are connected by gap junctions, which permit rapid passage of an electrical impulse from one cell to another. Caveolae take over the T-tubule role of conducting the contraction impulse, and intercalated discs are found only in cardiac muscle.", "type": "mcq", "opts": ["Gap junctions", "Caveolae", "Dense bodies", "Intercalated discs", "T tubules"], "ans": 0}, "N-HIS-L2-06": {"id": "N-HIS-L2-06", "stem": "Which of the following features distinguishes cardiac muscle from smooth muscle?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Intercalated discs are unique to cardiac muscle. Central nuclei, gap junctions, an endomysium and an autonomic nerve supply are found in both cardiac and smooth muscle.", "type": "mcq", "opts": ["Central nuclei", "Intercalated discs", "Gap junctions", "Endomysium", "Autonomic nerve supply"], "ans": 1}, "N-HIS-L2-07": {"id": "N-HIS-L2-07", "stem": "Which of the following features is shared by cardiac and smooth muscle but not by skeletal muscle?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Cardiac and smooth muscle both have an autonomic nerve supply, whereas skeletal muscle is supplied by somatic nerves. Sarcomeres and T tubules are shared by skeletal and cardiac muscle, satellite cells belong to skeletal muscle and intercalated discs to cardiac muscle.", "type": "mcq", "opts": ["Autonomic nerve supply", "Sarcomeres", "Satellite cells", "Intercalated discs", "T tubules"], "ans": 0}, "N-HIS-L2-08": {"id": "N-HIS-L2-08", "stem": "The length of smooth muscle cells varies according to their site. In which site do they reach about 500 µm?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Smooth muscle cells have the smallest diameter of the three muscle types, but their length varies from about 20 µm in small blood vessels to 500 µm in the uterus of pregnant women. Small blood vessels are the short end of this range.", "type": "mcq", "opts": ["Wall of small blood vessels", "Uterus of a pregnant woman", "Erector pili muscle of the skin", "Wall of the urinary tract", "Wall of the respiratory tract"], "ans": 1}, "N-HIS-L2-09": {"id": "N-HIS-L2-09", "stem": "Describe the electron-microscopic (E/M) features of smooth muscle and explain how its contraction is regulated.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The five E/M features are dense bodies, caveolae, absent T tubules, absent sarcomeres and a poorly defined SR. Contraction depends on Ca²⁺ from sarcolemmal vesicles binding calmodulin, which shortens the lattice anchored on the dense bodies.", "type": "written", "keyhtml": "E/M features:\n• Dense bodies: small, darkly stained bodies formed of α-actinin, on the internal surface of the plasmalemma and in the sarcoplasm; correspond to the Z line of striated muscle\n• Caveolae: invaginations of the sarcolemma that function like T tubules (conduct contraction impulses)\n• No T tubules\n• No sarcomere: actin and myosin are arranged irregularly, so there are no striations\n• SR poorly defined (few); not involved in Ca²⁺ storage\n• Intermediate filaments and actin insert into the dense bodies, forming a lattice-like arrangement\n• Gap junctions connect the fibres\nRegulation of contraction:\nGap junctions pass the impulse rapidly from cell to cell ▶ caveolae conduct the impulse ▶ Ca²⁺ released from sarcolemmal vesicles ▶ Ca²⁺ binds calmodulin (no troponin) ▶ the filament lattice anchored on the dense bodies shortens the cell"}, "N-HIS-L2-10": {"id": "N-HIS-L2-10", "stem": "A 70-year-old retired porter has had increasing pain in both knees for several years. His doctor diagnoses osteoarthritis due to wear and tear.\n\na) Which tissue degenerates in this condition, and what is special about its structure?\nb) How is this tissue nourished, and how does joint movement affect its nutrition?\nc) Why does the damage not repair itself?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Osteoarthritis is degeneration of articular cartilage, which has no perichondrium: it is smooth but poorly nourished through the synovial fluid and cannot regenerate.", "type": "written", "keyhtml": "a) Articular cartilage — the hyaline cartilage covering the articular surfaces of the bones; it lacks perichondrium, which gives a smooth surface for friction-free movement. Its degeneration lets bone rub on bone, causing pain in the joint.\nb) Through the synovial fluid, which supplies O₂ and nutrients; its nutrition is poorer than that of other types of cartilage. Movement of the joint increases the exchange of molecules between synovial fluid and cartilage.\nc) Because it lacks perichondrium, articular cartilage cannot regenerate."}, "N-HIS-L2-11": {"id": "N-HIS-L2-11", "stem": "a) Classify joints according to their mobility, giving an example of a freely movable joint.\nb) Mention the contents and functions of synovial fluid.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Joints with limited mobility are synarthroses, and freely movable synovial joints such as the elbow and knee are diarthroses. Synovial fluid contains hyaluronic acid and lubricin, lubricates the joint and feeds the articular cartilage.", "type": "written", "keyhtml": "a) • Synarthrosis: joint with limited mobility\n   • Diarthrosis (synovial joint): joint with free movement, e.g. the elbow and knee joints\nb) Contents: hyaluronic acid and lubricin (secreted by type B synovial cells)\n   Functions: lubricant for the joint; supplies O₂ and nutrients to the articular cartilage"}, "TP-088": {"id": "TP-088", "stem": "Electron microscopy of smooth muscle shows dense bodies anchoring thin filaments. These are equivalent to which skeletal muscle structure?", "top": true, "rep": "", "tag": "Final bank HIS W15", "bank": true, "expl": "Dense bodies are made of α-actinin — the Z-line protein — and anchor actin as the Z line does, so they correspond to the Z line of striated muscle. Caveolae, not dense bodies, are the smooth-muscle counterpart of T tubules.", "type": "written", "keyhtml": "The Z line (Z disc) of striated (skeletal) muscle.\n• Dense bodies are small, darkly stained bodies formed of α-actinin, along the internal surface of the plasmalemma and in the sarcoplasm\n• Actin and intermediate filaments insert into them → a lattice-like arrangement"}}, "labs": {}, "cards": [{"id": "HIS-L2-001", "text": "Smooth muscle: {{c1::non-striated}} & {{c2::involuntary}}; each fibre has a broad central part and {{c3::tapering ends}}", "extra": "", "sec": "Part 01 · 1.1 Overview & sites"}, {"id": "HIS-L2-002", "text": "Smooth muscle sites: wall of {{c1::blood vessels}} · {{c2::viscera}} (GIT, respiratory & urinary tracts) · skin: {{c3::erector pili}} muscle", "extra": "2 V + E — Vessels · Viscera · Erector pili.", "sec": "Part 01 · 1.1 Overview & sites"}, {"id": "HIS-L2-003", "text": "Smooth muscle fibres: small, {{c1::non-branching}}, {{c2::spindle (fusiform)}} cells", "extra": "", "sec": "Part 01 · 1.2 General appearance"}, {"id": "HIS-L2-004", "text": "Diameter of smooth muscle fibres: the {{c1::smallest}} of the 3 muscle types", "extra": "Smallest diameter, but variable length.", "sec": "Part 01 · 1.2 General appearance"}, {"id": "HIS-L2-005", "text": "Smooth muscle fibre length varies with site: {{c1::20 µm}} in small blood vessels → {{c2::500 µm}} in the {{c3::pregnant uterus}}", "extra": "", "sec": "Part 01 · 1.2 General appearance"}, {"id": "HIS-L2-006", "text": "Smooth muscle is arranged in layers — {{c1::circular, longitudinal or oblique}}", "extra": "", "sec": "Part 01 · 1.2 General appearance"}, {"id": "HIS-L2-007", "text": "Smooth muscle nucleus: {{c1::single}}, oval & {{c2::central}}", "extra": "", "sec": "Part 01 · 1.3 Light microscopy"}, {"id": "HIS-L2-008", "text": "Smooth muscle cytoplasm (L/M): {{c1::homogeneous}} & {{c2::acidophilic}}, with {{c3::no striations}}", "extra": "", "sec": "Part 01 · 1.3 Light microscopy"}, {"id": "HIS-L2-009", "text": "Smooth muscle is unstriated due to absence of {{c1::parallel myofibrils}}: actin & myosin are present but arranged {{c2::irregularly}} (no sarcomere)", "extra": "Official key (Formative 2 Q9). Trap: no striations ≠ no thick or thin filaments.", "sec": "Part 01 · 1.3 Light microscopy"}, {"id": "HIS-L2-010", "text": "Smooth muscle contraction: {{c1::weak, slow}} & involuntary", "extra": "", "sec": "Part 01 · 1.3 Light microscopy"}, {"id": "HIS-L2-011", "text": "Spindle-shaped cells, each with a single central nucleus and no cross striations → {{c1::smooth muscle}}", "extra": "L.S.: overlapping spindles · T.S.: rounded profiles with central nuclei.", "sec": "Part 01 · 1.3 Light microscopy"}, {"id": "HIS-L2-012", "text": "Smooth muscle dense bodies: small, darkly stained, formed of {{c1::α-actinin}}; correspond to the {{c2::Z line}} of striated muscle", "extra": "Dense bodies Do the Z line's job.", "sec": "Part 02 · 2.1 Electron microscopy — five features"}, {"id": "HIS-L2-013", "text": "Dense bodies lie along the {{c1::internal surface of the plasmalemma}} and in the {{c2::sarcoplasm}}", "extra": "", "sec": "Part 02 · 2.1 Electron microscopy — five features"}, {"id": "HIS-L2-014", "text": "Smooth muscle has no T tubules — their role is taken by {{c1::caveolae}}, sarcolemmal {{c2::invaginations}} that conduct contraction impulses", "extra": "Caveolae Copy the T tubules.", "sec": "Part 02 · 2.1 Electron microscopy — five features"}, {"id": "HIS-L2-015", "text": "Smooth muscle E/M: T tubules {{c1::absent}} · sarcomere {{c2::absent}} · SR {{c3::poorly defined}}", "extra": "No-No-Poor.", "sec": "Part 02 · 2.1 Electron microscopy — five features"}, {"id": "HIS-L2-016", "text": "In smooth muscle, {{c1::intermediate filaments}} and {{c2::actin}} insert into the dense bodies → a {{c3::lattice}}-like arrangement", "extra": "The lattice anchored on dense bodies shortens the cell.", "sec": "Part 02 · 2.2 Filament lattice & cell junctions"}, {"id": "HIS-L2-017", "text": "Smooth muscle fibres are connected by {{c1::gap junctions}} → rapid passage of the electrical impulse from cell to cell", "extra": "", "sec": "Part 02 · 2.2 Filament lattice & cell junctions"}, {"id": "HIS-L2-018", "text": "Smooth muscle has no {{c1::troponin}}; released Ca²⁺ initiates contraction by binding {{c2::calmodulin}}", "extra": "Keep CALM — CALModulin.", "sec": "Part 02 · 2.2 Filament lattice & cell junctions"}, {"id": "HIS-L2-019", "text": "Smooth muscle Ca²⁺ is released from {{c1::sarcolemmal vesicles}}; its few SR are {{c2::not involved in Ca²⁺ storage}}", "extra": "Skeletal: SR terminal cisterns store Ca²⁺.", "sec": "Part 02 · 2.3 Contraction & its regulation"}, {"id": "HIS-L2-020", "text": "Smooth muscle contraction: impulse spreads via {{c1::gap junctions}} → {{c2::caveolae}} conduct it → Ca²⁺ from sarcolemmal vesicles binds {{c3::calmodulin}} → the lattice on the {{c4::dense bodies}} shortens the cell", "extra": "", "sec": "Part 02 · 2.3 Contraction & its regulation"}, {"id": "HIS-L2-021", "text": "Joints — limited mobility: {{c1::synarthrosis}}; free movement: {{c2::diarthrosis (synovial joint)}}, e.g. {{c3::elbow & knee}}", "extra": "", "sec": "Part 03 · 3.1 Types of joints"}, {"id": "HIS-L2-022", "text": "Synovial joint: both bone ends covered with {{c1::hyaline}} cartilage that has {{c2::no perichondrium}}", "extra": "", "sec": "Part 03 · 3.2 The synovial joint"}, {"id": "HIS-L2-023", "text": "Synovial joint: the cavity contains {{c1::synovial fluid}}; the joint is covered by a {{c2::fibrous capsule}}, lined internally by {{c3::synovial membrane}}", "extra": "", "sec": "Part 03 · 3.2 The synovial joint"}, {"id": "HIS-L2-024", "text": "Articular capsule = outer {{c1::fibrous layer}} + inner {{c2::synovial membrane}}", "extra": "", "sec": "Part 03 · 3.2 The synovial joint"}, {"id": "HIS-L2-025", "text": "Synovial fluid contains {{c1::hyaluronic acid}} & {{c2::lubricin}}", "extra": "", "sec": "Part 03 · 3.3 Synovial fluid"}, {"id": "HIS-L2-026", "text": "Synovial fluid functions: {{c1::lubricant}} for the joint · supplies {{c2::O₂ & nutrients to the articular cartilage}}", "extra": "Lube + Food.", "sec": "Part 03 · 3.3 Synovial fluid"}, {"id": "HIS-L2-027", "text": "Synovium = the internal lining of the {{c1::joint capsule}}, formed of {{c2::2}} cell types", "extra": "", "sec": "Part 03 · 3.4 Synovium"}, {"id": "HIS-L2-028", "text": "Synovial type A cells: {{c1::macrophage}}-like → {{c2::phagocytic}}", "extra": "", "sec": "Part 03 · 3.4 Synovium"}, {"id": "HIS-L2-029", "text": "Synovial type B cells: {{c1::fibroblast}}-like → secrete {{c2::hyaluronic acid & lubricin}} (produce synovial fluid)", "extra": "mAcrophage → A · fiBroblast → B. Type A only phagocytoses.", "sec": "Part 03 · 3.4 Synovium"}, {"id": "HIS-L2-030", "text": "Articular cartilage: covers the {{c1::articular surfaces of bones}}; it lacks {{c2::perichondrium}}", "extra": "", "sec": "Part 04 · 4.1 Articular cartilage"}, {"id": "HIS-L2-031", "text": "Articular cartilage without perichondrium → advantage: {{c1::smooth, friction-free surface}}; drawbacks: {{c2::poor nutrition}} & {{c3::no regeneration}}", "extra": "No friction · poor Nutrition · No regeneration.", "sec": "Part 04 · 4.2 Because it lacks perichondrium"}, {"id": "HIS-L2-032", "text": "Articular cartilage is nourished through the {{c1::synovial fluid}}; joint {{c2::movement}} increases the exchange of molecules", "extra": "Movement is good.", "sec": "Part 04 · 4.2 Because it lacks perichondrium"}, {"id": "HIS-L2-033", "text": "Initial site of damage in osteoarthritis: the {{c1::articular cartilage}} — it degenerates after years of {{c2::wear & tear}} (hip, knee)", "extra": "", "sec": "Part 04 · 4.3 Osteoarthritis"}, {"id": "HIS-L2-034", "text": "Osteoarthritis: degenerated articular cartilage → {{c1::bone rubs on bone}} → {{c2::pain}} in the affected joint", "extra": "", "sec": "Part 04 · 4.3 Osteoarthritis"}, {"id": "HIS-L2-035", "text": "C.T. coverings — skeletal: {{c1::epimysium, perimysium & endomysium}}; cardiac & smooth: {{c2::endomysium}} only", "extra": "Only skeletal muscle has epi- & perimysium.", "sec": "Part 05 · 5.1 Master comparison table"}, {"id": "HIS-L2-036", "text": "The basal lamina of a muscle fibre is part of the {{c1::endomysium}} (external lamina & reticular fibres)", "extra": "", "sec": "Part 06 · 6.3 Ask yourself — the lecture MCQs"}, {"id": "HIS-L2-037", "text": "Nuclei — skeletal: {{c1::multiple, peripheral}}; cardiac: {{c2::1 or 2, central}}; smooth: {{c3::single, central}}", "extra": "", "sec": "Part 05 · 5.1 Master comparison table"}, {"id": "HIS-L2-038", "text": "Nerve supply — skeletal: {{c1::somatic}}; cardiac: {{c2::autonomic}}; smooth: {{c3::autonomic}}", "extra": "Cardiac & smooth are both autonomic; only cardiac is rhythmic.", "sec": "Part 05 · 5.1 Master comparison table"}, {"id": "HIS-L2-039", "text": "Cell junctions — skeletal: {{c1::none}}; cardiac: {{c2::intercalated discs}}; smooth: {{c3::gap junctions}}", "extra": "", "sec": "Part 05 · 5.1 Master comparison table"}, {"id": "HIS-L2-040", "text": "Ca²⁺ source — skeletal: {{c1::SR (released on depolarisation)}}; cardiac: {{c2::actively transported from extracellular sources}}; smooth: {{c3::sarcolemmal vesicles}}", "extra": "", "sec": "Part 05 · 5.1 Master comparison table"}, {"id": "HIS-L2-041", "text": "Feature unique to cardiac muscle: {{c1::intercalated discs}} — central nuclei occur in both cardiac and {{c2::smooth}} muscle", "extra": "", "sec": "Part 05 · 5.2 Clue → muscle type"}, {"id": "HIS-L2-042", "text": "Regeneration — skeletal: {{c1::yes, by satellite cells}}; cardiac: {{c2::no}}; smooth: {{c3::yes, by mitosis}}", "extra": "S-S · S-S · C-C: Skeletal–Satellite · Smooth–Splits · Cardiac–Can't.", "sec": "Part 05 · 5.3 Regeneration in the three types"}], "lib": "./", "prev": {"href": "his-l1.html", "title": "Lecture 1 · Skeletal and Cardiac Muscle"}, "next": {"href": "his-l3.html", "title": "Lecture 3 · Integumentary System"}, "searchHint": "e.g. actin, calmodulin, fibrous layer"};
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = BOOK.pages.length, QS = BOOK.questions, LABS = BOOK.labs;
+const KEY = 'msk-book-' + BOOK.id + '-v1';
+const DEF = {read:{}, ans:{}, pred:{}, flap:{}, self:{}, draft:{}, labs:{}, cards:{}, exams:[], mist:{}, marks:{}, set:{theme:'system', size:1, rapid:false}, last:1};
+let S = JSON.parse(JSON.stringify(DEF));
+try { const t = JSON.parse(localStorage.getItem(KEY) || 'null'); if (t && typeof t === 'object') for (const k in DEF) if (t[k] !== undefined) S[k] = t[k]; } catch (e) {}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+const RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+const DUR = RM ? 0 : 720, EASE = 'cubic-bezier(.42,.02,.24,1)';
+
+/* ---------- settings ---------- */
+function applySet(){
+  const r = document.documentElement;
+  if (S.set.theme === 'light' || S.set.theme === 'dark') r.dataset.theme = S.set.theme; else r.removeAttribute('data-theme');
+  r.style.setProperty('--fsz', S.set.size || 1);
+  document.body.classList.toggle('rapid', !!S.set.rapid);
+}
+applySet();
+
+/* ---------- geometry ---------- */
+const stage = $('#stage'), book = $('#book'), pgL = $('#pgL'), pgR = $('#pgR'), leaf = $('#leaf'), lf = $('#lf'), lb = $('#lb');
+let mode = 'spread', at = Math.min(Math.max(+S.last || 1, 0), N - 1), busy = false, opened = false, laid = false, drawnMode = null;
+function layout(force){
+  // layout-viewport size: on phones innerWidth/innerHeight grow while the page is zoomed out (pinch, or a page that overflowed for a moment)
+  const de = document.documentElement, vw = de.clientWidth || window.innerWidth, vh = de.clientHeight || window.innerHeight;
+  const lenient = laid && mode === 'spread';   // a little hysteresis: a window right at the edge can't flip between one and two pages
+  const wide = lenient ? (vw >= 880 && vh >= 500) : (vw >= 900 && vh >= 520);
+  $('#mnav').hidden = !(opened && !wide);
+  const r = stage.getBoundingClientRect(); const W = r.width, H = r.height - 20;
+  let pw, ph;
+  if (wide){ ph = Math.min(H, 940); pw = ph * .72; const maxw = (W - 130) / 2; if (pw > maxw){ pw = maxw; ph = Math.min(H, pw / .72); } mode = 'spread'; }
+  else { pw = Math.min(W - 4, 640); ph = Math.max(H, 200); mode = 'single'; }   // phone on its side: the page fits between the bars and scrolls inside
+  laid = true;
+  const rs = document.documentElement.style, vpw = Math.floor(pw) + 'px', vph = Math.floor(ph) + 'px';
+  if (rs.getPropertyValue('--pw') !== vpw) rs.setProperty('--pw', vpw);
+  if (rs.getPropertyValue('--ph') !== vph) rs.setProperty('--ph', vph);
+  book.classList.toggle('single', mode === 'single');
+  // a new size only reflows the CSS; the pages are rebuilt only when the book switches between one and two pages,
+  // so a phone's sliding toolbar, the keyboard or a resizing frame can never reset the page you are reading
+  if (opened && (force || mode !== drawnMode)) draw();
+}
+window.addEventListener('resize', () => {
+  clearTimeout(layout.t);
+  layout.t = setTimeout(function again(){ if (busy){ layout.t = setTimeout(again, 120); return; } layout(); }, 80);
+});
+
+/* ---------- page rendering ---------- */
+const H = {};   // block renderers
+function P(i, side){
+  if (i < 0 || i >= N) return `<div class="pin"></div>`;
+  const pg = BOOK.pages[i];
+  const head = pg.head ? `<div class="rh"><span>${esc(pg.head)}</span><span>${esc(BOOK.short)}</span></div>` : '';
+  const body = (pg.blocks || []).map((b, k) => (H[b.t] ? H[b.t](b, pg, k) : '')).join('');
+  const ribbon = pg.kind !== 'cover' ? `<button class="ribbon ${S.marks[i] ? 'on' : ''}" data-act="mark" data-p="${i}" aria-label="Bookmark this page"></button>` : '';
+  return `<div class="pin" data-pid="${i}">${head}${body}</div>${ribbon}<div class="folio ${side || ''}">${i === 0 ? '' : i}</div>`;
+}
+function setPage(el, i, side){ el.dataset.page = i; el.innerHTML = P(i, side); }
+function draw(){
+  drawnMode = mode;
+  const keep = {};
+  for (const el of [pgL, pgR]){ const sc = el.querySelector('.pin'); if (sc && !el.hidden && el.dataset.page !== undefined) keep[el.dataset.page] = sc.scrollTop; }
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    setPage(pgL, L, 'l'); setPage(pgR, L + 1, 'r'); pgR.hidden = false;
+    mark(L); mark(L + 1);
+  } else { setPage(pgL, at, 'r'); pgR.hidden = true; mark(at); }
+  for (const el of [pgL, pgR]){ const t = keep[el.dataset.page], sc = el.querySelector('.pin'); if (t && sc) sc.scrollTop = t; }
+  upd();
+}
+function mark(i){ if (i >= 0 && i < N && !S.read[i]){ S.read[i] = 1; save(); } }
+function rerender(i){
+  for (const el of [pgL, pgR]){
+    if (el.hidden || +el.dataset.page !== i) continue;
+    const sc = el.querySelector('.pin'); const top = sc ? sc.scrollTop : 0;
+    el.innerHTML = P(i, el === pgL && mode === 'spread' ? 'l' : 'r');
+    const ns = el.querySelector('.pin'); if (ns) ns.scrollTop = top;
+  }
+}
+function pageOf(el){ const p = el.closest('[data-page]'); return p ? +p.dataset.page : -1; }
+function upd(){
+  S.last = at; save();
+  const L = mode === 'spread' ? at - (at % 2) : at;
+  const txt = mode === 'spread' ? (L === 0 ? `p. 1 of ${N - 1}` : `pp. ${L}–${Math.min(L + 1, N - 1)} of ${N - 1}`) : (at === 0 ? 'Contents' : `p. ${at} of ${N - 1}`);
+  $('#pgind').textContent = opened ? txt : '';
+  $('#mmid').textContent = (BOOK.pages[at].head || BOOK.short) + ' · ' + (at === 0 ? 'contents' : 'p. ' + at);
+  const nr = Object.keys(S.read).length; $('#progi').style.width = Math.round(100 * nr / N) + '%';
+  // the library's "Continue" button: which lecture and page this reader was on last
+  try { localStorage.setItem('msk-last-book', JSON.stringify({id: BOOK.id, href: location.pathname.split('/').pop() || '', title: BOOK.title, page: at, t: Date.now()})); } catch (e) {}
+  // the page number is kept in S.last only — never in the address bar: an embedded viewer treats a changed address
+  // as a new page and reloads it, which made the book reload on every page turn
+}
+
+/* ---------- page turning ---------- */
+function clearLeaf(){ leaf.hidden = true; leaf.getAnimations && leaf.getAnimations().forEach(a => a.cancel()); }
+function anim(el, frames, done){
+  if (!DUR || !el.animate){ done(); return; }
+  leaf.style.setProperty('--dur', DUR + 'ms');
+  const a = el.animate(frames, {duration: DUR, easing: EASE});
+  a.onfinish = done; a.oncancel = done;
+}
+function go(dir){
+  if (busy || !opened) return;
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    if (dir > 0){
+      if (L + 2 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = 'var(--pw)'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(L + 1, 'r'); lb.innerHTML = P(L + 2, 'l'); setPage(pgR, L + 3, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(-180deg)'}], () => { at = L + 2; setPage(pgL, L + 2, 'l'); clearLeaf(); busy = false; mark(at); mark(at + 1); upd(); });
+    } else {
+      if (L - 2 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'right center';
+      lf.innerHTML = P(L, 'l'); lb.innerHTML = P(L - 1, 'r'); setPage(pgL, L - 2, 'l'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], () => { at = L - 2; setPage(pgR, L - 1, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  } else {
+    if (dir > 0){
+      if (at + 1 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at, 'r'); lb.innerHTML = '<div class="pin"></div>'; setPage(pgL, at + 1, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)', opacity: 1}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .7}, {transform: 'rotateY(-180deg)', opacity: 0}], () => { at++; clearLeaf(); busy = false; mark(at); upd(); });
+    } else {
+      if (at - 1 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at - 1, 'r'); lb.innerHTML = '<div class="pin"></div>'; leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(-180deg)', opacity: 0}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .3}, {transform: 'rotateY(0deg)', opacity: 1}], () => { at--; setPage(pgL, at, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  }
+}
+function jump(i){
+  i = Math.max(0, Math.min(N - 1, i)); closeOv();
+  if (!opened) openBook(i); else { at = i; draw(); }
+}
+document.addEventListener('keydown', e => {
+  if (!opened || document.querySelector('#ovs .ov')) { if (e.key === 'Escape') closeOv(); return; }
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+});
+let tx0 = null, ty0 = 0;
+book.addEventListener('touchstart', e => { const t = e.touches[0]; if (e.target.closest('.nosw,input,textarea,button,svg')) { tx0 = null; return; } tx0 = t.clientX; ty0 = t.clientY; }, {passive: true});
+book.addEventListener('touchend', e => { if (tx0 === null) return; const t = e.changedTouches[0]; const dx = t.clientX - tx0, dy = t.clientY - ty0; tx0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1); }, {passive: true});
+
+/* ---------- home (closed book) ---------- */
+function examDays(d){ const t = new Date(d + 'T00:00:00'); const now = new Date(); const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()); return Math.round((t - a) / 864e5); }
+function chipFor(e){ const n = examDays(e.date); if (n < 0) return ''; return `<span class="cd">${esc(e.name)} · <b>${n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'}</b></span>`; }
+function stats(){
+  const nr = Object.keys(S.read).length;
+  const ids = Object.keys(S.ans).filter(q => QS[q]); const ok = ids.filter(q => S.ans[q].ok).length;
+  const learned = Object.values(S.cards).filter(c => c.step >= 2).length;
+  return {nr, ok, n: ids.length, learned};
+}
+function home(){
+  opened = false; book.hidden = true; $('#mnav').hidden = true; $('#pgind').textContent = '';
+  const st = stats();
+  const cont = S.last > 1 ? `Continue on page ${S.last}` : 'Open the book';
+  $('#home').hidden = false;
+  $('#home').innerHTML = `
+  <div class="cover" id="cover">
+    <div class="frame"></div>
+    <div class="k">THE HELPERS · SEM 3 · 2026–27</div>
+    <div class="t1">MSK</div>
+    <div class="t2">${esc(BOOK.subject.toUpperCase())}</div>
+    <div class="rule"></div>
+    <div class="t3">${esc(BOOK.coverLine)}</div>
+    <div class="t4">${esc(BOOK.coverNote)}</div>
+  </div>
+  <div class="side">
+    ${BOOK.lib ? `<a class="libl" href="${esc(BOOK.lib)}">← All lectures</a>` : ''}
+    <h1>${esc(BOOK.title)}</h1>
+    <p>${esc(BOOK.blurb)}</p>
+    <div class="chips">${(BOOK.exams || []).map(chipFor).join('')}</div>
+    <div class="stats">
+      <div class="stat"><b>${st.nr}/${N}</b><span>pages read</span></div>
+      <div class="stat"><b>${st.ok}/${st.n}</b><span>answered right</span></div>
+      <div class="stat"><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>
+    </div>
+    <button class="hbtn pri" data-act="open">${cont}</button>
+    <div class="hrow">
+      <button class="hbtn" data-act="open-cards">Flashcards</button>
+      <button class="hbtn" data-act="open-exam">Exam mode</button>
+    </div>
+  </div>`;
+  $('#chap').textContent = BOOK.short;
+}
+function openBook(i){
+  const go2 = () => { $('#home').hidden = true; book.hidden = false; opened = true; if (i !== undefined) at = i; layout(true); };
+  const c = $('#cover');
+  if (c && DUR && c.animate){ c.animate([{transform: 'perspective(1400px) rotateY(0)'}, {transform: 'perspective(1400px) rotateY(-80deg)', opacity: .2}], {duration: 520, easing: 'ease-in'}).onfinish = go2; }
+  else go2();
+}
+
+/* ---------- block renderers ---------- */
+H.part = b => `<div class="part"><span class="pn">${esc(b.no)}</span><div><small>Part ${esc(b.no)}</small><h2>${esc(b.title)}</h2>${b.sub ? `<p>${esc(b.sub)}</p>` : ''}</div><span class="big">${esc(b.no)}</span></div>`;
+H.h = b => `<h3 class="sh"><span class="num">${esc(b.no)}</span><span>${esc(b.title)}</span>${b.top || b.rep ? `<span class="sht">${b.top ? '<span class="tg top">★ Top priority</span>' : ''}${b.rep ? '<span class="tg">↻ High yield</span>' : ''}</span>` : ''}</h3>`;
+H.hook = b => `<p class="hook">${b.html}</p>`;
+H.p = b => `<p class="tx">${b.html}</p>`;
+H.list = b => `<ul class="ls">${b.items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const NL = {hy: 'High yield', trap: 'Exam trap', mn: 'Mnemonic', cl: 'Clinical', def: 'Definition', nb: 'N.B.'};
+H.note = b => `<aside class="note n-${b.kind}"><span class="nl">${esc(b.title || NL[b.kind])}</span>${b.html}</aside>`;
+H.flow = b => `<div class="flow">${b.steps.map(s => `<span>${s}</span>`).join('<i>→</i>')}</div>`;
+const TB = {};
+H.table = (b, pg, k) => {
+  const id = pg.id + '-' + k; const st = TB[id] || (TB[id] = {cv: false, rev: {}});
+  const rows = b.rows.map((r, ri) => `<tr>${r.map((c, ci) => { const cov = st.cv && ci > 0 && !st.rev[ri + ':' + ci]; return `<td${cov ? ` class="cv" data-act="rev" data-t="${id}" data-c="${ri}:${ci}"` : ''}>${cov ? '<span>' + c + '</span>' : c}</td>`; }).join('')}</tr>`).join('');
+  return `<div class="tbl"><div class="tbl-h"><span>${esc(b.cap || '')}</span>${b.cover !== false ? `<button class="mini ${st.cv ? 'on' : ''}" data-act="cover" data-t="${id}">${st.cv ? 'Show answers' : 'Cover answers'}</button>` : ''}</div><div class="tw"><table><thead><tr>${b.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+function qimg(q, ans){
+  const L = ans ? q.aimg : q.img; if (!L || !L.length) return '';
+  const cap = ans ? q.acap : q.cap;
+  return L.map((u, i) => `<figure class="qf"><img src="${esc(u)}" alt="${esc(cap || 'Figure for this question')}" loading="lazy">${i === L.length - 1 && cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('');
+}
+function qtags(q){
+  const t = [];
+  if (q.top) t.push('<span class="tg top">★ Top priority</span>');
+  if (q.rep) t.push(`<span class="tg">↻ ${esc(q.rep)}</span>`);
+  t.push(`<span class="tg">${esc(q.tag)}</span>`);
+  return t.join('');
+}
+function opts(q, st, act){
+  return q.opts.map((o, i) => {
+    let c = '';
+    if (st && st.show){ if (i === q.ans) c = 'ok'; else if (i === st.pick) c = 'bad'; }
+    else if (st && st.pick === i) c = 'pick';
+    return `<button class="op ${c}" data-act="${act}" data-q="${q.id}" data-i="${i}" ${st && st.show ? 'disabled' : ''}><span class="lt">${'ABCDEFGH'[i]}</span><span>${esc(o)}</span></button>`;
+  }).join('');
+}
+H.check = b => {
+  const q = QS[b.q]; if (!q) return ''; const a = S.ans[q.id];
+  const st = a ? {pick: a.pick, show: true} : null;
+  const res = a ? `<div class="res ${a.ok ? 'ok' : 'bad'}">${a.ok ? '✓ Correct' : '✗ Not quite — the answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>${qimg(q, 1)}<div class="row"><button class="btn" data-act="retry" data-q="${q.id}">Try again</button></div>` : '';
+  return `<div class="qb"><div class="qh">Check question ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'ans')}${res}</div>`;
+};
+H.predict = b => {
+  const q = QS[b.q]; if (!q) return ''; const p = S.pred[q.id] || {};
+  const st = p.lift ? {pick: p.pick, show: true} : (p.pick !== undefined ? {pick: p.pick} : null);
+  let tail = '';
+  if (p.pick !== undefined && !p.lift) tail = `<div class="row"><button class="btn lift" data-act="lift" data-q="${q.id}">Lift the flap ↑</button><span class="muted" style="font-size:.8em">You predicted ${'ABCDEFGH'[p.pick]}</span></div>`;
+  else if (p.lift) tail = `<div class="res ${p.pick === q.ans ? 'ok' : 'bad'}">${p.pick === q.ans ? '✓ Your prediction was right' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>`;
+  else tail = `<div class="flapc"><span class="muted" style="font-size:.82em">Pick your prediction, then lift the flap</span></div>`;
+  return `<div class="qb"><div class="qh">Predict, then reveal ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'pred')}${tail}</div>`;
+};
+H.flap = b => {
+  const q = QS[b.q]; if (!q) return ''; const lifted = S.flap[q.id]; const self = S.self[q.id];
+  const dr = `<textarea class="dr" data-act="draft" data-q="${q.id}" placeholder="Write your answer first (optional)…">${esc(S.draft[q.id] || '')}</textarea>`;
+  const body = lifted
+    ? `<div class="ans">${q.keyhtml}</div>${qimg(q, 1)}${q.expl ? `<div class="ex">${q.expl}</div>` : ''}<div class="row"><span class="muted" style="font-size:.78em">How did you do?</span><button class="btn ${self === 'got' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="got">Got it</button><button class="btn ${self === 'later' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="later">Review later</button></div>`
+    : `${dr}<div class="flapc"><button class="btn lift" data-act="flap" data-q="${q.id}">Lift the flap ↑</button></div>`;
+  return `<div class="qb"><div class="qh">Written question ${qtags(q)}</div><div class="qs" style="white-space:pre-line">${esc(q.stem)}</div>${qimg(q)}${body}</div>`;
+};
+H.title = b => `<div class="title-page"><div class="kick">${esc(b.kick)}</div><h1 class="ttl">${esc(b.title)}</h1><div class="sub">${esc(b.sub)}</div>
+  <div class="facts">${b.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div>
+  ${b.hook ? `<p class="hook">${b.hook}</p>` : ''}${b.note ? `<aside class="note n-hy"><span class="nl">${esc(b.note[0])}</span>${b.note[1]}</aside>` : ''}</div>`;
+H.contents = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  return `<h3 class="sh" style="margin-top:0"><span class="num">≡</span><span>Contents</span></h3>
+  <ul class="map">${items.map(([p, i]) => `<li><button data-act="jump" data-p="${i}"><span class="mn">${esc(p.toc[0])}</span><span class="mt">${esc(p.toc[1])}</span><span class="mp">p. ${i}</span></button></li>`).join('')}</ul>
+  <div class="legend"><i style="background:var(--sticky)"></i><span>Sticky notes = high-yield facts</span><i style="background:var(--trap-bg);border-left:3px solid var(--red)"></i><span>Exam traps</span>
+  <i style="background:var(--chip);border:1px solid var(--line)"></i><span>Check questions answer instantly</span><i style="background:var(--red)"></i><span>LAB pages: interactive drills</span></div>
+  <p class="tx" style="font-size:.86em">Turn pages with the arrows, the ← → keys, or a swipe. Tap the ribbon to bookmark a page. Every fact comes from this year's Helpers pamphlet; every question is from the checked question bank.</p>`;
+};
+H.actions = () => `<div class="row" style="gap:.6em;margin:.8em 0"><button class="btn pri" data-act="open-exam">Start exam mode</button><button class="btn" data-act="open-cards">Flashcards (${BOOK.cards.length})</button><button class="btn" data-act="open-mist">My mistakes</button></div>`;
+H.progress = () => {
+  const st = stats(); const labs = Object.keys(LABS); const ld = labs.filter(l => S.labs[l] && S.labs[l].done).length;
+  const ex = S.exams.length ? S.exams[S.exams.length - 1] : null;
+  const third = labs.length ? `<div><b>${ld}/${labs.length}</b><span>labs done</span></div>` : `<div><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>`;
+  return `<div class="facts"><div><b>${st.nr}/${N}</b><span>pages read</span></div><div><b>${st.ok}/${st.n}</b><span>questions right</span></div>${third}</div>
+  <p class="tx" style="font-size:.86em">${ex ? `Last exam: <b>${ex.score}/${ex.n}</b> in ${Math.round(ex.secs / 60)} min.` : 'No exam taken yet.'} ${Object.keys(S.mist).length ? `You have <b>${Object.keys(S.mist).length}</b> questions in your mistakes list.` : ''}</p>`;
+};
+H.lab = (b, pg) => { const L = LABS[b.lab]; return L ? labHTML(L, pg) : ''; };
+H.recall = b => {
+  const st = S.labs[b.id] || {}, rv = st.r || {}; let n = 0, k = 0;
+  const body = b.groups.map(g => `<div class="rcg">${esc(g.title)}</div>` + g.items.map(it => { const i = n++, on = !!rv[i]; if (on) k++;
+    return `<button class="rci ${on ? 'on' : ''}" data-act="rcv" data-l="${b.id}" data-i="${i}"><span class="cue">${it[0]}</span>${it[1] ? ` <span class="${on ? '' : 'hid'}">${it[1]}</span>` : ''}</button>`; }).join('')).join('');
+  return `<div class="labh"><span class="lb">LAB</span><h3>${esc(b.title)}</h3></div>
+    <p class="labi">Say the rest of each line out loud, then tap it to check. Tap again to cover it. <b>${k}/${n}</b> uncovered.</p>
+    <div class="modes"><button class="mini" data-act="rcall" data-l="${b.id}" data-n="${n}">Uncover all</button><button class="mini" data-act="rcno" data-l="${b.id}">Cover all</button></div>${body}`;
+};
+H.end = () => {
+  const nx = BOOK.next, pv = BOOK.prev;
+  return `<div class="endnav">${nx ? `<a href="${esc(nx.href)}"><span><small>Next lecture</small>${esc(nx.title)}</span><span>→</span></a>` : ''}
+    ${pv ? `<a href="${esc(pv.href)}"><span><small>Previous lecture</small>${esc(pv.title)}</span><span>←</span></a>` : ''}
+    ${BOOK.lib ? `<a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a>` : ''}</div>`;
+};
+
+/* ---------- labs ---------- */
+const LS = {};
+function lst(id, init){ return LS[id] || (LS[id] = init()); }
+function rnd(seed){ let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function shuffled(arr, seed){ const r = rnd(seed), a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function labDone(id){ if (!S.labs[id] || !S.labs[id].done){ S.labs[id] = {done: true}; save(); } }
+function labHTML(L, pg){
+  const head = `<div class="labh"><span class="lb">LAB</span><h3>${esc(L.title)}</h3></div><div class="labi">${L.intro}</div>`;
+  const foot = L.ref ? `<div class="ref">From the pamphlet · ${esc(L.ref)}</div>` : '';
+  return `<div class="labx nosw">${head}${LAB[L.type](L)}${foot}</div>`;
+}
+const LAB = {};
+// --- region map (cross-section) ---
+function sector(cx, cy, rx, ry, a1, a2){
+  const p = a => [cx + rx * Math.cos(a * Math.PI / 180), cy + ry * Math.sin(a * Math.PI / 180)];
+  const [x1, y1] = p(a1), [x2, y2] = p(a2); const large = ((a2 - a1 + 360) % 360) > 180 ? 1 : 0;
+  return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+}
+LAB.map = L => {
+  const st = lst(L.id, () => ({sel: null, mode: 'explore', qi: 0, score: 0, fb: null, order: shuffled(L.tests.map((_, i) => i), L.id)}));
+  const cx = 160, cy = 128, rx = 136, ry = 108;
+  const regs = L.regions.map(r => {
+    const on = st.sel === r.id, dim = st.sel && !on && st.mode === 'explore';
+    return `<path class="rg ${dim ? 'dim' : ''}" d="${sector(cx, cy, rx, ry, r.a1, r.a2)}" fill="${r.color}" data-act="map" data-l="${L.id}" data-id="${r.id}" ${on ? 'stroke="var(--navy)" stroke-width="4"' : ''}/>`;
+  }).join('');
+  const labels = L.regions.map(r => { const m = (r.a1 + ((r.a2 - r.a1 + 360) % 360) / 2) * Math.PI / 180; return `<text class="svgtxt" text-anchor="middle" x="${(cx + rx * .62 * Math.cos(m)).toFixed(1)}" y="${(cy + ry * .62 * Math.sin(m) + 4).toFixed(1)}">${esc(r.short)}</text>`; }).join('');
+  const septa = L.regions.map(r => { const a = r.a1 * Math.PI / 180; return `<line x1="${(cx + 26 * Math.cos(a)).toFixed(1)}" y1="${(cy + 26 * Math.sin(a)).toFixed(1)}" x2="${(cx + rx * Math.cos(a)).toFixed(1)}" y2="${(cy + ry * Math.sin(a)).toFixed(1)}" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="4 3"/>`; }).join('');
+  const svg = `<svg viewBox="0 0 320 262" role="img" aria-label="${esc(L.title)}">${regs}${septa}
+    <circle cx="${cx}" cy="${cy}" r="26" fill="var(--bone)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="var(--paper-2)" stroke="var(--ink-2)" stroke-width="1"/>
+    <text class="svgsm" x="${cx}" y="${cy + 42}" text-anchor="middle">FEMUR</text>${labels}
+    <text class="svgsm" x="8" y="254">${esc(L.caption || '')}</text></svg>`;
+  let info;
+  if (st.mode === 'explore'){
+    const r = L.regions.find(x => x.id === st.sel);
+    info = r ? `<h4>${esc(r.name)}</h4>${r.html}` : `<span class="muted">Tap a compartment to see its muscles and its nerve.</span>`;
+  } else {
+    const done = st.qi >= L.tests.length;
+    info = done ? `<h4>Score: ${st.score}/${L.tests.length}</h4><span class="muted">Press "Test me" again for a new round.</span>`
+      : `<h4>${esc(L.tests[st.order[st.qi]].q)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : '<span class="muted">Tap the compartment.</span>'}`;
+    if (done) labDone(L.id);
+  }
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="explore">Explore</button><button class="mini ${st.mode === 'test' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="test">Test me</button>${st.mode === 'test' ? `<span class="muted" style="font-size:.75em;align-self:center">Question ${Math.min(st.qi + 1, L.tests.length)} of ${L.tests.length} · score ${st.score}</span>` : ''}</div>
+    <div class="svgw">${svg}</div><div class="info">${info}</div>`;
+};
+// --- nerve / muscle / movement graph with nerve cuts ---
+function gstate(L){ return lst(L.id, () => ({sel: null, cut: {}, mode: 'explore'})); }
+function mstat(m, cut){ if (!m.nerves.length) return 'unk'; const c = m.nerves.filter(n => cut[n]).length; return c === 0 ? 'ok' : c === m.nerves.length ? 'lost' : 'weak'; }
+LAB.graph = L => {
+  const st = gstate(L);
+  const M = L.muscles, byId = {}; M.forEach(m => byId[m.id] = m);
+  let hlN = {}, hlM = {}, hlV = {};
+  if (st.mode === 'explore' && st.sel){
+    const [t, id] = st.sel;
+    if (t === 'n'){ hlN[id] = 1; M.forEach(m => { if (m.nerves.includes(id)){ hlM[m.id] = 1; m.moves.forEach(v => hlV[v] = 1); } }); }
+    if (t === 'm'){ const m = byId[id]; hlM[id] = 1; m.nerves.forEach(n => hlN[n] = 1); m.moves.forEach(v => hlV[v] = 1); }
+    if (t === 'v'){ hlV[id] = 1; M.forEach(m => { if (m.moves.includes(id)){ hlM[m.id] = 1; m.nerves.forEach(n => hlN[n] = 1); } }); }
+  }
+  const any = st.mode === 'explore' && st.sel;
+  const ch = (t, id, name, extra) => {
+    let c = '';
+    if (st.mode === 'explore'){ if (any) c = ((t === 'n' ? hlN : t === 'm' ? hlM : hlV)[id]) ? 'hl' : 'dim'; }
+    else { if (t === 'n' && st.cut[id]) c = 'cut'; if (t === 'm'){ const s = mstat(byId[id], st.cut); c = s === 'lost' ? 'lost' : s === 'weak' ? 'weak' : s === 'unk' ? 'unk' : ''; } if (t === 'v') c = extra || ''; }
+    return `<button class="chip ${c}" data-act="g" data-l="${L.id}" data-t="${t}" data-id="${id}">${t === 'n' && st.mode === 'cut' ? (st.cut[id] ? '✂ ' : '') : ''}${esc(name)}</button>`;
+  };
+  // movement status
+  const vstat = {};
+  let summary = '';
+  if (st.mode === 'cut'){
+    const lines = [];
+    L.moves.forEach(v => {
+      const ms = M.filter(m => m.moves.includes(v.id) && m.nerves.length);
+      const lost = ms.filter(m => mstat(m, st.cut) === 'lost'), weak = ms.filter(m => mstat(m, st.cut) === 'weak');
+      const s = lost.length === ms.length && ms.length ? 'lost' : (lost.length || weak.length) ? 'weak' : 'ok';
+      vstat[v.id] = s;
+      if (s !== 'ok'){
+        const still = ms.filter(m => mstat(m, st.cut) !== 'lost').map(m => m.name + (mstat(m, st.cut) === 'weak' ? ' (partly)' : ''));
+        lines.push(`<div><b>${esc(v.name)}</b><span class="st ${s}">${s === 'lost' ? 'LOST' : 'WEAKENED'}</span>${still.length ? `<br><span class="muted" style="font-size:.9em">Still working: ${esc(still.join(', '))}</span>` : ''}</div>`);
+      }
+    });
+    const nc = Object.keys(st.cut).filter(k => st.cut[k]).length;
+    summary = nc ? (lines.length ? lines.join('') : '<span class="muted">No movement is affected.</span>') : '<span class="muted">Tap a nerve to cut it, or choose a case below.</span>';
+  } else {
+    const sel = st.sel; let t = '<span class="muted">Tap any nerve, muscle or movement to light up everything connected to it.</span>';
+    if (sel){ const [k, id] = sel; const item = k === 'n' ? L.nerves.find(x => x.id === id) : k === 'm' ? byId[id] : L.moves.find(x => x.id === id); t = `<h4>${esc(item.name)}</h4>${item.note ? esc(item.note) : ''}`; }
+    summary = t;
+  }
+  const vchip = v => ch('v', v.id, v.name, st.mode === 'cut' ? (vstat[v.id] === 'lost' ? 'lost' : vstat[v.id] === 'weak' ? 'weak' : '') : '');
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="explore">Explore links</button><button class="mini ${st.mode === 'cut' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="cut">Cut a nerve</button>${st.mode === 'cut' ? `<button class="mini" data-act="gclear" data-l="${L.id}">Heal all</button>` : ''}</div>
+    ${st.mode === 'cut' ? `<div class="modes">${L.cases.map((c, i) => `<button class="mini" data-act="gcase" data-l="${L.id}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+    <div class="gcols"><div class="gcol"><h5>Nerves</h5>${L.nerves.map(n => ch('n', n.id, n.name)).join('')}</div>
+    <div class="gcol"><h5>Muscles</h5>${M.map(m => ch('m', m.id, m.name)).join('')}</div>
+    <div class="gcol"><h5>Movements</h5>${L.moves.map(vchip).join('')}</div></div>
+    <div class="info">${summary}</div>${L.footnote ? `<div class="muted" style="font-size:.74em">${L.footnote}</div>` : ''}`;
+};
+// --- sorter ---
+LAB.sort = L => {
+  const st = lst(L.id, () => ({sel: null, placed: {}, wrong: 0, shake: null, order: shuffled(L.items.map(x => x.id), L.id)}));
+  const pool = st.order.filter(id => !st.placed[id]);
+  const it = id => L.items.find(x => x.id === id);
+  const done = !pool.length; if (done) labDone(L.id);
+  return `<div class="pool">${pool.map(id => `<button class="chip ${st.sel === id ? 'sel' : ''} ${st.shake === id ? 'shake' : ''}" data-act="spick" data-l="${L.id}" data-id="${id}">${esc(it(id).name)}</button>`).join('') || ''}</div>
+   ${done ? `<div class="done">✓ All sorted${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ' with no mistakes'}</div>` : `<div class="muted" style="font-size:.78em;margin:-.3em 0 .5em">${st.sel ? 'Now tap the right box.' : 'Tap an item, then tap its box.'}${st.wrong ? ` Wrong tries: ${st.wrong}.` : ''}</div>`}
+   <div class="bins">${L.bins.map(b => `<button class="bin" data-act="sdrop" data-l="${L.id}" data-b="${b.id}"><h5>${esc(b.name)}</h5>${b.sub ? `<small>${esc(b.sub)}</small>` : ''}<span class="in">${st.order.filter(id => st.placed[id] === b.id).map(id => `<span class="chip ok">${esc(it(id).name)}</span>`).join('')}</span></button>`).join('')}</div>
+   <div class="row"><button class="btn" data-act="sreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- sequence ---
+LAB.seq = L => {
+  const st = lst(L.id, () => ({n: 0, wrong: 0, shake: null, order: shuffled(L.steps.map((_, i) => i), L.id + 's')}));
+  const done = st.n >= L.steps.length; if (done) labDone(L.id);
+  return `<div class="info" style="min-height:0"><h4>${esc(L.prompt)}</h4></div>
+   <div class="seqline">${st.n ? L.steps.slice(0, st.n).map((s, i) => `<span class="n">${i + 1}</span><span class="chip ok">${esc(s)}</span>`).join('') : '<span class="muted" style="font-size:.78em">Your order appears here.</span>'}</div>
+   <div class="pool">${st.order.filter(i => i >= st.n).map(i => `<button class="chip ${st.shake === i ? 'shake' : ''}" data-act="qpick" data-l="${L.id}" data-i="${i}">${esc(L.steps[i])}</button>`).join('')}</div>
+   ${done ? `<div class="done">✓ Correct order${L.mnemonic ? ' — ' + esc(L.mnemonic) : ''}${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ''}</div>` : (st.wrong ? `<div class="muted" style="font-size:.78em">Wrong tries: ${st.wrong}</div>` : '')}
+   <div class="row"><button class="btn" data-act="qreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- labelled diagram ---
+const DRAW = {};
+LAB.diagram = L => {
+  const st = lst(L.id, () => ({mode: 'labels', rev: {}, qi: 0, score: 0, fb: null, order: shuffled(L.pins.map(p => p.id), L.id)}));
+  const pins = L.pins.map((p, i) => {
+    const shown = st.mode === 'labels' || (st.mode === 'test' && st.rev[p.id]);
+    let c = st.mode === 'test' && st.rev[p.id] ? 'on' : '';
+    if (st.mode === 'find' && st.fb && st.fb[2] === p.id) c = st.fb[0];
+    const lx = p.lx !== undefined ? p.lx : p.x + 9, anchor = p.anchor || 'start';
+    return `<g class="pinbtn ${c}" data-act="pin" data-l="${L.id}" data-id="${p.id}"><circle class="d" cx="${p.x}" cy="${p.y}" r="7"/><text x="${p.x}" y="${p.y + 2.8}" text-anchor="middle">${i + 1}</text>${shown ? `<text class="plab" x="${lx}" y="${p.ly !== undefined ? p.ly : p.y + 3}" text-anchor="${anchor}">${esc(p.short || p.name)}</text>` : ''}</g>`;
+  }).join('');
+  let info;
+  if (st.mode === 'labels') info = `<span class="muted">All labels shown. Switch to "Test me" (tap a number to reveal it) or "Find it" (find the named structure).</span>`;
+  else if (st.mode === 'test') info = `<span class="muted">Say the name of each numbered structure, then tap it to check. Revealed ${Object.keys(st.rev).length} of ${L.pins.length}.</span>`;
+  else {
+    const done = st.qi >= st.order.length; if (done) labDone(L.id);
+    info = done ? `<h4>Score: ${st.score}/${st.order.length}</h4><span class="muted">Choose "Find it" again for a new round.</span>`
+      : `<h4>Find: ${esc(L.pins.find(p => p.id === st.order[st.qi]).name)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : `<span class="muted">Tap its number · ${st.qi + 1} of ${st.order.length} · score ${st.score}</span>`}`;
+  }
+  return `<div class="modes">${[['labels', 'Labels on'], ['test', 'Test me'], ['find', 'Find it']].map(([m, n]) => `<button class="mini ${st.mode === m ? 'on' : ''}" data-act="dmode" data-l="${L.id}" data-v="${m}">${n}</button>`).join('')}</div>
+   <div class="svgw"><svg viewBox="${L.viewBox}" role="img" aria-label="${esc(L.title)}">${DRAW[L.draw] ? DRAW[L.draw]() : ''}${pins}</svg></div>
+   ${st.mode === 'labels' ? `<ol class="key">${L.pins.map(p => `<li>${esc(p.name)}</li>`).join('')}</ol>` : st.mode === 'test' ? `<ol class="key">${L.pins.map(p => `<li>${st.rev[p.id] ? esc(p.name) : '<span class="muted">tap ' + (L.pins.indexOf(p) + 1) + ' to check</span>'}</li>`).join('')}</ol>` : ''}<div class="info">${info}</div>`;
+};
+DRAW.femtri = () => {
+  // schematic femoral triangle: base = inguinal ligament (top), lateral side = sartorius (left), medial side = adductor longus (right)
+  const A = [44, 46], B = [296, 46], C = [176, 286];
+  const tri = `${A} ${B} ${C}`;
+  return `<defs><clipPath id="ftc"><polygon points="${tri}"/></clipPath>
+    <pattern id="lym" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="var(--cl)"/></pattern></defs>
+   <rect x="6" y="14" width="328" height="290" rx="14" fill="var(--skin)"/>
+   <g clip-path="url(#ftc)" opacity=".9">
+     <rect x="44" y="46" width="64" height="240" fill="#cfa18f"/><rect x="108" y="46" width="62" height="240" fill="#d9ae9c"/>
+     <rect x="170" y="46" width="62" height="240" fill="#e3bba9"/><rect x="232" y="46" width="64" height="240" fill="#d9ae9c"/>
+   </g>
+   <line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="30" y1="40" x2="310" y2="40" stroke="var(--bone)" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="40" x2="310" y2="40" stroke="var(--ink-2)" stroke-width="1" stroke-dasharray="3 3"/>
+   <path d="M118,48 L214,48 L200,150 L132,150 Z" fill="rgba(255,255,255,.22)" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="5 3"/>
+   <path d="M104,46 C104,90 108,140 118,190" stroke="#e2b93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M146,46 C146,110 154,180 168,262" stroke="#c0392b" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M174,46 C174,110 176,180 178,262" stroke="#2f5fb3" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M193,48 L209,48 L201,96 Z" fill="url(#lym)" stroke="var(--cl)" stroke-width="1.2"/>
+   <text class="svgsm" x="22" y="170" transform="rotate(-90 22 170)" text-anchor="middle">LATERAL</text>
+   <text class="svgsm" x="322" y="170" transform="rotate(90 322 170)" text-anchor="middle">MEDIAL</text>
+   <text class="svgsm" x="170" y="300" text-anchor="middle">SCHEMATIC FRONT VIEW · NOT TO SCALE</text>`;
+};
+
+/* ---------- click handling ---------- */
+const A = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = A[a.dataset.act]; if (f){ e.preventDefault(); f(a, e); }
+});
+document.addEventListener('input', e => { const a = e.target.closest('[data-act="draft"]'); if (a){ S.draft[a.dataset.q] = a.value; save(); } });
+A.next = () => go(1); A.prev = () => go(-1);
+A.home = () => { closeOv(); home(); };
+A.open = () => openBook(S.last > 0 ? S.last : 1);
+A.jump = a => jump(+a.dataset.p);
+A.mark = a => { const i = +a.dataset.p; if (S.marks[i]) delete S.marks[i]; else S.marks[i] = 1; save(); rerender(i); toast(S.marks[i] ? 'Bookmarked' : 'Bookmark removed'); };
+A.cover = a => { const t = TB[a.dataset.t]; t.cv = !t.cv; t.rev = {}; rerender(pageOf(a)); };
+A.rev = a => { const t = TB[a.dataset.t]; t.rev[a.dataset.c] = 1; rerender(pageOf(a)); };
+A.ans = a => { const q = QS[a.dataset.q], i = +a.dataset.i; const ok = i === q.ans; S.ans[q.id] = {pick: i, ok, t: Date.now()}; if (ok) delete S.mist[q.id]; else S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.retry = a => { delete S.ans[a.dataset.q]; save(); rerender(pageOf(a)); };
+A.pred = a => { const p = S.pred[a.dataset.q] || {}; if (p.lift) return; p.pick = +a.dataset.i; S.pred[a.dataset.q] = p; save(); rerender(pageOf(a)); };
+A.lift = a => { const q = QS[a.dataset.q]; const p = S.pred[q.id]; p.lift = 1; if (p.pick !== q.ans) S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.flap = a => { S.flap[a.dataset.q] = 1; save(); rerender(pageOf(a)); };
+A.self = a => { S.self[a.dataset.q] = a.dataset.v; save(); rerender(pageOf(a)); };
+const rcst = id => { const st = S.labs[id] || (S.labs[id] = {}); st.r = st.r || {}; return st; };
+A.rcv = a => { const st = rcst(a.dataset.l), i = a.dataset.i; if (st.r[i]) delete st.r[i]; else st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcall = a => { const st = rcst(a.dataset.l); for (let i = 0; i < +a.dataset.n; i++) st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcno = a => { const st = rcst(a.dataset.l); st.r = {}; save(); rerender(pageOf(a)); };
+// labs
+A.map = a => { const L = LABS[a.dataset.l], st = LS[L.id];
+  if (st.mode === 'explore') st.sel = st.sel === a.dataset.id ? null : a.dataset.id;
+  else if (st.qi < L.tests.length){ const t = L.tests[st.order[st.qi]]; if (a.dataset.id === t.a){ st.score += st.fb && st.fb[0] === 'bad' ? 0 : 1; st.qi++; st.fb = null; toast('✓ Correct'); } else st.fb = ['bad', 'Not this one — ' + L.regions.find(r => r.id === a.dataset.id).name + '. Try again.']; }
+  rerender(pageOf(a)); };
+A.mapmode = a => { const st = LS[a.dataset.l]; st.mode = a.dataset.v; st.sel = null; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(st.order, String(Date.now())); rerender(pageOf(a)); };
+A.g = a => { const L = LABS[a.dataset.l], st = gstate(L), t = a.dataset.t, id = a.dataset.id;
+  if (st.mode === 'explore') st.sel = st.sel && st.sel[0] === t && st.sel[1] === id ? null : [t, id];
+  else if (t === 'n') st.cut[id] = !st.cut[id];
+  rerender(pageOf(a)); };
+A.gmode = a => { const st = gstate(LABS[a.dataset.l]); st.mode = a.dataset.v; st.sel = null; rerender(pageOf(a)); };
+A.gclear = a => { const st = gstate(LABS[a.dataset.l]); st.cut = {}; rerender(pageOf(a)); };
+A.gcase = a => { const L = LABS[a.dataset.l], st = gstate(L), c = L.cases[+a.dataset.i]; st.cut = {}; c.cut.forEach(n => st.cut[n] = true); labDone(L.id); rerender(pageOf(a)); };
+A.spick = a => { const st = LS[a.dataset.l]; st.sel = st.sel === a.dataset.id ? null : a.dataset.id; st.shake = null; rerender(pageOf(a)); };
+A.sdrop = a => { const L = LABS[a.dataset.l], st = LS[L.id]; if (!st.sel) return; const it = L.items.find(x => x.id === st.sel);
+  if (it.bin === a.dataset.b){ st.placed[it.id] = it.bin; st.sel = null; st.shake = null; } else { st.wrong++; st.shake = it.id; toast('Not there — try another box'); }
+  rerender(pageOf(a)); };
+A.sreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.qpick = a => { const L = LABS[a.dataset.l], st = LS[L.id], i = +a.dataset.i; if (i === st.n){ st.n++; st.shake = null; } else { st.wrong++; st.shake = i; } rerender(pageOf(a)); };
+A.qreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.dmode = a => { const L = LABS[a.dataset.l], st = LS[L.id]; st.mode = a.dataset.v; st.rev = {}; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(L.pins.map(p => p.id), String(Date.now())); rerender(pageOf(a)); };
+A.pin = a => { const L = LABS[a.dataset.l], st = LS[L.id], id = a.dataset.id;
+  if (st.mode === 'test'){ if (st.rev[id]) delete st.rev[id]; else st.rev[id] = 1; }
+  else if (st.mode === 'find' && st.qi < st.order.length){ const t = st.order[st.qi];
+    if (id === t){ st.score += st.fb && st.fb[0] === 'bad' && st.fb[3] === t ? 0 : 1; st.qi++; st.fb = ['ok', '✓ Correct', id, t]; setTimeout(() => { if (st.fb && st.fb[2] === id){ st.fb = null; rerender(pageOf(document.querySelector(`[data-l="${L.id}"]`) || a)); } }, 700); }
+    else st.fb = ['bad', 'That is ' + L.pins.find(p => p.id === id).name + '. Try again.', id, t]; }
+  rerender(pageOf(a)); };
+
+/* ---------- overlays ---------- */
+function ov(title, body, cls){
+  $('#ovs').innerHTML = `<div class="ov" data-act="ovbg"><div class="panel ${cls || ''}" role="dialog" aria-label="${esc(title)}"><div class="ph"><h2>${esc(title)}</h2><button class="x" data-act="close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="pb" id="pbody">${body}</div></div></div>`;
+}
+function closeOv(){ $('#ovs').innerHTML = ''; if (!opened) home(); }
+A.close = closeOv;
+A.ovbg = (a, e) => { if (e.target === a) closeOv(); };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+
+// contents
+A['open-toc'] = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  const labs = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.kind === 'lab');
+  const marks = Object.keys(S.marks).map(Number).sort((a, b) => a - b);
+  ov('Contents', `${BOOK.lib ? `<div class="endnav" style="margin-top:0"><a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a></div>` : ''}<div class="lst">${items.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span><b>${esc(p.toc[0])}</b> · ${esc(p.toc[1])}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Labs</h3><div class="lst">${labs.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(p.labName || p.head)}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Bookmarks</h3>${marks.length ? `<div class="lst">${marks.map(i => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(BOOK.pages[i].head || 'Page ' + i)}</span></button>`).join('')}</div>` : '<p class="muted">No bookmarks yet. Tap the ribbon at the top of a page.</p>'}`);
+};
+// search
+function pageText(p){ const out = []; (p.blocks || []).forEach(b => { ['title', 'html', 'sub', 'hook'].forEach(k => { if (typeof b[k] === 'string') out.push(b[k]); }); if (b.items) out.push(b.items.join(' ')); if (b.rows) out.push(b.rows.flat().join(' ')); if (b.q && QS[b.q]) out.push(QS[b.q].stem); if (b.lab && LABS[b.lab]) out.push(LABS[b.lab].title + ' ' + LABS[b.lab].intro); }); return out.join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); }
+const PT = BOOK.pages.map(pageText);
+A['open-search'] = () => { ov('Search the book', `<input class="srch" id="sq" type="search" placeholder="${esc(BOOK.searchHint || 'Search this lecture')}" aria-label="Search"><div class="lst" id="sres"></div>`);
+  const inp = $('#sq'); inp.focus(); inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase(); const r = $('#sres');
+    if (q.length < 2){ r.innerHTML = ''; return; }
+    const hits = [];
+    PT.forEach((t, i) => { const j = t.toLowerCase().indexOf(q); if (j >= 0) hits.push([i, t.slice(Math.max(0, j - 40), j + q.length + 60)]); });
+    r.innerHTML = hits.length ? hits.map(([i, s]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>…${esc(s)}…</span></button>`).join('') : '<p class="muted">Nothing found.</p>';
+  }); };
+// settings
+A['open-set'] = () => {
+  const seg = (k, vals) => `<div class="seg">${vals.map(([v, n]) => `<button class="${String(S.set[k]) === String(v) ? 'on' : ''}" data-act="set" data-k="${k}" data-v="${v}">${n}</button>`).join('')}</div>`;
+  ov('Settings', `<div class="setrow"><span>Theme</span>${seg('theme', [['system', 'Auto'], ['light', 'Day'], ['dark', 'Night']])}</div>
+   <div class="setrow"><span>Text size</span>${seg('size', [[0.9, 'S'], [1, 'M'], [1.15, 'L']])}</div>
+   <div class="setrow"><span>Rapid revision<br><small class="muted">Hides running text; keeps tables, notes, questions and labs.</small></span>${seg('rapid', [[false, 'Off'], [true, 'On']])}</div>
+   <div class="setrow"><span>Progress<br><small class="muted">Saved in this browser only.</small></span><button class="btn" data-act="reset">Reset all progress</button></div>`);
+};
+A.set = a => { let v = a.dataset.v; if (a.dataset.k === 'size') v = +v; if (a.dataset.k === 'rapid') v = v === 'true'; S.set[a.dataset.k] = v; save(); applySet(); A['open-set'](); if (opened) draw(); };
+A.reset = a => { if (a.dataset.sure){ S = JSON.parse(JSON.stringify(DEF)); for (const k in LS) delete LS[k]; save(); applySet(); closeOv(); toast('Progress reset'); if (opened) draw(); } else { a.dataset.sure = 1; a.textContent = 'Tap again to confirm'; } };
+
+/* ---------- flashcards (spaced repetition) ---------- */
+const STEPS = [60e3, 600e3, 864e5, 1728e5, 3456e5, 6912e5];
+const STEPN = ['1 min', '10 min', '1 day', '2 days', '4 days', '8 days'];
+let FC = null;
+function fcQueue(mode){
+  const now = Date.now(); const c = BOOK.cards;
+  if (mode === 'cram') return c.map(x => x.id);
+  const due = c.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).sort((a, b) => S.cards[a.id].due - S.cards[b.id].due).map(x => x.id);
+  const fresh = c.filter(x => !S.cards[x.id]).map(x => x.id);
+  return due.concat(fresh);
+}
+function cloze(t, rev, all){
+  let k = 0;
+  return esc(t).replace(/\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}/g, (m, n, ans, hint) => { const i = k++; const r = all || rev[i]; return `<span class="blank ${r ? 'r' : ''}" data-act="fcb" data-i="${i}">${r ? ans : (hint ? esc(hint) : '·····')}</span>`; });
+}
+A['open-cards'] = () => { FC = {mode: 'learn', q: fcQueue('learn'), i: 0, rev: {}, all: false}; fcDraw(); };
+function fcDraw(){
+  const c = FC.q[FC.i] ? BOOK.cards.find(x => x.id === FC.q[FC.i]) : null;
+  const now = Date.now(); const due = BOOK.cards.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).length; const fresh = BOOK.cards.filter(x => !S.cards[x.id]).length; const learned = Object.values(S.cards).filter(x => x.step >= 2).length;
+  const top = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg"><button class="${FC.mode === 'learn' ? 'on' : ''}" data-act="fcmode" data-v="learn">Due &amp; new</button><button class="${FC.mode === 'cram' ? 'on' : ''}" data-act="fcmode" data-v="cram">Cram all</button></div>
+   <div class="meter"><span>Due <b>${due}</b></span><span>New <b>${fresh}</b></span><span>Learned <b>${learned}/${BOOK.cards.length}</b></span></div></div>`;
+  let body;
+  if (!c){
+    const nxt = Object.values(S.cards).map(x => x.due).filter(d => d > now).sort((a, b) => a - b)[0];
+    body = `<div class="fc" style="text-align:center"><div class="big">✓</div><p>All caught up${FC.mode === 'cram' ? ' — you went through every card' : ''}.</p>${nxt ? `<p class="muted">Next card is due ${new Date(nxt).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'})}.</p>` : ''}<div class="row" style="justify-content:center"><button class="btn pri" data-act="fcmode" data-v="cram">Cram all cards</button></div></div>`;
+  } else {
+    const nb = (c.text.match(/\{\{c\d+::/g) || []).length; const allShown = FC.all || Object.keys(FC.rev).length >= nb;
+    const s = S.cards[c.id]; const step = s ? s.step : -1;
+    const lab = i => STEPN[Math.min(Math.max(i, 0), STEPS.length - 1)];
+    body = `<div class="fc"><div class="ctx">${esc(c.sec)} · card ${FC.i + 1} of ${FC.q.length}</div><div>${cloze(c.text, FC.rev, FC.all)}</div>${allShown && c.extra ? `<div class="fcx">${esc(c.extra)}</div>` : ''}</div>
+      ${allShown ? `<div class="grade"><button class="g0" data-act="fcg" data-v="0">Again<small>${lab(0)}</small></button><button class="g1" data-act="fcg" data-v="1">Good<small>${lab(step + 1)}</small></button><button class="g2" data-act="fcg" data-v="2">Easy<small>${lab(step + 2)}</small></button></div>`
+      : `<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" data-act="fcall">Show answer</button><span class="muted" style="font-size:12px">or tap each blank</span></div>`}`;
+  }
+  ov('Flashcards · ' + BOOK.short, top + body);
+}
+A.fcmode = a => { FC = {mode: a.dataset.v, q: fcQueue(a.dataset.v), i: 0, rev: {}, all: false}; fcDraw(); };
+A.fcb = a => { FC.rev[a.dataset.i] = 1; fcDraw(); };
+A.fcall = () => { FC.all = true; fcDraw(); };
+A.fcg = a => { const id = FC.q[FC.i]; const v = +a.dataset.v; const s = S.cards[id] || {step: -1};
+  if (v === 0) s.step = 0; else s.step = Math.min((s.step < 0 ? -1 : s.step) + v, STEPS.length - 1);
+  s.due = Date.now() + STEPS[Math.max(s.step, 0)]; S.cards[id] = s; save();
+  if (v === 0 && FC.mode === 'learn') FC.q.push(id);
+  FC.i++; FC.rev = {}; FC.all = false; fcDraw(); };
+
+/* ---------- exam mode & mistakes ---------- */
+let EX = null;
+const MCQ = Object.values(QS).filter(q => q.type === 'mcq');
+A['open-exam'] = () => {
+  const nB = MCQ.filter(q => q.bank).length;
+  const past = S.exams.slice(-5).reverse();
+  ov('Exam mode · ' + BOOK.short, `<p>Questions from the Final question bank for this lecture${MCQ.length > nB ? ', plus checked extra practice questions' : ''}. You see your score, your time and every mistake at the end.</p>
+   <div class="setrow"><span>Questions</span><div class="seg">${[10, 20, 0].map(n => `<button data-act="exstart" data-n="${n}">${n || 'All ' + MCQ.length}</button>`).join('')}</div></div>
+   <div class="setrow"><span>Only Final-bank questions</span><div class="seg"><button class="${!(EX && EX.all) ? 'on' : ''}" data-act="exonly" data-v="1">Yes (${nB})</button><button class="${EX && EX.all ? 'on' : ''}" data-act="exonly" data-v="0">Add extras (${MCQ.length})</button></div></div>
+   ${past.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Past attempts</h3><div class="lst">${past.map(x => `<div class="it" style="cursor:default;border:1px solid var(--line);border-radius:10px;padding:8px 11px"><b>${x.score}/${x.n}</b>&nbsp; <span class="muted">${new Date(x.date).toLocaleString([], {weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})} · ${Math.max(1, Math.round(x.secs / 60))} min</span></div>`).join('')}</div>` : ''}`);
+};
+A.exonly = a => { EX = EX || {}; EX.all = a.dataset.v === '0'; A['open-exam'](); };
+A.exstart = a => {
+  const all = EX && EX.all; const pool = MCQ.filter(q => all || q.bank);
+  const n = +a.dataset.n || pool.length; const qs = shuffled(pool.map(q => q.id), String(Date.now())).slice(0, Math.min(n, pool.length));
+  EX = {all, qs, i: 0, picks: {}, t0: Date.now(), kind: 'exam'}; exDraw();
+};
+function exDraw(){
+  if (EX.i >= EX.qs.length) return exEnd();
+  const q = QS[EX.qs[EX.i]];
+  if (EX.kind === 'retry'){
+    const p = EX.picks[q.id];
+    const st = p !== undefined ? {pick: p, show: true} : null;
+    ov('Mistakes · retry ' + (EX.i + 1) + ' of ' + EX.qs.length, `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'exp')}${p !== undefined ? `<div class="res ${p === q.ans ? 'ok' : 'bad'}">${p === q.ans ? '✓ Correct — removed from your mistakes' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div><div class="row"><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next question' : 'Finish'}</button></div>` : ''}</div>`);
+    return;
+  }
+  const p = EX.picks[q.id];
+  ov(`Question ${EX.i + 1} of ${EX.qs.length}`, `<div class="meter"><span>Answered <b>${Object.keys(EX.picks).length}</b></span><span>Time <b id="extime">0:00</b></span></div>
+   <div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, p !== undefined ? {pick: p} : null, 'exp')}</div>
+   <div class="row" style="justify-content:space-between"><button class="btn" data-act="exback" ${EX.i ? '' : 'disabled'}>Back</button><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next' : 'Finish exam'}</button></div>`);
+  tick();
+}
+function tick(){ const el = $('#extime'); if (!el || !EX) return; const s = Math.round((Date.now() - EX.t0) / 1000); el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); clearTimeout(tick.t); tick.t = setTimeout(tick, 1000); }
+A.exp = a => { const q = QS[a.dataset.q], i = +a.dataset.i;
+  if (EX.kind === 'retry'){ if (EX.picks[q.id] !== undefined) return; EX.picks[q.id] = i; S.ans[q.id] = {pick: i, ok: i === q.ans, t: Date.now()}; if (i === q.ans) delete S.mist[q.id]; save(); exDraw(); return; }
+  EX.picks[q.id] = i; exDraw(); };
+A.exnext = () => { EX.i++; exDraw(); };
+A.exback = () => { if (EX.i) EX.i--; exDraw(); };
+function exEnd(){
+  clearTimeout(tick.t);
+  if (EX.kind === 'retry'){ const left = Object.keys(S.mist).length; ov('Mistakes', `<div class="fc" style="text-align:center"><div class="big">${EX.qs.filter(id => EX.picks[id] === QS[id].ans).length}/${EX.qs.length}</div><p>${left ? left + ' questions still in your mistakes list.' : 'Your mistakes list is empty.'}</p></div>`); return; }
+  const secs = Math.round((Date.now() - EX.t0) / 1000); let score = 0; const wrong = [];
+  EX.qs.forEach(id => { const q = QS[id], p = EX.picks[id]; const ok = p === q.ans; if (ok){ score++; delete S.mist[id]; } else { S.mist[id] = 1; wrong.push([q, p]); } S.ans[id] = {pick: p === undefined ? -1 : p, ok, t: Date.now()}; });
+  S.exams.push({date: Date.now(), n: EX.qs.length, score, secs}); save();
+  ov('Exam result', `<div class="fc" style="text-align:center"><div class="big">${score}/${EX.qs.length}</div><p>${Math.round(100 * score / EX.qs.length)}% · ${Math.floor(secs / 60)} min ${secs % 60} s</p></div>
+   ${wrong.length ? `<h3 style="font:700 15px var(--f-head);margin:16px 0 4px">Review your mistakes</h3>${wrong.map(([q, p]) => `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, {pick: p === undefined ? -1 : p, show: true}, 'none')}<div class="ex">${q.expl}</div></div>`).join('')}` : '<p style="text-align:center">No mistakes. Well done.</p>'}
+   <div class="row"><button class="btn pri" data-act="open-exam">New exam</button>${wrong.length ? '<button class="btn" data-act="open-mist">Retry my mistakes</button>' : ''}</div>`);
+  if (opened) draw();
+}
+A['open-mist'] = () => {
+  const ids = Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq');
+  const later = Object.keys(S.self).filter(id => S.self[id] === 'later' && QS[id]);
+  ov('My mistakes', `${ids.length ? `<p>${ids.length} question${ids.length > 1 ? 's' : ''} you got wrong. Retry them; a right answer removes it from the list.</p><div class="row"><button class="btn pri" data-act="mretry">Retry all</button></div>
+    <div class="lst">${ids.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem)}</span></button>`).join('')}</div>` : '<p class="muted">No mistakes yet. Wrong answers in check questions, predictions and exams collect here.</p>'}
+    ${later.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Written answers to review</h3><div class="lst">${later.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem.split('\n')[0])}</span></button>`).join('')}</div>` : ''}`);
+};
+A.mretry = () => { const ids = shuffled(Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq'), String(Date.now())); if (!ids.length) return; EX = {qs: ids, i: 0, picks: {}, t0: Date.now(), kind: 'retry'}; exDraw(); };
+A.jumpq = a => { const id = a.dataset.q; const i = BOOK.pages.findIndex(p => (p.blocks || []).some(b => b.q === id)); if (i >= 0) jump(i); else toast('This question is only in exam mode'); };
+A.none = () => {};
+
+/* ---------- start ---------- */
+function start(){
+  layout();
+  home();   // the cover's "Continue on page N" button returns to the saved page
+}
+start();
+})();
+</script>
+
+</body>
+</html>

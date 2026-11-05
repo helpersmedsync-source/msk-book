@@ -1,0 +1,1035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1834">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MSK Book">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>MSK Interactive Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout concept: a Helpers-blue cloth volume lying open on a walnut desk — two pages per spread on wide screens, one page on phones;
+   text pages face lab pages; sticky notes, red section numbers and lift-the-flap questions like a real study book. */
+:root{
+  --desk:#6a4a30; --desk-2:#4f3522; --paper:#fbf9f3; --paper-2:#f1ece0; --edge:#ddd3bd;
+  --ink:#1c2333; --ink-2:#4b5569; --muted:#7c8597; --line:#e3dccb; --card:#ffffff;
+  --navy:#0b1f45; --navy-ink:#0b1f45; --band:#0b1f45; --band-ink:#ffffff; --blue:#2e86de; --red:#d64545;
+  --ok:#1e9e62; --ok-bg:#e6f6ee; --bad:#d64545; --bad-bg:#fdeceb; --chip:#edf3fb; --hl:#fff0a1;
+  --sticky:#ffe57a; --sticky-ink:#3a3000; --trap-bg:#fdf0ef; --mn:#7b4fc9; --mn-bg:#f3eefb; --cl:#13836f; --cl-bg:#e8f5f2; --def-bg:#edf3fb; --nb-bg:#f2f2ef;
+  --cover-1:#d9d2c2; --cover-2:#e8e2d4; --leather:#11295a; --leather-2:#0a1c40; --gold:#d9b45e;
+  --bar:rgba(10,24,52,.86); --bar-ink:#f4f6fb; --skin:#f6e3d3; --musc:#e8a8a0; --musc-2:#d98c84; --bone:#fbf6ea;
+  --fsz:1; --pw:520px; --ph:720px;
+  --f-head:'Poppins','Segoe UI',system-ui,sans-serif; --f-body:'Lato','Segoe UI',system-ui,sans-serif; --f-hand:'Caveat','Segoe Print','Comic Sans MS',cursive;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --desk:#2b2019; --desk-2:#1e1610; --paper:#1d222c; --paper-2:#181c24; --edge:#2b3240;
+  --ink:#e8e4d9; --ink-2:#b8b3a6; --muted:#8c92a2; --line:#323a49; --card:#232a36;
+  --navy:#9cc2ff; --navy-ink:#cfe0ff; --band:#163a73; --band-ink:#eef3ff; --blue:#6aaef5; --red:#ef7b7b;
+  --ok:#3fcf8e; --ok-bg:#16352a; --bad:#f07c7c; --bad-bg:#3b1f22; --chip:#243148; --hl:#5b4c12;
+  --sticky:#5a4c1c; --sticky-ink:#f6eab8; --trap-bg:#3a2224; --mn:#b59af0; --mn-bg:#2d2540; --cl:#5fd1bb; --cl-bg:#18322e; --def-bg:#1f2b40; --nb-bg:#262a31;
+  --cover-1:#303747; --cover-2:#3a4254; --leather:#0f2550; --leather-2:#08183a; --gold:#d6b25e;
+  --bar:rgba(8,12,22,.9); --bar-ink:#eef1f7; --skin:#4a3b34; --musc:#8a4d48; --musc-2:#a65d57; --bone:#d9d3c4;
+  color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%;overscroll-behavior:none}
+body{margin:0;overflow:hidden;color:var(--ink);font-family:var(--f-body);
+  background:
+    radial-gradient(120% 90% at 50% 38%, rgba(255,240,215,.10), transparent 62%),
+    repeating-linear-gradient(91deg, rgba(0,0,0,.045) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89.3deg, rgba(255,255,255,.025) 0 1px, transparent 1px 31px),
+    repeating-linear-gradient(90.6deg, rgba(0,0,0,.035) 0 6px, transparent 6px 57px),
+    linear-gradient(180deg, var(--desk), var(--desk-2));
+  background-color:var(--desk)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+#app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box;overflow:hidden}
+
+/* ---------- top bar ---------- */
+.bar{flex:none;display:flex;align-items:center;gap:6px;height:50px;margin-top:8px;padding:0 8px 0 12px;border-radius:14px;background:var(--bar);color:var(--bar-ink);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.brand{display:flex;align-items:baseline;gap:8px;min-width:0;cursor:pointer;background:none;border:0;padding:0}
+.brand b{font:700 15px var(--f-head);letter-spacing:.01em;white-space:nowrap}
+.brand span{font:500 11px var(--f-head);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .sp{flex:1}
+.pgind{font:600 12px var(--f-head);opacity:.85;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ib{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 10px;border-radius:10px;border:0;background:transparent;color:var(--bar-ink);cursor:pointer;font:600 12px var(--f-head)}
+.ib:hover{background:rgba(255,255,255,.1)}
+.ib svg{width:18px;height:18px;flex:none}
+.ib .lb{white-space:nowrap}
+.ib.on{background:rgba(255,255,255,.16)}
+.prog{height:3px;border-radius:2px;background:rgba(255,255,255,.15);overflow:hidden;width:70px}
+.prog i{display:block;height:100%;background:var(--gold)}
+@media (max-width:1100px){ .ib .lb{display:none} }
+.brand .bw{font-style:normal}
+@media (max-width:640px){ .brand span,.brand .bw,.prog,.pgind{display:none} .bar{gap:2px;padding:0 4px 0 10px} .ib{padding:0 7px} }
+
+/* ---------- desk & book ---------- */
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:10px 0}
+.book{position:relative;width:calc(var(--pw)*2);height:var(--ph);perspective:2600px;perspective-origin:50% 50%}
+.book.single{width:var(--pw)}
+.book::before{content:"";position:absolute;inset:-9px -12px -11px -12px;border-radius:12px;background:linear-gradient(90deg,var(--leather-2),var(--leather) 6%,var(--leather) 94%,var(--leather-2));box-shadow:0 28px 50px rgba(0,0,0,.45),0 6px 14px rgba(0,0,0,.35)}
+.book.single::before{inset:-7px -9px -9px -9px}
+.pg{position:absolute;top:0;width:var(--pw);height:var(--ph);background:var(--paper);overflow:hidden;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.03)}
+.pg-l{left:0;border-radius:6px 2px 2px 6px;background:linear-gradient(to left,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(90deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:-2px 0 0 var(--edge),-4px 0 0 var(--paper-2),-6px 1px 0 var(--edge)}
+.pg-r{left:var(--pw);border-radius:2px 6px 6px 2px;background:linear-gradient(to right,rgba(0,0,0,.13),rgba(0,0,0,.03) 4%,transparent 9%),linear-gradient(270deg,var(--paper-2),var(--paper) 3%);
+  box-shadow:2px 0 0 var(--edge),4px 0 0 var(--paper-2),6px 1px 0 var(--edge)}
+.book.single .pg-l{border-radius:4px 6px 6px 4px;background:linear-gradient(to right,rgba(0,0,0,.10),transparent 5%),var(--paper);box-shadow:3px 0 0 var(--edge),5px 1px 0 var(--paper-2)}
+.leaf{position:absolute;top:0;width:var(--pw);height:var(--ph);transform-style:preserve-3d;pointer-events:none;z-index:6}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--paper);overflow:hidden}
+.leaf .back{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 40%,rgba(255,255,255,.05) 70%,rgba(0,0,0,.10));animation:shade var(--dur,700ms) ease-in-out}
+@keyframes shade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
+.turn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:64px;border-radius:12px;border:0;background:rgba(0,0,0,.28);color:#fff;cursor:pointer;z-index:8;display:grid;place-items:center}
+.turn:hover{background:rgba(0,0,0,.45)}
+.turn svg{width:22px;height:22px}
+.turn.prev{left:-56px}.turn.next{right:-56px}
+.book.single .turn{display:none}
+.mnav{display:none}
+@media (max-width:899px), (max-height:519px){ .mnav{display:flex} }
+.mnav{flex:none;align-items:center;justify-content:space-between;gap:8px;padding:6px 0 8px}
+.mnav button{flex:none;height:42px;min-width:56px;border-radius:12px;border:0;background:var(--bar);color:var(--bar-ink);font:600 13px var(--f-head);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px}
+.mnav .mid{flex:1;text-align:center;color:#fff;font:600 12px var(--f-head);text-shadow:0 1px 2px rgba(0,0,0,.4);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---------- closed book (home) ---------- */
+.home{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;padding:12px;overflow:auto;z-index:9}
+.cover{position:relative;width:min(340px,82vw);aspect-ratio:.72;border-radius:6px 16px 16px 6px;color:var(--gold);
+  background:radial-gradient(120% 80% at 30% 20%,rgba(255,255,255,.08),transparent 60%),repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 2px,transparent 2px 5px),linear-gradient(135deg,var(--leather),var(--leather-2));
+  box-shadow:inset 10px 0 0 rgba(0,0,0,.28),inset 13px 0 0 rgba(255,255,255,.05),0 26px 46px rgba(0,0,0,.5),0 4px 10px rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 26px 24px 36px;box-sizing:border-box;transform-origin:left center}
+.cover .frame{position:absolute;inset:14px 14px 14px 24px;border:1px solid rgba(217,180,94,.55);border-radius:4px 10px 10px 4px;pointer-events:none}
+.cover .k{font:600 10px var(--f-head);letter-spacing:.32em;opacity:.85}
+.cover .t1{font:700 clamp(44px,13vw,64px)/1 var(--f-head);letter-spacing:.04em;margin:14px 0 2px;color:var(--gold)}
+.cover .t2{font:600 20px var(--f-head);letter-spacing:.06em;color:#f3e6c4}
+.cover .rule{width:56%;height:1px;background:rgba(217,180,94,.6);margin:16px 0}
+.cover .t3{font:500 13px/1.45 var(--f-head);color:#eadcb8;max-width:16em}
+.cover .t4{margin-top:18px;font:italic 400 12px var(--f-body);color:#d9c9a0;opacity:.85}
+.side{display:flex;flex-direction:column;gap:12px;width:min(340px,86vw);color:#fff}
+.side h1{font:700 22px/1.2 var(--f-head);margin:0;text-wrap:balance;text-shadow:0 2px 6px rgba(0,0,0,.35)}
+.side p{margin:0;font-size:14px;line-height:1.5;color:#f1e8dc;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.cd{font:600 12px var(--f-head);padding:6px 11px;border-radius:20px;background:rgba(0,0,0,.35);color:#fff;border:1px solid rgba(255,255,255,.18)}
+.cd b{color:var(--gold)}
+.hbtn{display:flex;align-items:center;justify-content:center;gap:8px;height:46px;border-radius:12px;border:0;cursor:pointer;font:600 14px var(--f-head);background:var(--card);color:var(--navy-ink);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.hbtn.pri{background:var(--gold);color:#1d1606}
+.hbtn svg{width:18px;height:18px}
+.hrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:rgba(0,0,0,.32);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,.12)}
+.stat b{display:block;font:700 18px var(--f-head);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font:500 10.5px var(--f-head);letter-spacing:.05em;color:#e8dcc6;text-transform:uppercase}
+
+/* ---------- page content ---------- */
+.pin{position:absolute;inset:0;padding:6.2% 7% 8.2% 7.4%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;box-sizing:border-box;
+  font-size:clamp(12px, calc(var(--pw) * .0262 * var(--fsz)), 19px);line-height:1.5;scrollbar-width:thin;scrollbar-color:var(--edge) transparent}
+.pg-l .pin{padding-right:8.4%}.pg-r .pin{padding-left:8.6%}
+.rh{display:flex;justify-content:space-between;gap:1em;padding-right:2.6em;font:600 .6em var(--f-head);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 1em;padding-bottom:.6em;border-bottom:1px solid var(--line)}
+.folio{position:absolute;bottom:2.6%;font:600 .78em var(--f-head);color:var(--muted);font-size:clamp(10px,calc(var(--pw)*.022),14px)}
+.pg-l .folio,.leaf .folio.l{left:7%}.pg-r .folio,.leaf .folio.r{right:7%}.book.single .folio{right:7%;left:auto}
+.ribbon{position:absolute;top:-2px;right:9%;width:clamp(16px,calc(var(--pw)*.04),24px);height:clamp(34px,calc(var(--pw)*.085),52px);border:0;padding:0;cursor:pointer;background:var(--line);clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);opacity:.75;z-index:2}
+.ribbon.on{background:var(--red);opacity:1}
+.part{display:flex;gap:.8em;align-items:center;background:var(--band);color:var(--band-ink);border-radius:.6em;padding:.85em 1em;margin:0 0 1em;position:relative;overflow:hidden}
+.part .pn{flex:none;width:2.4em;height:2.4em;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;font:700 .95em var(--f-head);box-shadow:0 0 0 2px rgba(255,255,255,.7)}
+.part small{display:block;font:600 .6em var(--f-head);letter-spacing:.16em;opacity:.8;text-transform:uppercase}
+.part h2{margin:.05em 0 0;font:700 1.18em/1.2 var(--f-head);text-wrap:balance}
+.part p{margin:.25em 0 0;font-size:.78em;opacity:.85}
+.part .big{position:absolute;right:.2em;bottom:-.25em;font:700 3.6em/1 var(--f-head);opacity:.09}
+.sh{display:flex;align-items:center;gap:.55em;margin:1.1em 0 .45em;font:700 1.02em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sh .num{flex:none;min-width:2.1em;height:2.1em;padding:0 .2em;border-radius:1.05em;display:grid;place-items:center;background:var(--red);color:#fff;font:700 .66em var(--f-head);letter-spacing:.02em;box-sizing:border-box}
+.hook{font:italic 400 1em/1.45 var(--f-body);color:var(--ink-2);margin:.2em 0 .6em;padding-left:.7em;border-left:2px solid var(--red)}
+.tx{margin:.45em 0}
+.ls{margin:.4em 0 .6em;padding-left:1.1em}.ls li{margin:.18em 0}
+mark{background:var(--hl);color:inherit;padding:0 .14em;border-radius:.18em}
+.note{margin:.85em 0;padding:.65em .8em .7em;border-radius:.45em;position:relative}
+.note .nl{display:block;font:700 .6em var(--f-head);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.2em}
+.n-hy{background:var(--sticky);color:var(--sticky-ink);border-radius:2px;transform:rotate(-1deg);box-shadow:0 .35em .7em rgba(0,0,0,.18);margin:1.1em .2em}
+.n-hy::before{content:"";position:absolute;top:-.55em;left:50%;width:4.4em;height:1.1em;transform:translateX(-50%) rotate(2deg);background:rgba(255,255,255,.45);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.n-hy .nl{font:700 1.3em/1 var(--f-hand);letter-spacing:0;text-transform:none;margin-bottom:.25em}
+.n-trap{background:var(--trap-bg);border-left:.28em solid var(--red)}.n-trap .nl{color:var(--red)}
+.n-mn{background:var(--mn-bg);border-left:.28em solid var(--mn)}.n-mn .nl{color:var(--mn)}
+.n-cl{background:var(--cl-bg);border-left:.28em solid var(--cl)}.n-cl .nl{color:var(--cl)}
+.n-def{background:var(--def-bg);border-left:.28em solid var(--blue)}.n-def .nl{color:var(--blue)}
+.n-nb{background:var(--nb-bg);border-left:.28em solid var(--muted)}.n-nb .nl{color:var(--muted)}
+.tbl{margin:.8em 0}
+.tbl-h{display:flex;align-items:center;justify-content:space-between;gap:.6em;margin-bottom:.35em}
+.tbl-h span{font:700 .66em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.tw{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;font-size:.84em;line-height:1.38}
+.tbl th{background:var(--band);color:var(--band-ink);font:600 .82em var(--f-head);letter-spacing:.03em;text-align:left;padding:.45em .5em}
+.tbl th:first-child{border-radius:.35em 0 0 0}.tbl th:last-child{border-radius:0 .35em 0 0}
+.tbl td{padding:.42em .5em;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:first-child{font-weight:700;color:var(--navy-ink)}
+.tbl td.cv{cursor:pointer;color:transparent;border-radius:.3em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none}
+.tbl td.cv *{visibility:hidden}
+.mini{font:600 .7em var(--f-head);padding:.38em .75em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.on{background:var(--band);color:var(--band-ink);border-color:transparent}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:.35em;margin:.7em 0}
+.flow span{background:var(--chip);border:1px solid var(--line);border-radius:.4em;padding:.3em .55em;font-size:.86em}
+.flow i{font-style:normal;color:var(--red);font-weight:700}
+
+/* questions */
+.qb{border:1px solid var(--line);background:var(--card);border-radius:.6em;padding:.7em .8em .8em;margin:.9em 0}
+.qh{display:flex;flex-wrap:wrap;align-items:center;gap:.35em .5em;font:700 .58em var(--f-head);letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.tg{font:600 1em var(--f-head);letter-spacing:.06em;padding:.15em .55em;border-radius:1em;background:var(--chip);color:var(--ink-2)}
+.tg.top{background:#fff1cf;color:#8a5a00}
+:root[data-theme="dark"] .tg.top{background:#4a3a12;color:#f6d27a}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .tg.top{background:#4a3a12;color:#f6d27a} }
+.qs{font-weight:700;margin:.5em 0 .55em;line-height:1.42}
+.op{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;padding:.45em .6em;margin:.32em 0;border-radius:.5em;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:.95em;line-height:1.35;cursor:pointer}
+.op:hover{border-color:var(--blue)}
+.op .lt{flex:none;width:1.55em;height:1.55em;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font:700 .72em var(--f-head);color:var(--ink-2);margin-top:.05em}
+.op.ok{border-color:var(--ok);background:var(--ok-bg)}.op.ok .lt{background:var(--ok);color:#fff;border-color:var(--ok)}
+.op.bad{border-color:var(--bad);background:var(--bad-bg)}.op.bad .lt{background:var(--bad);color:#fff;border-color:var(--bad)}
+.op.pick{border-color:var(--blue);background:var(--chip)}
+.op[disabled]{cursor:default}
+.res{font:700 .8em var(--f-head);margin:.5em 0 .1em}.res.ok{color:var(--ok)}.res.bad{color:var(--bad)}
+.ex{margin-top:.45em;padding:.55em .7em;border-left:.25em solid var(--blue);background:var(--chip);border-radius:.3em;font-size:.9em;line-height:1.45}
+.ex b{color:var(--navy-ink)}
+.row{display:flex;flex-wrap:wrap;gap:.45em;align-items:center;margin-top:.55em}
+.btn{font:600 .74em var(--f-head);padding:.5em .95em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--band);color:var(--band-ink);border-color:transparent}
+.btn.lift{background:var(--sticky);color:var(--sticky-ink);border-color:transparent;font-family:var(--f-hand);font-size:1.05em;font-weight:700}
+.flapc{margin-top:.5em;border-radius:.45em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 6px,var(--cover-2) 6px 12px);padding:.9em;text-align:center}
+.ans{margin-top:.5em;padding:.6em .75em;border-left:.25em solid var(--ok);background:var(--ok-bg);border-radius:.3em;font-size:.92em;white-space:pre-line;line-height:1.45}
+textarea.dr{width:100%;box-sizing:border-box;min-height:4.2em;margin-top:.4em;border:1px dashed var(--line);border-radius:.45em;background:var(--paper);color:var(--ink);font:inherit;font-size:.9em;padding:.5em;resize:vertical}
+
+/* labs */
+.labh{display:flex;align-items:center;gap:.55em;margin:0 0 .5em}
+.labh .lb{flex:none;background:var(--red);color:#fff;font:700 .6em var(--f-head);letter-spacing:.16em;padding:.3em .65em;border-radius:.3em}
+.labh h3{margin:0;font:700 1.08em/1.25 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.labi{font-size:.88em;color:var(--ink-2);margin:.2em 0 .6em}
+.modes{display:flex;flex-wrap:wrap;gap:.35em;margin:.3em 0 .6em}
+.svgw{background:var(--paper-2);border:1px solid var(--line);border-radius:.6em;padding:.4em;margin:.3em 0}
+.svgw svg{display:block;width:100%;height:auto;max-height:calc(var(--ph) * .44)}
+.rg{cursor:pointer;stroke:var(--paper);stroke-width:2.5;transition:filter .15s, opacity .15s}
+.rg:hover{filter:brightness(1.07)}
+.rg.dim{opacity:.35}
+.svgtxt{font:700 11px var(--f-head);fill:var(--ink);pointer-events:none;letter-spacing:.06em}
+.svgsm{font:600 8.5px var(--f-head);fill:var(--muted);pointer-events:none;letter-spacing:.08em}
+.pinbtn{cursor:pointer}
+.pinbtn circle.d{fill:var(--card);stroke:var(--navy);stroke-width:1.6}
+.pinbtn.on circle.d{fill:var(--sticky);stroke:var(--red)}
+.pinbtn.ok circle.d{fill:var(--ok)}
+.pinbtn.bad circle.d{fill:var(--bad)}
+.pinbtn text{font:700 8px var(--f-head);fill:var(--navy-ink);pointer-events:none}
+.plab{font:700 8.6px var(--f-body);fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3px;pointer-events:none}
+.key{columns:2;column-gap:1.2em;margin:.3em 0 .4em;padding-left:1.6em;font-size:.8em;line-height:1.45}.key li{break-inside:avoid}
+.info{background:var(--card);border:1px solid var(--line);border-radius:.55em;padding:.55em .7em;font-size:.88em;margin:.4em 0;min-height:2.6em}
+.info h4{margin:0 0 .2em;font:700 .95em var(--f-head);color:var(--navy-ink)}
+.fb{font:700 .8em var(--f-head);margin:.3em 0}.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.pool{display:flex;flex-wrap:wrap;gap:.35em;margin:.4em 0 .7em;min-height:1.8em}
+.chip{font:700 .74em var(--f-body);padding:.36em .62em;border-radius:2em;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;line-height:1.2;text-align:left}
+.chip.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue)}
+.chip.ok{background:var(--ok-bg);border-color:var(--ok);cursor:default}
+.chip.hl{background:var(--band);color:var(--band-ink);border-color:transparent}
+.chip.dim{opacity:.35}
+.chip.cut{background:var(--bad);color:#fff;border-color:transparent}
+.chip.lost{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.chip.weak{background:#fff4d6;border-color:#e0a422;color:#8a5a00}
+:root[data-theme="dark"] .chip.weak{background:#433513;color:#f3cf74}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .chip.weak{background:#433513;color:#f3cf74} }
+.chip.unk{border-style:dashed}
+.shake{animation:shake .38s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bins{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.4em,1fr));gap:.45em}
+.bin{border:1.5px dashed var(--edge);border-radius:.6em;padding:.45em;min-height:4.2em;cursor:pointer;background:var(--paper);text-align:left;display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.bin:hover{border-color:var(--blue)}
+.bin h5{margin:0;font:700 .68em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.bin small{font-size:.66em;color:var(--muted);margin-top:-.25em}
+.bin .in{display:flex;flex-wrap:wrap;gap:.25em}
+.seqline{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.2em;margin:.3em 0 .6em;padding:.4em;border-radius:.5em;background:var(--paper-2);border:1px solid var(--line)}
+.seqline .n{font:700 .62em var(--f-head);color:var(--muted)}
+.gcols{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:.5em}
+.gcols h5{margin:0 0 .3em;font:700 .62em var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gcol{display:flex;flex-direction:column;gap:.3em;align-items:stretch}
+.gcol .chip{font-size:.68em}
+.st{font:700 .62em var(--f-head);padding:.12em .5em;border-radius:1em;margin-left:.3em;white-space:nowrap}
+.st.lost{background:var(--bad);color:#fff}.st.weak{background:#e0a422;color:#fff}.st.ok{background:var(--ok);color:#fff}
+.done{margin:.5em 0;padding:.5em .7em;border-radius:.45em;background:var(--ok-bg);color:var(--ok);font:700 .82em var(--f-head)}
+.ref{margin-top:.8em;font:600 .62em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.title-page{display:flex;flex-direction:column;min-height:100%;justify-content:center;gap:.6em}
+.kick{font:600 .66em var(--f-head);letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.ttl{margin:0;font:700 1.95em/1.12 var(--f-head);color:var(--navy-ink);text-wrap:balance}
+.sub{color:var(--ink-2);font-size:.95em}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:.5em;margin:.6em 0}
+.facts div{background:var(--paper-2);border:1px solid var(--line);border-radius:.55em;padding:.55em;text-align:center}
+.facts b{display:block;font:700 1.35em var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.facts span{font:600 .58em var(--f-head);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.map{list-style:none;padding:0;margin:.4em 0;display:flex;flex-direction:column;gap:.3em}
+.map li button{width:100%;display:flex;align-items:center;gap:.6em;padding:.45em .55em;border-radius:.5em;border:1px solid var(--line);background:var(--card);cursor:pointer;text-align:left;color:var(--ink)}
+.map li button:hover{border-color:var(--blue)}
+.map .mn{flex:none;width:1.9em;height:1.9em;border-radius:50%;display:grid;place-items:center;background:var(--band);color:var(--band-ink);font:700 .7em var(--f-head)}
+.map .mt{flex:1;font:600 .86em var(--f-head);color:var(--navy-ink)}
+.map .mp{font:600 .7em var(--f-head);color:var(--muted);font-variant-numeric:tabular-nums}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:.35em .6em;align-items:center;font-size:.82em;margin:.5em 0}
+.legend i{font-style:normal;width:1.8em;height:1.3em;border-radius:.25em;display:inline-block}
+body.rapid .tx, body.rapid .hook{display:none}
+
+/* ---------- overlays ---------- */
+.ov{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.55);padding:calc(12px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px))}
+.panel{background:var(--paper);color:var(--ink);width:min(680px,100%);max-height:100%;overflow:auto;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-size:15px;line-height:1.5;display:flex;flex-direction:column}
+.ph{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--paper)}
+.ph h2{margin:0;font:700 17px var(--f-head);color:var(--navy-ink);flex:1;min-width:0}
+.ph .x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;display:grid;place-items:center}
+.pb{padding:14px 16px 18px}
+.pb .qb{font-size:15px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);padding:8px 12px;font:600 13px var(--f-head);cursor:pointer;color:var(--ink)}
+.seg button.on{background:var(--band);color:var(--band-ink)}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:18px 18px 16px;min-height:150px;font-size:17px;line-height:1.55;box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.fc .ctx{font:600 11px var(--f-head);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.blank{display:inline-block;min-width:3.2em;border-radius:6px;padding:0 .35em;margin:0 .1em;background:var(--chip);border:1px dashed var(--blue);color:transparent;cursor:pointer;line-height:1.35}
+.blank.r{background:var(--hl);border-style:solid;border-color:transparent;color:var(--ink);font-weight:700;cursor:default}
+.fcx{margin-top:12px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:10px}
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.grade button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 6px;cursor:pointer;font:700 14px var(--f-head);color:var(--ink)}
+.grade small{display:block;font:500 11px var(--f-body);color:var(--muted)}
+.grade .g0{border-color:var(--bad);color:var(--bad)}.grade .g1{border-color:var(--blue);color:var(--blue)}.grade .g2{border-color:var(--ok);color:var(--ok)}
+.meter{display:flex;gap:14px;flex-wrap:wrap;font:600 12px var(--f-head);color:var(--muted);margin:10px 0}
+.meter b{color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.big{font:700 40px var(--f-head);color:var(--navy-ink);font-variant-numeric:tabular-nums}
+.lst{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.lst button.it{display:flex;gap:10px;align-items:baseline;text-align:left;width:100%;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 11px;cursor:pointer;color:var(--ink);font-size:14px}
+.lst .pgn{font:700 12px var(--f-head);color:var(--blue);flex:none;font-variant-numeric:tabular-nums}
+input.srch{width:100%;box-sizing:border-box;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;padding:0 14px;font-size:15px}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--bar);color:var(--bar-ink);padding:9px 16px;border-radius:12px;font:600 13px var(--f-head);z-index:60;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+@media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important;transition:none!important} }
+/* section priority chips */
+.sh .sht{display:inline-flex;flex-wrap:wrap;gap:.3em;margin-left:auto}
+.sh .sht .tg{font-size:.56em;white-space:nowrap}
+/* recall lab: the start of each fact stays visible, the rest is covered until tapped */
+.rcg{margin:.85em 0 .3em;font:700 .72em var(--f-head);letter-spacing:.06em;color:var(--navy-ink);text-transform:uppercase}
+.rci{display:block;width:100%;text-align:left;margin:.3em 0;padding:.45em .6em;border-radius:.45em;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.92em;line-height:1.45;cursor:pointer}
+.rci .cue{font-weight:700;color:var(--navy-ink)}
+.rci .hid{color:transparent;border-radius:.25em;background:repeating-linear-gradient(135deg,var(--cover-1) 0 5px,var(--cover-2) 5px 10px);-webkit-user-select:none;user-select:none;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.rci.on{border-color:var(--ok);background:var(--ok-bg)}
+/* figures in questions */
+.qf{margin:.5em 0 .6em;text-align:center}
+.qf img{max-width:100%;max-height:calc(var(--ph) * .42);border-radius:.4em;border:1px solid var(--line);background:#fff}
+.panel .qf img{max-height:46vh}
+.qf figcaption{font-size:.74em;color:var(--muted);margin-top:.25em}
+/* links back to the library and on to the next lecture */
+.libl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font:600 13px var(--f-head);color:#fff;text-decoration:none;padding:7px 12px;border-radius:20px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.18)}
+.endnav{display:flex;flex-direction:column;gap:.5em;margin:.8em 0}
+.endnav a{display:flex;align-items:center;justify-content:space-between;gap:.6em;padding:.7em .85em;border-radius:.6em;border:1px solid var(--line);background:var(--card);color:var(--navy-ink);text-decoration:none;font:600 .9em var(--f-head)}
+.endnav a small{display:block;font:500 .78em var(--f-body);color:var(--muted)}
+/* iPhone/iPad: Safari zooms into any text field under 16px when it is tapped */
+@supports (-webkit-touch-callout:none){ input.srch,textarea.dr{font-size:16px} }
+</style>
+
+</head>
+<body>
+<div id="app">
+  <header class="bar">
+    <button class="brand" data-act="home" aria-label="Back to the cover"><b>MSK<em class="bw"> Interactive</em> Book</b><span id="chap"></span></button>
+    <div class="sp"></div>
+    <span class="pgind" id="pgind"></span>
+    <div class="prog" title="Pages read"><i id="progi" style="width:0"></i></div>
+    <button class="ib" data-act="open-toc" aria-label="Contents"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span class="lb">Contents</span></button>
+    <button class="ib" data-act="open-search" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><span class="lb">Search</span></button>
+    <button class="ib" data-act="open-cards" aria-label="Flashcards"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v11"/></svg><span class="lb">Flashcards</span></button>
+    <button class="ib" data-act="open-exam" aria-label="Exam mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12l2 2 4-4"/></svg><span class="lb">Exam</span></button>
+    <button class="ib" data-act="open-mist" aria-label="Mistakes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg><span class="lb">Mistakes</span></button>
+    <button class="ib" data-act="open-set" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lb">Settings</span></button>
+  </header>
+  <main class="stage" id="stage">
+    <div class="book" id="book" hidden>
+      <div class="pg pg-l" id="pgL"></div>
+      <div class="pg pg-r" id="pgR"></div>
+      <div class="leaf" id="leaf" hidden><div class="face front" id="lf"></div><div class="face back" id="lb"></div></div>
+      <button class="turn prev" data-act="prev" aria-label="Previous page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="turn next" data-act="next" aria-label="Next page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="home" id="home"></div>
+  </main>
+  <nav class="mnav" id="mnav" hidden>
+    <button data-act="prev" aria-label="Previous page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="mid" id="mmid"></span>
+    <button data-act="next" aria-label="Next page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+</div>
+<div id="ovs"></div>
+
+<script>
+const BOOK = {"id": "mic-l1", "title": "Microbiology · Lecture 1 — Bacterial Skin Infection", "short": "Microbiology L1 · Bacterial Skin Infection", "subject": "Microbiology", "coverLine": "Lecture 1 · Bacterial Skin Infection", "coverNote": "Interactive edition", "blurb": "The pamphlet as a book you can work with: the key facts part by part, a recall lab for each part, check questions that answer instantly, written questions with lift-the-flap answers, flashcards with spaced repetition and an exam mode.", "exams": [{"name": "Final", "date": "2026-11-09"}, {"name": "Practical", "date": "2026-11-11"}], "pages": [{"id": "p0", "head": "", "kind": "cover", "blocks": [{"t": "contents"}]}, {"id": "p1", "head": "Lecture 1", "kind": "text", "blocks": [{"t": "title", "kick": "MSK Module · Microbiology · Lecture 1", "title": "Bacterial Skin Infection", "sub": "Skin Microbiota & Cocci · Staphylococci · Staphylococcal Diseases · Streptococci · Acne, Cat Scratch & Spotted Fever · Bacillus & Anthrax · Fungal Skin Infections · Organisms Compared · Rapid Revision", "facts": [["9", "pamphlet parts"], ["40", "check questions"], ["23", "Final-bank questions"]], "hook": "Exam trap to remember: SSSS heals without scar — dermis spared; toxin spreads by blood beyond infection site", "note": ["In the Final", "This lecture comes as <b>MCQ only<\/b>. Its written questions are here for understanding. 21 of its questions are <b>top priority<\/b>: the department used them this year."]}]}, {"id": "p2", "head": "Part 01 · Skin Microbiota & Cocci", "kind": "text", "blocks": [{"t": "part", "no": "01", "title": "Skin Microbiota & Cocci", "sub": "Functions of the skin microbiota · Cocci — the three families"}, {"t": "h", "no": "1.1", "title": "Functions of the skin microbiota"}, {"t": "list", "items": ["Microbiota = normally harmless residents; biological anatomical barrier on skin", "Prevent pathogen colonization by covering binding sites (receptors)", "<mark>Consume available nutrients<\/mark>", "<b>Chemical interference:<\/b> produce chemicals inhibiting other microbes"]}, {"t": "h", "no": "1.2", "title": "Cocci — the three families"}, {"t": "list", "items": ["Gram-positive cocci in grape-like clusters = <mark>staphylococci<\/mark>", "Gram-positive cocci in chains = <mark>streptococci<\/mark>", "Gram-negative cocci = Neisseria (listed only)"]}], "toc": ["01", "Skin Microbiota & Cocci"]}, {"id": "p3", "head": "Lab · Recall · Part 01", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-0-0", "title": "Recall · Skin Microbiota & Cocci", "groups": [{"title": "1.1 Functions of the skin microbiota", "items": [["Microbiota =", "normally harmless residents; biological anatomical barrier on skin"], ["Prevent pathogen colonization", "by covering binding sites (receptors)"], ["Consume available", "nutrients"], ["Chemical interference:", "produce chemicals inhibiting other microbes"]]}, {"title": "1.2 Cocci — the three families", "items": [["Gram-positive cocci in grape-like clusters =", "staphylococci"], ["Gram-positive cocci in chains =", "streptococci"], ["Gram-negative cocci =", "Neisseria (listed only)"]]}]}], "labName": "Recall · Skin Microbiota & Cocci"}, {"id": "p4", "head": "Part 01 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-MIC-L1-01"}, {"t": "flap", "q": "Q0359"}]}, {"id": "p5", "head": "Part 02 · Staphylococci", "kind": "text", "blocks": [{"t": "part", "no": "02", "title": "Staphylococci", "sub": "Three species — named by their pigment · Asymptomatic colonization of S. aureus · Staphylococcus aureus — the organism · Selected virulence factors · Laboratory identification of S. aureus"}, {"t": "h", "no": "2.1", "title": "Three species — named by their pigment"}, {"t": "list", "items": ["<b>Staphylococci:<\/b> G+ spherical bacteria in grape-like clusters with <mark>endopigments<\/mark>", "<b>S. aureus:<\/b> <mark>golden yellow<\/mark>", "<b>S. epidermidis:<\/b> <mark>white<\/mark>", "<b>S. saprophyticus:<\/b> <mark>lemon yellow<\/mark>"]}, {"t": "h", "no": "2.2", "title": "Asymptomatic colonization of S. aureus"}, {"t": "list", "items": ["<mark>40–50%<\/mark> of population are nasal carriers", "<mark>15–20%<\/mark> of healthy adults are persistent nasopharyngeal carriers", "More carriers among hospital staff", "Colonizes <mark>moist skin folds<\/mark>, <mark>oropharynx<\/mark>, GIT and <mark>urogenital tract<\/mark>"]}], "toc": ["02", "Staphylococci"]}, {"id": "p6", "head": "Part 02 · Staphylococci", "kind": "text", "blocks": [{"t": "h", "no": "2.3", "title": "Staphylococcus aureus — the organism"}, {"t": "list", "items": ["G+ cocci in clusters, <mark>non-motile<\/mark>, <mark>non-spore-forming<\/mark>; some strains <mark>polysaccharide<\/mark> capsule", "<mark>Facultative anaerobe<\/mark> at <mark>37 °C<\/mark>; round smooth grey to golden-yellow colonies", "Complete (β) haemolysis on blood agar", "Catalase <mark>positive<\/mark>, coagulase positive", "<mark>Ferments mannitol<\/mark> on mannitol salt agar; tolerates <mark>7–10%<\/mark> NaCl"]}, {"t": "h", "no": "2.4", "title": "Selected virulence factors", "top": true, "rep": true}, {"t": "list", "items": ["<b>Enzymes:<\/b> <mark>coagulase<\/mark> (localizes infection), <mark>catalase<\/mark>, <mark>hyaluronidase<\/mark>, <mark>DNase<\/mark>, <mark>haemolysins<\/mark>", "<b>Toxins:<\/b> exfoliative (epidermolytic A &amp; B) → SSSS; <mark>enterotoxins<\/mark>; <mark>toxic shock syndrome toxin<\/mark>", "Invasion due to <mark>protein A<\/mark> and <mark>clumping factor (bound coagulase)<\/mark>"]}]}, {"id": "p7", "head": "Part 02 · Staphylococci", "kind": "text", "blocks": [{"t": "h", "no": "2.5", "title": "Laboratory identification of S. aureus", "top": true}, {"t": "list", "items": ["Specimen according to site of infection", "<b>Direct Gram smear:<\/b> G+ cocci in <mark>grape-like clusters<\/mark> among <mark>pus cells<\/mark>", "<b>Culture:<\/b> β-haemolysis on blood agar; golden-yellow pigment on nutrient agar", "<b>Identify colonies:<\/b> <mark>Gram stain<\/mark>, <mark>catalase<\/mark>, <mark>coagulase<\/mark>, <mark>mannitol salt agar<\/mark>"]}]}, {"id": "p8", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-1-0", "title": "Recall · Staphylococci (1/3)", "groups": [{"title": "2.1 Three species — named by their pigment", "items": [["Staphylococci:", "G+ spherical bacteria in grape-like clusters with endopigments"], ["S. aureus:", "golden yellow"], ["S. epidermidis:", "white"], ["S. saprophyticus:", "lemon yellow"]]}, {"title": "2.2 Asymptomatic colonization of S. aureus", "items": [["40–50% of", "population are nasal carriers"], ["15–20% of healthy", "adults are persistent nasopharyngeal carriers"], ["More carriers", "among hospital staff"], ["Colonizes moist skin", "folds, oropharynx, GIT and urogenital tract"]]}]}], "labName": "Recall · Staphylococci (1/3)"}, {"id": "p9", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-1-1", "title": "Recall · Staphylococci (2/3)", "groups": [{"title": "2.3 Staphylococcus aureus — the organism", "items": [["G+ cocci in clusters", "non-motile, non-spore-forming; some strains polysaccharide capsule"], ["Facultative anaerobe at 37", "°C; round smooth grey to golden-yellow colonies"], ["Complete (β)", "haemolysis on blood agar"], ["Catalase positive", "coagulase positive"], ["Ferments mannitol on", "mannitol salt agar; tolerates 7–10% NaCl"]]}, {"title": "2.4 Selected virulence factors", "items": [["Enzymes:", "coagulase (localizes infection), catalase, hyaluronidase, DNase, haemolysins"], ["Toxins:", "exfoliative (epidermolytic A &amp; B) → SSSS; enterotoxins; toxic shock syndrome toxin"], ["Invasion due to protein", "A and clumping factor (bound coagulase)"]]}]}], "labName": "Recall · Staphylococci (2/3)"}, {"id": "p10", "head": "Lab · Recall · Part 02", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-1-2", "title": "Recall · Staphylococci (3/3)", "groups": [{"title": "2.5 Laboratory identification of S. aureus", "items": [["Specimen according", "to site of infection"], ["Direct Gram smear:", "G+ cocci in grape-like clusters among pus cells"], ["Culture:", "β-haemolysis on blood agar; golden-yellow pigment on nutrient agar"], ["Identify colonies:", "Gram stain, catalase, coagulase, mannitol salt agar"]]}]}], "labName": "Recall · Staphylococci (3/3)"}, {"id": "p11", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0322"}, {"t": "check", "q": "Q0346"}, {"t": "flap", "q": "Q0357"}]}, {"id": "p12", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0361"}, {"t": "check", "q": "Q0320"}]}, {"id": "p13", "head": "Part 02 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0324"}, {"t": "flap", "q": "Q0360"}]}, {"id": "p14", "head": "Part 03 · Staphylococcal Diseases", "kind": "text", "blocks": [{"t": "part", "no": "03", "title": "Staphylococcal Diseases", "sub": "Selected diseases caused by S. aureus · Folliculitis → furuncle → carbuncle · Staphylococcal scalded skin syndrome (SSSS) · Impetigo (pyoderma)"}, {"t": "h", "no": "3.1", "title": "Selected diseases caused by S. aureus", "top": true}, {"t": "list", "items": ["<mark>Focal suppuration<\/mark>: abscess, folliculitis &amp; carbuncle", "Wound infections", "<b>Deep:<\/b> <mark>bacteraemia<\/mark>, <mark>osteomyelitis<\/mark>, <mark>endocarditis<\/mark>", "<b>Toxin-mediated:<\/b> <mark>food poisoning<\/mark>, <mark>SSSS<\/mark>, <mark>toxic shock syndrome<\/mark>"]}, {"t": "h", "no": "3.2", "title": "Folliculitis → furuncle → carbuncle"}, {"t": "list", "items": ["<b>Folliculitis:<\/b> infection of <mark>hair follicle<\/mark> invading <mark>sebaceous glands<\/mark>; called a <mark>pimple<\/mark>", "At base of eyelid = <mark>stye<\/mark>", "<mark>Furuncle<\/mark>: spreads into hypodermis — large painful nodule"]}], "toc": ["03", "Staphylococcal Diseases"]}, {"id": "p15", "head": "Part 03 · Staphylococcal Diseases", "kind": "text", "blocks": [{"t": "list", "items": ["<mark>Carbuncle<\/mark>: several furuncles join", "Also caused by <mark>Propionibacterium<\/mark>; transmitted by <mark>contact<\/mark>"]}, {"t": "h", "no": "3.3", "title": "Staphylococcal scalded skin syndrome (SSSS)", "top": true, "rep": true}, {"t": "list", "items": ["Mainly <mark>infants &amp; children under five<\/mark>; also <mark>elderly and immunosuppressed<\/mark>", "Exfoliative toxins A &amp; B carried in <mark>blood<\/mark> (<mark>toxaemia<\/mark>)", "Outer epidermal cells separate; reddening starts near <mark>mouth<\/mark>, spreads to whole body", "Epidermis peels in <mark>sheets<\/mark> within 2 days", "Restored in <mark>7–10 days<\/mark> without scarring — <mark>dermis<\/mark> unaffected"]}, {"t": "h", "no": "3.4", "title": "Impetigo (pyoderma)", "top": true, "rep": true}, {"t": "list", "items": ["Contagious <mark>superficial<\/mark> infection: red patches on face &amp; limbs, mainly <mark>children<\/mark>", "Patches → oozing <mark>pus-filled vesicles<\/mark> → thick <mark>honey-coloured<\/mark> sticky crust", "S. aureus alone ≈<mark>80%<\/mark>; ≈<mark>20%<\/mark> involve St. pyogenes"]}]}, {"id": "p16", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-2-0", "title": "Recall · Staphylococcal Diseases (1/2)", "groups": [{"title": "3.1 Selected diseases caused by S. aureus", "items": [["Focal suppuration:", "abscess, folliculitis &amp; carbuncle"], ["Wound", "infections"], ["Deep:", "bacteraemia, osteomyelitis, endocarditis"], ["Toxin-mediated:", "food poisoning, SSSS, toxic shock syndrome"]]}, {"title": "3.2 Folliculitis → furuncle → carbuncle", "items": [["Folliculitis:", "infection of hair follicle invading sebaceous glands; called a pimple"], ["At base of eyelid =", "stye"], ["Furuncle:", "spreads into hypodermis — large painful nodule"], ["Carbuncle:", "several furuncles join"], ["Also caused", "by Propionibacterium; transmitted by contact"]]}]}], "labName": "Recall · Staphylococcal Diseases (1/2)"}, {"id": "p17", "head": "Lab · Recall · Part 03", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-2-1", "title": "Recall · Staphylococcal Diseases (2/2)", "groups": [{"title": "3.3 Staphylococcal scalded skin syndrome (SSSS)", "items": [["Mainly infants &amp; children", "under five; also elderly and immunosuppressed"], ["Exfoliative toxins A", "&amp; B carried in blood (toxaemia)"], ["Outer epidermal cells separate", "reddening starts near mouth, spreads to whole body"], ["Epidermis peels", "in sheets within 2 days"], ["Restored in 7–10 days without scarring —", "dermis unaffected"]]}, {"title": "3.4 Impetigo (pyoderma)", "items": [["Contagious superficial infection:", "red patches on face &amp; limbs, mainly children"], ["Patches →", "oozing pus-filled vesicles → thick honey-coloured sticky crust"], ["S. aureus alone", "≈80%; ≈20% involve St. pyogenes"]]}]}], "labName": "Recall · Staphylococcal Diseases (2/2)"}, {"id": "p18", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0319"}, {"t": "check", "q": "Q0321"}]}, {"id": "p19", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0362"}, {"t": "flap", "q": "Q0363"}, {"t": "check", "q": "Q0325"}]}, {"id": "p20", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0344"}, {"t": "check", "q": "N-MIC-L1-07"}]}, {"id": "p21", "head": "Part 03 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0345"}]}, {"id": "p22", "head": "Part 04 · Streptococci", "kind": "text", "blocks": [{"t": "part", "no": "04", "title": "Streptococci", "sub": "Classification of streptococci · Streptococcus pyogenes — the organism · Selected virulence factors & their effects · Diseases caused by St. pyogenes · Impetigo — staph or strep? · Erysipelas · Necrotizing fasciitis (streptococcal gangrene) · Identification of St. pyogenes — short notes"}, {"t": "h", "no": "4.1", "title": "Classification of streptococci"}, {"t": "list", "items": ["<b>By oxygen:<\/b> obligate anaerobes (<mark>peptostreptococcus<\/mark>) vs aerobic/facultative", "<b>By haemolysis:<\/b> β-, α-, <mark>non-haemolytic<\/mark>", "<mark>β-haemolytic<\/mark> by <mark>cell-wall carbohydrate<\/mark>: groups <mark>A–H and K–U<\/mark>", "Groups A, B, C, D, G cause human disease", "Group A = <mark>St. pyogenes<\/mark>; group B = <mark>St. agalactiae<\/mark>"]}, {"t": "h", "no": "4.2", "title": "Streptococcus pyogenes — the organism"}, {"t": "list", "items": ["G+ cocci in chains, non-motile, non-spore-forming; <mark>small<\/mark> colonies", "β haemolysis on blood agar", "<mark>Does not grow<\/mark> on nutrient agar — needs <mark>enriched medium (blood agar)<\/mark>"]}], "toc": ["04", "Streptococci"]}, {"id": "p23", "head": "Part 04 · Streptococci", "kind": "text", "blocks": [{"t": "list", "items": ["Catalase negative; bacitracin sensitive"]}, {"t": "h", "no": "4.3", "title": "Selected virulence factors & their effects", "top": true, "rep": true}, {"t": "list", "items": ["Streptolysins S (haemolysis on blood agar) and O", "<mark>M protein<\/mark> → virulence &amp; invasion", "<mark>Hyaluronidase<\/mark> → spreading factor; <mark>streptokinase<\/mark>", "<mark>Pyrogenic (erythrogenic) exotoxins<\/mark> only from <mark>lysogenic<\/mark> strains, coded by <mark>phage DNA<\/mark>"]}, {"t": "h", "no": "4.4", "title": "Diseases caused by St. pyogenes", "top": true, "rep": true}, {"t": "list", "items": ["<b>Local:<\/b> <mark>impetigo<\/mark>, <mark>acute follicular tonsillitis<\/mark>, <mark>sore throat<\/mark>, <mark>pharyngitis<\/mark>", "<b>Invasive:<\/b> <mark>erysipelas<\/mark>, <mark>cellulitis<\/mark>, <mark>puerperal sepsis<\/mark>, <mark>acute endocarditis<\/mark>, <mark>necrotizing fasciitis<\/mark>", "<b>Post-streptococcal:<\/b> <mark>rheumatic fever<\/mark>, <mark>glomerulonephritis<\/mark>", "<b>Toxigenic:<\/b> <mark>scarlet fever<\/mark>"]}]}, {"id": "p24", "head": "Part 04 · Streptococci", "kind": "text", "blocks": [{"t": "h", "no": "4.5", "title": "Impetigo — staph or strep?"}, {"t": "list", "items": ["≈80% S. aureus alone; ≈20% involve <mark>St. pyogenes<\/mark>", "Strep impetigo more dangerous — may be followed by <mark>acute glomerulonephritis<\/mark>"]}, {"t": "h", "no": "4.6", "title": "Erysipelas"}, {"t": "list", "items": ["Bacterial inoculation into area of <mark>skin trauma<\/mark>; mostly <mark>face or legs<\/mark>", "Involves <mark>upper dermis<\/mark> and <mark>superficial lymphatics<\/mark>", "Reddening, <mark>swollen local lymph nodes<\/mark>, pain, fever, chills, <mark>leukocytosis<\/mark>", "<b>Diagnosis:<\/b> <mark>blood cultures<\/mark> (sepsis) and <mark>ASO test<\/mark>"]}, {"t": "h", "no": "4.7", "title": "Necrotizing fasciitis (streptococcal gangrene)", "top": true}, {"t": "list", "items": ["Progressive infection of subcutaneous tissue &amp; fascia with <mark>rapid necrosis<\/mark>", "St. pyogenes called '<mark>flesh-eating bacteria<\/mark>'", "M proteins help survive phagocytosis; streptolysin S kills neutrophils &amp; RBCs", "<mark>Exotoxin A<\/mark> triggers overactive immune response damaging tissue"]}]}, {"id": "p25", "head": "Part 04 · Streptococci", "kind": "text", "blocks": [{"t": "h", "no": "4.8", "title": "Identification of St. pyogenes — short notes"}, {"t": "list", "items": ["Catalase <mark>negative<\/mark>", "Bacitracin <mark>sensitive<\/mark>", "<mark>Complete (β) haemolysis<\/mark> on blood agar"]}]}, {"id": "p26", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-3-0", "title": "Recall · Streptococci (1/4)", "groups": [{"title": "4.1 Classification of streptococci", "items": [["By oxygen:", "obligate anaerobes (peptostreptococcus) vs aerobic/facultative"], ["By haemolysis:", "β-, α-, non-haemolytic"], ["β-haemolytic by cell-wall carbohydrate:", "groups A–H and K–U"], ["Groups A, B", "C, D, G cause human disease"], ["Group A =", "St. pyogenes; group B = St. agalactiae"]]}, {"title": "4.2 Streptococcus pyogenes — the organism", "items": [["G+ cocci in", "chains, non-motile, non-spore-forming; small colonies"], ["β haemolysis", "on blood agar"], ["Does not grow on nutrient agar —", "needs enriched medium (blood agar)"], ["Catalase negative", "bacitracin sensitive"]]}]}], "labName": "Recall · Streptococci (1/4)"}, {"id": "p27", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-3-1", "title": "Recall · Streptococci (2/4)", "groups": [{"title": "4.3 Selected virulence factors & their effects", "items": [["Streptolysins S (haemolysis", "on blood agar) and O"], ["M protein →", "virulence &amp; invasion"], ["Hyaluronidase →", "spreading factor; streptokinase"], ["Pyrogenic (erythrogenic) exotoxins only", "from lysogenic strains, coded by phage DNA"]]}, {"title": "4.4 Diseases caused by St. pyogenes", "items": [["Local:", "impetigo, acute follicular tonsillitis, sore throat, pharyngitis"], ["Invasive:", "erysipelas, cellulitis, puerperal sepsis, acute endocarditis, necrotizing fasciitis"], ["Post-streptococcal:", "rheumatic fever, glomerulonephritis"], ["Toxigenic:", "scarlet fever"]]}]}], "labName": "Recall · Streptococci (2/4)"}, {"id": "p28", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-3-2", "title": "Recall · Streptococci (3/4)", "groups": [{"title": "4.5 Impetigo — staph or strep?", "items": [["≈80% S. aureus", "alone; ≈20% involve St. pyogenes"], ["Strep impetigo more dangerous —", "may be followed by acute glomerulonephritis"]]}, {"title": "4.6 Erysipelas", "items": [["Bacterial inoculation into area", "of skin trauma; mostly face or legs"], ["Involves upper", "dermis and superficial lymphatics"], ["Reddening, swollen local", "lymph nodes, pain, fever, chills, leukocytosis"], ["Diagnosis:", "blood cultures (sepsis) and ASO test"]]}]}], "labName": "Recall · Streptococci (3/4)"}, {"id": "p29", "head": "Lab · Recall · Part 04", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-3-3", "title": "Recall · Streptococci (4/4)", "groups": [{"title": "4.7 Necrotizing fasciitis (streptococcal gangrene)", "items": [["Progressive infection of subcutaneous", "tissue &amp; fascia with rapid necrosis"], ["St. pyogenes", "called 'flesh-eating bacteria'"], ["M proteins help survive", "phagocytosis; streptolysin S kills neutrophils &amp; RBCs"], ["Exotoxin A triggers", "overactive immune response damaging tissue"]]}, {"title": "4.8 Identification of St. pyogenes — short notes", "items": [["Catalase", "negative"], ["Bacitracin", "sensitive"], ["Complete (β)", "haemolysis on blood agar"]]}]}], "labName": "Recall · Streptococci (4/4)"}, {"id": "p30", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0353"}, {"t": "check", "q": "Q0328"}]}, {"id": "p31", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0351"}, {"t": "check", "q": "Q0343"}]}, {"id": "p32", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0326"}, {"t": "check", "q": "N-MIC-L1-08"}]}, {"id": "p33", "head": "Part 04 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0327"}, {"t": "check", "q": "N-MIC-L1-03"}]}, {"id": "p34", "head": "Part 05 · Acne, Cat Scratch & Spotted Fever", "kind": "text", "blocks": [{"t": "part", "no": "05", "title": "Acne, Cat Scratch & Spotted Fever", "sub": "Acne — Propionibacterium · Cat scratch disease — Bartonella henselae · Rocky Mountain spotted fever (RMSF)"}, {"t": "h", "no": "5.1", "title": "Acne — Propionibacterium"}, {"t": "list", "items": ["G+ bacilli in palisade or paired at angles; microaerophilic diphtheroids", "<mark>Lipases<\/mark> split <mark>free fatty acids<\/mark> from skin lipid", "Fatty acids trigger <mark>inflammation<\/mark> → acne"]}, {"t": "h", "no": "5.2", "title": "Cat scratch disease — Bartonella henselae", "top": true}, {"t": "list", "items": ["Gram-<mark>negative<\/mark> aerobic bacillus; main virulence factor <mark>endotoxin (lipid A)<\/mark>", "Grows inside RBCs and blood-vessel lining cells; intracellular in skin", "<b>Transmission:<\/b> cat (kitten) scratches/bites; fleas from cats to people", "Endotoxin on death → fever, clotting, inflammation, local &amp; lymph node swelling for months"]}], "toc": ["05", "Acne, Cat Scratch & Spotted Fever"]}, {"id": "p35", "head": "Part 05 · Acne, Cat Scratch & Spotted Fever", "kind": "text", "blocks": [{"t": "h", "no": "5.3", "title": "Rocky Mountain spotted fever (RMSF)"}, {"t": "list", "items": ["<mark>Rickettsia rickettsii<\/mark>: small G−, <mark>obligate intracellular<\/mark>; poor Gram stain → <mark>Giemsa<\/mark>", "<b>Vector:<\/b> <mark>hard tick<\/mark>; <mark>transovarian transmission<\/mark> in ticks", "<b>Transmission:<\/b> <mark>tick bite<\/mark>; abrasions contaminated by fresh tick faeces", "<b>Reservoir:<\/b> horse, dogs", "<b>Diagnosis:<\/b> blood culture or skin biopsy at rash; <mark>rickettsial agglutination<\/mark>", "Tick saliva after ≥6 h feeding; endothelial damage → <mark>petechiae<\/mark>"]}]}, {"id": "p36", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-4-0", "title": "Recall · Acne, Cat Scratch & Spotted Fever (1/2)", "groups": [{"title": "5.1 Acne — Propionibacterium", "items": [["G+ bacilli in palisade", "or paired at angles; microaerophilic diphtheroids"], ["Lipases split free", "fatty acids from skin lipid"], ["Fatty acids trigger inflammation →", "acne"]]}, {"title": "5.2 Cat scratch disease — Bartonella henselae", "items": [["Gram-negative aerobic bacillus", "main virulence factor endotoxin (lipid A)"], ["Grows inside RBCs and", "blood-vessel lining cells; intracellular in skin"], ["Transmission:", "cat (kitten) scratches/bites; fleas from cats to people"], ["Endotoxin on death →", "fever, clotting, inflammation, local &amp; lymph node swelling for months"]]}]}], "labName": "Recall · Acne, Cat Scratch & Spotted Fever (1/2)"}, {"id": "p37", "head": "Lab · Recall · Part 05", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-4-1", "title": "Recall · Acne, Cat Scratch & Spotted Fever (2/2)", "groups": [{"title": "5.3 Rocky Mountain spotted fever (RMSF)", "items": [["Rickettsia rickettsii:", "small G−, obligate intracellular; poor Gram stain → Giemsa"], ["Vector:", "hard tick; transovarian transmission in ticks"], ["Transmission:", "tick bite; abrasions contaminated by fresh tick faeces"], ["Reservoir:", "horse, dogs"], ["Diagnosis:", "blood culture or skin biopsy at rash; rickettsial agglutination"], ["Tick saliva after ≥6", "h feeding; endothelial damage → petechiae"]]}]}], "labName": "Recall · Acne, Cat Scratch & Spotted Fever (2/2)"}, {"id": "p38", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-MIC-L1-04"}, {"t": "flap", "q": "TP-118"}]}, {"id": "p39", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-MIC-L1-02"}]}, {"id": "p40", "head": "Part 05 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-MIC-L1-10"}]}, {"id": "p41", "head": "Part 06 · Bacillus & Anthrax", "kind": "text", "blocks": [{"t": "part", "no": "06", "title": "Bacillus & Anthrax", "sub": "The Bacillus group · Anthrax — a zoonosis · Cutaneous anthrax — the lesion · Identification of Bacillus anthracis"}, {"t": "h", "no": "6.1", "title": "The Bacillus group"}, {"t": "list", "items": ["<b>Genus Bacillus:<\/b> large aerobic G+ <mark>spore-forming<\/mark> bacilli", "<b>Pathogenic:<\/b> <mark>B. anthracis<\/mark> → anthrax", "<mark>Anthracoids<\/mark> (saprophytic): <mark>B. cereus<\/mark> → food poisoning; some → conjunctivitis in immunocompromised"]}, {"t": "h", "no": "6.2", "title": "Anthrax — a zoonosis", "top": true, "rep": true}, {"t": "list", "items": ["Disease of herbivorous farm animals transmitted to humans", "<b>Virulence:<\/b> <mark>capsule<\/mark>, <mark>endospores<\/mark>, <mark>3 anthrax toxins<\/mark>", "<mark>Cutaneous<\/mark> (most common): <mark>abraded skin<\/mark> contact with <mark>endospores<\/mark>/animal products", "<b>Intestinal:<\/b> raw meat or blood ingestion; pulmonary: spore inhalation"]}], "toc": ["06", "Bacillus & Anthrax"]}, {"id": "p42", "head": "Part 06 · Bacillus & Anthrax", "kind": "text", "blocks": [{"t": "h", "no": "6.3", "title": "Cutaneous anthrax — the lesion", "top": true}, {"t": "list", "items": ["Spores germinate → <mark>gelatinous oedema<\/mark> at site", "Papule → <mark>vesicle<\/mark> → pustule (<mark>malignant pustule<\/mark>) → <mark>necrotic ulcer (eschar)<\/mark>", "Septicaemia if infection disseminates"]}, {"t": "h", "no": "6.4", "title": "Identification of Bacillus anthracis"}, {"t": "list", "items": ["<b>Specimens:<\/b> <mark>sputum<\/mark>, <mark>skin exudates<\/mark>, <mark>blood<\/mark>", "<b>Gram:<\/b> G+ bacilli in <mark>chains<\/mark>", "<b>Polychrome methylene blue:<\/b> <mark>blue bacilli<\/mark>, pink <mark>polypeptide<\/mark> capsule (<mark>McFadyean reaction<\/mark>)", "<mark>Blood<\/mark> agar: <mark>non-haemolytic<\/mark>, <mark>Medusa head<\/mark> colonies", "<b>Gelatin:<\/b> <mark>inverted fir tree<\/mark>"]}]}, {"id": "p43", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-5-0", "title": "Recall · Bacillus & Anthrax (1/2)", "groups": [{"title": "6.1 The Bacillus group", "items": [["Genus Bacillus:", "large aerobic G+ spore-forming bacilli"], ["Pathogenic:", "B. anthracis → anthrax"], ["Anthracoids (saprophytic):", "B. cereus → food poisoning; some → conjunctivitis in immunocompromised"]]}, {"title": "6.2 Anthrax — a zoonosis", "items": [["Disease of herbivorous", "farm animals transmitted to humans"], ["Virulence:", "capsule, endospores, 3 anthrax toxins"], ["Cutaneous (most common):", "abraded skin contact with endospores/animal products"], ["Intestinal:", "raw meat or blood ingestion; pulmonary: spore inhalation"]]}]}], "labName": "Recall · Bacillus & Anthrax (1/2)"}, {"id": "p44", "head": "Lab · Recall · Part 06", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-5-1", "title": "Recall · Bacillus & Anthrax (2/2)", "groups": [{"title": "6.3 Cutaneous anthrax — the lesion", "items": [["Spores germinate →", "gelatinous oedema at site"], ["Papule →", "vesicle → pustule (malignant pustule) → necrotic ulcer (eschar)"], ["Septicaemia if", "infection disseminates"]]}, {"title": "6.4 Identification of Bacillus anthracis", "items": [["Specimens:", "sputum, skin exudates, blood"], ["Gram:", "G+ bacilli in chains"], ["Polychrome methylene blue:", "blue bacilli, pink polypeptide capsule (McFadyean reaction)"], ["Blood agar:", "non-haemolytic, Medusa head colonies"], ["Gelatin:", "inverted fir tree"]]}]}], "labName": "Recall · Bacillus & Anthrax (2/2)"}, {"id": "p45", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "Q0355"}, {"t": "flap", "q": "Q0356"}]}, {"id": "p46", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "Q0329"}, {"t": "check", "q": "N-MIC-L1-06"}]}, {"id": "p47", "head": "Part 06 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-MIC-L1-11"}]}, {"id": "p48", "head": "Part 07 · Fungal Skin Infections", "kind": "text", "blocks": [{"t": "part", "no": "07", "title": "Fungal Skin Infections", "sub": "The four mycoses at a glance · Superficial mycosis — pityriasis versicolour · Cutaneous mycoses — ring worm (dermatophytosis) · Tinea unguium (toenail fungus) · Opportunistic mycosis — candidiasis · Subcutaneous mycosis — mycetoma (Madura foot) · Laboratory diagnosis of fungal infection"}, {"t": "h", "no": "7.1", "title": "The four mycoses at a glance"}, {"t": "list", "items": ["<b>Superficial:<\/b> <mark>pityriasis versicolour<\/mark> (Malassezia furfur)", "<b>Cutaneous:<\/b> ring worm/dermatophytosis (Microsporum, Epidermophyton, Trichophyton)", "<b>Opportunistic:<\/b> <mark>candidiasis<\/mark> (Candida albicans)", "<b>Subcutaneous:<\/b> mycetoma/Madura foot (Madurella mycetomatis)"]}, {"t": "h", "no": "7.2", "title": "Superficial mycosis — pityriasis versicolour"}, {"t": "list", "items": ["Discrete serpentine <mark>hyper- or hypopigmented<\/mark> maculae", "<mark>Chest, upper back, arms or abdomen<\/mark>", "Caused by <mark>Malassezia furfur<\/mark>"]}], "toc": ["07", "Fungal Skin Infections"]}, {"id": "p49", "head": "Part 07 · Fungal Skin Infections", "kind": "text", "blocks": [{"t": "h", "no": "7.3", "title": "Cutaneous mycoses — ring worm (dermatophytosis)", "top": true}, {"t": "list", "items": ["<b>Dermatophytes:<\/b> <mark>filamentous<\/mark> fungi, mycelium with conidia", "Affect <mark>keratinized tissues<\/mark> only: skin, hair, nail, scalp, feet, groin", "<b>Transmission:<\/b> direct contact; contaminated articles (shoes, towels, shower); animals or soil"]}, {"t": "h", "no": "7.4", "title": "Tinea unguium (toenail fungus)", "top": true}, {"t": "list", "items": ["Dermatophyte <mark>digestive enzymes<\/mark> digest nail <mark>keratin<\/mark> → nail damage", "<b>Transmission:<\/b> <mark>auto-infection<\/mark>, <mark>sharing nail clippers<\/mark>, <mark>walking barefoot in damp areas<\/mark>"]}, {"t": "h", "no": "7.5", "title": "Opportunistic mycosis — candidiasis"}, {"t": "list", "items": ["<b>Candida:<\/b> G+ <mark>yeast<\/mark>; <mark>no haemolysis<\/mark> on blood agar", "Normal flora of <mark>female genital tract<\/mark>, intestine, <mark>oral cavity<\/mark>", "<b>Clinical:<\/b> <mark>nail infection<\/mark>, <mark>oral thrush<\/mark>, <mark>skin infection<\/mark>"]}]}, {"id": "p50", "head": "Part 07 · Fungal Skin Infections", "kind": "text", "blocks": [{"t": "list", "items": ["<b>Risk factors:<\/b> <mark>diabetes<\/mark>, long antibiotics, <mark>pregnancy<\/mark>, <mark>immunodeficiency<\/mark>, steroids"]}, {"t": "h", "no": "7.6", "title": "Subcutaneous mycosis — mycetoma (Madura foot)"}, {"t": "list", "items": ["Chronic <mark>granuloma<\/mark> of <mark>lower limb<\/mark>", "Soil fungus introduced into subcutaneous tissue by <mark>trauma<\/mark>", "Caused by <mark>Madurella mycetomatis<\/mark>"]}, {"t": "h", "no": "7.7", "title": "Laboratory diagnosis of fungal infection", "top": true}, {"t": "list", "items": ["Direct microscopy wet film → <mark>culture<\/mark> → identify colonies → PCR", "<b>Yeast:<\/b> <mark>Sabouraud's, nutrient &amp; blood agar<\/mark>; Gram (budding yeast), germ tube (C. albicans), soft creamy colonies", "<b>Moulds:<\/b> <mark>Sabouraud's dextrose agar<\/mark>; <mark>lactophenol blue<\/mark> stains hyphae &amp; spores"]}]}, {"id": "p51", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-6-0", "title": "Recall · Fungal Skin Infections (1/4)", "groups": [{"title": "7.1 The four mycoses at a glance", "items": [["Superficial:", "pityriasis versicolour (Malassezia furfur)"], ["Cutaneous:", "ring worm/dermatophytosis (Microsporum, Epidermophyton, Trichophyton)"], ["Opportunistic:", "candidiasis (Candida albicans)"], ["Subcutaneous:", "mycetoma/Madura foot (Madurella mycetomatis)"]]}, {"title": "7.2 Superficial mycosis — pityriasis versicolour", "items": [["Discrete serpentine", "hyper- or hypopigmented maculae"], ["Chest, upper", "back, arms or abdomen"], ["Caused by", "Malassezia furfur"]]}]}], "labName": "Recall · Fungal Skin Infections (1/4)"}, {"id": "p52", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-6-1", "title": "Recall · Fungal Skin Infections (2/4)", "groups": [{"title": "7.3 Cutaneous mycoses — ring worm (dermatophytosis)", "items": [["Dermatophytes:", "filamentous fungi, mycelium with conidia"], ["Affect keratinized tissues only:", "skin, hair, nail, scalp, feet, groin"], ["Transmission:", "direct contact; contaminated articles (shoes, towels, shower); animals or soil"]]}, {"title": "7.4 Tinea unguium (toenail fungus)", "items": [["Dermatophyte digestive enzymes", "digest nail keratin → nail damage"], ["Transmission:", "auto-infection, sharing nail clippers, walking barefoot in damp areas"]]}]}], "labName": "Recall · Fungal Skin Infections (2/4)"}, {"id": "p53", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-6-2", "title": "Recall · Fungal Skin Infections (3/4)", "groups": [{"title": "7.5 Opportunistic mycosis — candidiasis", "items": [["Candida:", "G+ yeast; no haemolysis on blood agar"], ["Normal flora of", "female genital tract, intestine, oral cavity"], ["Clinical:", "nail infection, oral thrush, skin infection"], ["Risk factors:", "diabetes, long antibiotics, pregnancy, immunodeficiency, steroids"]]}, {"title": "7.6 Subcutaneous mycosis — mycetoma (Madura foot)", "items": [["Chronic granuloma", "of lower limb"], ["Soil fungus introduced", "into subcutaneous tissue by trauma"], ["Caused by", "Madurella mycetomatis"]]}]}], "labName": "Recall · Fungal Skin Infections (3/4)"}, {"id": "p54", "head": "Lab · Recall · Part 07", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-6-3", "title": "Recall · Fungal Skin Infections (4/4)", "groups": [{"title": "7.7 Laboratory diagnosis of fungal infection", "items": [["Direct microscopy wet film →", "culture → identify colonies → PCR"], ["Yeast:", "Sabouraud's, nutrient &amp; blood agar; Gram (budding yeast), germ tube (C. albicans), soft creamy colonies"], ["Moulds:", "Sabouraud's dextrose agar; lactophenol blue stains hyphae &amp; spores"]]}]}], "labName": "Recall · Fungal Skin Infections (4/4)"}, {"id": "p55", "head": "Part 07 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-MIC-L1-12"}, {"t": "check", "q": "Q0334"}]}, {"id": "p56", "head": "Part 07 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "TP-033"}, {"t": "check", "q": "Q0335"}]}, {"id": "p57", "head": "Part 07 · Check yourself", "kind": "text", "blocks": [{"t": "check", "q": "N-MIC-L1-05"}]}, {"id": "p58", "head": "Part 08 · Organisms Compared", "kind": "text", "blocks": [{"t": "part", "no": "08", "title": "Organisms Compared", "sub": "S. aureus vs St. pyogenes — head to head · Lab tests & stains at a glance · Clue → answer"}, {"t": "h", "no": "8.1", "title": "S. aureus vs St. pyogenes — head to head"}, {"t": "list", "items": ["Clusters vs chains; <mark>catalase<\/mark> + vs −", "Both β-haemolytic; staph grows on nutrient agar, strep needs blood agar", "Staph mannitol/7–10% NaCl vs strep <mark>bacitracin sensitive<\/mark>", "Coagulase localizes vs hyaluronidase spreads"]}, {"t": "h", "no": "8.2", "title": "Lab tests & stains at a glance"}, {"t": "list", "items": ["Catalase, coagulase, MSA, bacitracin, ASO, Giemsa, rickettsial agglutination", "Polychrome methylene blue, gelatin, germ tube, lactophenol blue, Sabouraud's, PCR"]}], "toc": ["08", "Organisms Compared"]}, {"id": "p59", "head": "Part 08 · Organisms Compared", "kind": "text", "blocks": [{"t": "h", "no": "8.3", "title": "Clue → answer"}, {"t": "list", "items": ["Honey crust → impetigo; peels in sheets, no scar → SSSS", "Medusa head / inverted fir tree / McFadyean → B. anthracis", "Flesh-eating bacteria → necrotizing fasciitis (St. pyogenes)", "Stye = folliculitis at base of eyelid"]}]}, {"id": "p60", "head": "Lab · Recall · Part 08", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-7-0", "title": "Recall · Organisms Compared (1/2)", "groups": [{"title": "8.1 S. aureus vs St. pyogenes — head to head", "items": [["Clusters vs", "chains; catalase + vs −"], ["Both β-haemolytic; staph grows", "on nutrient agar, strep needs blood agar"], ["Staph mannitol/7–10%", "NaCl vs strep bacitracin sensitive"], ["Coagulase localizes", "vs hyaluronidase spreads"]]}, {"title": "8.2 Lab tests & stains at a glance", "items": [["Catalase, coagulase, MSA", "bacitracin, ASO, Giemsa, rickettsial agglutination"], ["Polychrome methylene blue, gelatin", "germ tube, lactophenol blue, Sabouraud's, PCR"]]}]}], "labName": "Recall · Organisms Compared (1/2)"}, {"id": "p61", "head": "Lab · Recall · Part 08", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-7-1", "title": "Recall · Organisms Compared (2/2)", "groups": [{"title": "8.3 Clue → answer", "items": [["Honey crust →", "impetigo; peels in sheets, no scar → SSSS"], ["Medusa head / inverted fir tree / McFadyean →", "B. anthracis"], ["Flesh-eating bacteria →", "necrotizing fasciitis (St. pyogenes)"], ["Stye =", "folliculitis at base of eyelid"]]}]}], "labName": "Recall · Organisms Compared (2/2)"}, {"id": "p62", "head": "Part 08 · Check yourself", "kind": "text", "blocks": [{"t": "flap", "q": "N-MIC-L1-09"}]}, {"id": "p63", "head": "Part 09 · Rapid Revision", "kind": "text", "blocks": [{"t": "part", "no": "09", "title": "Rapid Revision", "sub": "Must-know one-liners · Mnemonic vault & classic exam traps · Numbers to remember"}, {"t": "h", "no": "9.1", "title": "Must-know one-liners"}, {"t": "list", "items": ["Q&amp;A recap of staph, strep, acne, CSD, RMSF, anthrax, fungi"]}, {"t": "h", "no": "9.2", "title": "Mnemonic vault & classic exam traps"}, {"t": "list", "items": ["Triple-positive S. aureus; Group A = bAcitracin; anthrax Touch–Eat–Breathe; Candida SPAID"]}, {"t": "h", "no": "9.3", "title": "Numbers to remember"}, {"t": "list", "items": ["Nasal carriers 40–50%; persistent 15–20%; NaCl 7–10%", "Impetigo 80/20; SSSS &lt;5 y, peel in 2 days, heal 7–10 days", "3 anthrax toxins; 3 dermatophyte genera"]}], "toc": ["09", "Rapid Revision"]}, {"id": "p64", "head": "Lab · Recall · Part 09", "kind": "lab", "blocks": [{"t": "recall", "id": "rc-mic-l1-8-0", "title": "Recall · Rapid Revision", "groups": [{"title": "9.1 Must-know one-liners", "items": [["Q&amp;A recap of staph", "strep, acne, CSD, RMSF, anthrax, fungi"]]}, {"title": "9.2 Mnemonic vault & classic exam traps", "items": [["Triple-positive S. aureus; Group A =", "bAcitracin; anthrax Touch–Eat–Breathe; Candida SPAID"]]}, {"title": "9.3 Numbers to remember", "items": [["Nasal carriers", "40–50%; persistent 15–20%; NaCl 7–10%"], ["Impetigo 80/20; SSSS &lt;5", "y, peel in 2 days, heal 7–10 days"], ["3 anthrax", "toxins; 3 dermatophyte genera"]]}]}], "labName": "Recall · Rapid Revision"}, {"id": "p65", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "h", "no": "!", "title": "Exam traps & clinical points"}, {"t": "note", "kind": "trap", "html": "SSSS heals without scar — dermis spared; toxin spreads by blood beyond infection site"}, {"t": "note", "kind": "trap", "html": "Strep hyaluronidase spreads; staph coagulase localizes"}, {"t": "note", "kind": "trap", "html": "Strep impetigo more dangerous — may be followed by acute glomerulonephritis"}, {"t": "note", "kind": "trap", "html": "Both staph &amp; strep β-haemolytic — catalase separates them"}, {"t": "note", "kind": "trap", "html": "St. pyogenes does not grow on nutrient agar"}, {"t": "note", "kind": "trap", "html": "Folliculitis can also be caused by Propionibacterium"}], "toc": ["!", "Exam traps & clinical"]}, {"id": "p66", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "trap", "html": "Erythrogenic exotoxin only from lysogenic strains"}, {"t": "note", "kind": "trap", "html": "Rickettsiae don't Gram stain well — use Giemsa"}, {"t": "note", "kind": "trap", "html": "B. anthracis non-haemolytic; capsule polypeptide (staph/strep capsule polysaccharide)"}, {"t": "note", "kind": "trap", "html": "Candida is normal flora — disease needs risk factors"}, {"t": "note", "kind": "cl", "html": "Never crush ticks between fingers — fresh tick faeces contaminate abrasions (RMSF)"}, {"t": "note", "kind": "cl", "html": "Necrotizing fasciitis: rapid necrosis of subcutaneous tissue &amp; fascia — 'flesh-eating bacteria'"}]}, {"id": "p67", "head": "Exam traps & clinical", "kind": "text", "blocks": [{"t": "note", "kind": "cl", "html": "Cutaneous anthrax: malignant pustule → eschar; septicaemia if disseminated"}]}, {"id": "p68", "head": "End of the lecture", "kind": "text", "blocks": [{"t": "h", "no": "✓", "title": "End of the lecture"}, {"t": "progress"}, {"t": "actions"}, {"t": "end"}], "toc": ["✓", "End of the lecture"]}], "questions": {"Q0319": {"id": "Q0319", "stem": "Which of the following is the most common species of Staphylococcus that causes skin infections in humans?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q1", "bank": true, "expl": "S. aureus causes the staphylococcal skin infections of this lecture: folliculitis, furuncle and carbuncle, SSSS, and about 80% of impetigo on its own. S. epidermidis (white) and S. saprophyticus (lemon yellow) are named only by their pigments.", "type": "mcq", "opts": ["Staphylococcus epidermidis", "Staphylococcus aureus", "Staphylococcus saprophyticus", "Staphylococcus haemolyticus"], "ans": 1}, "Q0320": {"id": "Q0320", "stem": "Which of the following is a key test for differentiating Staphylococcus aureus?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q2", "bank": true, "expl": "S. aureus is coagulase positive, and the coagulase test is the one used for S. aureus. Catalase is also positive in S. aureus, but it is the test that separates staphylococci from streptococci; streptokinase and hyaluronidase are virulence factors, not identification tests.", "type": "mcq", "opts": ["Coagulase", "Catalase", "Streptokinase", "Hyaluronidase"], "ans": 0}, "Q0321": {"id": "Q0321", "stem": "Which of the following is the characteristic of a staphylococcal skin infection?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q3", "bank": true, "expl": "S. aureus skin infections are focal suppurations — localized pus-filled lesions such as folliculitis (often called a pimple), the furuncle and the carbuncle — because its coagulase localizes the infection. Widespread lesions are the streptococcal pattern, where hyaluronidase acts as a spreading factor.", "type": "mcq", "opts": ["Widespread ulcers", "Pustules and boils", "Vesicles on mucous membranes", "Scaly, thickened skin"], "ans": 1}, "Q0322": {"id": "Q0322", "stem": "Staphylococcal toxic shock syndrome (TSS) is caused by which of the following toxins?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q4", "bank": true, "expl": "Toxic shock syndrome toxin is one of the toxins of S. aureus, and toxic shock syndrome is one of its toxin-mediated diseases. The exfoliative toxin (epidermolytic toxins A &amp; B) causes SSSS instead.", "type": "mcq", "opts": ["Enterotoxin A", "Exfoliative toxin", "Toxic shock syndrome toxin-1 (TSST-1)", "Hemolysin"], "ans": 2}, "Q0324": {"id": "Q0324", "stem": "Staphylococcus aureus is commonly identified in the laboratory using which of the following tests?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q5", "bank": true, "expl": "S. aureus is coagulase positive, and the coagulase test is the one used to identify it. It is catalase positive too, but the catalase test separates staphylococci (positive) from streptococci (negative), so it does not single out S. aureus.", "type": "mcq", "opts": ["Oxidase test", "Catalase test", "Coagulase test", "Urease test"], "ans": 2}, "Q0325": {"id": "Q0325", "stem": "Staphylococcal scalded skin syndrome (SSSS) is caused by which of the following?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q6", "bank": true, "expl": "SSSS is caused by the exfoliative (epidermolytic) toxins A &amp; B, carried by the blood from the site of infection (toxaemia). Coagulase is the enzyme that localizes staphylococcal infection; it does not cause SSSS.", "type": "mcq", "opts": ["Hemolysin", "Exfoliative toxin", "Enterotoxin", "Coagulase"], "ans": 1}, "Q0326": {"id": "Q0326", "stem": "Which of the following complications is most commonly associated with untreated group A streptococcal skin infection (impetigo)?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "About 20% of impetigo involves St. pyogenes, and streptococcal impetigo is more dangerous than staphylococcal impetigo because it may be followed by acute glomerulonephritis. Rheumatic fever is the other post-streptococcal disease, but it is not the complication given for streptococcal impetigo.", "type": "mcq", "opts": ["Scarlet fever", "Rheumatic fever", "Acute glomerulonephritis", "Endocarditis"], "ans": 2}, "Q0327": {"id": "Q0327", "stem": "A patient presents with rapidly progressive cellulitis of the lower leg. The skin is swollen, warm, and erythematous with tenderness. Which Streptococcus species is most commonly associated with necrotizing fasciitis?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q7", "bank": true, "expl": "Necrotizing fasciitis (streptococcal gangrene) is a progressive infection of the subcutaneous tissue and fascia with rapid necrosis, and the St. pyogenes that causes it has been called 'flesh-eating bacteria'. Cellulitis is also one of the invasive infections of St. pyogenes.", "type": "mcq", "opts": ["Streptococcus mutans", "Streptococcus pyogenes", "Streptococcus pneumoniae", "Streptococcus bovis"], "ans": 1}, "Q0328": {"id": "Q0328", "stem": "A 5-year-old child presents with sore throat, fever, and a red rash. He was diagnosed with scarlet fever. What is the most likely causative organism?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q8", "bank": true, "expl": "Scarlet fever is the toxigenic disease of St. pyogenes (β-haemolytic group A), due to its pyrogenic (erythrogenic) exotoxins. St. agalactiae is the β-haemolytic group B streptococcus.", "type": "mcq", "opts": ["Streptococcus pneumoniae", "Streptococcus pyogenes", "Streptococcus agalactiae", "Streptococcus mutans"], "ans": 1}, "Q0329": {"id": "Q0329", "stem": "A 45-year-old farmer presents with a painless ulcer on his hand with a black necrotic center and surrounding edema. He recalls handling sheep wool a few days ago. What is the most likely diagnosis?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q9", "bank": true, "expl": "Cutaneous anthrax, the most common form, follows contact of abraded skin with endospores from infected animals (such as sheep) or contaminated animal products; gelatinous oedema develops, and the lesion passes from papule to vesicle to malignant pustule to a necrotic ulcer (eschar). The animal-product exposure and the necrotic eschar point to anthrax rather than cellulitis, an invasive St. pyogenes infection.", "type": "mcq", "opts": ["Cutaneous anthrax", "Tularemia", "Cellulitis", "Plague"], "ans": 0}, "Q0334": {"id": "Q0334", "stem": "Which of the following is a distinguishing feature of dermatophyte infections compared to candidiasis?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q10", "bank": true, "expl": "Dermatophytes affect only the keratinized tissues: skin, hair, nail, scalp, feet and groin. Mucosal infection (oral thrush) and being normal flora of the intestinal tract describe Candida, not dermatophytes.", "type": "mcq", "opts": ["Dermatophytes invade keratinized tissue such as skin, hair, and nails", "Dermatophytes affect mucosal membranes", "Dermatophytes are commonly found in the gastrointestinal tract", "Dermatophyte infections cause systemic illness", "Dermatophytes are primarily treated with antibiotics"], "ans": 0}, "Q0335": {"id": "Q0335", "stem": "A 50-year-old man presents with thickened, yellow, brittle toenails that have gradually worsened over the past year. He has a history of diabetes and peripheral vascular disease. The affected toenails show discoloration, thickening, and subungual debris. The case was diagnosed as onychomycosis. What is the best initial test to diagnose this condition?", "top": true, "rep": "asked 2 years", "tag": "Final bank MIC Q11", "bank": true, "expl": "Laboratory diagnosis of fungal infection starts with direct microscopy of a wet film of the clinical specimen — here a KOH preparation of the nail clippings — followed by culture, identification of the colonies and PCR. Fungal culture of nail debris is therefore a later step, not the initial test.", "type": "mcq", "opts": ["KOH preparation of nail clippings", "Nail biopsy", "Blood test", "Fungal culture of nail debris", "Wood’s lamp examination"], "ans": 0}, "Q0343": {"id": "Q0343", "stem": "Which of the following microorganisms causes scarlet fever, manifested by a rash?", "top": false, "rep": "", "tag": "Final bank MIC Q15", "bank": true, "expl": "Scarlet fever is the toxigenic disease of St. pyogenes. Its rash is due to the pyrogenic (erythrogenic) exotoxins, which are produced only by lysogenic streptococci and coded by phage DNA.", "type": "mcq", "opts": ["Pseudomonas", "Vibrio species", "Borrelia", "Streptococcus pyogenes"], "ans": 3}, "Q0344": {"id": "Q0344", "stem": "Which of the following organisms produces exfoliative toxin causing scalded skin syndrome?", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC Q12", "bank": true, "expl": "S. aureus produces the exfoliative (epidermolytic) toxins A &amp; B, which are carried in the blood and cause staphylococcal scalded skin syndrome (SSSS). Propionibacterium causes acne through its lipases and can also cause folliculitis, but not SSSS.", "type": "mcq", "opts": ["Pseudomonas", "Borrelia", "Staphylococcus aureus", "Propionibacterium"], "ans": 2}, "Q0345": {"id": "Q0345", "stem": "The most common persons affected by impetigo are adults.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC Q13", "bank": true, "expl": "Impetigo occurs particularly in children, whose immune systems are incompletely developed. It is a contagious superficial infection with red patches on the face and limbs that become oozing pus-filled vesicles and then a thick, honey-coloured crust.", "type": "mcq", "opts": ["True", "False"], "ans": 1}, "Q0346": {"id": "Q0346", "stem": "Staph. aureus exfoliative toxins are responsible for abscess formation.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC Q14", "bank": true, "expl": "The exfoliative (epidermolytic) toxins A &amp; B cause staphylococcal scalded skin syndrome, a toxin-mediated disease in which the cells of the outer epidermis separate. Localized abscesses (focal suppuration) reflect coagulase, which localizes staphylococcal infection.", "type": "mcq", "opts": ["True", "False"], "ans": 1}, "Q0351": {"id": "Q0351", "stem": "A 6-year-old girl presents with a sore throat, fever, and a bright red rash that began on her chest and has now spread to her neck, face, and extremities. The rash feels like sandpaper. She also has a red tongue with a “strawberry-like” appearance. She was treated for a sore throat with antibiotics 2 days ago but missed doses. The case was diagnosed as scarlet fever.\na) What is the most probable causative organism?\nb) What is the cause of the rash in this case?", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC W1", "bank": true, "expl": "Scarlet fever is the toxigenic disease of St. pyogenes, and its toxins are the pyrogenic (erythrogenic) exotoxins, made only by lysogenic strains whose phage DNA codes them.", "type": "written", "keyhtml": "a) Streptococcus pyogenes (β-haemolytic group A streptococcus); scarlet fever is its toxigenic disease.\nb) The pyrogenic (erythrogenic) exotoxins of St. pyogenes, produced only by lysogenic streptococci and coded by phage DNA."}, "Q0353": {"id": "Q0353", "stem": "List two virulence factors of Streptococcus pyogenes.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC W2", "bank": true, "expl": "The virulence factors of St. pyogenes are streptolysins S and O, M protein, hyaluronidase, streptokinase and the pyrogenic (erythrogenic) exotoxins. Its hyaluronidase spreads infection, unlike staphylococcal coagulase, which localizes it.", "type": "written", "keyhtml": "Any two of:\n• Streptolysins S and O (streptolysin S gives the haemolysis on blood agar)\n• M protein: virulence and invasion (helps the organism survive phagocytosis)\n• Hyaluronidase: spreading factor\n• Streptokinase\n• Pyrogenic (erythrogenic) exotoxins: produced only by lysogenic streptococci, coded by phage DNA"}, "Q0355": {"id": "Q0355", "stem": "List two virulence factors of Bacillus anthracis.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC W3", "bank": true, "expl": "The virulence factors of B. anthracis are its capsule, endospores and three anthrax toxins. Its capsule is polypeptide, unlike the polysaccharide capsule of some staphylococcal and streptococcal strains.", "type": "written", "keyhtml": "Any two of:\n• Capsule (polypeptide; polychrome methylene blue shows blue bacilli surrounded by a pink capsule, the McFadyean reaction)\n• Endospores\n• Three anthrax toxins"}, "Q0356": {"id": "Q0356", "stem": "List two zoonotic bacteria.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC W4", "bank": true, "expl": "A zoonosis is a disease transmitted from animals to humans. Anthrax passes from herbivorous farm animals to humans, and Bartonella henselae passes from cats to people.", "type": "written", "keyhtml": "• Bacillus anthracis: anthrax is primarily a disease of herbivorous farm animals (cattle, sheep, horses, goats) transmitted to humans\n• Bartonella henselae: cat scratch disease, transmitted from cats (especially kittens) to people by scratches, bites or fleas"}, "Q0357": {"id": "Q0357", "stem": "List the cause of: Staphylococcus skin infections are characterized by focal suppuration.", "top": true, "rep": "asked 3 years", "tag": "Final bank MIC W5", "bank": true, "expl": "Coagulase localizes staphylococcal infection, so its skin diseases appear as focal suppuration; streptococcal hyaluronidase instead spreads infection.", "type": "written", "keyhtml": "Because S. aureus produces coagulase, which leads to localization of the staphylococcal infection. The infection therefore stays focal, giving a localized abscess, folliculitis, furuncle or carbuncle. (By contrast, St. pyogenes hyaluronidase is a spreading factor.)"}, "Q0359": {"id": "Q0359", "stem": "What is the main function of the skin microbiota?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "The normally harmless residents of the skin act as a biological anatomical barrier: they block attachment receptors, consume available nutrients and produce chemicals that inhibit other microbes.", "type": "written", "keyhtml": "The skin microbiota act as a biological anatomical barrier:\n1. Prevent colonization by pathogens: (a) cover the binding sites (receptors) used for attachment; (b) consume available nutrients.\n2. Chemical interference: produce chemicals or components that interfere with the growth of other microbes.\n(Mnemonic: Block · Starve · Poison)"}, "Q0360": {"id": "Q0360", "stem": "Mention one identifying feature of Staphylococcus aureus.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "S. aureus colonies are identified by Gram stain, catalase, coagulase and mannitol salt agar; on culture it gives β-haemolysis on blood agar and a golden-yellow endopigment on nutrient agar.", "type": "written", "keyhtml": "Any one of:\n• Gram-positive cocci in grape-like clusters\n• Catalase positive and coagulase positive\n• Ferments mannitol on mannitol salt agar; tolerates 7–10% NaCl\n• Complete (β) haemolysis on blood agar\n• Golden-yellow endopigment on nutrient agar"}, "Q0361": {"id": "Q0361", "stem": "State two virulence factors of S. aureus.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "S. aureus pathogenicity is the combined effect of extracellular enzymes and toxins with invasive properties; invasion is due to protein A and clumping factor (bound coagulase).", "type": "written", "keyhtml": "Any two of:\n• Enzymes: coagulase (localization of infection), catalase, hyaluronidase, DNase, haemolysins\n• Toxins: exfoliative toxins A &amp; B (cause of SSSS), enterotoxins, toxic shock syndrome toxin\n• Invasive properties: protein A and clumping factor (bound coagulase)"}, "Q0362": {"id": "Q0362", "stem": "Define folliculitis.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Folliculitis is staphylococcal infection of a hair follicle and its sebaceous glands. Spread into the hypodermis gives a furuncle, and furuncles that join form a carbuncle.", "type": "written", "keyhtml": "Folliculitis is an infection of a hair follicle: staphylococci on the skin surface grow into hair follicles and invade the sebaceous glands. It is often called a pimple; at the base of an eyelid it is called a stye. It may spread into the hypodermis as a furuncle (a large, painful nodule), and several furuncles joining together form a carbuncle. Besides S. aureus, Propionibacterium can cause it; it is transmitted by contact."}, "Q0363": {"id": "Q0363", "stem": "How is staphylococcal skin infection such as folliculitis transmitted?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Staphylococcal folliculitis is transmitted by contact, and impetigo is a contagious superficial skin infection.", "type": "written", "keyhtml": "By contact. (Impetigo is likewise a contagious superficial skin infection.)"}, "N-MIC-L1-01": {"id": "N-MIC-L1-01", "stem": "During a skin-infection teaching session, a student is asked how the normal skin microbiota protect the skin as a biological anatomical barrier. Which of the following is one of their protective mechanisms?", "top": false, "rep": "", "tag": "Final bank MIC Q16", "bank": true, "expl": "The skin microbiota prevent colonization by pathogens by covering the binding sites (receptors) and consuming available nutrients, and they produce chemicals that interfere with the growth of other microbes. Coagulase is a virulence factor of S. aureus, not a protective function of the microbiota.", "type": "mcq", "opts": ["Covering the binding sites (receptors) used by pathogens for attachment", "Producing exfoliative toxins that shed the outer epidermis", "Producing coagulase that localizes invading pathogens", "Producing hyaluronidase that spreads them through the dermis", "Forming endospores that survive on the skin surface"], "ans": 0}, "N-MIC-L1-02": {"id": "N-MIC-L1-02", "stem": "A man removes an engorged hard tick from his dog by crushing it between his fingers and later develops a rash with petechiae. A skin biopsy is taken from the rash site. The suspected organism is a small, Gram-negative, obligate intracellular bacterium. Which stain is used to demonstrate it?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Rickettsia rickettsii, the cause of Rocky Mountain spotted fever, does not Gram stain well and is stained by Giemsa stain; it is transmitted by a hard-tick bite or by fresh tick faeces contaminating abrasions, and dogs are a reservoir. Polychrome methylene blue is used for the capsule of B. anthracis (McFadyean reaction).", "type": "mcq", "opts": ["Polychrome methylene blue", "Giemsa stain", "Lactophenol blue stain", "Gram stain"], "ans": 1}, "N-MIC-L1-03": {"id": "N-MIC-L1-03", "stem": "A Gram-stained smear of pus from an infected skin lesion shows Gram-positive cocci arranged in chains. The colonies show complete (β) haemolysis on blood agar. Which of the following results is expected for this organism?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Gram-positive cocci in chains are streptococci, and β-haemolytic St. pyogenes is catalase negative. Both S. aureus and St. pyogenes are β-haemolytic, so catalase separates them; the other options are features of S. aureus.", "type": "mcq", "opts": ["Catalase negative", "Coagulase positive", "Ferments mannitol on mannitol salt agar", "Tolerates 7–10% NaCl", "Golden-yellow pigment on nutrient agar"], "ans": 0}, "N-MIC-L1-04": {"id": "N-MIC-L1-04", "stem": "A teenager has inflamed acne lesions on the face. The bacteria isolated are Gram-positive diphtheroid bacilli arranged in palisades. By which mechanism does this organism produce acne?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Propionibacterium, a microaerophilic diphtheroid, produces lipases that split free fatty acids from skin lipid, and these fatty acids trigger the inflammation of acne. Release of endotoxin (lipid A) on death is the mechanism of Bartonella henselae, a Gram-negative bacillus.", "type": "mcq", "opts": ["Lipases split free fatty acids from skin lipid, and the fatty acids trigger inflammation", "Exfoliative toxins separate the cells of the outer epidermis", "Endotoxin (lipid A) is released when the bacterium dies", "Hyaluronidase spreads the infection through the dermis"], "ans": 0}, "N-MIC-L1-05": {"id": "N-MIC-L1-05", "stem": "A diabetic woman on long-term steroid therapy develops oral thrush. A Gram stain of the lesion shows Gram-positive budding yeast cells, and culture gives soft, creamy colonies. Which test identifies the species Candida albicans?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Yeasts are identified by Gram stain (budding yeast cells), the germ tube test for Candida albicans and colony morphology (soft, creamy colonies). Lactophenol blue stains the hyphae and spores of filamentous fungi (moulds), not yeasts.", "type": "mcq", "opts": ["Germ tube test", "Lactophenol blue stain", "Coagulase test", "Bacitracin test", "Polychrome methylene blue stain"], "ans": 0}, "N-MIC-L1-06": {"id": "N-MIC-L1-06", "stem": "Exudate from a necrotic skin ulcer of a wool worker is cultured on blood agar and grows non-haemolytic colonies with a Medusa-head appearance. Which additional finding would support the same organism?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Bacillus anthracis is non-haemolytic on blood agar with Medusa-head colonies and produces an inverted fir tree in gelatin medium; polychrome methylene blue shows blue bacilli with a pink capsule (McFadyean reaction). Golden-yellow pigment and a positive coagulase test belong to S. aureus.", "type": "mcq", "opts": ["Golden-yellow pigment on nutrient agar", "An inverted fir tree in gelatin medium", "A positive germ tube test", "Sensitivity to bacitracin", "A positive coagulase test"], "ans": 1}, "N-MIC-L1-07": {"id": "N-MIC-L1-07", "stem": "A 3-year-old child develops reddening and wrinkling of the skin that begins near the mouth and spreads over the entire body; within two days the outer epidermis peels off in sheets. Why is the lost epidermis restored within 7–10 days without scarring?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "In SSSS the exfoliative toxins A &amp; B separate only the cells of the outer epidermis and do not affect the dermis, so healing leaves no scar. The toxin is carried in the blood (toxaemia), so peeling spreads far beyond the original site of infection.", "type": "mcq", "opts": ["The exfoliative toxin does not affect the dermis", "Coagulase localizes the infection to the site of entry", "The toxin acts only at the original site of infection", "Only the hair follicles and sebaceous glands are involved"], "ans": 0}, "N-MIC-L1-08": {"id": "N-MIC-L1-08", "stem": "After a minor skin injury, a patient develops reddening of the facial skin with swollen local lymph nodes, pain, fever, chills and leukocytosis. Blood cultures and an ASO test are requested. Which layers are involved in this infection?", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Erysipelas follows bacterial inoculation into an area of skin trauma, most often on the face or legs, and involves the upper dermis and superficial lymphatics; it is diagnosed by blood cultures and the ASO test. Subcutaneous tissue and fascia are the layers involved in necrotizing fasciitis.", "type": "mcq", "opts": ["Upper dermis and superficial lymphatics", "Subcutaneous tissue and fascia", "Outer epidermis only", "Hair follicles and sebaceous glands", "Hypodermis around a hair follicle"], "ans": 0}, "N-MIC-L1-09": {"id": "N-MIC-L1-09", "stem": "Compare Staphylococcus aureus and Streptococcus pyogenes regarding: arrangement, catalase test, growth on nutrient agar, a special identification test, and the enzyme that localizes or spreads the infection.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "All points come from the S. aureus vs St. pyogenes comparison: clusters vs chains, catalase + vs −, growth on nutrient agar vs need for blood agar, mannitol/NaCl vs bacitracin, and coagulase vs hyaluronidase.", "type": "written", "keyhtml": "• Arrangement: S. aureus, Gram-positive cocci in grape-like clusters; St. pyogenes, Gram-positive cocci in chains\n• Catalase: S. aureus positive; St. pyogenes negative (both are β-haemolytic, so catalase separates them)\n• Nutrient agar: S. aureus grows with a golden-yellow pigment; St. pyogenes does not grow and needs an enriched medium (blood agar)\n• Special test: S. aureus ferments mannitol on mannitol salt agar and tolerates 7–10% NaCl (also coagulase positive); St. pyogenes is bacitracin sensitive\n• Localize vs spread: S. aureus coagulase localizes the infection; St. pyogenes hyaluronidase is a spreading factor"}, "N-MIC-L1-10": {"id": "N-MIC-L1-10", "stem": "A man who works with horses and dogs pulls ticks off his dog and crushes them between his fingers. He later develops a rash with petechiae.\n(a) What is the most likely causative organism and disease?\n(b) What is the vector, and how is the organism maintained in the vector population?\n(c) Mention two modes of transmission to humans.\n(d) Mention two methods of laboratory diagnosis.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "RMSF is caused by R. rickettsii, carried by the hard tick with transovarian transmission and with horses and dogs as reservoirs. Damage to endothelial cells lets blood leak into the tissues, producing petechiae.", "type": "written", "keyhtml": "(a) Rickettsia rickettsii (a small, Gram-negative, obligate intracellular bacterium) causing Rocky Mountain spotted fever.\n(b) A hard tick. Male ticks infect female ticks during mating, and females pass the bacteria to the eggs forming in their ovaries (transovarian transmission).\n(c) 1. Tick bite (the tick introduces the organism in its saliva after feeding for at least six hours). 2. Contamination of abrasions by fresh tick faeces, which is why ticks should never be crushed between the fingers.\n(d) 1. Blood culture or skin biopsy at the rash site to isolate the organism. 2. Rickettsial agglutination: patient serum + rickettsia suspension gives agglutination in positive cases. (The organism does not Gram stain well and is stained by Giemsa.)"}, "N-MIC-L1-11": {"id": "N-MIC-L1-11", "stem": "Enumerate the laboratory findings used to identify Bacillus anthracis.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Each finding comes from the identification of B. anthracis. Unlike S. aureus and St. pyogenes, B. anthracis is non-haemolytic, and its capsule is polypeptide rather than polysaccharide.", "type": "written", "keyhtml": "• Specimens: sputum, skin exudates and blood\n• Gram-stained smear: Gram-positive bacilli arranged in chains\n• Polychrome methylene blue: demonstrates the polypeptide capsule, with blue bacilli surrounded by a pink capsule (McFadyean reaction)\n• Blood agar: non-haemolytic, with Medusa head colonies\n• Gelatin medium: produces an inverted fir tree"}, "N-MIC-L1-12": {"id": "N-MIC-L1-12", "stem": "Classify the fungal infections of the skin, giving one disease and its causative fungus for each type.", "top": false, "rep": "", "tag": "Extra practice", "bank": false, "expl": "Superficial, cutaneous, opportunistic and subcutaneous mycoses are pityriasis versicolour, ring worm, candidiasis and mycetoma, caused respectively by Malassezia furfur, the three dermatophytes, Candida albicans and Madurella mycetomatis.", "type": "written", "keyhtml": "• Superficial mycosis: pityriasis versicolour, caused by Malassezia furfur (hyper- or hypopigmented maculae on the chest, upper back, arms or abdomen)\n• Cutaneous mycosis: ring worm (dermatophytosis), caused by Microsporum, Epidermophyton or Trichophyton (keratinized tissues only)\n• Opportunistic mycosis: candidiasis, caused by Candida albicans (normal flora; disease needs risk factors: diabetes, long antibiotic therapy, pregnancy, immunodeficiency, steroid therapy)\n• Subcutaneous mycosis: mycetoma (Madura foot), caused by Madurella mycetomatis (soil fungus introduced by trauma, giving a chronic granuloma of the lower limb)"}, "TP-033": {"id": "TP-033", "stem": "A 50-year-old man presents with thickened, discoloured toenails. A potassium hydroxide (KOH) mount shows branching septate hyphae. What is the most likely etiologic agent?", "top": true, "rep": "", "tag": "Final bank MIC W11", "bank": true, "expl": "Tinea unguium (toenail fungus) is caused by dermatophytes. These are filamentous fungi that form a mycelium with conidia (spores) and affect the keratinized tissues, including the nail; their digestive enzymes digest the keratin of the nail and damage it. Candida can also cause nail infection, but it is a yeast (Gram-positive budding yeast cells), whereas filamentous fungi (moulds) show hyphae and spores on microscopy.", "type": "written", "keyhtml": "Dermatophytes — tinea unguium (toenail fungus). Dermatophytes are filamentous fungi (Microsporum, Epidermophyton, Trichophyton) that form a mycelium and attack keratinized tissue; their digestive enzymes digest the keratin of the nail."}, "TP-118": {"id": "TP-118", "stem": "Mention Gram-negative diseases.", "top": true, "rep": "", "tag": "Final bank MIC W12", "bank": true, "expl": "Cat scratch disease is caused by Bartonella henselae, a Gram-negative aerobic bacillus. Rocky Mountain spotted fever is caused by Rickettsia rickettsii, a small, non-motile, aerobic, Gram-negative, obligate intracellular bacterium.", "type": "written", "keyhtml": "Cat scratch disease (Bartonella henselae), Rocky Mountain spotted fever (Rickettsia rickettsii)."}}, "labs": {}, "cards": [{"id": "MIC-L1-001", "text": "On the skin, the microbiota (normally harmless residents of the body) act as {{c1::biological anatomical barriers}}", "extra": "", "sec": "Part 01 · 1.1 Functions of the skin microbiota"}, {"id": "MIC-L1-002", "text": "Skin microbiota defence: {{c1::cover the binding sites (receptors) used for attachment}} · {{c2::consume available nutrients}} · {{c3::produce chemicals that interfere with the growth of other microbes}}", "extra": "Block · Starve · Poison. The first two prevent colonization; the third is chemical interference.", "sec": "Part 01 · 1.1 Functions of the skin microbiota"}, {"id": "MIC-L1-003", "text": "Gram-stain arrangement: grape-like clusters = {{c1::staphylococci}}; chains = {{c2::streptococci}}", "extra": "The arrangement is the first clue on a Gram stain.", "sec": "Part 01 · 1.2 Cocci — the three families"}, {"id": "MIC-L1-004", "text": "Staphylococci are Gram-positive spherical bacteria that produce {{c1::endopigments}}, varying from white to yellow", "extra": "", "sec": "Part 02 · 2.1 Three species — named by their pigment"}, {"id": "MIC-L1-005", "text": "Staph pigments: S. aureus {{c1::golden yellow}} · S. epidermidis {{c2::white}} · S. saprophyticus {{c3::lemon yellow}}", "extra": "Aureus = aurum = gold.", "sec": "Part 02 · 2.1 Three species — named by their pigment"}, {"id": "MIC-L1-006", "text": "S. aureus carriage: {{c1::40–50%}} of the population are nasal carriers; {{c2::15–20%}} of healthy adults are persistent nasopharyngeal carriers", "extra": "Carriers are more numerous among hospital staff.", "sec": "Part 02 · 2.2 Asymptomatic colonization of S. aureus"}, {"id": "MIC-L1-007", "text": "S. aureus colonizes {{c1::moist skin folds}} · {{c2::oropharynx}} · {{c3::gastrointestinal tract}} · {{c4::urogenital tract}}", "extra": "Some strains are normal flora of skin and mucous membranes.", "sec": "Part 02 · 2.2 Asymptomatic colonization of S. aureus"}, {"id": "MIC-L1-008", "text": "S. aureus morphology: Gram-positive cocci in clusters · {{c1::non-motile}} · {{c2::non-spore-forming}}", "extra": "", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-009", "text": "S. aureus and St. pyogenes are both {{c1::non-capsulated}} — some strains have a {{c2::polysaccharide}} capsule", "extra": "Contrast: B. anthracis has a polypeptide capsule.", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-010", "text": "S. aureus oxygen requirement: {{c1::facultative anaerobe}} (aerobic respiration or microaerophilic), at {{c2::37 °C}}", "extra": "", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-011", "text": "S. aureus: catalase {{c1::positive::+ or −}} · coagulase {{c2::positive::+ or −}}", "extra": "Triple-positive staph: catalase +, coagulase +, mannitol fermenter.", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-012", "text": "S. aureus on mannitol salt agar: {{c1::ferments mannitol}} — of differentiating value from other species", "extra": "Mannite fermenter.", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-013", "text": "S. aureus tolerates {{c1::7–10%}} NaCl", "extra": "", "sec": "Part 02 · 2.3 Staphylococcus aureus — the organism"}, {"id": "MIC-L1-014", "text": "S. aureus enzymes: {{c1::coagulase}} · {{c2::catalase}} · {{c3::hyaluronidase}} · {{c4::DNase}} · {{c5::haemolysins}}", "extra": "", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-015", "text": "S. aureus coagulase → {{c1::localization of the staph infection}}", "extra": "So staph skin infections are focal; strep hyaluronidase spreads infection instead.", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-016", "text": "S. aureus toxins: {{c1::exfoliative toxin (epidermolytic toxins A & B)}} · {{c2::enterotoxins}} · {{c3::toxic shock syndrome toxin}}", "extra": "", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-017", "text": "The exfoliative (epidermolytic) toxins A & B of S. aureus cause {{c1::staphylococcal scalded skin syndrome (SSSS)}}", "extra": "They do NOT cause abscesses — localization (focal suppuration) is coagulase's work.", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-018", "text": "Staphylococcal toxic shock syndrome is caused by {{c1::toxic shock syndrome toxin}}", "extra": "Staff key TSST-1. Exfoliative toxin causes SSSS instead.", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-019", "text": "S. aureus pathogenicity = combined effect of {{c1::extracellular factors and enzymes}} together with {{c2::invasive properties}}", "extra": "", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-020", "text": "S. aureus invasion is due to {{c1::protein A}} and {{c2::clumping factor (bound coagulase)}}", "extra": "", "sec": "Part 02 · 2.4 Selected virulence factors"}, {"id": "MIC-L1-021", "text": "S. aureus direct smear: Gram-positive cocci in {{c1::grape-like clusters}} among {{c2::pus cells}}", "extra": "Specimen chosen according to the site of infection.", "sec": "Part 02 · 2.5 Laboratory identification of S. aureus"}, {"id": "MIC-L1-022", "text": "S. aureus culture: blood agar → {{c1::complete (β) haemolysis}}; nutrient agar → {{c2::golden-yellow endopigment}}", "extra": "", "sec": "Part 02 · 2.5 Laboratory identification of S. aureus"}, {"id": "MIC-L1-023", "text": "Tests to identify S. aureus colonies: {{c1::Gram stain}} · {{c2::catalase}} · {{c3::coagulase}} · {{c4::mannitol salt agar}}", "extra": "", "sec": "Part 02 · 2.5 Laboratory identification of S. aureus"}, {"id": "MIC-L1-024", "text": "The test used to identify / differentiate S. aureus: {{c1::coagulase test}} (positive)", "extra": "Catalase is + too, but catalase separates staph from strep — it does not single out S. aureus.", "sec": "Part 02 · 2.5 Laboratory identification of S. aureus"}, {"id": "MIC-L1-025", "text": "Catalase test separates {{c1::staphylococci (positive)}} from {{c2::streptococci (negative)}}", "extra": "Both S. aureus and St. pyogenes are β-haemolytic — catalase is what separates them.", "sec": "Part 08 · 8.2 Lab tests & stains at a glance"}, {"id": "MIC-L1-026", "text": "The Staphylococcus species behind folliculitis → carbuncle, SSSS and ~80% of impetigo: {{c1::S. aureus}}", "extra": "Staff Q1 (most common staph in skin infection). S. epidermidis & S. saprophyticus appear only in the pigment table.", "sec": "Part 03 · 3.1 Selected diseases caused by S. aureus"}, {"id": "MIC-L1-027", "text": "Characteristic staphylococcal skin infection: {{c1::focal suppuration}} — localized abscess, folliculitis, furuncle, carbuncle (pustules & boils)", "extra": "Because coagulase localizes the infection; widespread lesions = strep (hyaluronidase).", "sec": "Part 03 · 3.1 Selected diseases caused by S. aureus"}, {"id": "MIC-L1-028", "text": "S. aureus disease categories: focal suppuration · wound infections · deep infections = {{c1::bacteraemia}} · {{c2::osteomyelitis}} · {{c3::endocarditis}}", "extra": "", "sec": "Part 03 · 3.1 Selected diseases caused by S. aureus"}, {"id": "MIC-L1-029", "text": "S. aureus toxin-mediated diseases: {{c1::food poisoning}} · {{c2::SSSS}} · {{c3::toxic shock syndrome}}", "extra": "", "sec": "Part 03 · 3.1 Selected diseases caused by S. aureus"}, {"id": "MIC-L1-030", "text": "Folliculitis = infection of a {{c1::hair follicle}}: staphylococci on the skin surface grow into hair follicles and invade {{c2::sebaceous glands}}", "extra": "", "sec": "Part 03 · 3.2 Folliculitis → furuncle → carbuncle"}, {"id": "MIC-L1-031", "text": "Folliculitis is often called a {{c1::pimple}}; at the base of an eyelid it is called a {{c2::stye}}", "extra": "", "sec": "Part 03 · 3.2 Folliculitis → furuncle → carbuncle"}, {"id": "MIC-L1-032", "text": "Folliculitis spreading into the hypodermis (large, painful, raised nodule) = {{c1::furuncle}}; several furuncles joined together = {{c2::carbuncle}}", "extra": "Folliculitis → furuncle → carbuncle (abscesses in the subcutaneous layer).", "sec": "Part 03 · 3.2 Folliculitis → furuncle → carbuncle"}, {"id": "MIC-L1-033", "text": "Besides S. aureus, folliculitis can be caused by {{c1::Propionibacterium}} — the cause of acne", "extra": "Propionibacterium = Gram-positive diphtheroid; its lipases cause acne.", "sec": "Part 03 · 3.2 Folliculitis → furuncle → carbuncle"}, {"id": "MIC-L1-034", "text": "Staphylococcal folliculitis is transmitted by {{c1::contact}}", "extra": "Impetigo is likewise contagious.", "sec": "Part 03 · 3.2 Folliculitis → furuncle → carbuncle"}, {"id": "MIC-L1-035", "text": "SSSS affects primarily {{c1::infants & children under five}}; it can also affect the {{c2::elderly and immunosuppressed}}", "extra": "", "sec": "Part 03 · 3.3 Staphylococcal scalded skin syndrome (SSSS)"}, {"id": "MIC-L1-036", "text": "SSSS: exfoliative toxins A & B are carried by the {{c1::blood}} from sites of infection throughout the body → {{c2::toxaemia}}", "extra": "So peeling spreads far beyond the site of infection.", "sec": "Part 03 · 3.3 Staphylococcal scalded skin syndrome (SSSS)"}, {"id": "MIC-L1-037", "text": "SSSS lesion: cells of the {{c1::outer epidermis}} separate from one another and from the underlying tissue", "extra": "", "sec": "Part 03 · 3.3 Staphylococcal scalded skin syndrome (SSSS)"}, {"id": "MIC-L1-038", "text": "SSSS course: reddening & wrinkling beginning near the {{c1::mouth}} → spreads over the entire body → within {{c2::two days}} the outer epidermis peels off in {{c3::sheets}}", "extra": "", "sec": "Part 03 · 3.3 Staphylococcal scalded skin syndrome (SSSS)"}, {"id": "MIC-L1-039", "text": "SSSS heals in {{c1::7–10 days}} with {{c2::no scarring}}, because the toxin does not affect the {{c3::dermis}}", "extra": "", "sec": "Part 03 · 3.3 Staphylococcal scalded skin syndrome (SSSS)"}, {"id": "MIC-L1-040", "text": "Impetigo (pyoderma): a contagious {{c1::superficial}} skin infection — small, flattened, red patches mainly on the {{c2::face and limbs}}", "extra": "", "sec": "Part 03 · 3.4 Impetigo (pyoderma)"}, {"id": "MIC-L1-041", "text": "Impetigo occurs particularly in {{c1::children}}, because their {{c2::immune systems are incompletely developed}}", "extra": "Quiz T/F \"most commonly affects adults\" = False.", "sec": "Part 03 · 3.4 Impetigo (pyoderma)"}, {"id": "MIC-L1-042", "text": "Impetigo progression: red patches → oozing, {{c1::pus-filled vesicles}} → vesicles break → thick, sticky, {{c2::honey-coloured}} crust", "extra": "", "sec": "Part 03 · 3.4 Impetigo (pyoderma)"}, {"id": "MIC-L1-043", "text": "Impetigo causes: S. aureus acting alone ≈ {{c1::80%}}; involving St. pyogenes ≈ {{c2::20%}}", "extra": "", "sec": "Part 03 · 3.4 Impetigo (pyoderma)"}, {"id": "MIC-L1-044", "text": "Streptococci are classified by: {{c1::oxygen requirement}} → {{c2::haemolysis on blood agar}} → {{c3::cell-wall carbohydrate}} (β-haemolytic)", "extra": "", "sec": "Part 04 · 4.1 Classification of streptococci"}, {"id": "MIC-L1-045", "text": "The obligate (strict) anaerobic streptococci: {{c1::Peptostreptococcus}}", "extra": "All others are aerobic & facultative anaerobic.", "sec": "Part 04 · 4.1 Classification of streptococci"}, {"id": "MIC-L1-046", "text": "Streptococci by haemolysis on blood agar: {{c1::β-haemolytic}} · {{c2::α-haemolytic}} · {{c3::non-haemolytic}}", "extra": "", "sec": "Part 04 · 4.1 Classification of streptococci"}, {"id": "MIC-L1-047", "text": "Cell-wall carbohydrate of β-haemolytic streptococci → groups {{c1::A–H and K–U}}; groups causing human disease: {{c2::A, B, C, D and G}}", "extra": "", "sec": "Part 04 · 4.1 Classification of streptococci"}, {"id": "MIC-L1-048", "text": "β-haemolytic group A = {{c1::St. pyogenes}}; β-haemolytic group B = {{c2::St. agalactiae}}", "extra": "", "sec": "Part 04 · 4.1 Classification of streptococci"}, {"id": "MIC-L1-049", "text": "St. pyogenes morphology: Gram-positive cocci in chains · non-motile · non-spore-forming; colonies {{c1::small}}", "extra": "S. aureus colonies: round, raised, golden.", "sec": "Part 04 · 4.2 Streptococcus pyogenes — the organism"}, {"id": "MIC-L1-050", "text": "St. pyogenes {{c1::does not grow}} on ordinary media (nutrient agar) — it requires an {{c2::enriched medium (blood agar)}}", "extra": "S. aureus grows on nutrient agar with golden pigment.", "sec": "Part 04 · 4.2 Streptococcus pyogenes — the organism"}, {"id": "MIC-L1-051", "text": "Identification of St. pyogenes: catalase {{c1::negative}} · bacitracin {{c2::sensitive}} · blood agar {{c3::complete (β) haemolysis}}", "extra": "Group A = bAcitracin sensitive.", "sec": "Part 04 · 4.8 Identification of St. pyogenes"}, {"id": "MIC-L1-052", "text": "St. pyogenes virulence factors: {{c1::streptolysins S & O}} · {{c2::M protein}} · {{c3::hyaluronidase}} · {{c4::streptokinase}} · {{c5::pyrogenic (erythrogenic) exotoxins}}", "extra": "", "sec": "Part 04 · 4.3 Selected virulence factors & their effects"}, {"id": "MIC-L1-053", "text": "The streptolysin that gives the haemolysis on blood agar: streptolysin {{c1::S}}", "extra": "S = Seen on the plate. Also kills neutrophils & erythrocytes (necrotizing fasciitis figure).", "sec": "Part 04 · 4.3 Selected virulence factors & their effects"}, {"id": "MIC-L1-054", "text": "St. pyogenes M protein → {{c1::virulence and invasion}}; it helps the organism {{c2::survive phagocytosis}}", "extra": "", "sec": "Part 04 · 4.3 Selected virulence factors & their effects"}, {"id": "MIC-L1-055", "text": "Localize vs spread: St. pyogenes {{c1::hyaluronidase}} is a spreading factor; S. aureus {{c2::coagulase}} localizes the infection", "extra": "So staph skin lesions stay focal: abscess, furuncle, carbuncle.", "sec": "Part 04 · 4.3 Selected virulence factors & their effects"}, {"id": "MIC-L1-056", "text": "Pyrogenic exotoxins (= {{c1::erythrogenic}} exotoxins) are produced only by {{c2::lysogenic}} streptococci, coded by {{c3::phage DNA}}", "extra": "", "sec": "Part 04 · 4.3 Selected virulence factors & their effects"}, {"id": "MIC-L1-057", "text": "St. pyogenes local infections: {{c1::impetigo}} · {{c2::acute follicular tonsillitis}} · {{c3::sore throat}} · {{c4::pharyngitis}}", "extra": "", "sec": "Part 04 · 4.4 Diseases caused by St. pyogenes"}, {"id": "MIC-L1-058", "text": "St. pyogenes invasive infections: {{c1::erysipelas}} · {{c2::cellulitis}} · {{c3::puerperal sepsis}} · {{c4::acute endocarditis}} · {{c5::necrotizing fasciitis}}", "extra": "", "sec": "Part 04 · 4.4 Diseases caused by St. pyogenes"}, {"id": "MIC-L1-059", "text": "Post-streptococcal diseases of St. pyogenes: {{c1::rheumatic fever}} · {{c2::glomerulonephritis}}", "extra": "Scarlet fever is toxigenic, not post-streptococcal. Strep impetigo → acute glomerulonephritis.", "sec": "Part 04 · 4.4 Diseases caused by St. pyogenes"}, {"id": "MIC-L1-060", "text": "The toxigenic disease of St. pyogenes: {{c1::scarlet fever}}", "extra": "Its toxins: pyrogenic (erythrogenic) exotoxins.", "sec": "Part 04 · 4.4 Diseases caused by St. pyogenes"}, {"id": "MIC-L1-061", "text": "Scarlet fever (sore throat, fever, red rash) — organism: {{c1::St. pyogenes (β-haemolytic group A)}}; cause of the rash: its {{c2::erythrogenic (pyrogenic) exotoxins}}", "extra": "Staff case. These toxins come only from lysogenic strains (phage DNA).", "sec": "Part 04 · 4.4 Diseases caused by St. pyogenes"}, {"id": "MIC-L1-062", "text": "Impetigo caused by {{c1::St. pyogenes}} is the more dangerous one — it may be followed by {{c2::acute glomerulonephritis}}", "extra": "S. aureus causes most impetigo (≈ 80%); strep (≈ 20%) is the dangerous one.", "sec": "Part 04 · 4.5 Impetigo — staph or strep?"}, {"id": "MIC-L1-063", "text": "Erysipelas cause: bacterial inoculation into an area of {{c1::skin trauma}}; most common sites: {{c2::face or legs}}", "extra": "", "sec": "Part 04 · 4.6 Erysipelas"}, {"id": "MIC-L1-064", "text": "Erysipelas involves the {{c1::upper dermis}} and {{c2::superficial lymphatics}}", "extra": "Necrotizing fasciitis = subcutaneous tissue & fascia.", "sec": "Part 04 · 4.6 Erysipelas"}, {"id": "MIC-L1-065", "text": "Erysipelas features: reddening of the skin · {{c1::swollen local lymph nodes}} · pain · fever · chills · {{c2::leukocytosis}}", "extra": "", "sec": "Part 04 · 4.6 Erysipelas"}, {"id": "MIC-L1-066", "text": "Erysipelas diagnosis: {{c1::blood cultures}} (may identify sepsis) · {{c2::ASO test}}", "extra": "", "sec": "Part 04 · 4.6 Erysipelas"}, {"id": "MIC-L1-067", "text": "Necrotizing fasciitis (streptococcal gangrene): progressive infection of {{c1::subcutaneous tissue and fascia}} with {{c2::rapid necrosis}}", "extra": "", "sec": "Part 04 · 4.7 Necrotizing fasciitis (streptococcal gangrene)"}, {"id": "MIC-L1-068", "text": "St. pyogenes causing necrotizing fasciitis has been termed \"{{c1::flesh-eating bacteria}}\"", "extra": "", "sec": "Part 04 · 4.7 Necrotizing fasciitis (streptococcal gangrene)"}, {"id": "MIC-L1-069", "text": "Necrotizing fasciitis figure: {{c1::exotoxin A}} triggers an overactive immune response that further damages healthy tissue", "extra": "Same figure: M proteins resist phagocytosis; streptolysin S kills neutrophils & erythrocytes.", "sec": "Part 04 · 4.7 Necrotizing fasciitis (streptococcal gangrene)"}, {"id": "MIC-L1-070", "text": "Acne is caused by {{c1::Propionibacterium}}, a microaerophilic {{c2::diphtheroid}}", "extra": "It can also cause folliculitis.", "sec": "Part 05 · 5.1 Acne — Propionibacterium"}, {"id": "MIC-L1-071", "text": "Propionibacterium morphology: Gram-{{c1::positive}} bacilli in {{c2::palisade or paired in angles}}", "extra": "", "sec": "Part 05 · 5.1 Acne — Propionibacterium"}, {"id": "MIC-L1-072", "text": "Acne mechanism: Propionibacterium {{c1::lipases}} split {{c2::free fatty acids}} from skin lipid → the fatty acids trigger {{c3::inflammation}}", "extra": "", "sec": "Part 05 · 5.1 Acne — Propionibacterium"}, {"id": "MIC-L1-073", "text": "Cat scratch disease: {{c1::Bartonella henselae}}, a Gram-{{c2::negative}} aerobic bacillus", "extra": "Think kittens — and fleas.", "sec": "Part 05 · 5.2 Cat scratch disease — Bartonella henselae"}, {"id": "MIC-L1-074", "text": "Bartonella henselae main virulence factor: {{c1::endotoxin (lipid A)}} in the outer membrane, released when the bacterium {{c2::dies}}", "extra": "", "sec": "Part 05 · 5.2 Cat scratch disease — Bartonella henselae"}, {"id": "MIC-L1-075", "text": "Bartonella henselae grows & reproduces inside {{c1::red blood cells}} and {{c2::cells lining blood-vessel walls}}", "extra": "It also grows intracellularly in the skin.", "sec": "Part 05 · 5.2 Cat scratch disease — Bartonella henselae"}, {"id": "MIC-L1-076", "text": "Bartonella henselae transmission (cats → people): {{c1::cat scratches or bites, particularly by kittens}} · {{c2::blood-sucking arthropods such as fleas}}", "extra": "A bacterium passed from animals to humans.", "sec": "Part 05 · 5.2 Cat scratch disease — Bartonella henselae"}, {"id": "MIC-L1-077", "text": "Cat scratch disease: endotoxin → fever, blood clotting, inflammation and {{c1::localized swelling at the site and nearby lymph nodes}}, lasting {{c2::several months}}", "extra": "", "sec": "Part 05 · 5.2 Cat scratch disease — Bartonella henselae"}, {"id": "MIC-L1-078", "text": "Rocky Mountain spotted fever: {{c1::Rickettsia rickettsii}} — a small, non-motile, aerobic, Gram-negative, {{c2::obligate intracellular}} bacterium", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-079", "text": "R. rickettsii wall: peptidoglycan cell wall + outer membrane of {{c1::lipopolysaccharide}}, surrounded by a {{c2::slime layer}}", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-080", "text": "Rickettsiae do not Gram stain well — they are stained by {{c1::Giemsa}} stain", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-081", "text": "RMSF vector: {{c1::hard tick}}; reservoir: {{c2::horses & dogs}}", "extra": "R. rickettsii requires a vector between hosts.", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-082", "text": "In the tick, males infect females during mating and females pass R. rickettsii to the eggs in their ovaries = {{c1::transovarian transmission}}", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-083", "text": "RMSF transmission to humans: {{c1::tick bite}} · {{c2::contamination of abrasions by fresh tick faeces}}", "extra": "Never crush ticks between the fingers.", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-084", "text": "The tick introduces R. rickettsii in its saliva only after feeding for at least {{c1::six hours}}", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-085", "text": "RMSF rash: R. rickettsii damages {{c1::endothelial cells}} → blood leaks into tissues → {{c2::petechiae}}", "extra": "", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-086", "text": "RMSF diagnosis: {{c1::blood culture or skin biopsy at the rash site}} to isolate the organism · {{c2::rickettsial agglutination}} (patient serum + rickettsia suspension)", "extra": "Agglutination = positive.", "sec": "Part 05 · 5.3 Rocky Mountain spotted fever (RMSF)"}, {"id": "MIC-L1-087", "text": "Genus Bacillus: large, aerobic, Gram-positive, {{c1::spore-forming}} bacilli", "extra": "", "sec": "Part 06 · 6.1 The Bacillus group"}, {"id": "MIC-L1-088", "text": "Bacillus group: pathogenic = {{c1::B. anthracis}} (anthrax); saprophytic = {{c2::anthracoids}}, some pathogenic, e.g. {{c3::B. cereus}} (food poisoning)", "extra": "Some anthracoids cause disease in the immunocompromised (conjunctivitis).", "sec": "Part 06 · 6.1 The Bacillus group"}, {"id": "MIC-L1-089", "text": "Anthrax is primarily a disease of {{c1::farm (herbivorous) animals}} — cattle, sheep, horses, goats — transmitted to humans = a {{c2::zoonosis}}", "extra": "Bartonella henselae (cats → people) is the other animal-to-human bacterium of the lecture.", "sec": "Part 06 · 6.2 Anthrax — a zoonosis"}, {"id": "MIC-L1-090", "text": "B. anthracis virulence factors: {{c1::capsule}} · {{c2::endospores}} · {{c3::3 anthrax toxins}}", "extra": "", "sec": "Part 06 · 6.2 Anthrax — a zoonosis"}, {"id": "MIC-L1-091", "text": "Most common form of anthrax: {{c1::cutaneous}} — direct contact of {{c2::abraded skin}} with endospores of infected animals or contaminated animal products", "extra": "", "sec": "Part 06 · 6.2 Anthrax — a zoonosis"}, {"id": "MIC-L1-092", "text": "Anthrax forms by route: intestinal = {{c1::ingestion of raw meat or blood}}; pulmonary = {{c2::inhalation of anthrax spores}}", "extra": "Touch – Eat – Breathe = skin – gut – lung.", "sec": "Part 06 · 6.2 Anthrax — a zoonosis"}, {"id": "MIC-L1-093", "text": "Cutaneous anthrax lesion: papule → {{c1::vesicle}} → pustule (\"{{c2::malignant pustule}}\") → {{c3::necrotic ulcer (eschar)}}", "extra": "Septicaemia if the infection disseminates.", "sec": "Part 06 · 6.3 Cutaneous anthrax — the lesion"}, {"id": "MIC-L1-094", "text": "At the site of cutaneous anthrax a characteristic {{c1::gelatinous oedema}} develops", "extra": "", "sec": "Part 06 · 6.3 Cutaneous anthrax — the lesion"}, {"id": "MIC-L1-095", "text": "Farmer who handled sheep wool, now a hand ulcer with a black necrotic centre (eschar) and surrounding oedema → {{c1::cutaneous anthrax}}", "extra": "Animal-product contact + eschar = anthrax, not cellulitis.", "sec": "Part 06 · 6.3 Cutaneous anthrax — the lesion"}, {"id": "MIC-L1-096", "text": "B. anthracis specimens: {{c1::sputum}} · {{c2::skin exudates}} · {{c3::blood}}", "extra": "", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-097", "text": "B. anthracis Gram-stained smear: Gram-positive bacilli arranged in {{c1::chains}}", "extra": "", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-098", "text": "Polychrome methylene blue on B. anthracis: {{c1::blue bacilli}} surrounded by a {{c2::pink capsule}} = {{c3::McFadyean reaction}}", "extra": "Demonstrates the polypeptide capsule.", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-099", "text": "B. anthracis on blood agar: {{c1::non-haemolytic}}, with {{c2::Medusa head}} colonies", "extra": "Unlike the β-haemolytic S. aureus and St. pyogenes.", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-100", "text": "B. anthracis in gelatin medium: {{c1::inverted fir tree}}", "extra": "", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-101", "text": "Capsule type — B. anthracis: {{c1::polypeptide}}; staph & strep (some strains): {{c2::polysaccharide}}", "extra": "The polypeptide capsule is shown by polychrome methylene blue (McFadyean reaction).", "sec": "Part 06 · 6.4 Identification of Bacillus anthracis"}, {"id": "MIC-L1-102", "text": "Mycoses of the skin — superficial: {{c1::pityriasis versicolour}} · cutaneous: {{c2::ring worm (dermatophytosis)}} · opportunistic: {{c3::candidiasis}} · subcutaneous: {{c4::mycetoma (Madura foot)}}", "extra": "", "sec": "Part 07 · 7.1 The four mycoses at a glance"}, {"id": "MIC-L1-103", "text": "Pityriasis versicolour (superficial mycosis) is caused by {{c1::Malassezia furfur}}", "extra": "", "sec": "Part 07 · 7.2 Superficial mycosis — pityriasis versicolour"}, {"id": "MIC-L1-104", "text": "Pityriasis versicolour: discrete, serpentine, {{c1::hyper- or hypopigmented}} maculae, usually on the {{c2::chest, upper back, arms or abdomen}}", "extra": "", "sec": "Part 07 · 7.2 Superficial mycosis — pityriasis versicolour"}, {"id": "MIC-L1-105", "text": "The three dermatophytes (ring worm): {{c1::Microsporum}} · {{c2::Epidermophyton}} · {{c3::Trichophyton}}", "extra": "They MET on keratin.", "sec": "Part 07 · 7.3 Cutaneous mycoses — ring worm (dermatophytosis)"}, {"id": "MIC-L1-106", "text": "Dermatophytes affect only the {{c1::keratinized tissues}} — skin, hair, nail, scalp, feet and groin", "extra": "Mucosal infection (oral thrush) and gut flora = Candida, not dermatophytes.", "sec": "Part 07 · 7.3 Cutaneous mycoses — ring worm (dermatophytosis)"}, {"id": "MIC-L1-107", "text": "Dermatophytes are {{c1::filamentous}} fungi that form a mycelium forming {{c2::conidia (spores)}}", "extra": "", "sec": "Part 07 · 7.3 Cutaneous mycoses — ring worm (dermatophytosis)"}, {"id": "MIC-L1-108", "text": "Ring worm transmission — direct: {{c1::contact with infected lesions}}; indirect: {{c2::contaminated articles or surfaces (shoes, towels, shower)}}; other: {{c3::contaminated animals or soil}}", "extra": "", "sec": "Part 07 · 7.3 Cutaneous mycoses — ring worm (dermatophytosis)"}, {"id": "MIC-L1-109", "text": "Tinea {{c1::capitis}} = ring worm of the scalp; tinea {{c2::unguium}} = toenail fungus", "extra": "", "sec": "Part 07 · 7.4 Tinea unguium (toenail fungus)"}, {"id": "MIC-L1-110", "text": "Tinea unguium: dermatophyte {{c1::digestive enzymes}} digest the {{c2::keratin}} of the nail → nail damage", "extra": "Onychomycosis in the staff question = tinea unguium.", "sec": "Part 07 · 7.4 Tinea unguium (toenail fungus)"}, {"id": "MIC-L1-111", "text": "Tinea unguium transmission: {{c1::auto-infection}} · {{c2::sharing nail clippers}} · {{c3::walking barefoot in damp areas}}", "extra": "", "sec": "Part 07 · 7.4 Tinea unguium (toenail fungus)"}, {"id": "MIC-L1-112", "text": "Opportunistic mycosis: {{c1::candidiasis}}, caused by {{c2::Candida albicans}}", "extra": "Candida is normal flora — disease needs risk factors.", "sec": "Part 07 · 7.5 Opportunistic mycosis — candidiasis"}, {"id": "MIC-L1-113", "text": "Candida: Gram-{{c1::positive}} {{c2::yeast}} cell; on blood agar it shows {{c3::no haemolysis}}", "extra": "", "sec": "Part 07 · 7.5 Opportunistic mycosis — candidiasis"}, {"id": "MIC-L1-114", "text": "Candida is normal flora of the {{c1::female genital tract}} · {{c2::intestinal tract}} · {{c3::oral cavity}}", "extra": "", "sec": "Part 07 · 7.5 Opportunistic mycosis — candidiasis"}, {"id": "MIC-L1-115", "text": "Candida clinical findings: {{c1::nail infection}} · {{c2::oral thrush}} · {{c3::skin infection}}", "extra": "", "sec": "Part 07 · 7.5 Opportunistic mycosis — candidiasis"}, {"id": "MIC-L1-116", "text": "Candidiasis risk factors: {{c1::diabetes}} · {{c2::long antibiotic therapy (superinfection)}} · {{c3::pregnancy}} · {{c4::immunodeficiency}} · {{c5::steroid therapy}}", "extra": "SPAID: Steroids · Pregnancy · Antibiotics · Immunodeficiency · Diabetes.", "sec": "Part 07 · 7.5 Opportunistic mycosis — candidiasis"}, {"id": "MIC-L1-117", "text": "Subcutaneous mycosis: {{c1::mycetoma (Madura foot)}}, caused by {{c2::Madurella mycetomatis}}", "extra": "", "sec": "Part 07 · 7.6 Subcutaneous mycosis — mycetoma (Madura foot)"}, {"id": "MIC-L1-118", "text": "Mycetoma: a chronic {{c1::granuloma}} of the {{c2::lower limb}}; a soil fungus introduced into the subcutaneous tissue through {{c3::trauma}}", "extra": "", "sec": "Part 07 · 7.6 Subcutaneous mycosis — mycetoma (Madura foot)"}, {"id": "MIC-L1-119", "text": "Lab diagnosis of fungal infection: {{c1::direct microscopy (wet film of the clinical specimen)}} → {{c2::culture}} → identify colonies (yeast or mould) → {{c3::molecular diagnosis by PCR}}", "extra": "So the first test for tinea unguium (onychomycosis) is direct microscopy of nail clippings — culture comes later.", "sec": "Part 07 · 7.7 Laboratory diagnosis of fungal infection"}, {"id": "MIC-L1-120", "text": "Culture media — yeasts: {{c1::Sabouraud's, nutrient & blood agar}}; filamentous fungi (moulds): {{c2::Sabouraud's dextrose agar}}", "extra": "", "sec": "Part 07 · 7.7 Laboratory diagnosis of fungal infection"}, {"id": "MIC-L1-121", "text": "Yeast identification: Gram stain → {{c1::budding yeast cells}} · {{c2::germ tube test}} → Candida albicans · colony morphology → {{c3::soft, creamy colonies}}", "extra": "", "sec": "Part 07 · 7.7 Laboratory diagnosis of fungal infection"}, {"id": "MIC-L1-122", "text": "Filamentous fungi (moulds): microscopy with {{c1::lactophenol blue}} stain, which stains the {{c2::hyphae and spores}}", "extra": "", "sec": "Part 07 · 7.7 Laboratory diagnosis of fungal infection"}, {"id": "MIC-L1-123", "text": "Special test — S. aureus: {{c1::ferments mannitol on MSA & tolerates 7–10% NaCl}}; St. pyogenes: {{c2::bacitracin sensitive}}", "extra": "", "sec": "Part 08 · 8.1 S. aureus vs St. pyogenes — head to head"}, {"id": "MIC-L1-124", "text": "S. aureus and St. pyogenes both give {{c1::complete (β)}} haemolysis on blood agar, so the {{c2::catalase}} test separates them", "extra": "B. anthracis, by contrast, is non-haemolytic.", "sec": "Part 08 · 8.1 S. aureus vs St. pyogenes — head to head"}], "lib": "./", "prev": null, "next": {"href": "mic-l2.html", "title": "Lecture 2 · Viral Skin Infection"}, "searchHint": "e.g. DNase, pus cells, streptococci"};
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const N = BOOK.pages.length, QS = BOOK.questions, LABS = BOOK.labs;
+const KEY = 'msk-book-' + BOOK.id + '-v1';
+const DEF = {read:{}, ans:{}, pred:{}, flap:{}, self:{}, draft:{}, labs:{}, cards:{}, exams:[], mist:{}, marks:{}, set:{theme:'system', size:1, rapid:false}, last:1};
+let S = JSON.parse(JSON.stringify(DEF));
+try { const t = JSON.parse(localStorage.getItem(KEY) || 'null'); if (t && typeof t === 'object') for (const k in DEF) if (t[k] !== undefined) S[k] = t[k]; } catch (e) {}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }, 120); }
+const RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+const DUR = RM ? 0 : 720, EASE = 'cubic-bezier(.42,.02,.24,1)';
+
+/* ---------- settings ---------- */
+function applySet(){
+  const r = document.documentElement;
+  if (S.set.theme === 'light' || S.set.theme === 'dark') r.dataset.theme = S.set.theme; else r.removeAttribute('data-theme');
+  r.style.setProperty('--fsz', S.set.size || 1);
+  document.body.classList.toggle('rapid', !!S.set.rapid);
+}
+applySet();
+
+/* ---------- geometry ---------- */
+const stage = $('#stage'), book = $('#book'), pgL = $('#pgL'), pgR = $('#pgR'), leaf = $('#leaf'), lf = $('#lf'), lb = $('#lb');
+let mode = 'spread', at = Math.min(Math.max(+S.last || 1, 0), N - 1), busy = false, opened = false, laid = false, drawnMode = null;
+function layout(force){
+  // layout-viewport size: on phones innerWidth/innerHeight grow while the page is zoomed out (pinch, or a page that overflowed for a moment)
+  const de = document.documentElement, vw = de.clientWidth || window.innerWidth, vh = de.clientHeight || window.innerHeight;
+  const lenient = laid && mode === 'spread';   // a little hysteresis: a window right at the edge can't flip between one and two pages
+  const wide = lenient ? (vw >= 880 && vh >= 500) : (vw >= 900 && vh >= 520);
+  $('#mnav').hidden = !(opened && !wide);
+  const r = stage.getBoundingClientRect(); const W = r.width, H = r.height - 20;
+  let pw, ph;
+  if (wide){ ph = Math.min(H, 940); pw = ph * .72; const maxw = (W - 130) / 2; if (pw > maxw){ pw = maxw; ph = Math.min(H, pw / .72); } mode = 'spread'; }
+  else { pw = Math.min(W - 4, 640); ph = Math.max(H, 200); mode = 'single'; }   // phone on its side: the page fits between the bars and scrolls inside
+  laid = true;
+  const rs = document.documentElement.style, vpw = Math.floor(pw) + 'px', vph = Math.floor(ph) + 'px';
+  if (rs.getPropertyValue('--pw') !== vpw) rs.setProperty('--pw', vpw);
+  if (rs.getPropertyValue('--ph') !== vph) rs.setProperty('--ph', vph);
+  book.classList.toggle('single', mode === 'single');
+  // a new size only reflows the CSS; the pages are rebuilt only when the book switches between one and two pages,
+  // so a phone's sliding toolbar, the keyboard or a resizing frame can never reset the page you are reading
+  if (opened && (force || mode !== drawnMode)) draw();
+}
+window.addEventListener('resize', () => {
+  clearTimeout(layout.t);
+  layout.t = setTimeout(function again(){ if (busy){ layout.t = setTimeout(again, 120); return; } layout(); }, 80);
+});
+
+/* ---------- page rendering ---------- */
+const H = {};   // block renderers
+function P(i, side){
+  if (i < 0 || i >= N) return `<div class="pin"></div>`;
+  const pg = BOOK.pages[i];
+  const head = pg.head ? `<div class="rh"><span>${esc(pg.head)}</span><span>${esc(BOOK.short)}</span></div>` : '';
+  const body = (pg.blocks || []).map((b, k) => (H[b.t] ? H[b.t](b, pg, k) : '')).join('');
+  const ribbon = pg.kind !== 'cover' ? `<button class="ribbon ${S.marks[i] ? 'on' : ''}" data-act="mark" data-p="${i}" aria-label="Bookmark this page"></button>` : '';
+  return `<div class="pin" data-pid="${i}">${head}${body}</div>${ribbon}<div class="folio ${side || ''}">${i === 0 ? '' : i}</div>`;
+}
+function setPage(el, i, side){ el.dataset.page = i; el.innerHTML = P(i, side); }
+function draw(){
+  drawnMode = mode;
+  const keep = {};
+  for (const el of [pgL, pgR]){ const sc = el.querySelector('.pin'); if (sc && !el.hidden && el.dataset.page !== undefined) keep[el.dataset.page] = sc.scrollTop; }
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    setPage(pgL, L, 'l'); setPage(pgR, L + 1, 'r'); pgR.hidden = false;
+    mark(L); mark(L + 1);
+  } else { setPage(pgL, at, 'r'); pgR.hidden = true; mark(at); }
+  for (const el of [pgL, pgR]){ const t = keep[el.dataset.page], sc = el.querySelector('.pin'); if (t && sc) sc.scrollTop = t; }
+  upd();
+}
+function mark(i){ if (i >= 0 && i < N && !S.read[i]){ S.read[i] = 1; save(); } }
+function rerender(i){
+  for (const el of [pgL, pgR]){
+    if (el.hidden || +el.dataset.page !== i) continue;
+    const sc = el.querySelector('.pin'); const top = sc ? sc.scrollTop : 0;
+    el.innerHTML = P(i, el === pgL && mode === 'spread' ? 'l' : 'r');
+    const ns = el.querySelector('.pin'); if (ns) ns.scrollTop = top;
+  }
+}
+function pageOf(el){ const p = el.closest('[data-page]'); return p ? +p.dataset.page : -1; }
+function upd(){
+  S.last = at; save();
+  const L = mode === 'spread' ? at - (at % 2) : at;
+  const txt = mode === 'spread' ? (L === 0 ? `p. 1 of ${N - 1}` : `pp. ${L}–${Math.min(L + 1, N - 1)} of ${N - 1}`) : (at === 0 ? 'Contents' : `p. ${at} of ${N - 1}`);
+  $('#pgind').textContent = opened ? txt : '';
+  $('#mmid').textContent = (BOOK.pages[at].head || BOOK.short) + ' · ' + (at === 0 ? 'contents' : 'p. ' + at);
+  const nr = Object.keys(S.read).length; $('#progi').style.width = Math.round(100 * nr / N) + '%';
+  // the library's "Continue" button: which lecture and page this reader was on last
+  try { localStorage.setItem('msk-last-book', JSON.stringify({id: BOOK.id, href: location.pathname.split('/').pop() || '', title: BOOK.title, page: at, t: Date.now()})); } catch (e) {}
+  // the page number is kept in S.last only — never in the address bar: an embedded viewer treats a changed address
+  // as a new page and reloads it, which made the book reload on every page turn
+}
+
+/* ---------- page turning ---------- */
+function clearLeaf(){ leaf.hidden = true; leaf.getAnimations && leaf.getAnimations().forEach(a => a.cancel()); }
+function anim(el, frames, done){
+  if (!DUR || !el.animate){ done(); return; }
+  leaf.style.setProperty('--dur', DUR + 'ms');
+  const a = el.animate(frames, {duration: DUR, easing: EASE});
+  a.onfinish = done; a.oncancel = done;
+}
+function go(dir){
+  if (busy || !opened) return;
+  if (mode === 'spread'){
+    const L = at - (at % 2);
+    if (dir > 0){
+      if (L + 2 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = 'var(--pw)'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(L + 1, 'r'); lb.innerHTML = P(L + 2, 'l'); setPage(pgR, L + 3, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(-180deg)'}], () => { at = L + 2; setPage(pgL, L + 2, 'l'); clearLeaf(); busy = false; mark(at); mark(at + 1); upd(); });
+    } else {
+      if (L - 2 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'right center';
+      lf.innerHTML = P(L, 'l'); lb.innerHTML = P(L - 1, 'r'); setPage(pgL, L - 2, 'l'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], () => { at = L - 2; setPage(pgR, L - 1, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  } else {
+    if (dir > 0){
+      if (at + 1 >= N) return toast('End of the lecture');
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at, 'r'); lb.innerHTML = '<div class="pin"></div>'; setPage(pgL, at + 1, 'r'); leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(0deg)', opacity: 1}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .7}, {transform: 'rotateY(-180deg)', opacity: 0}], () => { at++; clearLeaf(); busy = false; mark(at); upd(); });
+    } else {
+      if (at - 1 < 0) return;
+      busy = true;
+      leaf.style.left = '0px'; leaf.style.transformOrigin = 'left center';
+      lf.innerHTML = P(at - 1, 'r'); lb.innerHTML = '<div class="pin"></div>'; leaf.hidden = false;
+      anim(leaf, [{transform: 'rotateY(-180deg)', opacity: 0}, {transform: 'rotateY(-110deg)', opacity: .9, offset: .3}, {transform: 'rotateY(0deg)', opacity: 1}], () => { at--; setPage(pgL, at, 'r'); clearLeaf(); busy = false; upd(); });
+    }
+  }
+}
+function jump(i){
+  i = Math.max(0, Math.min(N - 1, i)); closeOv();
+  if (!opened) openBook(i); else { at = i; draw(); }
+}
+document.addEventListener('keydown', e => {
+  if (!opened || document.querySelector('#ovs .ov')) { if (e.key === 'Escape') closeOv(); return; }
+  if (e.target.closest && e.target.closest('input,textarea')) return;
+  if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1);
+});
+let tx0 = null, ty0 = 0;
+book.addEventListener('touchstart', e => { const t = e.touches[0]; if (e.target.closest('.nosw,input,textarea,button,svg')) { tx0 = null; return; } tx0 = t.clientX; ty0 = t.clientY; }, {passive: true});
+book.addEventListener('touchend', e => { if (tx0 === null) return; const t = e.changedTouches[0]; const dx = t.clientX - tx0, dy = t.clientY - ty0; tx0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.6) go(dx < 0 ? 1 : -1); }, {passive: true});
+
+/* ---------- home (closed book) ---------- */
+function examDays(d){ const t = new Date(d + 'T00:00:00'); const now = new Date(); const a = new Date(now.getFullYear(), now.getMonth(), now.getDate()); return Math.round((t - a) / 864e5); }
+function chipFor(e){ const n = examDays(e.date); if (n < 0) return ''; return `<span class="cd">${esc(e.name)} · <b>${n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'}</b></span>`; }
+function stats(){
+  const nr = Object.keys(S.read).length;
+  const ids = Object.keys(S.ans).filter(q => QS[q]); const ok = ids.filter(q => S.ans[q].ok).length;
+  const learned = Object.values(S.cards).filter(c => c.step >= 2).length;
+  return {nr, ok, n: ids.length, learned};
+}
+function home(){
+  opened = false; book.hidden = true; $('#mnav').hidden = true; $('#pgind').textContent = '';
+  const st = stats();
+  const cont = S.last > 1 ? `Continue on page ${S.last}` : 'Open the book';
+  $('#home').hidden = false;
+  $('#home').innerHTML = `
+  <div class="cover" id="cover">
+    <div class="frame"></div>
+    <div class="k">THE HELPERS · SEM 3 · 2026–27</div>
+    <div class="t1">MSK</div>
+    <div class="t2">${esc(BOOK.subject.toUpperCase())}</div>
+    <div class="rule"></div>
+    <div class="t3">${esc(BOOK.coverLine)}</div>
+    <div class="t4">${esc(BOOK.coverNote)}</div>
+  </div>
+  <div class="side">
+    ${BOOK.lib ? `<a class="libl" href="${esc(BOOK.lib)}">← All lectures</a>` : ''}
+    <h1>${esc(BOOK.title)}</h1>
+    <p>${esc(BOOK.blurb)}</p>
+    <div class="chips">${(BOOK.exams || []).map(chipFor).join('')}</div>
+    <div class="stats">
+      <div class="stat"><b>${st.nr}/${N}</b><span>pages read</span></div>
+      <div class="stat"><b>${st.ok}/${st.n}</b><span>answered right</span></div>
+      <div class="stat"><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>
+    </div>
+    <button class="hbtn pri" data-act="open">${cont}</button>
+    <div class="hrow">
+      <button class="hbtn" data-act="open-cards">Flashcards</button>
+      <button class="hbtn" data-act="open-exam">Exam mode</button>
+    </div>
+  </div>`;
+  $('#chap').textContent = BOOK.short;
+}
+function openBook(i){
+  const go2 = () => { $('#home').hidden = true; book.hidden = false; opened = true; if (i !== undefined) at = i; layout(true); };
+  const c = $('#cover');
+  if (c && DUR && c.animate){ c.animate([{transform: 'perspective(1400px) rotateY(0)'}, {transform: 'perspective(1400px) rotateY(-80deg)', opacity: .2}], {duration: 520, easing: 'ease-in'}).onfinish = go2; }
+  else go2();
+}
+
+/* ---------- block renderers ---------- */
+H.part = b => `<div class="part"><span class="pn">${esc(b.no)}</span><div><small>Part ${esc(b.no)}</small><h2>${esc(b.title)}</h2>${b.sub ? `<p>${esc(b.sub)}</p>` : ''}</div><span class="big">${esc(b.no)}</span></div>`;
+H.h = b => `<h3 class="sh"><span class="num">${esc(b.no)}</span><span>${esc(b.title)}</span>${b.top || b.rep ? `<span class="sht">${b.top ? '<span class="tg top">★ Top priority</span>' : ''}${b.rep ? '<span class="tg">↻ High yield</span>' : ''}</span>` : ''}</h3>`;
+H.hook = b => `<p class="hook">${b.html}</p>`;
+H.p = b => `<p class="tx">${b.html}</p>`;
+H.list = b => `<ul class="ls">${b.items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const NL = {hy: 'High yield', trap: 'Exam trap', mn: 'Mnemonic', cl: 'Clinical', def: 'Definition', nb: 'N.B.'};
+H.note = b => `<aside class="note n-${b.kind}"><span class="nl">${esc(b.title || NL[b.kind])}</span>${b.html}</aside>`;
+H.flow = b => `<div class="flow">${b.steps.map(s => `<span>${s}</span>`).join('<i>→</i>')}</div>`;
+const TB = {};
+H.table = (b, pg, k) => {
+  const id = pg.id + '-' + k; const st = TB[id] || (TB[id] = {cv: false, rev: {}});
+  const rows = b.rows.map((r, ri) => `<tr>${r.map((c, ci) => { const cov = st.cv && ci > 0 && !st.rev[ri + ':' + ci]; return `<td${cov ? ` class="cv" data-act="rev" data-t="${id}" data-c="${ri}:${ci}"` : ''}>${cov ? '<span>' + c + '</span>' : c}</td>`; }).join('')}</tr>`).join('');
+  return `<div class="tbl"><div class="tbl-h"><span>${esc(b.cap || '')}</span>${b.cover !== false ? `<button class="mini ${st.cv ? 'on' : ''}" data-act="cover" data-t="${id}">${st.cv ? 'Show answers' : 'Cover answers'}</button>` : ''}</div><div class="tw"><table><thead><tr>${b.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+function qimg(q, ans){
+  const L = ans ? q.aimg : q.img; if (!L || !L.length) return '';
+  const cap = ans ? q.acap : q.cap;
+  return L.map((u, i) => `<figure class="qf"><img src="${esc(u)}" alt="${esc(cap || 'Figure for this question')}" loading="lazy">${i === L.length - 1 && cap ? `<figcaption>${esc(cap)}</figcaption>` : ''}</figure>`).join('');
+}
+function qtags(q){
+  const t = [];
+  if (q.top) t.push('<span class="tg top">★ Top priority</span>');
+  if (q.rep) t.push(`<span class="tg">↻ ${esc(q.rep)}</span>`);
+  t.push(`<span class="tg">${esc(q.tag)}</span>`);
+  return t.join('');
+}
+function opts(q, st, act){
+  return q.opts.map((o, i) => {
+    let c = '';
+    if (st && st.show){ if (i === q.ans) c = 'ok'; else if (i === st.pick) c = 'bad'; }
+    else if (st && st.pick === i) c = 'pick';
+    return `<button class="op ${c}" data-act="${act}" data-q="${q.id}" data-i="${i}" ${st && st.show ? 'disabled' : ''}><span class="lt">${'ABCDEFGH'[i]}</span><span>${esc(o)}</span></button>`;
+  }).join('');
+}
+H.check = b => {
+  const q = QS[b.q]; if (!q) return ''; const a = S.ans[q.id];
+  const st = a ? {pick: a.pick, show: true} : null;
+  const res = a ? `<div class="res ${a.ok ? 'ok' : 'bad'}">${a.ok ? '✓ Correct' : '✗ Not quite — the answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>${qimg(q, 1)}<div class="row"><button class="btn" data-act="retry" data-q="${q.id}">Try again</button></div>` : '';
+  return `<div class="qb"><div class="qh">Check question ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'ans')}${res}</div>`;
+};
+H.predict = b => {
+  const q = QS[b.q]; if (!q) return ''; const p = S.pred[q.id] || {};
+  const st = p.lift ? {pick: p.pick, show: true} : (p.pick !== undefined ? {pick: p.pick} : null);
+  let tail = '';
+  if (p.pick !== undefined && !p.lift) tail = `<div class="row"><button class="btn lift" data-act="lift" data-q="${q.id}">Lift the flap ↑</button><span class="muted" style="font-size:.8em">You predicted ${'ABCDEFGH'[p.pick]}</span></div>`;
+  else if (p.lift) tail = `<div class="res ${p.pick === q.ans ? 'ok' : 'bad'}">${p.pick === q.ans ? '✓ Your prediction was right' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div>`;
+  else tail = `<div class="flapc"><span class="muted" style="font-size:.82em">Pick your prediction, then lift the flap</span></div>`;
+  return `<div class="qb"><div class="qh">Predict, then reveal ${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'pred')}${tail}</div>`;
+};
+H.flap = b => {
+  const q = QS[b.q]; if (!q) return ''; const lifted = S.flap[q.id]; const self = S.self[q.id];
+  const dr = `<textarea class="dr" data-act="draft" data-q="${q.id}" placeholder="Write your answer first (optional)…">${esc(S.draft[q.id] || '')}</textarea>`;
+  const body = lifted
+    ? `<div class="ans">${q.keyhtml}</div>${qimg(q, 1)}${q.expl ? `<div class="ex">${q.expl}</div>` : ''}<div class="row"><span class="muted" style="font-size:.78em">How did you do?</span><button class="btn ${self === 'got' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="got">Got it</button><button class="btn ${self === 'later' ? 'pri' : ''}" data-act="self" data-q="${q.id}" data-v="later">Review later</button></div>`
+    : `${dr}<div class="flapc"><button class="btn lift" data-act="flap" data-q="${q.id}">Lift the flap ↑</button></div>`;
+  return `<div class="qb"><div class="qh">Written question ${qtags(q)}</div><div class="qs" style="white-space:pre-line">${esc(q.stem)}</div>${qimg(q)}${body}</div>`;
+};
+H.title = b => `<div class="title-page"><div class="kick">${esc(b.kick)}</div><h1 class="ttl">${esc(b.title)}</h1><div class="sub">${esc(b.sub)}</div>
+  <div class="facts">${b.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join('')}</div>
+  ${b.hook ? `<p class="hook">${b.hook}</p>` : ''}${b.note ? `<aside class="note n-hy"><span class="nl">${esc(b.note[0])}</span>${b.note[1]}</aside>` : ''}</div>`;
+H.contents = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  return `<h3 class="sh" style="margin-top:0"><span class="num">≡</span><span>Contents</span></h3>
+  <ul class="map">${items.map(([p, i]) => `<li><button data-act="jump" data-p="${i}"><span class="mn">${esc(p.toc[0])}</span><span class="mt">${esc(p.toc[1])}</span><span class="mp">p. ${i}</span></button></li>`).join('')}</ul>
+  <div class="legend"><i style="background:var(--sticky)"></i><span>Sticky notes = high-yield facts</span><i style="background:var(--trap-bg);border-left:3px solid var(--red)"></i><span>Exam traps</span>
+  <i style="background:var(--chip);border:1px solid var(--line)"></i><span>Check questions answer instantly</span><i style="background:var(--red)"></i><span>LAB pages: interactive drills</span></div>
+  <p class="tx" style="font-size:.86em">Turn pages with the arrows, the ← → keys, or a swipe. Tap the ribbon to bookmark a page. Every fact comes from this year's Helpers pamphlet; every question is from the checked question bank.</p>`;
+};
+H.actions = () => `<div class="row" style="gap:.6em;margin:.8em 0"><button class="btn pri" data-act="open-exam">Start exam mode</button><button class="btn" data-act="open-cards">Flashcards (${BOOK.cards.length})</button><button class="btn" data-act="open-mist">My mistakes</button></div>`;
+H.progress = () => {
+  const st = stats(); const labs = Object.keys(LABS); const ld = labs.filter(l => S.labs[l] && S.labs[l].done).length;
+  const ex = S.exams.length ? S.exams[S.exams.length - 1] : null;
+  const third = labs.length ? `<div><b>${ld}/${labs.length}</b><span>labs done</span></div>` : `<div><b>${st.learned}/${BOOK.cards.length}</b><span>cards learned</span></div>`;
+  return `<div class="facts"><div><b>${st.nr}/${N}</b><span>pages read</span></div><div><b>${st.ok}/${st.n}</b><span>questions right</span></div>${third}</div>
+  <p class="tx" style="font-size:.86em">${ex ? `Last exam: <b>${ex.score}/${ex.n}</b> in ${Math.round(ex.secs / 60)} min.` : 'No exam taken yet.'} ${Object.keys(S.mist).length ? `You have <b>${Object.keys(S.mist).length}</b> questions in your mistakes list.` : ''}</p>`;
+};
+H.lab = (b, pg) => { const L = LABS[b.lab]; return L ? labHTML(L, pg) : ''; };
+H.recall = b => {
+  const st = S.labs[b.id] || {}, rv = st.r || {}; let n = 0, k = 0;
+  const body = b.groups.map(g => `<div class="rcg">${esc(g.title)}</div>` + g.items.map(it => { const i = n++, on = !!rv[i]; if (on) k++;
+    return `<button class="rci ${on ? 'on' : ''}" data-act="rcv" data-l="${b.id}" data-i="${i}"><span class="cue">${it[0]}</span>${it[1] ? ` <span class="${on ? '' : 'hid'}">${it[1]}</span>` : ''}</button>`; }).join('')).join('');
+  return `<div class="labh"><span class="lb">LAB</span><h3>${esc(b.title)}</h3></div>
+    <p class="labi">Say the rest of each line out loud, then tap it to check. Tap again to cover it. <b>${k}/${n}</b> uncovered.</p>
+    <div class="modes"><button class="mini" data-act="rcall" data-l="${b.id}" data-n="${n}">Uncover all</button><button class="mini" data-act="rcno" data-l="${b.id}">Cover all</button></div>${body}`;
+};
+H.end = () => {
+  const nx = BOOK.next, pv = BOOK.prev;
+  return `<div class="endnav">${nx ? `<a href="${esc(nx.href)}"><span><small>Next lecture</small>${esc(nx.title)}</span><span>→</span></a>` : ''}
+    ${pv ? `<a href="${esc(pv.href)}"><span><small>Previous lecture</small>${esc(pv.title)}</span><span>←</span></a>` : ''}
+    ${BOOK.lib ? `<a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a>` : ''}</div>`;
+};
+
+/* ---------- labs ---------- */
+const LS = {};
+function lst(id, init){ return LS[id] || (LS[id] = init()); }
+function rnd(seed){ let s = 0; for (const ch of seed) s = (s * 31 + ch.charCodeAt(0)) >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+function shuffled(arr, seed){ const r = rnd(seed), a = arr.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function labDone(id){ if (!S.labs[id] || !S.labs[id].done){ S.labs[id] = {done: true}; save(); } }
+function labHTML(L, pg){
+  const head = `<div class="labh"><span class="lb">LAB</span><h3>${esc(L.title)}</h3></div><div class="labi">${L.intro}</div>`;
+  const foot = L.ref ? `<div class="ref">From the pamphlet · ${esc(L.ref)}</div>` : '';
+  return `<div class="labx nosw">${head}${LAB[L.type](L)}${foot}</div>`;
+}
+const LAB = {};
+// --- region map (cross-section) ---
+function sector(cx, cy, rx, ry, a1, a2){
+  const p = a => [cx + rx * Math.cos(a * Math.PI / 180), cy + ry * Math.sin(a * Math.PI / 180)];
+  const [x1, y1] = p(a1), [x2, y2] = p(a2); const large = ((a2 - a1 + 360) % 360) > 180 ? 1 : 0;
+  return `M${cx},${cy} L${x1.toFixed(1)},${y1.toFixed(1)} A${rx},${ry} 0 ${large} 1 ${x2.toFixed(1)},${y2.toFixed(1)} Z`;
+}
+LAB.map = L => {
+  const st = lst(L.id, () => ({sel: null, mode: 'explore', qi: 0, score: 0, fb: null, order: shuffled(L.tests.map((_, i) => i), L.id)}));
+  const cx = 160, cy = 128, rx = 136, ry = 108;
+  const regs = L.regions.map(r => {
+    const on = st.sel === r.id, dim = st.sel && !on && st.mode === 'explore';
+    return `<path class="rg ${dim ? 'dim' : ''}" d="${sector(cx, cy, rx, ry, r.a1, r.a2)}" fill="${r.color}" data-act="map" data-l="${L.id}" data-id="${r.id}" ${on ? 'stroke="var(--navy)" stroke-width="4"' : ''}/>`;
+  }).join('');
+  const labels = L.regions.map(r => { const m = (r.a1 + ((r.a2 - r.a1 + 360) % 360) / 2) * Math.PI / 180; return `<text class="svgtxt" text-anchor="middle" x="${(cx + rx * .62 * Math.cos(m)).toFixed(1)}" y="${(cy + ry * .62 * Math.sin(m) + 4).toFixed(1)}">${esc(r.short)}</text>`; }).join('');
+  const septa = L.regions.map(r => { const a = r.a1 * Math.PI / 180; return `<line x1="${(cx + 26 * Math.cos(a)).toFixed(1)}" y1="${(cy + 26 * Math.sin(a)).toFixed(1)}" x2="${(cx + rx * Math.cos(a)).toFixed(1)}" y2="${(cy + ry * Math.sin(a)).toFixed(1)}" stroke="var(--ink-2)" stroke-width="2" stroke-dasharray="4 3"/>`; }).join('');
+  const svg = `<svg viewBox="0 0 320 262" role="img" aria-label="${esc(L.title)}">${regs}${septa}
+    <circle cx="${cx}" cy="${cy}" r="26" fill="var(--bone)" stroke="var(--ink-2)" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="11" fill="var(--paper-2)" stroke="var(--ink-2)" stroke-width="1"/>
+    <text class="svgsm" x="${cx}" y="${cy + 42}" text-anchor="middle">FEMUR</text>${labels}
+    <text class="svgsm" x="8" y="254">${esc(L.caption || '')}</text></svg>`;
+  let info;
+  if (st.mode === 'explore'){
+    const r = L.regions.find(x => x.id === st.sel);
+    info = r ? `<h4>${esc(r.name)}</h4>${r.html}` : `<span class="muted">Tap a compartment to see its muscles and its nerve.</span>`;
+  } else {
+    const done = st.qi >= L.tests.length;
+    info = done ? `<h4>Score: ${st.score}/${L.tests.length}</h4><span class="muted">Press "Test me" again for a new round.</span>`
+      : `<h4>${esc(L.tests[st.order[st.qi]].q)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : '<span class="muted">Tap the compartment.</span>'}`;
+    if (done) labDone(L.id);
+  }
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="explore">Explore</button><button class="mini ${st.mode === 'test' ? 'on' : ''}" data-act="mapmode" data-l="${L.id}" data-v="test">Test me</button>${st.mode === 'test' ? `<span class="muted" style="font-size:.75em;align-self:center">Question ${Math.min(st.qi + 1, L.tests.length)} of ${L.tests.length} · score ${st.score}</span>` : ''}</div>
+    <div class="svgw">${svg}</div><div class="info">${info}</div>`;
+};
+// --- nerve / muscle / movement graph with nerve cuts ---
+function gstate(L){ return lst(L.id, () => ({sel: null, cut: {}, mode: 'explore'})); }
+function mstat(m, cut){ if (!m.nerves.length) return 'unk'; const c = m.nerves.filter(n => cut[n]).length; return c === 0 ? 'ok' : c === m.nerves.length ? 'lost' : 'weak'; }
+LAB.graph = L => {
+  const st = gstate(L);
+  const M = L.muscles, byId = {}; M.forEach(m => byId[m.id] = m);
+  let hlN = {}, hlM = {}, hlV = {};
+  if (st.mode === 'explore' && st.sel){
+    const [t, id] = st.sel;
+    if (t === 'n'){ hlN[id] = 1; M.forEach(m => { if (m.nerves.includes(id)){ hlM[m.id] = 1; m.moves.forEach(v => hlV[v] = 1); } }); }
+    if (t === 'm'){ const m = byId[id]; hlM[id] = 1; m.nerves.forEach(n => hlN[n] = 1); m.moves.forEach(v => hlV[v] = 1); }
+    if (t === 'v'){ hlV[id] = 1; M.forEach(m => { if (m.moves.includes(id)){ hlM[m.id] = 1; m.nerves.forEach(n => hlN[n] = 1); } }); }
+  }
+  const any = st.mode === 'explore' && st.sel;
+  const ch = (t, id, name, extra) => {
+    let c = '';
+    if (st.mode === 'explore'){ if (any) c = ((t === 'n' ? hlN : t === 'm' ? hlM : hlV)[id]) ? 'hl' : 'dim'; }
+    else { if (t === 'n' && st.cut[id]) c = 'cut'; if (t === 'm'){ const s = mstat(byId[id], st.cut); c = s === 'lost' ? 'lost' : s === 'weak' ? 'weak' : s === 'unk' ? 'unk' : ''; } if (t === 'v') c = extra || ''; }
+    return `<button class="chip ${c}" data-act="g" data-l="${L.id}" data-t="${t}" data-id="${id}">${t === 'n' && st.mode === 'cut' ? (st.cut[id] ? '✂ ' : '') : ''}${esc(name)}</button>`;
+  };
+  // movement status
+  const vstat = {};
+  let summary = '';
+  if (st.mode === 'cut'){
+    const lines = [];
+    L.moves.forEach(v => {
+      const ms = M.filter(m => m.moves.includes(v.id) && m.nerves.length);
+      const lost = ms.filter(m => mstat(m, st.cut) === 'lost'), weak = ms.filter(m => mstat(m, st.cut) === 'weak');
+      const s = lost.length === ms.length && ms.length ? 'lost' : (lost.length || weak.length) ? 'weak' : 'ok';
+      vstat[v.id] = s;
+      if (s !== 'ok'){
+        const still = ms.filter(m => mstat(m, st.cut) !== 'lost').map(m => m.name + (mstat(m, st.cut) === 'weak' ? ' (partly)' : ''));
+        lines.push(`<div><b>${esc(v.name)}</b><span class="st ${s}">${s === 'lost' ? 'LOST' : 'WEAKENED'}</span>${still.length ? `<br><span class="muted" style="font-size:.9em">Still working: ${esc(still.join(', '))}</span>` : ''}</div>`);
+      }
+    });
+    const nc = Object.keys(st.cut).filter(k => st.cut[k]).length;
+    summary = nc ? (lines.length ? lines.join('') : '<span class="muted">No movement is affected.</span>') : '<span class="muted">Tap a nerve to cut it, or choose a case below.</span>';
+  } else {
+    const sel = st.sel; let t = '<span class="muted">Tap any nerve, muscle or movement to light up everything connected to it.</span>';
+    if (sel){ const [k, id] = sel; const item = k === 'n' ? L.nerves.find(x => x.id === id) : k === 'm' ? byId[id] : L.moves.find(x => x.id === id); t = `<h4>${esc(item.name)}</h4>${item.note ? esc(item.note) : ''}`; }
+    summary = t;
+  }
+  const vchip = v => ch('v', v.id, v.name, st.mode === 'cut' ? (vstat[v.id] === 'lost' ? 'lost' : vstat[v.id] === 'weak' ? 'weak' : '') : '');
+  return `<div class="modes"><button class="mini ${st.mode === 'explore' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="explore">Explore links</button><button class="mini ${st.mode === 'cut' ? 'on' : ''}" data-act="gmode" data-l="${L.id}" data-v="cut">Cut a nerve</button>${st.mode === 'cut' ? `<button class="mini" data-act="gclear" data-l="${L.id}">Heal all</button>` : ''}</div>
+    ${st.mode === 'cut' ? `<div class="modes">${L.cases.map((c, i) => `<button class="mini" data-act="gcase" data-l="${L.id}" data-i="${i}">${esc(c.name)}</button>`).join('')}</div>` : ''}
+    <div class="gcols"><div class="gcol"><h5>Nerves</h5>${L.nerves.map(n => ch('n', n.id, n.name)).join('')}</div>
+    <div class="gcol"><h5>Muscles</h5>${M.map(m => ch('m', m.id, m.name)).join('')}</div>
+    <div class="gcol"><h5>Movements</h5>${L.moves.map(vchip).join('')}</div></div>
+    <div class="info">${summary}</div>${L.footnote ? `<div class="muted" style="font-size:.74em">${L.footnote}</div>` : ''}`;
+};
+// --- sorter ---
+LAB.sort = L => {
+  const st = lst(L.id, () => ({sel: null, placed: {}, wrong: 0, shake: null, order: shuffled(L.items.map(x => x.id), L.id)}));
+  const pool = st.order.filter(id => !st.placed[id]);
+  const it = id => L.items.find(x => x.id === id);
+  const done = !pool.length; if (done) labDone(L.id);
+  return `<div class="pool">${pool.map(id => `<button class="chip ${st.sel === id ? 'sel' : ''} ${st.shake === id ? 'shake' : ''}" data-act="spick" data-l="${L.id}" data-id="${id}">${esc(it(id).name)}</button>`).join('') || ''}</div>
+   ${done ? `<div class="done">✓ All sorted${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ' with no mistakes'}</div>` : `<div class="muted" style="font-size:.78em;margin:-.3em 0 .5em">${st.sel ? 'Now tap the right box.' : 'Tap an item, then tap its box.'}${st.wrong ? ` Wrong tries: ${st.wrong}.` : ''}</div>`}
+   <div class="bins">${L.bins.map(b => `<button class="bin" data-act="sdrop" data-l="${L.id}" data-b="${b.id}"><h5>${esc(b.name)}</h5>${b.sub ? `<small>${esc(b.sub)}</small>` : ''}<span class="in">${st.order.filter(id => st.placed[id] === b.id).map(id => `<span class="chip ok">${esc(it(id).name)}</span>`).join('')}</span></button>`).join('')}</div>
+   <div class="row"><button class="btn" data-act="sreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- sequence ---
+LAB.seq = L => {
+  const st = lst(L.id, () => ({n: 0, wrong: 0, shake: null, order: shuffled(L.steps.map((_, i) => i), L.id + 's')}));
+  const done = st.n >= L.steps.length; if (done) labDone(L.id);
+  return `<div class="info" style="min-height:0"><h4>${esc(L.prompt)}</h4></div>
+   <div class="seqline">${st.n ? L.steps.slice(0, st.n).map((s, i) => `<span class="n">${i + 1}</span><span class="chip ok">${esc(s)}</span>`).join('') : '<span class="muted" style="font-size:.78em">Your order appears here.</span>'}</div>
+   <div class="pool">${st.order.filter(i => i >= st.n).map(i => `<button class="chip ${st.shake === i ? 'shake' : ''}" data-act="qpick" data-l="${L.id}" data-i="${i}">${esc(L.steps[i])}</button>`).join('')}</div>
+   ${done ? `<div class="done">✓ Correct order${L.mnemonic ? ' — ' + esc(L.mnemonic) : ''}${st.wrong ? ` · ${st.wrong} wrong tr${st.wrong === 1 ? 'y' : 'ies'}` : ''}</div>` : (st.wrong ? `<div class="muted" style="font-size:.78em">Wrong tries: ${st.wrong}</div>` : '')}
+   <div class="row"><button class="btn" data-act="qreset" data-l="${L.id}">Start again</button></div>`;
+};
+// --- labelled diagram ---
+const DRAW = {};
+LAB.diagram = L => {
+  const st = lst(L.id, () => ({mode: 'labels', rev: {}, qi: 0, score: 0, fb: null, order: shuffled(L.pins.map(p => p.id), L.id)}));
+  const pins = L.pins.map((p, i) => {
+    const shown = st.mode === 'labels' || (st.mode === 'test' && st.rev[p.id]);
+    let c = st.mode === 'test' && st.rev[p.id] ? 'on' : '';
+    if (st.mode === 'find' && st.fb && st.fb[2] === p.id) c = st.fb[0];
+    const lx = p.lx !== undefined ? p.lx : p.x + 9, anchor = p.anchor || 'start';
+    return `<g class="pinbtn ${c}" data-act="pin" data-l="${L.id}" data-id="${p.id}"><circle class="d" cx="${p.x}" cy="${p.y}" r="7"/><text x="${p.x}" y="${p.y + 2.8}" text-anchor="middle">${i + 1}</text>${shown ? `<text class="plab" x="${lx}" y="${p.ly !== undefined ? p.ly : p.y + 3}" text-anchor="${anchor}">${esc(p.short || p.name)}</text>` : ''}</g>`;
+  }).join('');
+  let info;
+  if (st.mode === 'labels') info = `<span class="muted">All labels shown. Switch to "Test me" (tap a number to reveal it) or "Find it" (find the named structure).</span>`;
+  else if (st.mode === 'test') info = `<span class="muted">Say the name of each numbered structure, then tap it to check. Revealed ${Object.keys(st.rev).length} of ${L.pins.length}.</span>`;
+  else {
+    const done = st.qi >= st.order.length; if (done) labDone(L.id);
+    info = done ? `<h4>Score: ${st.score}/${st.order.length}</h4><span class="muted">Choose "Find it" again for a new round.</span>`
+      : `<h4>Find: ${esc(L.pins.find(p => p.id === st.order[st.qi]).name)}</h4>${st.fb ? `<div class="fb ${st.fb[0]}">${esc(st.fb[1])}</div>` : `<span class="muted">Tap its number · ${st.qi + 1} of ${st.order.length} · score ${st.score}</span>`}`;
+  }
+  return `<div class="modes">${[['labels', 'Labels on'], ['test', 'Test me'], ['find', 'Find it']].map(([m, n]) => `<button class="mini ${st.mode === m ? 'on' : ''}" data-act="dmode" data-l="${L.id}" data-v="${m}">${n}</button>`).join('')}</div>
+   <div class="svgw"><svg viewBox="${L.viewBox}" role="img" aria-label="${esc(L.title)}">${DRAW[L.draw] ? DRAW[L.draw]() : ''}${pins}</svg></div>
+   ${st.mode === 'labels' ? `<ol class="key">${L.pins.map(p => `<li>${esc(p.name)}</li>`).join('')}</ol>` : st.mode === 'test' ? `<ol class="key">${L.pins.map(p => `<li>${st.rev[p.id] ? esc(p.name) : '<span class="muted">tap ' + (L.pins.indexOf(p) + 1) + ' to check</span>'}</li>`).join('')}</ol>` : ''}<div class="info">${info}</div>`;
+};
+DRAW.femtri = () => {
+  // schematic femoral triangle: base = inguinal ligament (top), lateral side = sartorius (left), medial side = adductor longus (right)
+  const A = [44, 46], B = [296, 46], C = [176, 286];
+  const tri = `${A} ${B} ${C}`;
+  return `<defs><clipPath id="ftc"><polygon points="${tri}"/></clipPath>
+    <pattern id="lym" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="4" cy="4" r="1.4" fill="var(--cl)"/></pattern></defs>
+   <rect x="6" y="14" width="328" height="290" rx="14" fill="var(--skin)"/>
+   <g clip-path="url(#ftc)" opacity=".9">
+     <rect x="44" y="46" width="64" height="240" fill="#cfa18f"/><rect x="108" y="46" width="62" height="240" fill="#d9ae9c"/>
+     <rect x="170" y="46" width="62" height="240" fill="#e3bba9"/><rect x="232" y="46" width="64" height="240" fill="#d9ae9c"/>
+   </g>
+   <line x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="${B[0]}" y1="${B[1]}" x2="${C[0]}" y2="${C[1]}" stroke="var(--musc-2)" stroke-width="13" stroke-linecap="round"/>
+   <line x1="30" y1="40" x2="310" y2="40" stroke="var(--bone)" stroke-width="7" stroke-linecap="round"/><line x1="30" y1="40" x2="310" y2="40" stroke="var(--ink-2)" stroke-width="1" stroke-dasharray="3 3"/>
+   <path d="M118,48 L214,48 L200,150 L132,150 Z" fill="rgba(255,255,255,.22)" stroke="var(--ink-2)" stroke-width="1.4" stroke-dasharray="5 3"/>
+   <path d="M104,46 C104,90 108,140 118,190" stroke="#e2b93b" stroke-width="5" fill="none" stroke-linecap="round"/>
+   <path d="M146,46 C146,110 154,180 168,262" stroke="#c0392b" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M174,46 C174,110 176,180 178,262" stroke="#2f5fb3" stroke-width="7" fill="none" stroke-linecap="round"/>
+   <path d="M193,48 L209,48 L201,96 Z" fill="url(#lym)" stroke="var(--cl)" stroke-width="1.2"/>
+   <text class="svgsm" x="22" y="170" transform="rotate(-90 22 170)" text-anchor="middle">LATERAL</text>
+   <text class="svgsm" x="322" y="170" transform="rotate(90 322 170)" text-anchor="middle">MEDIAL</text>
+   <text class="svgsm" x="170" y="300" text-anchor="middle">SCHEMATIC FRONT VIEW · NOT TO SCALE</text>`;
+};
+
+/* ---------- click handling ---------- */
+const A = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  const f = A[a.dataset.act]; if (f){ e.preventDefault(); f(a, e); }
+});
+document.addEventListener('input', e => { const a = e.target.closest('[data-act="draft"]'); if (a){ S.draft[a.dataset.q] = a.value; save(); } });
+A.next = () => go(1); A.prev = () => go(-1);
+A.home = () => { closeOv(); home(); };
+A.open = () => openBook(S.last > 0 ? S.last : 1);
+A.jump = a => jump(+a.dataset.p);
+A.mark = a => { const i = +a.dataset.p; if (S.marks[i]) delete S.marks[i]; else S.marks[i] = 1; save(); rerender(i); toast(S.marks[i] ? 'Bookmarked' : 'Bookmark removed'); };
+A.cover = a => { const t = TB[a.dataset.t]; t.cv = !t.cv; t.rev = {}; rerender(pageOf(a)); };
+A.rev = a => { const t = TB[a.dataset.t]; t.rev[a.dataset.c] = 1; rerender(pageOf(a)); };
+A.ans = a => { const q = QS[a.dataset.q], i = +a.dataset.i; const ok = i === q.ans; S.ans[q.id] = {pick: i, ok, t: Date.now()}; if (ok) delete S.mist[q.id]; else S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.retry = a => { delete S.ans[a.dataset.q]; save(); rerender(pageOf(a)); };
+A.pred = a => { const p = S.pred[a.dataset.q] || {}; if (p.lift) return; p.pick = +a.dataset.i; S.pred[a.dataset.q] = p; save(); rerender(pageOf(a)); };
+A.lift = a => { const q = QS[a.dataset.q]; const p = S.pred[q.id]; p.lift = 1; if (p.pick !== q.ans) S.mist[q.id] = 1; save(); rerender(pageOf(a)); };
+A.flap = a => { S.flap[a.dataset.q] = 1; save(); rerender(pageOf(a)); };
+A.self = a => { S.self[a.dataset.q] = a.dataset.v; save(); rerender(pageOf(a)); };
+const rcst = id => { const st = S.labs[id] || (S.labs[id] = {}); st.r = st.r || {}; return st; };
+A.rcv = a => { const st = rcst(a.dataset.l), i = a.dataset.i; if (st.r[i]) delete st.r[i]; else st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcall = a => { const st = rcst(a.dataset.l); for (let i = 0; i < +a.dataset.n; i++) st.r[i] = 1; save(); rerender(pageOf(a)); };
+A.rcno = a => { const st = rcst(a.dataset.l); st.r = {}; save(); rerender(pageOf(a)); };
+// labs
+A.map = a => { const L = LABS[a.dataset.l], st = LS[L.id];
+  if (st.mode === 'explore') st.sel = st.sel === a.dataset.id ? null : a.dataset.id;
+  else if (st.qi < L.tests.length){ const t = L.tests[st.order[st.qi]]; if (a.dataset.id === t.a){ st.score += st.fb && st.fb[0] === 'bad' ? 0 : 1; st.qi++; st.fb = null; toast('✓ Correct'); } else st.fb = ['bad', 'Not this one — ' + L.regions.find(r => r.id === a.dataset.id).name + '. Try again.']; }
+  rerender(pageOf(a)); };
+A.mapmode = a => { const st = LS[a.dataset.l]; st.mode = a.dataset.v; st.sel = null; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(st.order, String(Date.now())); rerender(pageOf(a)); };
+A.g = a => { const L = LABS[a.dataset.l], st = gstate(L), t = a.dataset.t, id = a.dataset.id;
+  if (st.mode === 'explore') st.sel = st.sel && st.sel[0] === t && st.sel[1] === id ? null : [t, id];
+  else if (t === 'n') st.cut[id] = !st.cut[id];
+  rerender(pageOf(a)); };
+A.gmode = a => { const st = gstate(LABS[a.dataset.l]); st.mode = a.dataset.v; st.sel = null; rerender(pageOf(a)); };
+A.gclear = a => { const st = gstate(LABS[a.dataset.l]); st.cut = {}; rerender(pageOf(a)); };
+A.gcase = a => { const L = LABS[a.dataset.l], st = gstate(L), c = L.cases[+a.dataset.i]; st.cut = {}; c.cut.forEach(n => st.cut[n] = true); labDone(L.id); rerender(pageOf(a)); };
+A.spick = a => { const st = LS[a.dataset.l]; st.sel = st.sel === a.dataset.id ? null : a.dataset.id; st.shake = null; rerender(pageOf(a)); };
+A.sdrop = a => { const L = LABS[a.dataset.l], st = LS[L.id]; if (!st.sel) return; const it = L.items.find(x => x.id === st.sel);
+  if (it.bin === a.dataset.b){ st.placed[it.id] = it.bin; st.sel = null; st.shake = null; } else { st.wrong++; st.shake = it.id; toast('Not there — try another box'); }
+  rerender(pageOf(a)); };
+A.sreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.qpick = a => { const L = LABS[a.dataset.l], st = LS[L.id], i = +a.dataset.i; if (i === st.n){ st.n++; st.shake = null; } else { st.wrong++; st.shake = i; } rerender(pageOf(a)); };
+A.qreset = a => { delete LS[a.dataset.l]; rerender(pageOf(a)); };
+A.dmode = a => { const L = LABS[a.dataset.l], st = LS[L.id]; st.mode = a.dataset.v; st.rev = {}; st.qi = 0; st.score = 0; st.fb = null; st.order = shuffled(L.pins.map(p => p.id), String(Date.now())); rerender(pageOf(a)); };
+A.pin = a => { const L = LABS[a.dataset.l], st = LS[L.id], id = a.dataset.id;
+  if (st.mode === 'test'){ if (st.rev[id]) delete st.rev[id]; else st.rev[id] = 1; }
+  else if (st.mode === 'find' && st.qi < st.order.length){ const t = st.order[st.qi];
+    if (id === t){ st.score += st.fb && st.fb[0] === 'bad' && st.fb[3] === t ? 0 : 1; st.qi++; st.fb = ['ok', '✓ Correct', id, t]; setTimeout(() => { if (st.fb && st.fb[2] === id){ st.fb = null; rerender(pageOf(document.querySelector(`[data-l="${L.id}"]`) || a)); } }, 700); }
+    else st.fb = ['bad', 'That is ' + L.pins.find(p => p.id === id).name + '. Try again.', id, t]; }
+  rerender(pageOf(a)); };
+
+/* ---------- overlays ---------- */
+function ov(title, body, cls){
+  $('#ovs').innerHTML = `<div class="ov" data-act="ovbg"><div class="panel ${cls || ''}" role="dialog" aria-label="${esc(title)}"><div class="ph"><h2>${esc(title)}</h2><button class="x" data-act="close" aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="pb" id="pbody">${body}</div></div></div>`;
+}
+function closeOv(){ $('#ovs').innerHTML = ''; if (!opened) home(); }
+A.close = closeOv;
+A.ovbg = (a, e) => { if (e.target === a) closeOv(); };
+function toast(t){ const d = document.createElement('div'); d.className = 'toast'; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 1500); }
+
+// contents
+A['open-toc'] = () => {
+  const items = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.toc);
+  const labs = BOOK.pages.map((p, i) => [p, i]).filter(([p]) => p.kind === 'lab');
+  const marks = Object.keys(S.marks).map(Number).sort((a, b) => a - b);
+  ov('Contents', `${BOOK.lib ? `<div class="endnav" style="margin-top:0"><a href="${esc(BOOK.lib)}"><span><small>The MSK book</small>All subjects and lectures</span><span>≡</span></a></div>` : ''}<div class="lst">${items.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span><b>${esc(p.toc[0])}</b> · ${esc(p.toc[1])}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Labs</h3><div class="lst">${labs.map(([p, i]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(p.labName || p.head)}</span></button>`).join('')}</div>
+   <h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Bookmarks</h3>${marks.length ? `<div class="lst">${marks.map(i => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>${esc(BOOK.pages[i].head || 'Page ' + i)}</span></button>`).join('')}</div>` : '<p class="muted">No bookmarks yet. Tap the ribbon at the top of a page.</p>'}`);
+};
+// search
+function pageText(p){ const out = []; (p.blocks || []).forEach(b => { ['title', 'html', 'sub', 'hook'].forEach(k => { if (typeof b[k] === 'string') out.push(b[k]); }); if (b.items) out.push(b.items.join(' ')); if (b.rows) out.push(b.rows.flat().join(' ')); if (b.q && QS[b.q]) out.push(QS[b.q].stem); if (b.lab && LABS[b.lab]) out.push(LABS[b.lab].title + ' ' + LABS[b.lab].intro); }); return out.join(' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' '); }
+const PT = BOOK.pages.map(pageText);
+A['open-search'] = () => { ov('Search the book', `<input class="srch" id="sq" type="search" placeholder="${esc(BOOK.searchHint || 'Search this lecture')}" aria-label="Search"><div class="lst" id="sres"></div>`);
+  const inp = $('#sq'); inp.focus(); inp.addEventListener('input', () => {
+    const q = inp.value.trim().toLowerCase(); const r = $('#sres');
+    if (q.length < 2){ r.innerHTML = ''; return; }
+    const hits = [];
+    PT.forEach((t, i) => { const j = t.toLowerCase().indexOf(q); if (j >= 0) hits.push([i, t.slice(Math.max(0, j - 40), j + q.length + 60)]); });
+    r.innerHTML = hits.length ? hits.map(([i, s]) => `<button class="it" data-act="jump" data-p="${i}"><span class="pgn">p. ${i}</span><span>…${esc(s)}…</span></button>`).join('') : '<p class="muted">Nothing found.</p>';
+  }); };
+// settings
+A['open-set'] = () => {
+  const seg = (k, vals) => `<div class="seg">${vals.map(([v, n]) => `<button class="${String(S.set[k]) === String(v) ? 'on' : ''}" data-act="set" data-k="${k}" data-v="${v}">${n}</button>`).join('')}</div>`;
+  ov('Settings', `<div class="setrow"><span>Theme</span>${seg('theme', [['system', 'Auto'], ['light', 'Day'], ['dark', 'Night']])}</div>
+   <div class="setrow"><span>Text size</span>${seg('size', [[0.9, 'S'], [1, 'M'], [1.15, 'L']])}</div>
+   <div class="setrow"><span>Rapid revision<br><small class="muted">Hides running text; keeps tables, notes, questions and labs.</small></span>${seg('rapid', [[false, 'Off'], [true, 'On']])}</div>
+   <div class="setrow"><span>Progress<br><small class="muted">Saved in this browser only.</small></span><button class="btn" data-act="reset">Reset all progress</button></div>`);
+};
+A.set = a => { let v = a.dataset.v; if (a.dataset.k === 'size') v = +v; if (a.dataset.k === 'rapid') v = v === 'true'; S.set[a.dataset.k] = v; save(); applySet(); A['open-set'](); if (opened) draw(); };
+A.reset = a => { if (a.dataset.sure){ S = JSON.parse(JSON.stringify(DEF)); for (const k in LS) delete LS[k]; save(); applySet(); closeOv(); toast('Progress reset'); if (opened) draw(); } else { a.dataset.sure = 1; a.textContent = 'Tap again to confirm'; } };
+
+/* ---------- flashcards (spaced repetition) ---------- */
+const STEPS = [60e3, 600e3, 864e5, 1728e5, 3456e5, 6912e5];
+const STEPN = ['1 min', '10 min', '1 day', '2 days', '4 days', '8 days'];
+let FC = null;
+function fcQueue(mode){
+  const now = Date.now(); const c = BOOK.cards;
+  if (mode === 'cram') return c.map(x => x.id);
+  const due = c.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).sort((a, b) => S.cards[a.id].due - S.cards[b.id].due).map(x => x.id);
+  const fresh = c.filter(x => !S.cards[x.id]).map(x => x.id);
+  return due.concat(fresh);
+}
+function cloze(t, rev, all){
+  let k = 0;
+  return esc(t).replace(/\{\{c(\d+)::(.*?)(?:::(.*?))?\}\}/g, (m, n, ans, hint) => { const i = k++; const r = all || rev[i]; return `<span class="blank ${r ? 'r' : ''}" data-act="fcb" data-i="${i}">${r ? ans : (hint ? esc(hint) : '·····')}</span>`; });
+}
+A['open-cards'] = () => { FC = {mode: 'learn', q: fcQueue('learn'), i: 0, rev: {}, all: false}; fcDraw(); };
+function fcDraw(){
+  const c = FC.q[FC.i] ? BOOK.cards.find(x => x.id === FC.q[FC.i]) : null;
+  const now = Date.now(); const due = BOOK.cards.filter(x => S.cards[x.id] && S.cards[x.id].due <= now).length; const fresh = BOOK.cards.filter(x => !S.cards[x.id]).length; const learned = Object.values(S.cards).filter(x => x.step >= 2).length;
+  const top = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg"><button class="${FC.mode === 'learn' ? 'on' : ''}" data-act="fcmode" data-v="learn">Due &amp; new</button><button class="${FC.mode === 'cram' ? 'on' : ''}" data-act="fcmode" data-v="cram">Cram all</button></div>
+   <div class="meter"><span>Due <b>${due}</b></span><span>New <b>${fresh}</b></span><span>Learned <b>${learned}/${BOOK.cards.length}</b></span></div></div>`;
+  let body;
+  if (!c){
+    const nxt = Object.values(S.cards).map(x => x.due).filter(d => d > now).sort((a, b) => a - b)[0];
+    body = `<div class="fc" style="text-align:center"><div class="big">✓</div><p>All caught up${FC.mode === 'cram' ? ' — you went through every card' : ''}.</p>${nxt ? `<p class="muted">Next card is due ${new Date(nxt).toLocaleString([], {weekday: 'short', hour: '2-digit', minute: '2-digit'})}.</p>` : ''}<div class="row" style="justify-content:center"><button class="btn pri" data-act="fcmode" data-v="cram">Cram all cards</button></div></div>`;
+  } else {
+    const nb = (c.text.match(/\{\{c\d+::/g) || []).length; const allShown = FC.all || Object.keys(FC.rev).length >= nb;
+    const s = S.cards[c.id]; const step = s ? s.step : -1;
+    const lab = i => STEPN[Math.min(Math.max(i, 0), STEPS.length - 1)];
+    body = `<div class="fc"><div class="ctx">${esc(c.sec)} · card ${FC.i + 1} of ${FC.q.length}</div><div>${cloze(c.text, FC.rev, FC.all)}</div>${allShown && c.extra ? `<div class="fcx">${esc(c.extra)}</div>` : ''}</div>
+      ${allShown ? `<div class="grade"><button class="g0" data-act="fcg" data-v="0">Again<small>${lab(0)}</small></button><button class="g1" data-act="fcg" data-v="1">Good<small>${lab(step + 1)}</small></button><button class="g2" data-act="fcg" data-v="2">Easy<small>${lab(step + 2)}</small></button></div>`
+      : `<div class="row" style="justify-content:center;margin-top:14px"><button class="btn pri" data-act="fcall">Show answer</button><span class="muted" style="font-size:12px">or tap each blank</span></div>`}`;
+  }
+  ov('Flashcards · ' + BOOK.short, top + body);
+}
+A.fcmode = a => { FC = {mode: a.dataset.v, q: fcQueue(a.dataset.v), i: 0, rev: {}, all: false}; fcDraw(); };
+A.fcb = a => { FC.rev[a.dataset.i] = 1; fcDraw(); };
+A.fcall = () => { FC.all = true; fcDraw(); };
+A.fcg = a => { const id = FC.q[FC.i]; const v = +a.dataset.v; const s = S.cards[id] || {step: -1};
+  if (v === 0) s.step = 0; else s.step = Math.min((s.step < 0 ? -1 : s.step) + v, STEPS.length - 1);
+  s.due = Date.now() + STEPS[Math.max(s.step, 0)]; S.cards[id] = s; save();
+  if (v === 0 && FC.mode === 'learn') FC.q.push(id);
+  FC.i++; FC.rev = {}; FC.all = false; fcDraw(); };
+
+/* ---------- exam mode & mistakes ---------- */
+let EX = null;
+const MCQ = Object.values(QS).filter(q => q.type === 'mcq');
+A['open-exam'] = () => {
+  const nB = MCQ.filter(q => q.bank).length;
+  const past = S.exams.slice(-5).reverse();
+  ov('Exam mode · ' + BOOK.short, `<p>Questions from the Final question bank for this lecture${MCQ.length > nB ? ', plus checked extra practice questions' : ''}. You see your score, your time and every mistake at the end.</p>
+   <div class="setrow"><span>Questions</span><div class="seg">${[10, 20, 0].map(n => `<button data-act="exstart" data-n="${n}">${n || 'All ' + MCQ.length}</button>`).join('')}</div></div>
+   <div class="setrow"><span>Only Final-bank questions</span><div class="seg"><button class="${!(EX && EX.all) ? 'on' : ''}" data-act="exonly" data-v="1">Yes (${nB})</button><button class="${EX && EX.all ? 'on' : ''}" data-act="exonly" data-v="0">Add extras (${MCQ.length})</button></div></div>
+   ${past.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Past attempts</h3><div class="lst">${past.map(x => `<div class="it" style="cursor:default;border:1px solid var(--line);border-radius:10px;padding:8px 11px"><b>${x.score}/${x.n}</b>&nbsp; <span class="muted">${new Date(x.date).toLocaleString([], {weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'})} · ${Math.max(1, Math.round(x.secs / 60))} min</span></div>`).join('')}</div>` : ''}`);
+};
+A.exonly = a => { EX = EX || {}; EX.all = a.dataset.v === '0'; A['open-exam'](); };
+A.exstart = a => {
+  const all = EX && EX.all; const pool = MCQ.filter(q => all || q.bank);
+  const n = +a.dataset.n || pool.length; const qs = shuffled(pool.map(q => q.id), String(Date.now())).slice(0, Math.min(n, pool.length));
+  EX = {all, qs, i: 0, picks: {}, t0: Date.now(), kind: 'exam'}; exDraw();
+};
+function exDraw(){
+  if (EX.i >= EX.qs.length) return exEnd();
+  const q = QS[EX.qs[EX.i]];
+  if (EX.kind === 'retry'){
+    const p = EX.picks[q.id];
+    const st = p !== undefined ? {pick: p, show: true} : null;
+    ov('Mistakes · retry ' + (EX.i + 1) + ' of ' + EX.qs.length, `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, st, 'exp')}${p !== undefined ? `<div class="res ${p === q.ans ? 'ok' : 'bad'}">${p === q.ans ? '✓ Correct — removed from your mistakes' : '✗ The answer is ' + 'ABCDEFGH'[q.ans]}</div><div class="ex">${q.expl}</div><div class="row"><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next question' : 'Finish'}</button></div>` : ''}</div>`);
+    return;
+  }
+  const p = EX.picks[q.id];
+  ov(`Question ${EX.i + 1} of ${EX.qs.length}`, `<div class="meter"><span>Answered <b>${Object.keys(EX.picks).length}</b></span><span>Time <b id="extime">0:00</b></span></div>
+   <div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, p !== undefined ? {pick: p} : null, 'exp')}</div>
+   <div class="row" style="justify-content:space-between"><button class="btn" data-act="exback" ${EX.i ? '' : 'disabled'}>Back</button><button class="btn pri" data-act="exnext">${EX.i + 1 < EX.qs.length ? 'Next' : 'Finish exam'}</button></div>`);
+  tick();
+}
+function tick(){ const el = $('#extime'); if (!el || !EX) return; const s = Math.round((Date.now() - EX.t0) / 1000); el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); clearTimeout(tick.t); tick.t = setTimeout(tick, 1000); }
+A.exp = a => { const q = QS[a.dataset.q], i = +a.dataset.i;
+  if (EX.kind === 'retry'){ if (EX.picks[q.id] !== undefined) return; EX.picks[q.id] = i; S.ans[q.id] = {pick: i, ok: i === q.ans, t: Date.now()}; if (i === q.ans) delete S.mist[q.id]; save(); exDraw(); return; }
+  EX.picks[q.id] = i; exDraw(); };
+A.exnext = () => { EX.i++; exDraw(); };
+A.exback = () => { if (EX.i) EX.i--; exDraw(); };
+function exEnd(){
+  clearTimeout(tick.t);
+  if (EX.kind === 'retry'){ const left = Object.keys(S.mist).length; ov('Mistakes', `<div class="fc" style="text-align:center"><div class="big">${EX.qs.filter(id => EX.picks[id] === QS[id].ans).length}/${EX.qs.length}</div><p>${left ? left + ' questions still in your mistakes list.' : 'Your mistakes list is empty.'}</p></div>`); return; }
+  const secs = Math.round((Date.now() - EX.t0) / 1000); let score = 0; const wrong = [];
+  EX.qs.forEach(id => { const q = QS[id], p = EX.picks[id]; const ok = p === q.ans; if (ok){ score++; delete S.mist[id]; } else { S.mist[id] = 1; wrong.push([q, p]); } S.ans[id] = {pick: p === undefined ? -1 : p, ok, t: Date.now()}; });
+  S.exams.push({date: Date.now(), n: EX.qs.length, score, secs}); save();
+  ov('Exam result', `<div class="fc" style="text-align:center"><div class="big">${score}/${EX.qs.length}</div><p>${Math.round(100 * score / EX.qs.length)}% · ${Math.floor(secs / 60)} min ${secs % 60} s</p></div>
+   ${wrong.length ? `<h3 style="font:700 15px var(--f-head);margin:16px 0 4px">Review your mistakes</h3>${wrong.map(([q, p]) => `<div class="qb"><div class="qh">${qtags(q)}</div><div class="qs">${esc(q.stem)}</div>${qimg(q)}${opts(q, {pick: p === undefined ? -1 : p, show: true}, 'none')}<div class="ex">${q.expl}</div></div>`).join('')}` : '<p style="text-align:center">No mistakes. Well done.</p>'}
+   <div class="row"><button class="btn pri" data-act="open-exam">New exam</button>${wrong.length ? '<button class="btn" data-act="open-mist">Retry my mistakes</button>' : ''}</div>`);
+  if (opened) draw();
+}
+A['open-mist'] = () => {
+  const ids = Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq');
+  const later = Object.keys(S.self).filter(id => S.self[id] === 'later' && QS[id]);
+  ov('My mistakes', `${ids.length ? `<p>${ids.length} question${ids.length > 1 ? 's' : ''} you got wrong. Retry them; a right answer removes it from the list.</p><div class="row"><button class="btn pri" data-act="mretry">Retry all</button></div>
+    <div class="lst">${ids.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem)}</span></button>`).join('')}</div>` : '<p class="muted">No mistakes yet. Wrong answers in check questions, predictions and exams collect here.</p>'}
+    ${later.length ? `<h3 style="font:700 14px var(--f-head);margin:16px 0 6px">Written answers to review</h3><div class="lst">${later.map(id => `<button class="it" data-act="jumpq" data-q="${id}"><span class="pgn">${esc(QS[id].tag.replace('Final bank ', ''))}</span><span>${esc(QS[id].stem.split('\n')[0])}</span></button>`).join('')}</div>` : ''}`);
+};
+A.mretry = () => { const ids = shuffled(Object.keys(S.mist).filter(id => QS[id] && QS[id].type === 'mcq'), String(Date.now())); if (!ids.length) return; EX = {qs: ids, i: 0, picks: {}, t0: Date.now(), kind: 'retry'}; exDraw(); };
+A.jumpq = a => { const id = a.dataset.q; const i = BOOK.pages.findIndex(p => (p.blocks || []).some(b => b.q === id)); if (i >= 0) jump(i); else toast('This question is only in exam mode'); };
+A.none = () => {};
+
+/* ---------- start ---------- */
+function start(){
+  layout();
+  home();   // the cover's "Continue on page N" button returns to the saved page
+}
+start();
+})();
+</script>
+
+</body>
+</html>

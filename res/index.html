@@ -1380,6 +1380,247 @@ table.rd{width:100%;border-collapse:separate;border-spacing:.18em;font-size:.82e
 </section>
 
 </template>
+<template data-book="bio-l1" data-subj="Biochemistry" data-lec="L1" data-title="Gas transport and acid–base balance" data-short="Biochemistry L1">
+<section class="page" data-t="Why cells need oxygen" data-g="tap the map" data-p="Part 01 · Oxygen and the cell">
+  <div class="part"><div class="pn">01</div><div><small>PART 01</small><b>Oxygen and the cell</b><span>Cellular respiration · oxidative phosphorylation</span></div></div>
+  <h3><i>1.1</i>The biochemical job of the respiratory system</h3>
+  <ul>
+    <li>The oxidative metabolism of cells is supported by <b>oxygen</b>; the waste product of metabolism, <b>carbon dioxide</b>, is removed from the body.</li>
+    <li>The respiratory system moves gases between blood and air so that <mark>hypoxia</mark> (reduced oxygen in tissues) and <mark>acid–base disturbances</mark> (from altered CO₂) are minimized.</li>
+  </ul>
+  <h3><i>1.2</i>Cellular respiration</h3>
+  <div class="ix" data-ix="hl" data-start="p1">
+    <div class="cap"><span>Live · tap a question</span><em>orange = the answer</em></div>
+    <svg class="map pw" viewBox="0 0 360 170">
+      <g class="n" data-on="p1"><rect x="6" y="6" width="74" height="22" rx="6"/><text x="43" y="21" text-anchor="middle">Fatty acids</text></g>
+      <g class="n" data-on="p1"><rect x="6" y="34" width="74" height="22" rx="6"/><text x="43" y="49" text-anchor="middle">Glucose</text></g>
+      <g class="n" data-on="p1"><rect x="6" y="62" width="74" height="22" rx="6"/><text x="43" y="77" text-anchor="middle">Amino acids</text></g>
+      <path class="ed" d="M80 17h22v28M80 45h34M80 73h22V45"/>
+      <g class="n" data-on="p1"><rect x="114" y="34" width="72" height="22" rx="6"/><text x="150" y="49" text-anchor="middle">Acetyl CoA</text></g>
+      <path class="ed" d="M186 45h24"/>
+      <g class="n" data-on="p1 co2"><rect x="210" y="26" width="70" height="38" rx="19"/><text x="245" y="49" text-anchor="middle">TCA cycle</text></g>
+      <g class="n bad" data-on="co2"><rect x="300" y="34" width="52" height="22" rx="6"/><text x="326" y="49" text-anchor="middle">CO₂</text></g>
+      <path class="ed" d="M280 45h20M245 64v22"/>
+      <g class="n" data-on="p1 p2"><rect x="196" y="86" width="98" height="22" rx="6"/><text x="245" y="101" text-anchor="middle">NADH · FAD(2H)</text></g>
+      <path class="ed" d="M245 108v20"/>
+      <g class="n" data-on="p2 o2"><rect x="176" y="128" width="138" height="26" rx="13"/><text x="245" y="145" text-anchor="middle">Electron-transport chain</text></g>
+      <g class="n" data-on="o2"><rect x="322" y="100" width="34" height="20" rx="6"/><text x="339" y="114" text-anchor="middle">O₂</text></g>
+      <g class="n" data-on="o2"><rect x="322" y="146" width="34" height="20" rx="6"/><text x="339" y="160" text-anchor="middle">H₂O</text></g>
+      <path class="ed" d="M339 120v8M339 138v8M314 141h8"/>
+      <g class="n"><rect x="6" y="130" width="62" height="22" rx="6"/><text x="37" y="145" text-anchor="middle">ADP + Pᵢ</text></g>
+      <g class="n good" data-on="p2"><rect x="96" y="130" width="50" height="22" rx="6"/><text x="121" y="145" text-anchor="middle">ATP</text></g>
+      <path class="ed" d="M68 141h28M146 141h30"/>
+      <text class="rg" x="6" y="108">PROTON GRADIENT (Δp)</text>
+    </svg>
+    <div class="chips"><button class="chip sm" data-v="p1">Phase 1</button><button class="chip sm" data-v="p2">Phase 2</button><button class="chip sm" data-v="o2">Where is O₂ used?</button><button class="chip sm" data-v="co2">Where is CO₂ made?</button></div>
+    <div class="msg" data-for="p1"><b>Phase 1 of respiration: oxidation of fuels.</b> Fatty acids, glucose and amino acids are oxidized through acetyl CoA and the TCA cycle, giving NADH and FAD(2H).</div>
+    <div class="msg" data-for="p2"><b>Phase 2: ATP generation from oxidative phosphorylation.</b> It is the primary source of energy in most cells.</div>
+    <div class="msg" data-for="o2"><b>Oxidative phosphorylation</b> is the final pathway where the transported O₂ is used. It is located within the cell mitochondria.</div>
+    <div class="msg" data-for="co2"><b>CO₂</b> is the waste product of oxidative metabolism, released as the fuels are oxidized. It must be removed, or it alters acid–base balance.</div>
+  </div>
+</section>
+
+<section class="page" data-t="The oxygen dissociation curve" data-g="live curve" data-p="Part 02 · Hemoglobin and oxygen">
+  <div class="part"><div class="pn">02</div><div><small>PART 02</small><b>Hemoglobin and oxygen</b><span>The curve · Bohr and Haldane · what changes O₂ binding</span></div></div>
+  <h3><i>2.1</i>Shift the curve and count the oxygen delivered</h3>
+  <p>O₂ partial pressure on the horizontal axis, O₂ saturation on the vertical axis: an <mark>S-shaped</mark> relationship.</p>
+  <div class="ix" data-ix="odc2" data-start="n">
+    <div class="cap"><span>Live · pick a curve</span><em>unloaded from lungs to tissues: <b data-k="un">–</b></em></div>
+    <canvas class="plot" style="aspect-ratio:1/.6"></canvas>
+    <div class="chips"><button class="chip sm" data-v="n">Normal HbA</button><button class="chip sm" data-v="r">Right shift</button><button class="chip sm" data-v="l">Left shift</button><button class="chip sm" data-v="bpg">More 2,3-BPG</button><button class="chip sm" data-v="hbf">HbF</button><button class="chip sm" data-v="mb">Myoglobin</button></div>
+    <div class="msg" data-k="msg"></div>
+    <script type="application/json">{
+"n":"<b>Normal adult hemoglobin.</b> Lung PO₂ is 100 mm Hg, so Hb is fully saturated. Tissue PO₂ is 40 mm Hg, so saturation falls and O₂ is delivered to the tissues. The bar on the right shows how much is unloaded.",
+"r":"<b>Right shift: decreased affinity for O₂.</b> Caused by ↑ PCO₂, ↑ H⁺ (↓ pH), ↑ 2,3-DPG and ↑ temperature. This is the <b>Bohr effect</b>, and it helps unload O₂ in the tissues: watch the bar grow.",
+"l":"<b>Left shift: increased affinity for O₂.</b> Caused by ↓ PCO₂, ↓ H⁺ (high pH), ↓ 2,3-DPG, ↓ temperature and HbF. It helps loading of O₂ in the lungs, but less is released at the tissues.",
+"bpg":"<b>More 2,3-BPG.</b> It binds to HbA and decreases its affinity for oxygen, so O₂ delivery to tissues increases. An increase in erythrocyte 2,3-BPG shifts the curve to the right, as at high altitudes.",
+"hbf":"<b>Fetal hemoglobin.</b> 2,3-BPG does not bind to HbF, so HbF has a higher affinity for oxygen than maternal HbA. This allows transplacental passage of oxygen from mother to fetus.",
+"mb":"<b>Myoglobin</b> (heart and skeletal muscle) binds oxygen more tightly than hemoglobin and serves as a storage site for oxygen in tissues. Its affinity does not change with binding, so the curve is not S-shaped."
+}</script>
+  </div>
+  <div class="note"><b>P50</b> is the pressure at which Hb is 50% saturated with O₂. High affinity → slow unloading → <b>low</b> P50. Low affinity → fast unloading → <b>high</b> P50.</div>
+</section>
+
+<section class="page" data-t="Bohr against Haldane" data-g="sorting game" data-p="Part 02 · Hemoglobin and oxygen">
+  <h3><i>2.2</i>Two properties of hemoglobin</h3>
+  <ul>
+    <li><b>Bohr effect:</b> decreased affinity of hemoglobin for <mark>O₂</mark> with increased CO₂ or decreased pH. Helps unload O₂ in tissues.</li>
+    <li><b>Haldane effect:</b> decreased affinity of hemoglobin for <mark>CO₂</mark> caused by O₂ binding to hemoglobin in the lungs. Facilitates unloading of CO₂ there; with less O₂ bound, more CO₂ loads onto hemoglobin in the tissues.</li>
+  </ul>
+  <div class="ix" data-ix="sort">
+    <div class="cap"><span>Game · Bohr or Haldane?</span><em data-k="n"></em></div>
+    <div class="big2" style="grid-template-columns:1fr"><div><small>Which effect?</small><b data-k="card" style="font-size:1.12em"></b></div></div>
+    <div class="chips" style="justify-content:center"><button class="chip" data-b="0">Bohr effect</button><button class="chip" data-b="1">Haldane effect</button></div>
+    <div class="msg" data-k="fb"></div>
+    <script type="application/json">[
+["Occurs in the tissues",0,"The Bohr effect occurs in tissues; the Haldane effect occurs in the lungs."],
+["Describes the release of CO₂",1,"Haldane: release of CO₂. Bohr: release of O₂."],
+["Effective under low blood pH",0,"Bohr is effective under low blood pH, Haldane under high blood pH."],
+["Caused by the uptake of O₂ in the lungs",1,"Bohr is caused by the take-up of CO₂ from the tissues."],
+["Shifts the O₂ dissociation curve to the right",0,"A shift to the right in response to an increase in PCO₂ or a decrease in pH."],
+["Decreased CO₂ affinity of Hb as blood O₂ rises",1,"That is the definition of the Haldane effect."],
+["Facilitates the release of O₂ at tissues",0,"Protons reduce the O₂ affinity of Hb."]
+]</script>
+  </div>
+  <h3><i>2.3</i>How protons do it</h3>
+  <div class="ix" data-ix="steps"><div class="cap"><span>Recall · tap each step in order</span><em data-k="n"></em></div>
+    <ol class="stp"><li>Tissues are more acidic than the lungs: CO₂ + H₂O → H₂CO₃ → HCO₃⁻ + H⁺</li><li>Protons reduce the O₂ affinity of Hb, so O₂ is released into the tissues; the free Hb binds two protons</li><li>In the lungs the protons are released and react with HCO₃⁻ to form CO₂ gas (HCO₃⁻ + H⁺ → CO₂ + H₂O)</li><li>The proton-poor Hb now has greater affinity for O₂</li></ol>
+  </div>
+  <div class="note">The Bohr effect removes insoluble CO₂ from the blood stream and produces soluble bicarbonate.</div>
+</section>
+
+<section class="page" data-t="Anemia, polycythemia, CO" data-g="live curve" data-p="Part 02 · Hemoglobin and oxygen">
+  <h3><i>2.4</i>Same PO₂, different amount of oxygen</h3>
+  <div class="ix" data-ix="o2c" data-start="n">
+    <div class="cap"><span>Live · pick a condition</span><em>schematic curves</em></div>
+    <canvas class="plot" style="aspect-ratio:1/.6"></canvas>
+    <div class="chips"><button class="chip sm" data-v="n">Normal</button><button class="chip sm" data-v="an">Anemia</button><button class="chip sm" data-v="po">Polycythemia</button><button class="chip sm" data-v="co">Carbon monoxide</button></div>
+    <div class="msg" data-k="msg"></div>
+    <script type="application/json">{
+"n":"<b>Normal.</b> Oxygen is transported primarily by red blood cell hemoglobin, with small quantities dissolved in plasma.",
+"an":"<b>Anemia</b> (low hemoglobin levels) alters the oxygen <b>concentration</b> (mL O₂ / 100 mL of blood), not the PO₂ of blood, and limits the oxygen capacity available to tissues.",
+"po":"<b>Polycythemia</b> (high hemoglobin levels) raises the oxygen concentration. Again the PO₂ of blood is not changed.",
+"co":"<b>Carbon monoxide poisoning.</b> CO binds to hemoglobin, preventing the binding and carrying of O₂, so tissues do not receive enough for cell survival. Treatment: <b>hyperbaric oxygen</b> (oxygen at high partial pressures, to load more oxygen into plasma and RBCs)."
+}</script>
+  </div>
+  <h3><i>2.5</i>Hemoglobin against myoglobin</h3>
+  <div class="ix" data-ix="pick"><div class="cap"><span>Live · compare</span><em></em></div>
+    <div class="chips"><button class="chip" data-v="h">Hemoglobin</button><button class="chip" data-v="m">Myoglobin</button><button class="chip" data-v="c">How is CO₂ carried?</button></div>
+    <div class="msg" data-for="h">In erythrocytes; transports oxygen from lungs to tissues. A <b>heme</b> (iron-containing porphyrin ring) binds oxygen, and the heme oxygen affinity <b>increases as oxygen binds</b>: the globin switches between low-affinity and high-affinity forms.</div>
+    <div class="msg" data-for="m">In heart and skeletal muscle; binds oxygen <b>more tightly</b> than hemoglobin and serves as a <b>storage site</b> for oxygen in tissues. Its affinity does not change with binding.</div>
+    <div class="msg" data-for="c">Primarily in <b>bicarbonate (HCO₃⁻)</b> form, with small amounts on hemoglobin and dissolved in plasma.</div>
+  </div>
+</section>
+
+<section class="page" data-t="2,3-BPG in the red cell" data-g="tap the map" data-p="Part 02 · Hemoglobin and oxygen">
+  <h3><i>2.6</i>Four factors that affect O₂ binding</h3>
+  <p>They reduce the ability of hemoglobin to bind O₂ so it can be easily delivered to the tissues: <mark>PO₂</mark>, <mark>pH</mark> of the environment, <mark>PCO₂</mark> and the availability of <mark>2,3-BPG</mark>.</p>
+  <h3><i>2.7</i>Glycolysis in the erythrocyte and the 2,3-BPG shunt</h3>
+  <div class="ix" data-ix="hl" data-start="main">
+    <div class="cap"><span>Live · tap a route</span><em>orange = the route</em></div>
+    <svg class="map pw" viewBox="0 0 360 130">
+      <g class="n" data-on="main shunt"><rect x="100" y="6" width="160" height="24" rx="6"/><text x="180" y="22" text-anchor="middle">1,3-Bisphosphoglycerate</text></g>
+      <g class="n" data-on="main"><rect x="6" y="52" width="128" height="26" rx="13"/><text x="70" y="69" text-anchor="middle">Phosphoglycerate kinase</text></g>
+      <g class="n good" data-on="main"><rect x="6" y="96" width="92" height="22" rx="6"/><text x="52" y="111" text-anchor="middle">ADP → ATP</text></g>
+      <g class="n" data-on="shunt"><rect x="252" y="36" width="60" height="24" rx="12"/><text x="282" y="52" text-anchor="middle">Mutase</text></g>
+      <g class="n bad" data-on="shunt act"><rect x="226" y="68" width="128" height="24" rx="6"/><text x="290" y="84" text-anchor="middle">2,3-BPG</text></g>
+      <g class="n" data-on="shunt"><rect x="252" y="100" width="80" height="24" rx="12"/><text x="292" y="116" text-anchor="middle">Phosphatase</text></g>
+      <g class="n" data-on="main shunt"><rect x="118" y="100" width="118" height="24" rx="6"/><text x="177" y="116" text-anchor="middle">3-Phosphoglycerate</text></g>
+      <path class="ed" d="M150 30v22h-16M70 78v18M134 65h30v35M230 30l40 6M282 60v8M290 92v8M252 112h-16"/>
+    </svg>
+    <div class="chips"><button class="chip sm" data-v="main">Usual route</button><button class="chip sm" data-v="shunt">The shunt</button><button class="chip sm" data-v="act">What 2,3-BPG does</button></div>
+    <div class="msg" data-for="main"><b>Usual route.</b> The red blood cell has no mitochondria and depends totally on <b>anaerobic glycolysis</b> for ATP (2 ATP per glucose). Phosphoglycerate kinase makes ATP as 1,3-BPG becomes 3-phosphoglycerate.</div>
+    <div class="msg" data-for="shunt"><b>The shunt.</b> Erythrocytes have <b>bisphosphoglycerate mutase</b>, which produces 2,3-BPG from 1,3-BPG. A phosphatase then gives 3-phosphoglycerate. This route skips the kinase step: <b>net ATP production = 0</b>.</div>
+    <div class="msg" data-for="act"><b>2,3-BPG</b> binds to adult hemoglobin (HbA) and decreases its affinity for oxygen, so O₂ delivery to tissues increases: a shift of the curve to the right, as at high altitudes. It does <b>not</b> bind to HbF.</div>
+  </div>
+</section>
+
+<section class="page" data-t="Acid–base: the words" data-g="recall table" data-p="Part 03 · Acid–base balance">
+  <div class="part"><div class="pn">03</div><div><small>PART 03</small><b>Acid–base balance</b><span>Definitions · buffers · the four disorders · compensation</span></div></div>
+  <h3><i>3.1</i>Definitions</h3>
+  <div class="ix" data-ix="recall">
+    <div class="cap"><span>Recall · tap a cell</span><em data-k="n"></em></div>
+    <table class="rt">
+      <tr><th>Term</th><th>Meaning</th></tr>
+      <tr><td class="k">Acid</td><td>Proton donor</td></tr>
+      <tr><td class="k">Base</td><td>Proton acceptor</td></tr>
+      <tr><td class="k">pH</td><td>Negative log of H⁺ activity</td></tr>
+      <tr><td class="k">Acidemia</td><td>Arterial blood pH below 7.35</td></tr>
+      <tr><td class="k">Alkalemia</td><td>Arterial blood pH above 7.45</td></tr>
+      <tr><td class="k">Acidosis, alkalosis</td><td>Pathological states leading to acidemia and alkalemia</td></tr>
+      <tr><td class="k">Buffer</td><td>Mixture of a weak acid and a salt of its conjugate base; resists changes in pH when a strong acid or base is added</td></tr>
+      <tr><td class="k">pK</td><td>pH at which a buffer exists in equal proportions of its acid and conjugate base</td></tr>
+      <tr><td class="k">Buffer value (β)</td><td>Amount of base required to change pH by one unit</td></tr>
+    </table>
+    <div class="row" style="justify-content:flex-end;margin-top:.3em"><button class="btn gh" data-a="hide">Hide all</button><button class="btn" data-a="show">Reveal all</button></div>
+  </div>
+  <h3><i>3.2</i>The bicarbonate buffer</h3>
+  <ul>
+    <li>H⁺ levels in the blood are kept within narrow limits by buffering systems such as proteins (hemoglobin) and HCO₃⁻. Negatively charged HCO₃⁻ binds H⁺ and lowers acidity.</li>
+    <li><mark>H₂O + CO₂ ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻</mark>, catalyzed by <b>carbonic anhydrase</b>; the balance can be shifted right or left.</li>
+    <li>It regulates blood pH powerfully because CO₂ and HCO₃⁻ can be regulated independently, by the <b>lungs</b> and the <b>kidneys</b>.</li>
+  </ul>
+</section>
+
+<section class="page" data-t="The acid–base lab" data-g="live figure" data-p="Part 03 · Acid–base balance">
+  <h3><i>3.3</i>The acid–base lab: move CO₂ and HCO₃⁻, watch the pH</h3>
+  <div class="ix" data-ix="abg">
+    <div class="cap"><span>Live · Henderson–Hasselbalch</span><em>pH = pK + log [HCO₃⁻] / [CO₂]</em></div>
+    <canvas class="plot" style="aspect-ratio:1/.24;background:#fbf7ef"></canvas>
+    <div class="big2" style="grid-template-columns:1fr 1.5fr"><div><small>pH</small><b data-k="ph">7.40</b></div><div><small>State</small><b data-k="dx" style="font-size:1.25em;line-height:1.5">Normal</b></div></div>
+    <div class="sl"><span>CO₂ · set by the lungs</span><span>PCO₂ <b data-k="cv">40</b> mm Hg</span></div>
+    <input type="range" min="20" max="80" step="1" value="40" data-k="c" aria-label="Carbon dioxide">
+    <div class="sl"><span>HCO₃⁻ · set by the kidneys</span><span>HCO₃⁻ <b data-k="hv">24</b> mmol/L</span></div>
+    <input type="range" min="10" max="40" step="1" value="24" data-k="h" aria-label="Bicarbonate">
+    <div class="chips"><button class="chip sm" data-v="hypo">Hypoventilation</button><button class="chip sm" data-v="hyper">Hyperventilation</button><button class="chip sm" data-v="mac">Lose HCO₃⁻</button><button class="chip sm" data-v="mal">Gain HCO₃⁻</button><button class="chip sm" data-v="norm">Reset</button><button class="btn" data-k="comp" style="margin-left:auto">Compensate</button></div>
+    <div class="msg" data-k="msg"></div>
+  </div>
+  <div class="note"><b>So:</b> acidosis is either increased CO₂ or decreased HCO₃⁻. Alkalosis is either decreased CO₂ or increased HCO₃⁻. <span style="opacity:.75">The mm Hg and mmol/L numbers on the sliders are standard reference values added to drive the figure; the lecture gives the equation only.</span></div>
+</section>
+
+<section class="page" data-t="Disorders and compensation" data-g="reveal cards" data-p="Part 03 · Acid–base balance">
+  <h3><i>3.4</i>Naming a disorder</h3>
+  <ul>
+    <li><b>Respiratory:</b> abnormal processes that alter pH through a primary change in <mark>PCO₂</mark>. <b>Metabolic:</b> through a primary change in <mark>[HCO₃⁻]</mark>.</li>
+    <li><b>Simple</b> disorder: a single primary disorder. <b>Mixed</b>: more primary disorders present simultaneously.</li>
+  </ul>
+  <div class="ix"><div class="cap"><span>Recall · tap a card</span><em></em></div>
+    <div class="rvc" data-rv><small>Respiratory acidosis: six causes</small><span>Respiratory depression · narcotics overdose · CNS depression · COPD · pneumothorax · atelectasis. Pulmonary obstruction increases CO₂, which makes the pH fall.</span></div>
+    <div class="rvc" data-rv><small>Respiratory acidosis: compensation</small><span>The kidney retains an increased amount of HCO₃⁻ to increase the pH.</span></div>
+    <div class="rvc" data-rv><small>Respiratory alkalosis: causes</small><span>Blood pH above 7.45 due to an issue with respiration. Anything that leads to hyperventilation: anxiety, pregnancy, respiratory conditions and mechanical ventilation (ventilator-induced hyperventilation).</span></div>
+    <div class="rvc" data-rv><small>Why is compensation of metabolic alkalosis weak?</small><span>Lowering ventilation to raise CO₂ is not very effective: once O₂ reaches low levels, the peripheral chemoreceptors are triggered by low O₂ to increase ventilation.</span></div>
+  </div>
+  <h3><i>3.5</i>Ventilation answers acidemia</h3>
+  <div class="ix" data-ix="steps"><div class="cap"><span>Recall · tap each step in order</span><em data-k="n"></em></div>
+    <ol class="stp"><li>H⁺ or CO₂ production leads to acidemia or ↑ PCO₂</li><li>Sensed by peripheral or central chemoreceptors</li><li>They stimulate the respiratory control center</li><li>↑ Ventilation → ↑ CO₂ excretion</li><li>Plasma pH returns closer to normal (pH 7.4)</li></ol>
+  </div>
+</section>
+
+<section class="page" data-t="Anti-inflammatory agents" data-g="tap the map" data-p="Part 04 · Anti-inflammatory agents">
+  <div class="part"><div class="pn">04</div><div><small>PART 04</small><b>Anti-inflammatory agents</b><span>Arachidonic acid · glucocorticoids · NSAIDs</span></div></div>
+  <h3><i>4.1</i>Where each drug blocks inflammation</h3>
+  <div class="ix" data-ix="hl" data-start="path">
+    <div class="cap"><span>Live · tap a drug</span><em>orange = where it acts</em></div>
+    <svg class="map pw" viewBox="0 0 360 150">
+      <g class="n" data-on="path"><rect x="6" y="6" width="148" height="22" rx="6"/><text x="80" y="21" text-anchor="middle">Membrane phospholipids</text></g>
+      <g class="n" data-on="path"><rect x="30" y="36" width="100" height="22" rx="11"/><text x="80" y="51" text-anchor="middle">Phospholipase A₂</text></g>
+      <g class="n" data-on="path"><rect x="26" y="66" width="108" height="22" rx="6"/><text x="80" y="81" text-anchor="middle">Arachidonic acid</text></g>
+      <g class="n" data-on="path nsaid"><rect x="26" y="96" width="108" height="22" rx="11"/><text x="80" y="111" text-anchor="middle">Cyclooxygenase</text></g>
+      <g class="n bad" data-on="path"><rect x="6" y="126" width="148" height="20" rx="6"/><text x="80" y="140" text-anchor="middle">Prostaglandins · leukotrienes</text></g>
+      <path class="ed" d="M80 28v8M80 58v8M80 88v8M80 118v8"/>
+      <g class="n" data-on="gc"><rect x="196" y="6" width="158" height="22" rx="6"/><text x="275" y="21" text-anchor="middle">Corticosteroid enters the cell</text></g>
+      <g class="n" data-on="gc"><rect x="196" y="38" width="158" height="22" rx="11"/><text x="275" y="53" text-anchor="middle">Cytoplasmic receptor</text></g>
+      <g class="n" data-on="gc"><rect x="196" y="70" width="158" height="22" rx="6"/><text x="275" y="85" text-anchor="middle">Nucleus: binds GREs on genes</text></g>
+      <g class="n good" data-on="gc"><rect x="196" y="102" width="158" height="34" rx="6"/><text x="275" y="116" text-anchor="middle">Altered transcription:</text><text x="275" y="128" text-anchor="middle">fewer inflammatory mediators</text></g>
+      <path class="ed" d="M275 28v10M275 60v10M275 92v10M196 119h-42v12"/>
+    </svg>
+    <div class="chips"><button class="chip sm" data-v="path">The pathway</button><button class="chip sm" data-v="gc">Glucocorticoids</button><button class="chip sm" data-v="nsaid">Aspirin, ibuprofen</button></div>
+    <div class="msg" data-for="path"><b>The inflammatory pathway.</b> During the inflammatory response, the metabolites of arachidonic acid (<b>eicosanoids</b>) are released from cell membrane phospholipids by <b>phospholipase A₂</b> and further converted by cyclooxygenases to prostaglandins and leukotrienes: major contributors to inflammation.</div>
+    <div class="msg" data-for="gc"><b>Glucocorticoids</b> bind to cytosolic steroid receptors (heat-shock protein hsp90 is released), translocate to the nucleus, bind to glucocorticoid response elements (GREs) and alter responsive genes to reduce inflammatory mediators. Used in asthma, chronic bronchitis, sarcoidosis, and hypersensitivity and interstitial lung diseases.</div>
+    <div class="msg" data-for="nsaid"><b>NSAIDs.</b> Aspirin and ibuprofen <b>acetylate cyclooxygenase</b> (prostaglandin synthase) to block prostaglandin synthesis: reduced inflammation, reduced fever, reduced pain.</div>
+  </div>
+  <div class="note">Many inflammatory diseases of the lung are treated with anti-inflammatory glucocorticoids to reduce the pulmonary immune responses causing the disease.</div>
+</section>
+
+<section class="page" data-t="Quick quiz" data-g="8 questions" data-p="Quick quiz">
+  <h3><i>✓</i>Quick quiz: which one is it?</h3>
+  <p style="font-size:.9em;color:var(--ink-2)">Eight questions, one at a time. Every answer is on the pages you just turned.</p>
+  <div class="ix" data-ix="quiz"><div data-k="qs"></div><div class="score" data-k="sc"></div>
+    <div class="row" style="justify-content:center;margin-top:.3em"><button class="btn gh" data-a="reset">Try again</button></div>
+    <script type="application/json">[
+["The final pathway where transported O₂ is used is",["Glycolysis","The TCA cycle","Oxidative phosphorylation","The 2,3-BPG shunt"],2,"It is located within the mitochondria and is the primary source of ATP in most cells."],
+["Which of these shifts the O₂ dissociation curve to the right?",["Decreased temperature","High pH","Increased 2,3-BPG","Fetal hemoglobin"],2,"Right shift: ↑ PCO₂, ↑ H⁺, ↑ 2,3-BPG, ↑ temperature."],
+["The Haldane effect describes",["Release of O₂ in the tissues","Decreased CO₂ affinity of Hb when O₂ binds in the lungs","Binding of 2,3-BPG to HbA","Binding of CO to hemoglobin"],1,"It occurs in the lungs and facilitates the unloading of CO₂."],
+["A high P50 means",["High affinity and slow unloading","Low affinity and fast unloading","Hb is fully saturated","PO₂ of blood is low"],1,"P50 is the pressure at which Hb is 50% saturated."],
+["Net ATP produced when a red cell makes 2,3-BPG through the shunt is",["0","1","2","4"],0,"The shunt bypasses the phosphoglycerate kinase step."],
+["Anemia changes",["The PO₂ of blood","The O₂ concentration of blood, not its PO₂","The pH of blood","The affinity of Hb for CO"],1,"It limits the oxygen capacity available to tissues."],
+["Hypoventilation causes",["Respiratory alkalosis","Metabolic acidosis","Respiratory acidosis","Metabolic alkalosis"],2,"Alveolar ventilation is not adequate to remove CO₂, so CO₂ rises."],
+["Aspirin and ibuprofen reduce inflammation by",["Binding cytosolic steroid receptors","Inhibiting phospholipase A₂","Acetylating cyclooxygenase","Blocking carbonic anhydrase"],2,"They block prostaglandin synthesis."]
+]</script>
+  </div>
+</section>
+
+</template>
 <template data-book="pha-l2" data-subj="Pharmacology" data-lec="L2" data-title="Drug therapy of bronchial asthma" data-short="Pharmacology L2">
 <section class="page" data-t="Bronchial asthma" data-g="reveal cards" data-p="Part 01 · The disease and the plan">
   <div class="part"><div class="pn">01</div><div><small>PART 01</small><b>Bronchial asthma</b><span>What goes wrong · early and late responses · the drug groups</span></div></div>
@@ -1573,6 +1814,188 @@ table.rd{width:100%;border-collapse:separate;border-spacing:.18em;font-size:.82e
 ["First-line asthma controller medications are",["Oral corticosteroids","Inhaled corticosteroids","Long-acting β₂ agonists","Methylxanthines"],1,"Minimal systemic absorption, so minimal toxicity."],
 ["Oropharyngeal candidiasis from inhaled steroids is prevented with",["A β₂ agonist","Spacers and gargling","Oral prednisone","Cromolyn"],1,"Surface-active steroids used by inhalation may cause oropharyngeal candidiasis."],
 ["Triad asthma (induced by aspirin or NSAIDs) is especially helped by",["Leukotriene receptor antagonists","Roflumilast","Ipratropium","Aminophylline"],0,"Montelukast and zafirlukast are especially useful in triad asthma."]
+]</script>
+  </div>
+</section>
+
+</template>
+<template data-book="par-l1" data-subj="Parasitology" data-lec="L1" data-title="Paragonimus westermani and house dust mites" data-short="Parasitology L1">
+<section class="page" data-t="Paragonimus westermani" data-g="recall table" data-p="Part 01 · The oriental lung fluke">
+  <div class="part"><div class="pn">01</div><div><small>PART 01</small><b>The oriental lung fluke</b><span>Paragonimus westermani · hosts · life cycle · disease · diagnosis</span></div></div>
+  <h3><i>1.1</i>Who it is</h3>
+  <p>One of the parasitic <mark>trematodes</mark>. It causes <b>paragonimiasis</b>: a parasitic lung infection and a <mark>foodborne disease</mark>.</p>
+  <div class="ix" data-ix="recall">
+    <div class="cap"><span>Recall · fill the identity card</span><em data-k="n"></em></div>
+    <table class="rt">
+      <tr><th></th><th>Paragonimus westermani</th></tr>
+      <tr><td class="k">Where in the world</td><td>Not found in Egypt. Far East (Japan, Korea, China, India), West Africa, South and Central America</td></tr>
+      <tr><td class="k">Definitive host</td><td>Human</td></tr>
+      <tr><td class="k">Reservoir hosts</td><td>Dogs, cats, pigs, wolf and fox</td></tr>
+      <tr><td class="k">1st intermediate host</td><td>Semisulcospira libertina, a fresh water snail</td></tr>
+      <tr><td class="k">2nd intermediate host</td><td>Crabs and crayfish</td></tr>
+      <tr><td class="k">Habitat</td><td>Adults live in cysts inside lung tissue</td></tr>
+      <tr><td class="k">Infective stage</td><td>Encysted metacercaria</td></tr>
+      <tr><td class="k">Mode of infection</td><td>Ingestion of raw, insufficiently cooked or pickled crab and crayfish</td></tr>
+    </table>
+    <div class="row" style="justify-content:flex-end;margin-top:.3em"><button class="btn gh" data-a="hide">Hide all</button><button class="btn" data-a="show">Reveal all</button></div>
+  </div>
+</section>
+
+<section class="page" data-t="The life cycle" data-g="live figure" data-p="Part 01 · The oriental lung fluke">
+  <h3><i>1.2</i>Follow the fluke around its cycle</h3>
+  <div class="ix" data-ix="life" data-title="Paragonimus westermani">
+    <div class="cap"><span>Live · tap a station or press Next</span><em data-k="n"></em></div>
+    <canvas class="plot" style="aspect-ratio:1/.82;background:#fbf7ef;cursor:pointer"></canvas>
+    <div class="row" style="justify-content:center"><button class="btn gh" data-a="prev">← Back</button><button class="btn" data-a="next">Next stage →</button></div>
+    <div class="msg" data-k="msg"></div>
+    <script type="application/json">[
+["Adult in the lung","adult in a lung cyst","Adults live in cysts inside the lung tissue of the definitive host, the <b>human</b>. Reservoir hosts: dogs, cats, pigs, wolf and fox.","cyst",""],
+["Eggs leave the body","egg in sputum or stool","Eggs are expelled in the <b>sputum</b> during cough and expectoration, and in <b>stool</b> if they are swallowed. The egg is immature when passed. Finding it is how the infection is diagnosed.","egg","dx"],
+["Fresh water","egg reaches water","The egg must reach fresh water for the cycle to continue.","water",""],
+["First intermediate host","fresh water snail","<b>Semisulcospira libertina</b>, a fresh water snail.","snail",""],
+["Second intermediate host","crab or crayfish","Crabs and crayfish carry the <b>encysted metacercaria</b>: the infective stage.","crab","inf"],
+["Human eats the crab","raw or pickled crab","<b>Mode of infection:</b> ingestion of encysted metacercaria found in raw, insufficiently cooked or pickled crab and crayfish.","human",""],
+["Migration to the lung","immature flukes migrate","The immature flukes migrate in the lung. This is the <b>acute phase</b>, about 2 months after infection, with high eosinophilia. They then settle inside cysts.","lung",""]
+]</script>
+  </div>
+  <div class="note">The names of the larval stages inside the snail are on the lecture's life-cycle picture. Check them on the slide.</div>
+</section>
+
+<section class="page" data-t="Acute and chronic disease" data-g="compare" data-p="Part 01 · The oriental lung fluke">
+  <h3><i>1.3</i>Two phases: what the fluke does and what the patient feels</h3>
+  <div class="ix" data-ix="pick"><div class="cap"><span>Live · pick a phase</span><em></em></div>
+    <div class="chips"><button class="chip" data-v="a">Acute · 2 months</button><button class="chip" data-v="c">Chronic · 3 to 4 months</button></div>
+    <div class="msg" data-for="a"><b>Pathogenesis.</b> Occurs during <b>migration of the immature flukes</b> in the lung, with high eosinophilia. Pulmonary migration may cause acute pneumonitis with haemorrhage, eosinophilic infiltration and pleural effusion.<br><b>Clinical picture.</b> Begins 2 months after ingestion of metacercaria: abdominal pain, diarrhea, nausea and vomiting, urticaria. A few days later: fever, pleuritic chest pain that increases with respiration, dyspnea, cough.</div>
+    <div class="msg" data-for="c"><b>Pathogenesis.</b> The parasites are inside <b>cysts in the lung</b>. The inflammatory response around juvenile flukes, adults and eggs starts as granulomatous, followed by formation of thick fibrous cyst walls. Infection can persist for several years.<br><b>Clinical picture.</b> Begins 3 to 4 months after infection: low grade fever, night sweats, <b>haemoptysis</b>, dyspnea, chest pain.</div>
+  </div>
+  <h3><i>1.4</i>Inside the chronic cyst</h3>
+  <div class="ix"><div class="cap"><span>Recall · tap a card</span><em></em></div>
+    <div class="rvc" data-rv><small>What does the capsule look like?</small><span>The adult lives within <b>fibrotic greyish white capsules</b>, surrounded by thick, blood-streaked, necrotic, reddish brown exudate.</span></div>
+    <div class="rvc" data-rv><small>What does the exudate contain?</small><span>Numerous <b>eggs</b> and <b>Charcot–Leyden crystals</b>.</span></div>
+    <div class="rvc" data-rv><small>What happens to the eggs?</small><span>They are either trapped in the tissues, where they provoke granulomas, or expelled in the sputum during cough, and in stool if swallowed.</span></div>
+  </div>
+</section>
+
+<section class="page" data-t="Diagnosis" data-g="tap the egg" data-p="Part 01 · The oriental lung fluke">
+  <h3><i>1.5</i>Diagnosis</h3>
+  <p><b>Clinical:</b> geographical distribution and a history of eating crabs or crayfish. <b>Laboratory, direct:</b> microscopic detection of <mark>eggs in sputum or stool</mark>.</p>
+  <div class="ix" data-ix="hl" data-start="shape">
+    <div class="cap"><span>Live · the egg, feature by feature</span><em>schematic</em></div>
+    <svg class="map" viewBox="0 0 360 150">
+      <path class="zn" data-on="shape shell colour" fill-rule="evenodd" d="M110 20c30 0 52 22 52 52 0 34-22 66-52 66s-52-32-52-66c0-30 22-52 52-52zM110 30c-24 0-42 18-42 42 0 28 18 56 42 56s42-28 42-56c0-24-18-42-42-42z"/>
+      <path class="zn" data-on="shell" d="M78 38c8-11 19-18 32-18s24 7 32 18l-7 6c-6-9-15-14-25-14s-19 5-25 14z"/>
+      <path class="zn" data-on="content colour" d="M110 30c-24 0-42 18-42 42 0 28 18 56 42 56s42-28 42-56c0-24-18-42-42-42z" style="stroke:none"/>
+      <g fill="#b8862e" opacity=".55" style="pointer-events:none"><circle cx="100" cy="66" r="9"/><circle cx="120" cy="72" r="10"/><circle cx="104" cy="88" r="10"/><circle cx="122" cy="96" r="8"/><circle cx="108" cy="108" r="7"/></g>
+      <path class="ld" d="M130 26L200 20M158 60L200 58M150 110L200 100"/>
+      <text class="lbl" x="204" y="23">operculum (the lid)</text><text class="lbl" x="204" y="61">thick shell</text><text class="lbl" x="204" y="103">immature content</text>
+      <path class="ld" d="M40 20v118M36 20h8M36 138h8" style="stroke:#8c92a2"/><text class="lbl s" x="22" y="82" text-anchor="middle" transform="rotate(-90 22 82)">85 µ</text>
+      <path class="ld" d="M58 146h104M58 142v8M162 142v8" style="stroke:#8c92a2"/><text class="lbl s" x="110" y="-4" text-anchor="middle"></text><text class="lbl s" x="182" y="149">50 µ</text>
+    </svg>
+    <div class="chips"><button class="chip sm" data-v="shape">Shape</button><button class="chip sm" data-v="shell">Shell</button><button class="chip sm" data-v="size">Size</button><button class="chip sm" data-v="colour">Color</button><button class="chip sm" data-v="content">Content</button></div>
+    <div class="msg" data-for="shape"><b>Shape:</b> oval, with a wide top and a narrow bottom.</div>
+    <div class="msg" data-for="shell"><b>Shell:</b> thick, and <b>operculated</b>.</div>
+    <div class="msg" data-for="size"><b>Size:</b> 85 × 50 µ.</div>
+    <div class="msg" data-for="colour"><b>Color:</b> yellowish brown.</div>
+    <div class="msg" data-for="content"><b>Content:</b> immature.</div>
+  </div>
+  <div class="ix"><div class="cap"><span>Recall · tap a card</span><em></em></div>
+    <div class="rvc" data-rv><small>Indirect diagnosis</small><span>Immunodiagnosis: antibody detection in the patient's serum by <b>ELISA</b>.</span></div>
+    <div class="rvc" data-rv><small>Four advantages of ELISA</small><span>Early diagnosis, for early treatment before irreversible lung damage · diagnosis of acute and extrapulmonary paragonimiasis · diagnosis of chronic paragonimiasis when eggs cannot be recovered from sputum or stool · follow-up of treatment, as antibody levels decline 6–12 months after cure.</span></div>
+    <div class="rvc" data-rv><small>Complete blood count</small><span>Peripheral <b>eosinophilia (up to 80%)</b>, especially in the acute phase · anaemia.</span></div>
+    <div class="rvc" data-rv><small>Imaging</small><span>Plain x-ray: nodular or ring shadows, patchy infiltration and cavities. CT is more sensitive: the lesions are described as <b>worm cysts</b> and so differentiated from pulmonary TB.</span></div>
+  </div>
+</section>
+
+<section class="page" data-t="Prevention · other lung parasites" data-g="recall" data-p="Part 01 · The oriental lung fluke">
+  <h3><i>1.6</i>Prevention and control</h3>
+  <div class="ix" data-ix="steps"><div class="cap"><span>Recall · four measures</span><em data-k="n"></em></div>
+    <ol class="stp"><li>Mass treatment of patients</li><li>Avoid undercooked freshwater crabs or crayfish</li><li>Monitoring of pickled or frozen raw crab or crayfish products imported from endemic countries</li><li>Snail control</li></ol>
+  </div>
+  <h3><i>1.7</i>Other parasitic infections of the lung</h3>
+  <div class="ix" data-ix="recall">
+    <div class="cap"><span>Recall · tap a cell</span><em data-k="n"></em></div>
+    <table class="rt">
+      <tr><th>Condition</th><th>Cause</th><th>Studied in</th></tr>
+      <tr><td class="k">Loeffler's syndrome</td><td>Larvae of helminths such as Ascaris, hookworm and Strongyloides migrating through the lungs during acute infection</td><td>GIT module</td></tr>
+      <tr><td class="k">Hydatid disease in lung</td><td>Not detailed in this lecture</td><td>GIT module</td></tr>
+      <tr><td class="k">Tropical pulmonary eosinophilia</td><td>A clinical manifestation of lymphatic filariasis: filarial nematodes that inhabit the lymphatics and bloodstream</td><td>Haematology module</td></tr>
+    </table>
+    <div class="row" style="justify-content:flex-end;margin-top:.3em"><button class="btn gh" data-a="hide">Hide all</button><button class="btn" data-a="show">Reveal all</button></div>
+  </div>
+  <h3><i>1.8</i>Infective or diagnostic?</h3>
+  <div class="ix" data-ix="sort">
+    <div class="cap"><span>Game · tap the right answer</span><em data-k="n"></em></div>
+    <div class="big2" style="grid-template-columns:1fr"><div><small>Paragonimus westermani</small><b data-k="card" style="font-size:1.1em"></b></div></div>
+    <div class="chips" style="justify-content:center"><button class="chip sm" data-b="0">Encysted metacercaria</button><button class="chip sm" data-b="1">Egg</button><button class="chip sm" data-b="2">Migrating immature fluke</button><button class="chip sm" data-b="3">Adult in a cyst</button></div>
+    <div class="msg" data-k="fb"></div>
+    <script type="application/json">[
+["The infective stage",0,"Found in raw, insufficiently cooked or pickled crab and crayfish."],
+["Found in sputum and stool",1,"Direct microscopic detection of eggs in sputum or stool."],
+["Causes the acute phase",2,"Migration of the immature flukes in the lung, with high eosinophilia."],
+["Lives in fibrotic greyish white capsules",3,"The chronic phase: parasites inside cysts in the lung."],
+["Operculated, yellowish brown, 85 × 50 µ",1,"Oval with a wide top and narrow bottom, thick shell, immature content."],
+["Carried by the second intermediate host",0,"Crabs and crayfish."]
+]</script>
+  </div>
+</section>
+
+<section class="page" data-t="House dust mites" data-g="tap the room" data-p="Part 02 · House dust mites">
+  <div class="part"><div class="pn">02</div><div><small>PART 02</small><b>House dust mites</b><span>Where they live · what they cause · diagnosis · control</span></div></div>
+  <h3><i>2.1</i>Meet the mite</h3>
+  <ul>
+    <li>Very small mites (<mark>0.3 mm</mark>), <b>worldwide</b>. <mark>Dermatophagoides</mark> is the commonest dust mite.</li>
+    <li>Their main food is <b>human skin scales</b> and other organic debris.</li>
+    <li><b>Life cycle:</b> incomplete metamorphosis. Eggs hatch giving larvae that moult into nymphs, then adults.</li>
+  </ul>
+  <h3><i>2.2</i>Mite-proof the bedroom</h3>
+  <div class="ix" data-ix="hl" data-start="bed">
+    <div class="cap"><span>Live · tap a part of the room</span><em>orange = selected</em></div>
+    <svg class="map" viewBox="0 0 360 160">
+      <rect x="0" y="0" width="360" height="118" fill="#f4efe4"/><rect x="0" y="118" width="360" height="42" fill="#e2d6c2"/>
+      <g class="zn" data-on="air"><rect x="24" y="14" width="74" height="60" rx="3"/></g><path d="M61 14v60M24 44h74" stroke="#c9b49a" stroke-width="2" style="pointer-events:none"/><text class="lbl" x="61" y="88" text-anchor="middle">window</text>
+      <g class="zn" data-on="bed"><rect x="126" y="70" width="132" height="44" rx="6"/><rect x="118" y="44" width="16" height="74" rx="4"/><rect x="140" y="58" width="42" height="18" rx="8"/></g><text class="lbl" x="200" y="97" text-anchor="middle" style="pointer-events:none">bed, sheets, blankets</text>
+      <g class="zn" data-on="carpet"><path d="M96 128h196l22 26H74z"/></g><text class="lbl" x="194" y="146" text-anchor="middle" style="pointer-events:none">carpet and furniture</text>
+      <g class="zn" data-on="spray"><rect x="302" y="62" width="26" height="52" rx="5"/><rect x="309" y="50" width="12" height="12" rx="2"/></g><text class="lbl" x="315" y="40" text-anchor="middle">spray</text>
+    </svg>
+    <div class="chips"><button class="chip sm" data-v="bed">Bed</button><button class="chip sm" data-v="carpet">Carpet and furniture</button><button class="chip sm" data-v="air">Window</button><button class="chip sm" data-v="spray">Insecticide</button></div>
+    <div class="msg" data-for="bed"><b>Beds are the most important, and sometimes the only, breeding site.</b> Control: regular vacuum cleaning of beds, and frequent washing of sheets and blankets.</div>
+    <div class="msg" data-for="carpet"><b>House dust on the floors and the furniture.</b> Control: regular vacuum cleaning of carpets and furniture.</div>
+    <div class="msg" data-for="air"><b>The largest numbers of mites are found in warm, damp and inadequately aired houses.</b> Control: bedrooms and living rooms should be aired regularly.</div>
+    <div class="msg" data-for="spray"><b>General insecticides used for pest control are not effective.</b> A special product containing <b>benzyl benzoate</b> destroys mites when applied to mattresses and carpets.</div>
+  </div>
+</section>
+
+<section class="page" data-t="What mites cause" data-g="reveal cards" data-p="Part 02 · House dust mites">
+  <h3><i>2.3</i>Medical importance</h3>
+  <p>The bodies of living or dead mites and their <mark>faeces</mark> contain potent <mark>allergens</mark> that produce allergic reactions in sensitized individuals.</p>
+  <div class="ix" data-ix="pick"><div class="cap"><span>Live · route of exposure</span><em></em></div>
+    <div class="chips"><button class="chip" data-v="i">Inhalation</button><button class="chip" data-v="c">Contact</button></div>
+    <div class="msg" data-for="i">Inhalation of house dust loaded with certain mites, their faeces, and other debris and fungi associated with them produces <b>bronchial asthma</b> and <b>allergic rhinitis</b>, especially in children.</div>
+    <div class="msg" data-for="c">Contact with dust loaded with other types causes severe <b>atopic dermatitis</b>.</div>
+  </div>
+  <h3><i>2.4</i>Clinical picture and diagnosis</h3>
+  <div class="ix"><div class="cap"><span>Recall · tap a card</span><em></em></div>
+    <div class="rvc" data-rv><small>Clinical picture</small><span><b>Perennial rhinitis</b>: sneezing, runny nose, coughing, watery eyes · <b>bronchial asthma</b>: wheezing, dyspnea · more in children, year round.</span></div>
+    <div class="rvc" data-rv><small>Diagnosis 1 · the dust</small><span>Dust samples taken from houses are examined microscopically to detect mites.</span></div>
+    <div class="rvc" data-rv><small>Diagnosis 2 · allergy skin test</small><span>Usually carried out on the forearm. The skin is observed for signs of allergic reaction after <b>15 minutes</b>: a red, itchy bump where the dust mite extract was pricked onto the skin.</span></div>
+    <div class="rvc" data-rv><small>Diagnosis 3 · immunodiagnosis</small><span>Detection of <b>IgE and IgG4</b>.</span></div>
+  </div>
+</section>
+
+<section class="page" data-t="Cases from the lecture" data-g="8 questions" data-p="Cases and quiz">
+  <h3><i>✓</i>Cases and quick quiz</h3>
+  <p style="font-size:.9em;color:var(--ink-2)">The first four are the lecture's own cases. One question at a time.</p>
+  <div class="ix" data-ix="quiz"><div data-k="qs"></div><div class="score" data-k="sc"></div>
+    <div class="row" style="justify-content:center;margin-top:.3em"><button class="btn gh" data-a="reset">Try again</button></div>
+    <script type="application/json">[
+["A 35-year-old fisherman from China presents with fever, chest pain and a productive cough. He reports consuming locally caught freshwater crabs in a traditional pickled dish. Chest X-ray shows ring-shaped lesions. Stool examination reveals yellowish-brown operculated eggs. Which best describes the stage and route through which he became infected?",["Ingestion of embryonated eggs from contaminated water","Penetration of skin by cercariae from freshwater","Ingestion of encysted metacercariae in undercooked crab","Ingestion of infective filariform larva in undercooked crab","Autoinfection"],2,"The infective stage is the encysted metacercaria, in raw, insufficiently cooked or pickled crab and crayfish."],
+["A 29-year-old man from rural China presents with a 3-week history of fever, pleuritic chest pain and increasing shortness of breath. He reports eating homemade pickled freshwater crab several times over the past month. CBC reveals marked eosinophilia. A chest X-ray demonstrates patchy infiltrates. Which step in the parasite's life cycle most likely led to his current symptoms?",["Adult segmented worms releasing eggs inside lung cysts","Penetration of cercariae through the skin after exposure to contaminated water","Ingestion of encysted metacercariae in undercooked salmon fish","Hatching of miracidia from eggs inside the human intestine","Migration of juvenile flukes through lung tissue"],4,"The acute phase occurs during migration of the immature flukes in the lung, with high eosinophilia."],
+["A 56-year-old woman presents with chronic cough and episodes of hemoptysis for several months. She recalls years of consuming raw crab. Sputum sometimes contains brownish streaks. What finding is MOST characteristic of the chronic pulmonary stage of paragonimiasis?",["Adult flukes embedded in fibrotic lung cysts","Intense high leukocytosis","Larval migration causing pneumonitis","Direct skin penetration by cercariae","Cysts filled with infective metacercariae"],0,"In the chronic phase the adult lives within fibrotic greyish white capsules in the lung."],
+["A researcher studies factors promoting house dust mite survival. Which environment MOST favors mite proliferation?",["Cold, dry, well-ventilated homes","Warm, humid, poorly ventilated homes","Outdoor gardens","Desert climates","Refrigerated storage rooms"],1,"The largest numbers of mites are found in warm, damp and inadequately aired houses."],
+["The first intermediate host of Paragonimus westermani is",["Crab","Crayfish","A fresh water snail","Dog"],2,"Semisulcospira libertina. Crabs and crayfish are the second intermediate host."],
+["On CT, the lung lesions of paragonimiasis must be differentiated from",["Bronchial asthma","Pulmonary TB","Hydatid disease","Lung cancer"],1,"CT describes the lesions as worm cysts and so differentiates them from pulmonary TB."],
+["The commonest house dust mite is",["Sarcoptes","Dermatophagoides","Demodex","Semisulcospira"],1,"Its main food is human skin scales."],
+["Which product destroys mites when applied to mattresses and carpets?",["General insecticides","Benzyl benzoate","ELISA reagent","Hyperbaric oxygen"],1,"General insecticides used for pest control are not effective."]
 ]</script>
   </div>
 </section>
@@ -2229,6 +2652,122 @@ IX.alv = root => {
   };
 };
 
+/* ---------- figures added for Biochemistry and Parasitology ---------- */
+
+/* oxygen dissociation curves side by side: how much O2 is unloaded between lungs (100) and tissues (40) */
+IX.odc2 = root => {
+  const cv = $('canvas', root), msg = $('[data-k=msg]', root), un = $('[data-k=un]', root), T = JSON.parse($('script', root).textContent), bs = $$('[data-v]', root);
+  const P50 = {n: 26.6, r: 35, l: 19.5, bpg: 33, hbf: 20}, COL = {n: '#0b1f45', r: '#d64545', l: '#2e86de', bpg: '#d64545', hbf: '#8a55e0', mb: '#1e9e62'};
+  const sat = (p, k) => k === 'mb' ? 100 * p / (p + 2.8) : 100 * Math.pow(p, 2.7) / (Math.pow(p, 2.7) + Math.pow(P50[k], 2.7));
+  let k = root.dataset.start || 'n', shown = 0;
+  const go = v => { k = v; bs.forEach(b => b.classList.toggle('on', b.dataset.v === k)); msg.innerHTML = T[k]; };
+  bs.forEach(b => b.onclick = () => go(b.dataset.v)); go(k);
+  return dt => {
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, x0 = 34 * u, y0 = H - 26 * u, x1 = W - 44 * u, y1 = 10 * u, X = v => x0 + v / 110 * (x1 - x0), Y = v => y0 - v / 100 * (y0 - y1);
+    ctx.strokeStyle = '#e3ded0'; ctx.lineWidth = u; ctx.font = f(7.5); ctx.fillStyle = '#8c92a2';
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle'; for (const v of [0, 25, 50, 75, 100]){ ctx.beginPath(); ctx.moveTo(x0, Y(v)); ctx.lineTo(x1, Y(v)); ctx.stroke(); ctx.fillText(v + '%', x0 - 4 * u, Y(v)); }
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top'; for (const v of [20, 40, 60, 80, 100]) ctx.fillText(v, X(v), y0 + 4 * u);
+    ctx.fillText('O₂ partial pressure (mm Hg)', (x0 + x1) / 2, y0 + 14 * u);
+    for (const [p, t] of [[40, 'tissues'], [100, 'lungs']]){ ctx.strokeStyle = '#c9cfdd'; ctx.setLineDash([3 * u, 3 * u]); ctx.beginPath(); ctx.moveTo(X(p), y0); ctx.lineTo(X(p), y1); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = '#5b6375'; ctx.font = f(7, 700); ctx.textBaseline = 'bottom'; ctx.fillText(t, X(p), y0 - 2 * u); }
+    const curve = (kk, col, w, dash) => { ctx.beginPath(); for (let v = 0; v <= 110; v++){ const x = X(v), y = Y(sat(v, kk)); v ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.strokeStyle = col; ctx.lineWidth = w * u; ctx.setLineDash(dash ? [4 * u, 4 * u] : []); ctx.stroke(); ctx.setLineDash([]); };
+    if (k !== 'n') curve('n', '#b8bfd0', 1.6, true);
+    curve(k, COL[k], 2.8);
+    const a = sat(100, k), b = sat(40, k), d = a - b; shown += (d - shown) * Math.min(1, dt * 5);
+    for (const [p, s] of [[100, a], [40, b]]){ ctx.fillStyle = COL[k]; ctx.beginPath(); ctx.arc(X(p), Y(s), 4.2 * u, 0, 7); ctx.fill(); }
+    const bx = x1 + 12 * u; ctx.fillStyle = '#eef0f6'; ctx.fillRect(bx, y1, 14 * u, y0 - y1); ctx.fillStyle = COL[k]; ctx.fillRect(bx, Y(a), 14 * u, Y(a - shown) - Y(a));
+    ctx.fillStyle = '#5b6375'; ctx.font = f(6.6, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText('unloaded', bx + 7 * u, y0 + 4 * u);
+    const t = Math.round(d) + '%'; if (un.textContent !== t) un.textContent = t;
+  };
+};
+
+/* O2 concentration of blood: anemia, polycythemia and carbon monoxide change the amount carried, not the PO2 */
+IX.o2c = root => {
+  const cv = $('canvas', root), msg = $('[data-k=msg]', root), T = JSON.parse($('script', root).textContent), bs = $$('[data-v]', root);
+  const C = {n: [15, 26.6, 1, '#0b1f45', 'Hb = 15'], an: [10, 26.6, 1, '#2e86de', 'Anemia · Hb = 10'], po: [20, 26.6, 1, '#d64545', 'Polycythemia · Hb = 20'], co: [15, 17, .67, '#8a55e0', 'CO · HbCO = 33%']};
+  let k = root.dataset.start || 'n'; const go = v => { k = v; bs.forEach(b => b.classList.toggle('on', b.dataset.v === k)); msg.innerHTML = T[k]; };
+  bs.forEach(b => b.onclick = () => go(b.dataset.v)); go(k);
+  return () => {
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, x0 = 30 * u, y0 = H - 26 * u, x1 = W - 12 * u, y1 = 10 * u, X = v => x0 + v / 120 * (x1 - x0), Y = v => y0 - v / 30 * (y0 - y1);
+    ctx.strokeStyle = '#e3ded0'; ctx.lineWidth = u; ctx.font = f(7.5); ctx.fillStyle = '#8c92a2'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    for (const v of [0, 10, 20, 30]){ ctx.beginPath(); ctx.moveTo(x0, Y(v)); ctx.lineTo(x1, Y(v)); ctx.stroke(); ctx.fillText(v, x0 - 4 * u, Y(v)); }
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top'; for (const v of [0, 30, 60, 90, 120]) ctx.fillText(v, X(v), y0 + 4 * u); ctx.fillText('PO₂ (mm Hg)', (x0 + x1) / 2, y0 + 14 * u);
+    ctx.save(); ctx.translate(9 * u, (y0 + y1) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('O₂ concentration (ml / 100 ml)', 0, 0); ctx.restore();
+    for (const id in C){ const [hb, p50, fr, col, lab] = C[id], on = id === k, val = p => 1.34 * hb * fr * Math.pow(p, 2.7) / (Math.pow(p, 2.7) + Math.pow(p50, 2.7));
+      ctx.globalAlpha = on ? 1 : .3; ctx.strokeStyle = col; ctx.lineWidth = (on ? 3 : 1.6) * u; ctx.beginPath(); for (let p = 0; p <= 120; p += 2) p ? ctx.lineTo(X(p), Y(val(p))) : ctx.moveTo(X(p), Y(val(p))); ctx.stroke();
+      ctx.fillStyle = col; ctx.font = f(on ? 7.6 : 6.8, 700); ctx.textAlign = 'right'; ctx.textBaseline = id === 'co' ? 'top' : 'bottom'; ctx.fillText(lab, x1 - 2 * u, Y(val(120)) + (id === 'co' ? 3 : -2.5) * u); ctx.globalAlpha = 1; }
+  };
+};
+
+/* acid-base: CO2 is set by the lungs, HCO3 by the kidneys; pH follows Henderson-Hasselbalch */
+IX.abg = root => {
+  const cv = $('canvas', root), sc = $('[data-k=c]', root), sh = $('[data-k=h]', root), out = k => $(`[data-k=${k}]`, root), msg = out('msg');
+  let tc = null, th = null, last = '', vc = +sc.value, vh = +sh.value;
+  const pH = (c, h) => 6.1 + Math.log10(h / (.03 * c));
+  const PRE = {hypo: [65, 24], hyper: [24, 24], mac: [40, 13], mal: [40, 36], norm: [40, 24]};
+  $$('[data-v]', root).forEach(b => b.onclick = () => { [tc, th] = PRE[b.dataset.v]; });
+  out('comp').onclick = () => { const c = vc, h = vh, p = pH(c, h); if (p > 7.35 && p < 7.45) return;
+    const goal = p < 7.4 ? 7.36 : 7.44, resp = c > 45 || c < 35, r = Math.pow(10, goal - 6.1);
+    if (resp && !(h < 22 && p < 7.4) && !(h > 26 && p > 7.4)){ th = Math.max(10, Math.min(40, .03 * c * r)); tc = c; } else { tc = Math.max(20, Math.min(80, h / (.03 * r))); th = h; } };
+  [sc, sh].forEach(s => s.addEventListener('input', () => { tc = th = null; vc = +sc.value; vh = +sh.value; }));
+  return dt => {
+    if (tc !== null){ const k = Math.min(1, dt * 3); vc += (tc - vc) * k; vh += (th - vh) * k; if (Math.abs(tc - vc) < .3 && Math.abs(th - vh) < .2){ vc = tc; vh = th; tc = th = null; } sc.value = Math.round(vc); sh.value = Math.round(vh); }
+    const c0 = vc, h0 = vh, p = pH(c0, h0);
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, x0 = 14 * u, x1 = W - 14 * u, y = H * .5, hb = 15 * u, X = v => x0 + (Math.max(6.7, Math.min(8.1, v)) - 6.7) / 1.4 * (x1 - x0);
+    const band = (a, b, col) => { ctx.fillStyle = col; ctx.fillRect(X(a), y - hb / 2, X(b) - X(a), hb); };
+    band(6.7, 6.8, '#3b3b46'); band(6.8, 7.35, '#f2a09a'); band(7.35, 7.45, '#9bd8b7'); band(7.45, 8, '#a9cdf5'); band(8, 8.1, '#3b3b46');
+    ctx.font = f(7, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#7a1f1f'; ctx.fillText('ACIDOSIS', X(7.08), y); ctx.fillStyle = '#11694a'; ctx.fillText('NORMAL', X(7.4), y - hb / 2 - 7 * u); ctx.fillStyle = '#1f4f8a'; ctx.fillText('ALKALOSIS', X(7.72), y);
+    ctx.fillStyle = '#5b6375'; ctx.font = f(6.6); for (const v of [6.8, 7.35, 7.45, 8]) ctx.fillText(v, X(v), y + hb / 2 + 7 * u); ctx.fillText('death', X(6.75), y - hb / 2 - 7 * u); ctx.fillText('death', X(8.05), y - hb / 2 - 7 * u);
+    const nx = X(p); ctx.fillStyle = '#0b1f45'; ctx.beginPath(); ctx.moveTo(nx, y - hb / 2 + 2 * u); ctx.lineTo(nx - 6 * u, y - hb / 2 - 9 * u); ctx.lineTo(nx + 6 * u, y - hb / 2 - 9 * u); ctx.closePath(); ctx.fill(); ctx.fillRect(nx - u, y - hb / 2, 2 * u, hb);
+    const ch = c0 > 45, cl = c0 < 35, hh = h0 > 26, hl = h0 < 22; let d, m;
+    if (p < 7.35){
+      if (ch && hl){ d = 'Mixed acidosis'; m = 'CO₂ is increased <b>and</b> HCO₃⁻ is decreased: more than one primary disorder is present at the same time (a mixed acid–base disorder).'; }
+      else if (ch){ d = 'Respiratory acidosis'; m = '<b>Hypoventilation:</b> alveolar ventilation is not adequate to allow CO₂ removal, and CO₂ rises. Causes: respiratory depression, narcotics overdose, CNS depression, COPD, pneumothorax, atelectasis.' + (hh ? ' <b>Compensating:</b> the kidney retains an increased amount of HCO₃⁻ to raise the pH.' : ' Press Compensate to see the kidney respond.'); }
+      else { d = 'Metabolic acidosis'; m = 'A primary decrease in HCO₃⁻.' + (cl ? ' <b>Compensating:</b> chemoreceptors increase ventilation to lower CO₂.' : ' Press Compensate to see the lungs respond.'); }
+    } else if (p > 7.45){
+      if (cl && hh){ d = 'Mixed alkalosis'; m = 'CO₂ is decreased <b>and</b> HCO₃⁻ is increased: a mixed acid–base disorder.'; }
+      else if (cl){ d = 'Respiratory alkalosis'; m = '<b>Hyperventilation:</b> breathing rapidly exhales too much CO₂, which makes blood pH rise. Causes: anxiety, pregnancy, respiratory conditions and mechanical ventilation.' + (hl ? ' <b>Compensating:</b> the kidney alters HCO₃⁻.' : ' Press Compensate to see the kidney respond.'); }
+      else { d = 'Metabolic alkalosis'; m = 'A primary increase in HCO₃⁻.' + (ch ? ' <b>Compensating:</b> ventilation is lowered to increase CO₂. This is not very effective: once O₂ reaches low levels, the peripheral chemoreceptors increase ventilation again.' : ' Press Compensate to see the lungs respond.'); }
+    } else if ((ch && hh) || (cl && hl)){ d = 'Compensated'; m = 'Both CO₂ and HCO₃⁻ have moved in the same direction, so their ratio, and the pH, is back near normal. The primary problem is still there.'; }
+    else { d = 'Normal'; m = '<b>pH = pK + log [HCO₃⁻] / [CO₂].</b> An increase in HCO₃⁻ or a decrease in CO₂ makes the pH rise. Move a slider, or pick a cause.'; }
+    const t = p.toFixed(2) + '|' + Math.round(c0) + '|' + Math.round(h0) + '|' + d + m; if (t === last) return; last = t;
+    out('ph').textContent = p.toFixed(2); out('cv').textContent = Math.round(c0); out('hv').textContent = Math.round(h0); out('dx').textContent = d; msg.innerHTML = m;
+    out('dx').style.color = d === 'Normal' || d === 'Compensated' ? '#11694a' : p < 7.4 ? '#c0392b' : '#1f5fa8';
+  };
+};
+
+/* a life cycle as a ring of stations: tap a station or press Next */
+IX.life = root => {
+  const cv = $('canvas', root), S = JSON.parse($('script', root).textContent), msg = $('[data-k=msg]', root), n = S.length, cnt = $('[data-k=n]', root);
+  let at = 0, pos = 0, clock = 0;
+  const go = i => { at = (i + n) % n; msg.innerHTML = `<b>${S[at][0]}.</b> ${S[at][2]}`; if (cnt) cnt.textContent = (at + 1) + ' / ' + n; };
+  $('[data-a=next]', root).onclick = () => go(at + 1); $('[data-a=prev]', root).onclick = () => go(at - 1);
+  const geo = () => { const r = cv.getBoundingClientRect(); return {w: r.width, h: r.height, left: r.left, top: r.top}; };
+  const P = (i, W, H) => { const an = -Math.PI / 2 + i / n * 6.2832; return [W / 2 + Math.cos(an) * W * .36, H / 2 + Math.sin(an) * H * .34]; };
+  cv.addEventListener('click', e => { const g = geo(); let best = 0, bd = 1e9; for (let i = 0; i < n; i++){ const [x, y] = P(i, g.w, g.h), d = Math.hypot(e.clientX - g.left - x, e.clientY - g.top - y); if (d < bd){ bd = d; best = i; } } if (bd < g.w * .14) go(best); });
+  go(0);
+  const ICON = {
+    egg(c, x, y, r){ c.fillStyle = '#c99a3a'; c.strokeStyle = '#7a5a12'; c.lineWidth = r * .09; c.beginPath(); c.ellipse(x, y, r * .42, r * .6, 0, 0, 7); c.fill(); c.stroke(); c.beginPath(); c.moveTo(x - r * .3, y - r * .4); c.lineTo(x + r * .3, y - r * .4); c.stroke(); },
+    water(c, x, y, r, t){ c.strokeStyle = '#2e86de'; c.lineWidth = r * .1; for (let j = -1; j <= 1; j++){ c.beginPath(); for (let k = -5; k <= 5; k++){ const xx = x + k * r * .12, yy = y + j * r * .28 + Math.sin(k + t * 3 + j) * r * .07; k === -5 ? c.moveTo(xx, yy) : c.lineTo(xx, yy); } c.stroke(); } c.fillStyle = '#c99a3a'; c.beginPath(); c.ellipse(x + Math.sin(t) * r * .2, y, r * .1, r * .15, 0, 0, 7); c.fill(); },
+    snail(c, x, y, r){ c.fillStyle = '#b98a5a'; c.strokeStyle = '#6e4a22'; c.lineWidth = r * .08; c.beginPath(); c.moveTo(x - r * .55, y + r * .3); c.lineTo(x + r * .6, y + r * .3); c.lineTo(x + r * .1, y - r * .55); c.closePath(); c.fill(); c.stroke(); for (let j = 1; j < 4; j++){ c.beginPath(); c.moveTo(x - r * .55 + j * r * .22, y + r * .3); c.lineTo(x - r * .4 + j * r * .25, y + r * .3 - j * r * .2); c.stroke(); } },
+    crab(c, x, y, r){ c.fillStyle = '#e0633a'; c.strokeStyle = '#9a3212'; c.lineWidth = r * .08; c.beginPath(); c.ellipse(x, y + r * .08, r * .5, r * .32, 0, 0, 7); c.fill(); c.stroke(); for (const s of [-1, 1]){ c.beginPath(); c.arc(x + s * r * .58, y - r * .3, r * .17, 0, 7); c.fill(); c.stroke(); for (let j = 0; j < 3; j++){ c.beginPath(); c.moveTo(x + s * r * .4, y + r * (.1 + j * .1)); c.lineTo(x + s * r * .72, y + r * (.25 + j * .13)); c.stroke(); } } c.fillStyle = '#fff'; c.beginPath(); c.arc(x + r * .1, y + r * .08, r * .09, 0, 7); c.fill(); },
+    human(c, x, y, r){ c.fillStyle = '#f0c9a0'; c.strokeStyle = '#a8763e'; c.lineWidth = r * .08; c.beginPath(); c.arc(x, y - r * .34, r * .24, 0, 7); c.fill(); c.stroke(); c.fillStyle = '#5a7fd0'; c.beginPath(); c.moveTo(x - r * .5, y + r * .6); c.quadraticCurveTo(x - r * .5, y - r * .02, x, y - r * .04); c.quadraticCurveTo(x + r * .5, y - r * .02, x + r * .5, y + r * .6); c.closePath(); c.fill(); },
+    lung(c, x, y, r, t){ c.fillStyle = '#ffb3bd'; c.strokeStyle = '#c0566a'; c.lineWidth = r * .07; for (const s of [-1, 1]){ c.beginPath(); c.ellipse(x + s * r * .3, y + r * .05, r * .26, r * .52, s * .12, 0, 7); c.fill(); c.stroke(); } const a = t * 1.2; c.fillStyle = '#7a3b12'; c.beginPath(); c.ellipse(x + Math.cos(a) * r * .32, y + Math.sin(a * 1.4) * r * .3, r * .1, r * .06, a, 0, 7); c.fill(); },
+    cyst(c, x, y, r){ c.fillStyle = '#ffb3bd'; c.beginPath(); c.arc(x, y, r * .6, 0, 7); c.fill(); c.fillStyle = '#e9e2d6'; c.strokeStyle = '#8c8577'; c.lineWidth = r * .12; c.beginPath(); c.arc(x, y, r * .4, 0, 7); c.fill(); c.stroke(); c.fillStyle = '#9a4a2a'; c.beginPath(); c.ellipse(x, y, r * .26, r * .17, .5, 0, 7); c.fill(); }
+  };
+  return dt => {
+    clock += dt; let d = at - pos; if (d > n / 2) d -= n; if (d < -n / 2) d += n; pos += d * Math.min(1, dt * 4); pos = (pos + n) % n;
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, R = Math.min(W * .1, H * .14);
+    ctx.strokeStyle = '#d9d2c2'; ctx.lineWidth = 2 * u; ctx.setLineDash([5 * u, 5 * u]); ctx.beginPath(); ctx.ellipse(W / 2, H / 2, W * .36, H * .34, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    for (let i = 0; i < n; i++){ const an = -Math.PI / 2 + (i + .5) / n * 6.2832, x = W / 2 + Math.cos(an) * W * .36, y = H / 2 + Math.sin(an) * H * .34, ta = Math.atan2(Math.cos(an) * H * .34, -Math.sin(an) * W * .36); ctx.fillStyle = '#b9b09c'; ctx.beginPath(); ctx.moveTo(x + Math.cos(ta) * 5 * u, y + Math.sin(ta) * 5 * u); ctx.lineTo(x + Math.cos(ta + 2.5) * 5 * u, y + Math.sin(ta + 2.5) * 5 * u); ctx.lineTo(x + Math.cos(ta - 2.5) * 5 * u, y + Math.sin(ta - 2.5) * 5 * u); ctx.closePath(); ctx.fill(); }
+    S.forEach((s, i) => { const [x, y] = P(i, W, H), on = i === at; ctx.fillStyle = on ? '#fff3dd' : '#fff'; ctx.strokeStyle = on ? '#f08a24' : s[4] === 'inf' ? '#d64545' : s[4] === 'dx' ? '#1e9e62' : '#c9cfdd'; ctx.lineWidth = (on ? 3.2 : 1.8) * u; ctx.beginPath(); ctx.arc(x, y, R, 0, 7); ctx.fill(); ctx.stroke();
+      (ICON[s[3]] || ICON.egg)(ctx, x, y, R * .95, clock);
+      ctx.font = f(6.8, 700); ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillStyle = on ? '#a14a00' : '#5b6375'; ctx.fillText(s[1], x, y + R + 3 * u);
+      if (s[4]){ ctx.font = f(5.8, 700); ctx.fillStyle = s[4] === 'inf' ? '#d64545' : '#1e9e62'; ctx.fillText(s[4] === 'inf' ? 'INFECTIVE STAGE' : 'DIAGNOSTIC STAGE', x, y + R + 13 * u); } });
+    const an = -Math.PI / 2 + pos / n * 6.2832; ctx.fillStyle = '#f08a24'; ctx.beginPath(); ctx.arc(W / 2 + Math.cos(an) * W * .36 * .72, H / 2 + Math.sin(an) * H * .34 * .72, 4 * u, 0, 7); ctx.fill();
+    ctx.font = f(7, 600); ctx.fillStyle = '#8c92a2'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(root.dataset.title || 'life cycle', W / 2, H / 2);
+  };
+};
+
 /* ---------- 3D x-ray chest (three.js, all geometry generated in code) ---------- */
 IX.chest = root => {
   const cv = $('canvas', root), phEl = $('[data-k=ph]', root), prEl = $('[data-k=pr]', root), page = root.closest('.pin'), msg = $('[data-k=msg]', page);
@@ -2528,7 +3067,7 @@ function FlipBook(book, pages, o){
 }
 
 /* ---------- library, progress, sync and the book shell ---------- */
-const MODULE = {"id": "res", "title": "RES Interactive Book", "kicker": "The Helpers MedSync · Year 2 · Respiratory module", "note": "Built from last year's Respiratory lectures (Medicine 2024 drive). Every book will be re-checked against this year's lectures and pamphlets when they arrive.", "subjects": [{"name": "Physiology", "short": "Physiology", "color": "#2e86de", "lectures": [{"id": "phy-l1", "lec": "L1", "title": "Organization and pulmonary function tests"}, {"id": "phy-l2", "lec": "L2", "title": "Transport of gases"}, {"id": "phy-l3", "lec": "L3", "title": "Mechanics and regulation of breathing"}]}, {"name": "Anatomy", "short": "Anatomy", "color": "#d64545", "lectures": [{"id": "ana-l1", "lec": "L1", "title": "Respiratory system, lecture 1"}, {"id": "ana-l2", "lec": "L2", "title": "Anatomy and development of the lungs and pleurae"}, {"id": "ana-l3", "lec": "L3", "title": "Respiratory system, lecture 3"}]}, {"name": "Histology", "short": "Histology", "color": "#8a55e0", "lectures": [{"id": "his-l1", "lec": "L1", "title": "Nose, larynx, trachea and the respiratory epithelium"}, {"id": "his-l2", "lec": "L2", "title": "Bronchial tree, alveoli and the blood–gas barrier"}]}, {"name": "Biochemistry", "short": "Biochemistry", "color": "#e0a422", "lectures": [{"id": "bio-l1", "lec": "L1", "title": "Respiration"}]}, {"name": "Pathology", "short": "Pathology", "color": "#c0392b", "lectures": [{"id": "pat-l1", "lec": "L1–2", "title": "Respiratory pathology, lectures 1 and 2"}, {"id": "pat-l3", "lec": "L3", "title": "Respiratory pathology, lecture 3"}, {"id": "pat-l4", "lec": "L4", "title": "Respiratory pathology, lecture 4"}]}, {"name": "Microbiology", "short": "Microbiology", "color": "#1e9e62", "lectures": [{"id": "mic-l1", "lec": "L1", "title": "Upper respiratory tract infection I"}, {"id": "mic-l2", "lec": "L2", "title": "Upper respiratory tract infection II"}, {"id": "mic-l3", "lec": "L3", "title": "Bacterial pneumonia"}, {"id": "mic-l4", "lec": "L4", "title": "Viral pneumonia"}, {"id": "mic-l5", "lec": "L5", "title": "Tuberculosis"}, {"id": "mic-l6", "lec": "L6", "title": "Fungal respiratory tract infection"}]}, {"name": "Pharmacology", "short": "Pharmacology", "color": "#16a3a3", "lectures": [{"id": "pha-l1", "lec": "L1", "title": "Respiratory pharmacology, lecture 1"}, {"id": "pha-l2", "lec": "L2", "title": "Drug therapy of bronchial asthma"}]}, {"name": "Parasitology", "short": "Parasitology", "color": "#b5651d", "lectures": [{"id": "par-l1", "lec": "L1", "title": "Respiratory parasitology"}]}]}, FB = window.FB_CONFIG || null;
+const MODULE = {"id": "res", "title": "RES Interactive Book", "kicker": "The Helpers MedSync · Year 2 · Respiratory module", "note": "Built from last year's Respiratory lectures (Medicine 2024 drive). Every book will be re-checked against this year's lectures and pamphlets when they arrive.", "subjects": [{"name": "Physiology", "short": "Physiology", "color": "#2e86de", "lectures": [{"id": "phy-l1", "lec": "L1", "title": "Organization and pulmonary function tests"}, {"id": "phy-l2", "lec": "L2", "title": "Transport of gases"}, {"id": "phy-l3", "lec": "L3", "title": "Mechanics and regulation of breathing"}]}, {"name": "Anatomy", "short": "Anatomy", "color": "#d64545", "lectures": [{"id": "ana-l1", "lec": "L1", "title": "Respiratory system, lecture 1"}, {"id": "ana-l2", "lec": "L2", "title": "Anatomy and development of the lungs and pleurae"}, {"id": "ana-l3", "lec": "L3", "title": "Respiratory system, lecture 3"}]}, {"name": "Histology", "short": "Histology", "color": "#8a55e0", "lectures": [{"id": "his-l1", "lec": "L1", "title": "Nose, larynx, trachea and the respiratory epithelium"}, {"id": "his-l2", "lec": "L2", "title": "Bronchial tree, alveoli and the blood–gas barrier"}]}, {"name": "Biochemistry", "short": "Biochemistry", "color": "#e0a422", "lectures": [{"id": "bio-l1", "lec": "L1", "title": "Gas transport and acid–base balance"}]}, {"name": "Pathology", "short": "Pathology", "color": "#c0392b", "lectures": [{"id": "pat-l1", "lec": "L1–2", "title": "Respiratory pathology, lectures 1 and 2"}, {"id": "pat-l3", "lec": "L3", "title": "Respiratory pathology, lecture 3"}, {"id": "pat-l4", "lec": "L4", "title": "Respiratory pathology, lecture 4"}]}, {"name": "Microbiology", "short": "Microbiology", "color": "#1e9e62", "lectures": [{"id": "mic-l1", "lec": "L1", "title": "Upper respiratory tract infection I"}, {"id": "mic-l2", "lec": "L2", "title": "Upper respiratory tract infection II"}, {"id": "mic-l3", "lec": "L3", "title": "Bacterial pneumonia"}, {"id": "mic-l4", "lec": "L4", "title": "Viral pneumonia"}, {"id": "mic-l5", "lec": "L5", "title": "Tuberculosis"}, {"id": "mic-l6", "lec": "L6", "title": "Fungal respiratory tract infection"}]}, {"name": "Pharmacology", "short": "Pharmacology", "color": "#16a3a3", "lectures": [{"id": "pha-l1", "lec": "L1", "title": "Respiratory pharmacology, lecture 1"}, {"id": "pha-l2", "lec": "L2", "title": "Drug therapy of bronchial asthma"}]}, {"name": "Parasitology", "short": "Parasitology", "color": "#b5651d", "lectures": [{"id": "par-l1", "lec": "L1", "title": "Paragonimus westermani and house dust mites"}]}]}, FB = window.FB_CONFIG || null;
 const BOOKS = $$('template[data-book]').map(t => ({id: t.dataset.book, subj: t.dataset.subj, title: t.dataset.title, short: t.dataset.short, lec: t.dataset.lec, tpl: t,
   pages: [...t.content.querySelectorAll('section.page')].map(s => [s.dataset.t, s.dataset.g || ''])}));
 const byId = id => BOOKS.find(b => b.id === id);

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin · The Helpers Interactive Books</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../common.css">
+<style>
+h1{color:#f4efe6;font-size:28px;margin:6px 0 4px}.sub{color:#d9cfc0;margin:0 0 16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}.tabs button{border:0;border-radius:99px;padding:7px 16px;background:rgba(255,255,255,.14);color:#fff;font:600 13px "Poppins",sans-serif}.tabs button.on{background:#ffc928;color:var(--navy)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
+.kpi small{display:block;font:700 10.5px "Poppins",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8c92a2}.kpi b{font:700 28px "Poppins",sans-serif;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;font:700 11px "Poppins",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8c92a2;padding:6px 8px;border-bottom:2px solid var(--line)}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}.barc{height:8px;border-radius:99px;background:var(--line);min-width:90px;overflow:hidden}.barc i{display:block;height:100%;background:var(--blue)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+h3{margin:0 0 8px;color:var(--navy);font-size:16px}.card+.card{margin-top:14px}
+.sample{background:#fde4e4;color:#a12525;border-radius:8px;padding:8px 12px;font:700 13px "Poppins",sans-serif;margin-bottom:12px}
+.muted{color:var(--ink-2);font-size:13.5px}
+</style></head><body>
+<div class="bar"><b>Admin · Interactive Books</b><span class="sp"></span><a href="../sem3/">Modules</a><button id="out" hidden>Sign out</button></div>
+<div class="wrap"><h1>Admin</h1><p class="sub" id="who">Checking…</p><div id="main"></div></div>
+<script src="../fb.js"></script>
+<script>
+const $ = s => document.querySelector(s), main = $('#main'), esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const MODS = [['msk', 'MSK'], ['res', 'RES'], ['cvs', 'CVS']], ST = [['done', 'Finished'], ['prog', 'In progress'], ['soon', 'Coming soon']];
+let api = null, me = null, myRole = '', students = [], admins = [], cfg = {modules: {}, notice: ''}, log = [], tab = 'over', sample = false, q = '';
+const ago = t => { if (!t) return 'never'; const d = (Date.now() - t) / 864e5; return d < 1 ? 'today' : d < 2 ? 'yesterday' : Math.floor(d) + ' days ago'; };
+
+function stats(s){ const b = Object.values((s.res && s.res.books) || {}), qs = b.filter(x => x.q); return {opened: b.filter(x => x.r && x.r.length).length, pages: b.reduce((n, x) => n + (x.r ? x.r.length : 0), 0), quiz: qs.length ? Math.round(100 * qs.reduce((n, x) => n + x.q[0] / x.q[1], 0) / qs.length) : null}; }
+function render(){
+  const canEdit = myRole === 'owner' || myRole === 'admin';
+  let h = sample ? '<div class="sample">Sample data, not real students. This is how the page looks once sync is switched on.</div>' : '';
+  h += '<div class="tabs">' + [['over', 'Overview'], ['stud', 'Students'], ['adm', 'Admins'], ['site', 'Site'], ['log', 'Activity']].map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${t[1]}</button>`).join('') + '</div>';
+  if (tab === 'over'){
+    const wk = students.filter(s => s.seen > Date.now() - 7 * 864e5).length, st = students.map(stats), qz = st.filter(x => x.quiz != null);
+    h += `<div class="kpis">${[['Students signed in', students.length], ['Active in 7 days', wk], ['Books opened', st.reduce((n, x) => n + x.opened, 0)], ['Average quiz', qz.length ? Math.round(qz.reduce((n, x) => n + x.quiz, 0) / qz.length) + '%' : '–']].map(k => `<div class="card kpi"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('')}</div>`;
+    const per = {}; students.forEach(s => { for (const [id, b] of Object.entries((s.res && s.res.books) || {})){ const p = per[id] || (per[id] = {n: 0, q: [], pg: 0}); if (b.r && b.r.length){ p.n++; p.pg += b.r.length; } if (b.q) p.q.push(b.q[0] / b.q[1]); } });
+    const rows = Object.entries(per).sort((a, b) => b[1].n - a[1].n), mx = Math.max(1, ...rows.map(r => r[1].n));
+    h += `<div class="card"><h3>RES books</h3><div class="scroll"><table><tr><th>Book</th><th class="n">Students</th><th></th><th class="n">Took the quiz</th><th class="n">Average quiz</th></tr>${rows.map(([id, p]) => `<tr><td>${esc(id)}</td><td class="n">${p.n}</td><td><div class="barc"><i style="width:${100 * p.n / mx}%"></i></div></td><td class="n">${p.q.length}</td><td class="n">${p.q.length ? Math.round(100 * p.q.reduce((a, b) => a + b, 0) / p.q.length) + '%' : '–'}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No reading recorded yet.</td></tr>'}</table></div><p class="muted">MSK books do not report progress yet; they were built before sign-in existed.</p></div>`;
+  }
+  if (tab === 'stud'){
+    const list = students.filter(s => !q || (s.name + ' ' + s.email).toLowerCase().includes(q)).sort((a, b) => (b.seen || 0) - (a.seen || 0));
+    h += `<div class="card"><div class="row"><input id="q" placeholder="Search name or email" value="${esc(q)}"><span class="muted">${list.length} of ${students.length}</span></div><div class="scroll"><table><tr><th>Name</th><th>Email</th><th>Last seen</th><th class="n">Books opened</th><th class="n">Pages read</th><th class="n">Average quiz</th></tr>${list.map(s => { const x = stats(s); return `<tr><td>${esc(s.name || '–')}</td><td>${esc(s.email || '–')}</td><td>${ago(s.seen)}</td><td class="n">${x.opened}</td><td class="n">${x.pages}</td><td class="n">${x.quiz == null ? '–' : x.quiz + '%'}</td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">No students yet.</td></tr>'}</table></div></div>`;
+  }
+  if (tab === 'adm'){
+    h += `<div class="card"><h3>Who can open this page</h3><p class="muted"><b>Admin</b> can see everything and change the Site tab. <b>Monitor</b> can only look. Only the owner account can add or remove people.</p><div class="scroll"><table><tr><th>Google account</th><th>Role</th><th>Added</th><th></th></tr><tr><td>The owner account set in the database rules</td><td>Owner</td><td></td><td></td></tr>${admins.map(a => `<tr><td>${esc(a.id)}</td><td>${a.role === 'admin' ? 'Admin' : 'Monitor'}</td><td>${a.at ? new Date(a.at).toLocaleDateString() : ''}</td><td class="n">${myRole === 'owner' ? `<button class="btn red" data-rm="${esc(a.id)}">Remove</button>` : ''}</td></tr>`).join('')}</table></div>${myRole === 'owner' ? '<div class="row"><input id="nm" type="email" placeholder="their Google email"><select id="nr"><option value="viewer">Monitor</option><option value="admin">Admin</option></select><button class="btn" id="add">Add</button></div>' : ''}</div>`;
+  }
+  if (tab === 'site'){
+    h += `<div class="card"><h3>Module cards on the Semester 3 page</h3>${MODS.map(([id, nm]) => { const m = cfg.modules[id] || {}; return `<div class="row"><b style="width:3em">${nm}</b><select data-m="${id}" ${canEdit ? '' : 'disabled'}><option value="">Default</option>${ST.map(s => `<option value="${s[0]}" ${m.status === s[0] ? 'selected' : ''}>${s[1]}</option>`).join('')}</select><input data-u="${id}" placeholder="Link (leave empty for default)" value="${esc(m.url || '')}" style="flex:1;min-width:180px" ${canEdit ? '' : 'disabled'}></div>`; }).join('')}<h3 style="margin-top:14px">Announcement shown above the modules</h3><textarea id="notice" rows="2" style="width:100%" ${canEdit ? '' : 'disabled'}>${esc(cfg.notice || '')}</textarea><div class="row">${canEdit ? '<button class="btn" id="save">Save</button>' : '<span class="muted">Monitors cannot change the site.</span>'}<span class="muted" id="saved"></span></div></div>`;
+  }
+  if (tab === 'log') h += `<div class="card"><h3>Who changed what</h3><div class="scroll"><table><tr><th>When</th><th>Who</th><th>What</th></tr>${log.map(l => `<tr><td>${new Date(l.at).toLocaleString()}</td><td>${esc(l.by)}</td><td>${esc(l.what)}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">Nothing yet.</td></tr>'}</table></div><p class="muted">Entries cannot be edited or deleted from this page.</p></div>`;
+  main.innerHTML = h;
+}
+async function note(what){ const e = {at: Date.now(), by: me ? me.email : 'sample', what}; log.unshift(e); if (api) try { await api.F.addDoc(api.F.collection(api.db, 'log'), e); } catch (err){} }
+main.addEventListener('click', async e => {
+  const t = e.target;
+  if (t.dataset.tab){ tab = t.dataset.tab; return render(); }
+  if (t.id === 'in') return api.U.signInWithPopup(api.auth, new api.U.GoogleAuthProvider()).catch(err => { $('#who').textContent = 'Sign-in failed: ' + (err.code || err); });
+  if (t.id === 'demo'){ sample = true; myRole = 'owner'; me = null; seed(); $('#who').textContent = 'Preview'; return render(); }
+  if (t.id === 'add'){ const id = $('#nm').value.trim().toLowerCase(), role = $('#nr').value; if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(id)) return; const d = {role, at: Date.now()}; if (api) await api.F.setDoc(api.F.doc(api.db, 'admins', id), d); admins = admins.filter(a => a.id !== id).concat({id, ...d}); await note(`added ${id} as ${role === 'admin' ? 'admin' : 'monitor'}`); return render(); }
+  if (t.dataset.rm){ const id = t.dataset.rm; if (t.dataset.sure !== '1'){ t.dataset.sure = '1'; t.textContent = 'Tap again to remove'; return; } if (api) await api.F.deleteDoc(api.F.doc(api.db, 'admins', id)); admins = admins.filter(a => a.id !== id); await note(`removed ${id}`); return render(); }
+  if (t.id === 'save'){ const modules = {}; MODS.forEach(([id]) => { const s = main.querySelector(`[data-m=${id}]`).value, u = main.querySelector(`[data-u=${id}]`).value.trim(); if (s || u) modules[id] = {...(s ? {status: s} : {}), ...(u ? {url: u} : {})}; }); cfg = {modules, notice: $('#notice').value.trim()}; try { if (api) await api.F.setDoc(api.F.doc(api.db, 'site', 'config'), cfg); await note('changed the site settings'); render(); $('#saved').textContent = 'Saved.'; } catch (err){ $('#saved').textContent = 'Could not save: ' + (err.code || err); } }
+});
+main.addEventListener('input', e => { if (e.target.id === 'q'){ q = e.target.value.toLowerCase(); render(); const i = $('#q'); i.focus(); i.setSelectionRange(q.length, q.length); } });
+function seed(){ const nm = ['Student A', 'Student B', 'Student C', 'Student D', 'Student E', 'Student F'], ids = ['phy-l1', 'phy-l2', 'phy-l3', 'pha-l2', 'ana-l2']; students = nm.map((n, i) => ({name: n, email: 'student' + (i + 1) + '@example.com', seen: Date.now() - i * 1.7 * 864e5, res: {books: Object.fromEntries(ids.slice(0, 5 - (i % 4)).map((id, j) => [id, {r: Array.from({length: 3 + (i * 3 + j * 2) % 7}, (_, k) => k), q: (i + j) % 3 ? [4 + (i + j) % 5, 8] : null}]))}})); admins = [{id: 'colleague@example.com', role: 'viewer', at: Date.now() - 3 * 864e5}]; log = [{at: Date.now() - 864e5, by: 'sample', what: 'added colleague@example.com as monitor'}]; }
+
+(async () => {
+  if (!window.FB_CONFIG){ $('#who').textContent = 'Sync is not switched on yet.'; main.innerHTML = '<div class="card"><h3>This page needs the database</h3><p>The admin page reads from the same free Firebase project that keeps student progress. Until its settings are pasted into <code>fb.js</code>, there is nothing to show.</p><div class="row"><button class="btn" id="demo">Preview with sample data</button></div></div>'; return; }
+  try {
+    const B = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-', [A, U, F] = await Promise.all([import(B + 'app.js'), import(B + 'auth.js'), import(B + 'firestore.js')]);
+    const app = A.initializeApp(window.FB_CONFIG); api = {U, F, auth: U.getAuth(app), db: F.getFirestore(app)};
+    $('#out').onclick = () => U.signOut(api.auth);
+    U.onAuthStateChanged(api.auth, async u => {
+      me = u; $('#out').hidden = !u;
+      if (!u){ $('#who').textContent = 'Sign in with an admin Google account.'; main.innerHTML = '<div class="card"><button class="btn" id="in">Continue with Google</button></div>'; return; }
+      $('#who').textContent = 'Signed in as ' + (u.email || '') + '. Checking access…';
+      try {
+        const a = await F.getDocs(F.collection(api.db, 'admins')); admins = a.docs.map(d => ({id: d.id, ...d.data()}));
+        const mine = admins.find(x => x.id === (u.email || '').toLowerCase()); myRole = mine ? (mine.role === 'admin' ? 'admin' : 'viewer') : 'owner';
+        const [p, c, l] = await Promise.all([F.getDocs(F.collection(api.db, 'progress')), F.getDoc(F.doc(api.db, 'site', 'config')), F.getDocs(F.query(F.collection(api.db, 'log'), F.orderBy('at', 'desc'), F.limit(100)))]);
+        students = p.docs.map(d => d.data()); if (c.exists()) cfg = {modules: {}, notice: '', ...c.data()}; log = l.docs.map(d => d.data());
+        $('#who').textContent = 'Signed in as ' + u.email + ' · ' + ({owner: 'Owner', admin: 'Admin', viewer: 'Monitor'}[myRole]); render();
+      } catch (err){ $('#who').textContent = 'Signed in as ' + (u.email || ''); main.innerHTML = '<div class="card"><h3>This account is not an admin</h3><p class="muted">Ask the owner to add this Google email on the Admins tab.</p></div>'; }
+    });
+  } catch (err){ $('#who').textContent = 'Could not reach the database.'; }
+})();
+</script></body></html>

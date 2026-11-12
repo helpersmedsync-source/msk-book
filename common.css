@@ -1,0 +1,16 @@
+:root{--navy:#0b1f45;--blue:#2e86de;--red:#d64545;--green:#1e9e62;--amber:#e0a422;--paper:#fbfaf4;--paper-2:#f3f0e4;--line:#e3ded0;--ink:#232a36;--ink-2:#5b6375}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:"Lato",system-ui,sans-serif;color:var(--ink);background:#3a271b linear-gradient(180deg,#4a3324,#3a271b) fixed}
+h1,h2,h3,button,.h{font-family:"Poppins",system-ui,sans-serif}
+button{font:inherit;cursor:pointer}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;background:var(--navy);color:#fff;padding:10px 16px;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.bar b{font:700 15px "Poppins",sans-serif}.bar .sp{flex:1}.bar a,.bar button{color:#fff;background:none;border:0;font:600 13px "Poppins",sans-serif;text-decoration:none;padding:6px 10px;border-radius:8px}
+.bar a:hover,.bar button:hover{background:rgba(255,255,255,.12)}
+.wrap{max-width:1080px;margin:0 auto;padding:22px 16px 48px}
+.btn{border:0;background:var(--navy);color:#fff;border-radius:99px;padding:8px 16px;font:600 13px "Poppins",sans-serif}
+.btn.gh{background:var(--paper-2);color:var(--navy)}.btn.red{background:var(--red)}.btn:disabled{opacity:.4}
+.card{background:var(--paper);border-radius:14px;padding:16px 18px;box-shadow:0 6px 16px rgba(0,0,0,.28)}
+.tag{display:inline-block;font:700 10.5px "Poppins",sans-serif;letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:3px 10px}
+.tag.done{background:#dff5ea;color:#11694a}.tag.prog{background:#fff0c9;color:#7a5600}.tag.soon{background:#e9e6dc;color:#6b6f7a}
+.note{background:#fff7d6;border-left:4px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:14px}
+input,select,textarea{font:inherit;border:1.5px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;max-width:100%}

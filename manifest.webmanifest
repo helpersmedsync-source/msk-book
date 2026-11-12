@@ -1,6 +1,6 @@
 {
- "name": "MSK Interactive Book \u00b7 The Helpers",
- "short_name": "MSK Book",
+ "name": "The Helpers \u00b7 Interactive Books",
+ "short_name": "Helpers Books",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",

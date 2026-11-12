@@ -3,28 +3,19 @@
 <title>Semester 3 · The Helpers Interactive Books</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:wght@400;700&display=swap">
 <link rel="stylesheet" href="../common.css">
-<style>
-.hero{color:#f4efe6;margin:10px 0 22px}.hero small{font:700 11px "Poppins",sans-serif;letter-spacing:.18em;color:#ffc928;text-transform:uppercase}
-.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:6px 0}.hero p{margin:0;color:#d9cfc0;max-width:60ch}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
-.mod{position:relative;display:flex;flex-direction:column;gap:8px;min-height:230px;text-decoration:none;color:inherit;border-radius:8px 16px 16px 8px;border-left:16px solid var(--c);transition:transform .15s}
-a.mod:hover{transform:translateY(-4px)}
-.mod h2{font-size:22px;margin:4px 0 0;color:var(--navy)}.mod p{margin:0;color:var(--ink-2);font-size:14.5px}
-.mod .go{margin-top:auto;font:700 13px "Poppins",sans-serif;color:var(--navy)}
-.mod.soon{background:rgba(251,250,244,.16);box-shadow:none;color:#e8dfd0}.mod.soon h2{color:#f4efe6}.mod.soon p,.mod.soon .go{color:#cbbfae}
-.meter{height:6px;border-radius:99px;background:var(--line);overflow:hidden}.meter i{display:block;height:100%;background:var(--blue)}
-#notice{margin-bottom:16px}#notice:empty{display:none}
-</style></head><body>
-<div class="bar"><b>The Helpers · Interactive Books</b><span class="sp"></span><a href="../admin/">Admin</a></div>
+<style>.meter{height:6px;border-radius:99px;background:var(--line);overflow:hidden}.meter i{display:block;height:100%;background:var(--blue)}#notice{margin-bottom:16px}#notice:empty{display:none}.mod{min-height:230px}</style></head><body>
+<div id="bar"></div>
 <div class="wrap">
   <div class="hero"><small>Year 2 · Semester 3</small><h1>Semester 3 modules</h1><p>Every lecture as a book you can turn, tap and test yourself on. Pick a module.</p></div>
   <div id="notice"></div>
   <div class="grid" id="grid"></div>
 </div>
+<script src="../gate.js"></script>
 <script src="../fb.js"></script>
+<script src="../hub.js"></script>
 <script>
 const MODS = [
-  {id: 'msk', name: 'MSK', long: 'Musculoskeletal module', color: '#d64545', status: 'done', url: '../', text: '34 lecture books and 13 practical books, with labs on the real practical slides.'},
+  {id: 'msk', name: 'MSK', long: 'Musculoskeletal module', color: '#d64545', status: 'done', url: '../msk.html', text: '34 lecture books and 13 practical books, with labs on the real practical slides.'},
   {id: 'res', name: 'RES', long: 'Respiratory module', color: '#2e86de', status: 'prog', url: '../res/', text: 'New page turning and live figures. Books are being added lecture by lecture.'},
   {id: 'cvs', name: 'CVS', long: 'Cardiovascular module', color: '#8a55e0', status: 'soon', url: '', text: 'Starts when the module starts.'}
 ];
@@ -35,13 +26,10 @@ function paint(cfg){
   if (cfg && cfg.notice) document.querySelector('#notice .note').textContent = cfg.notice;
   let res = ''; try { const d = JSON.parse(localStorage.getItem('helpers.res.v1')); const n = d ? Object.values(d.books).filter(b => b.r && b.r.length).length : 0; if (n) res = `<p><b>${n}</b> book${n > 1 ? 's' : ''} opened on this device.</p>`; } catch (e){}
   document.getElementById('grid').innerHTML = MODS.map(x => {
-    const st = (m[x.id] && m[x.id].status) || x.status, url = (m[x.id] && m[x.id].url) || x.url, open = st !== 'soon' && url;
+    const st = (m[x.id] && m[x.id].status) || x.status, url0 = (m[x.id] && m[x.id].url) || x.url, url = x.id === 'msk' && (url0 === '../' || url0 === '..') ? '../msk.html' : url0, open = st !== 'soon' && url;
     return `<${open ? `a href="${url}"` : 'div'} class="card mod ${open ? '' : 'soon'}" style="--c:${x.color}"><span><span class="tag ${st}">${LAB[st]}</span></span><h2>${x.name}</h2><p><b>${x.long}.</b> ${x.text}</p>${x.id === 'res' && open ? res : ''}<span class="go">${open ? 'Open the books →' : 'Not open yet'}</span></${open ? 'a' : 'div'}>`;
   }).join('');
 }
-paint(null);
-if (window.FB_CONFIG) (async () => { try {
-  const B = 'https://www.gstatic.com/firebasejs/10.12.2/firebase-', [A, F] = await Promise.all([import(B + 'app.js'), import(B + 'firestore.js')]);
-  const s = await F.getDoc(F.doc(F.getFirestore(A.initializeApp(window.FB_CONFIG)), 'site', 'config')); if (s.exists()) paint(s.data());
-} catch (e){} })();
+paint(null); Hub.bar([['Semester 3', '']]);
+Hub.init().then(async () => { try { if (!Hub._api) return; const {F, db} = Hub._api, s = await F.getDoc(F.doc(db, 'site', 'config')); if (s.exists()) paint(s.data()); } catch (e){} });
 </script></body></html>

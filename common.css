@@ -14,3 +14,30 @@ button{font:inherit;cursor:pointer}
 .tag.done{background:#dff5ea;color:#11694a}.tag.prog{background:#fff0c9;color:#7a5600}.tag.soon{background:#e9e6dc;color:#6b6f7a}
 .note{background:#fff7d6;border-left:4px solid var(--amber);border-radius:8px;padding:10px 12px;font-size:14px}
 input,select,textarea{font:inherit;border:1.5px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;max-width:100%}
+
+/* ---------- shared across the welcome page, semesters, modules and admin ---------- */
+.bar .home{display:flex;align-items:center;gap:9px;padding:2px 8px 2px 2px}.bar .home img{width:28px;height:28px;border-radius:50%;background:#fff}
+.bar .home b{font:700 15px "Poppins",sans-serif}
+.bar .crumb{font:600 13px "Poppins",sans-serif;opacity:.85;white-space:nowrap}.bar .crumb::before{content:"›";margin:0 8px 0 0;opacity:.6}
+.bar .who{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:99px;padding:5px 12px 5px 6px}
+.bar .who i{width:24px;height:24px;border-radius:50%;background:#ffc928;color:var(--navy);display:grid;place-items:center;font:700 12px "Poppins",sans-serif;font-style:normal}
+.hero{color:#f4efe6;margin:10px 0 22px}.hero small{font:700 11px "Poppins",sans-serif;letter-spacing:.18em;color:#ffc928;text-transform:uppercase}
+.hero h1{font-size:clamp(28px,5vw,42px);line-height:1.1;margin:6px 0}.hero p{margin:0;color:#d9cfc0;max-width:60ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.mod{position:relative;display:flex;flex-direction:column;gap:8px;min-height:190px;text-decoration:none;color:inherit;border-radius:8px 16px 16px 8px;border-left:16px solid var(--c,#8c92a2);transition:transform .15s}
+a.mod:hover{transform:translateY(-4px)}
+.mod h2{font-size:22px;margin:4px 0 0;color:var(--navy)}.mod p{margin:0;color:var(--ink-2);font-size:14.5px}
+.mod .go{margin-top:auto;font:700 13px "Poppins",sans-serif;color:var(--navy)}
+.mod.soon{background:rgba(251,250,244,.14);box-shadow:none;color:#e8dfd0;min-height:150px}.mod.soon h2{color:#f4efe6}.mod.soon p,.mod.soon .go{color:#cbbfae}
+.yr{font:700 12px "Poppins",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#ffc928;margin:26px 0 10px}
+.dlg{position:fixed;inset:0;z-index:20;background:rgba(20,12,6,.6);display:grid;place-items:center;padding:16px}.dlg[hidden]{display:none}
+.dlg .box{width:min(430px,100%);max-height:90vh;overflow:auto}.dlg h2{margin:0 0 8px;color:var(--navy);font-size:20px}.dlg p{margin:8px 0;font-size:14.5px}
+.dlg label{display:block;font:700 11px "Poppins",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin:14px 0 5px}
+.dlg .line{display:flex;gap:8px}.dlg .line input{flex:1;min-width:0}.dlg .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-top:16px}
+.dlg .ok{color:var(--green);font-weight:700}.dlg .bad{color:var(--red);font-weight:700}.dlg small{color:var(--ink-2)}
+.welcome{min-height:calc(100vh - 20px);display:grid;place-items:center;padding:20px 16px}
+.welcome .card{width:min(440px,100%);text-align:center;padding:30px 26px}
+.welcome img{width:84px;height:84px}.welcome h1{font-size:25px;color:var(--navy);margin:10px 0 6px;line-height:1.15}.welcome p{color:var(--ink-2);margin:0 0 18px;font-size:15px}
+.welcome .btn{display:block;width:100%;padding:12px 16px;font-size:15px;margin-top:10px}.welcome .or{font-size:12.5px;color:var(--ink-2);margin:14px 0 0;text-align:left}
+.welcome .or b{color:var(--ink)}
+@media(max-width:560px){.bar .home b{display:none}.bar{gap:6px;padding:8px 10px}}

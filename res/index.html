@@ -263,9 +263,10 @@ path.seg{fill:none;stroke:#9cc2ff;stroke-width:10;stroke-linecap:round;cursor:po
 .lbl{font:600 8.5px var(--f-head);fill:#5b6375}.lbl.s{font-size:7.5px;fill:#8c92a2}.ld{stroke:#b9bfcc;stroke-width:1;fill:none}
 table.rd{width:100%;border-collapse:separate;border-spacing:.18em;font-size:.82em;margin-top:.3em}table.rd th{width:6.2em;text-align:left;font:700 .82em var(--f-head);color:var(--ink-2);vertical-align:top;padding:.25em .1em}table.rd td{background:var(--paper-2);border-radius:.35em;padding:.25em .45em}
 </style>
+<script src="../gate.js"></script>
 </head><body>
 <div class="desk"></div>
-<div id="lib"><div class="lbar"><div class="logo"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v8M12 11c-1 0-3 1-4 3-1.5 3-2 6-1 7 2 0 4-1 5-2M12 11c1 0 3 1 4 3 1.5 3 2 6 1 7-2 0-4-1-5-2"/></svg></div><span class="ttl">RES Interactive Book</span><span class="sp"></span><a class="ib" href="../sem3/" style="color:#fff;text-decoration:none">All modules</a><button class="ib" id="acct" data-act="acct" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lb">Sign in</span></button></div><div id="libin"></div></div>
+<div id="lib"><div class="lbar"><div class="logo"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v8M12 11c-1 0-3 1-4 3-1.5 3-2 6-1 7 2 0 4-1 5-2M12 11c1 0 3 1 4 3 1.5 3 2 6 1 7-2 0-4-1-5-2"/></svg></div><span class="ttl">RES Interactive Book</span><span class="sp"></span><a class="ib" href="../" style="color:#fff;text-decoration:none">Home</a><a class="ib" href="../sem3/" style="color:#fff;text-decoration:none">Semester 3</a><button class="ib" id="acct" data-act="acct" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span class="lb">Sign in</span></button></div><div id="libin"></div></div>
 <div class="app" id="app" hidden>
   <header class="bar">
     <button class="ib" data-act="home" aria-label="Library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span class="lb">Library</span></button>
@@ -2556,6 +2557,8 @@ const Prog = {
   }
 };
 
+/* who is using the site: set on the welcome page, shared by every page */
+const Sess = { get(){ try { const s = JSON.parse(localStorage.getItem('helpers.session') || 'null'); return s && s.mode ? s : null; } catch (e){ return null; } }, set(s){ try { s ? localStorage.setItem('helpers.session', JSON.stringify(s)) : localStorage.removeItem('helpers.session'); } catch (e){} } };
 /* compare two objects whatever order their keys come back in */
 const stable = o => JSON.stringify(o, (k, v) => v && typeof v === 'object' && !Array.isArray(v) ? Object.keys(v).sort().reduce((a, x) => (a[x] = v[x], a), {}) : Array.isArray(v) && k === 'r' ? [...v].sort((a, b) => a - b) : v);
 /* cloud sync: Google sign-in + one small document per student (Firebase, free plan) */
@@ -2569,9 +2572,12 @@ const Sync = {
       const app = A.initializeApp(FB), auth = U.getAuth(app), db = F.getFirestore(app); this._api = {U, F, auth, db};
       U.onAuthStateChanged(auth, u => {
         this.user = u; this.state = u ? 'in' : 'out'; if (this._off){ this._off(); this._off = null; }
+        const old = Sess.get() || {};
+        if (u) Sess.set({mode: 'user', uid: u.uid, name: u.displayName || '', email: u.email || '', nick: old.uid === u.uid || old.mode === 'guest' ? old.nick || '' : ''});
+        else if (old.mode === 'user'){ Sess.set(null); location.href = '../'; return; }
         if (u){
           this._ref = F.doc(db, 'progress', u.uid);
-          this._off = F.onSnapshot(this._ref, s => { const had = s.exists(), ch = had && Prog.merge(s.data()[MODULE.id]); if (ch) Prog.subs.forEach(f => f()); if (!had || stable((s.data()[MODULE.id] || {}).books) !== stable(Prog.data.books)) this.push(1500); this.stamp = Date.now(); paintAcct(); },
+          this._off = F.onSnapshot(this._ref, s => { const nk = s.exists() && s.data().nick, se = Sess.get(); if (nk && se && se.nick !== nk){ se.nick = nk; Sess.set(se); } const had = s.exists(), ch = had && Prog.merge(s.data()[MODULE.id]); if (ch) Prog.subs.forEach(f => f()); if (!had || stable((s.data()[MODULE.id] || {}).books) !== stable(Prog.data.books)) this.push(1500); this.stamp = Date.now(); paintAcct(); },
             e => { this.err = e.code || String(e); this.state = 'err'; paintAcct(); });
         }
         paintAcct();
@@ -2579,7 +2585,7 @@ const Sync = {
     } catch (e){ this.state = 'err'; this.err = 'Could not reach the sync service'; paintAcct(); }
   },
   signIn(){ const {U, auth} = this._api || {}; if (!U) return; const p = new U.GoogleAuthProvider(); U.signInWithPopup(auth, p).catch(e => { if (/popup|operation-not-supported/.test(e.code || '')) U.signInWithRedirect(auth, p); else { this.err = e.code || String(e); paintAcct(); } }); },
-  signOut(){ const {U, auth} = this._api || {}; if (U) U.signOut(auth); },
+  signOut(){ const {U, auth} = this._api || {}; Sess.set(null); if (U) U.signOut(auth).then(() => { location.href = '../'; }, () => { location.href = '../'; }); else location.href = '../'; },
   push(wait = 12000){ if (this.state !== 'in') return; clearTimeout(this._t); this._t = setTimeout(() => this.flush(), wait); },
   flush(){ if (this.state !== 'in' || !this._ref) return; clearTimeout(this._t); const {F} = this._api; F.setDoc(this._ref, {[MODULE.id]: Prog.data, name: this.user.displayName || '', email: this.user.email || '', seen: Date.now()}, {merge: true}).then(() => { this.stamp = Date.now(); paintAcct(); }).catch(e => { this.err = e.code || String(e); paintAcct(); }); }
 };
@@ -2590,12 +2596,13 @@ const inApp = /FBAN|FBAV|Instagram|Line\/|MicroMessenger|; wv\)/i.test(navigator
 function paintAcct(){
   const b = $('#acct'), u = Sync.user; if (!b) return;
   b.classList.toggle('on', Sync.state === 'in');
-  $('.lb', b).textContent = Sync.state === 'in' ? (u.displayName || 'Signed in').split(' ')[0] : 'Sign in';
+  const se = Sess.get() || {}, nick = se.nick || '';
+  $('.lb', b).textContent = Sync.state === 'in' ? nick || (u.displayName || 'Signed in').split(' ')[0] : nick || (Sync.state === 'off' ? 'Guest' : 'Sign in');
   const box = $('#acctbox'); if (!box) return;
   let h;
   if (Sync.state === 'off') h = `<p><b>Progress is saved on this device.</b> Sign-in and syncing between your phone and laptop are built in and will be switched on when the book moves to its permanent address.</p>`;
-  else if (Sync.state === 'in') h = `<p>Signed in as <b>${u.displayName || u.email}</b>.</p><p>Your progress follows you to any device where you sign in with this Google account.${Sync.stamp ? ' Last synced ' + new Date(Sync.stamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '.' : ''}</p><div class="row"><button class="btn gh" data-act="signout">Sign out</button></div>`;
-  else h = `<p><b>Keep your progress on every device.</b> Sign in once with Google on your phone and your laptop, and the pages you read and your quiz scores stay together.</p><p style="font-size:.85em;color:var(--ink-2)">The MedSync team admins can see names and progress to improve the books.</p>${inApp ? '<p class="note">This looks like an in-app browser. Google blocks sign-in here: open the page in Chrome or Safari first.</p>' : ''}<div class="row"><button class="btn" data-act="signin">Continue with Google</button></div><p style="font-size:.85em;color:var(--ink-2)">Without signing in, progress stays on this device only.</p>`;
+  else if (Sync.state === 'in') h = `<p>Signed in as <b>${u.displayName || u.email}</b>.</p><p>Username: <b>${nick || 'not set'}</b> · <a href="../#settings">Change</a></p><p>Your progress follows you to any device where you sign in with this Google account.${Sync.stamp ? ' Last synced ' + new Date(Sync.stamp).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '.' : ''}</p><div class="row"><button class="btn gh" data-act="signout">Sign out</button></div>`;
+  else h = `<p><b>Keep your progress on every device.</b> Sign in once with Google on your phone and your laptop, and the pages you read and your quiz scores stay together.</p><p style="font-size:.85em;color:var(--ink-2)">The MedSync team admins can see names and progress to improve the books.</p>${inApp ? '<p class="note">This looks like an in-app browser. Google blocks sign-in here: open the page in Chrome or Safari first.</p>' : ''}<div class="row"><button class="btn" data-act="signin">Continue with Google</button></div><p style="font-size:.85em;color:var(--ink-2)">You are browsing as a guest: progress stays on this device only. <a href="../#settings">Username and settings</a></p>`;
   if (Sync.err) h += `<p style="font-size:.8em;color:var(--red)">Sync problem: ${Sync.err}</p>`;
   box.innerHTML = h;
 }

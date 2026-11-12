@@ -255,10 +255,13 @@ table.mini th{font:700 .8em var(--f-head);color:var(--ink-2)}table.mini td{backg
 .pw .n.good rect{fill:#dff5ea;stroke:#1e9e62}.pw .n.bad rect{fill:#fde4e4;stroke:#d64545}
 .pw .n.lit rect{fill:#ffedd8;stroke:#f08a24;stroke-width:2.6}
 path.seg{fill:none;stroke:#9cc2ff;stroke-width:10;stroke-linecap:round;cursor:pointer;transition:stroke .2s}path.seg.on{stroke:#f08a24}
-.zn{fill:#ffd9de;stroke:#b5566a;stroke-width:1.4;cursor:pointer;transition:fill .2s}[data-ix=hl] .zn{fill:#eadfd2;stroke:#c9b49a;cursor:default}
+.zn{fill:#ffd9de;stroke:#b5566a;stroke-width:1.4;cursor:pointer;transition:fill .2s}[data-ix=hl] .zn{fill:#eadfd2;stroke:#c9b49a;cursor:pointer}
 .zn.lit{fill:#ffb866;stroke:#f08a24}[data-ix=find] .zn.lit{fill:#bfe8d2;stroke:#1e9e62}.zn.bad{fill:#f7b0b0}
 .chip.no{background:#fde4e4;border-color:var(--red);color:#a12525}
 .msg u{text-decoration-color:var(--amber);text-underline-offset:.15em}
+
+.lbl{font:600 8.5px var(--f-head);fill:#5b6375}.lbl.s{font-size:7.5px;fill:#8c92a2}.ld{stroke:#b9bfcc;stroke-width:1;fill:none}
+table.rd{width:100%;border-collapse:separate;border-spacing:.18em;font-size:.82em;margin-top:.3em}table.rd th{width:6.2em;text-align:left;font:700 .82em var(--f-head);color:var(--ink-2);vertical-align:top;padding:.25em .1em}table.rd td{background:var(--paper-2);border-radius:.35em;padding:.25em .45em}
 </style>
 </head><body>
 <div class="desk"></div>
@@ -1569,7 +1572,7 @@ IX.dysp = root => {
 IX.hl = root => {
   const bs = mine('[data-v]', root), ps = mine('[data-for]', root), hs = mine('[data-on]', root);
   const sel = v => { bs.forEach(b => b.classList.toggle('on', b.dataset.v === v)); ps.forEach(p => { p.style.display = p.dataset.for === v ? '' : 'none'; }); hs.forEach(h => h.classList.toggle('lit', h.dataset.on.split(' ').includes(v))); };
-  bs.forEach(b => b.addEventListener('click', () => sel(b.dataset.v))); sel(root.dataset.start || bs[0].dataset.v);
+  bs.forEach(b => b.addEventListener('click', () => sel(b.dataset.v))); hs.forEach(h => h.addEventListener('click', () => sel(h.dataset.on.split(' ')[0]))); sel(root.dataset.start || bs[0].dataset.v);
 };
 
 /* sort each item into the right group */
@@ -1651,6 +1654,162 @@ IX.borders = root => {
     });
     const m = k < .1 ? '<b>Quiet breathing.</b> Lung: 6th rib, 8th rib, T10. Pleura: 8th rib, 10th rib, T12. The blue gap is the <b>costodiaphragmatic recess</b>: costal and diaphragmatic pleura in contact, no lung.' : k < .8 ? '<b>Breathing in.</b> The lower border of the lung moves down into the recess.' : '<b>Deep inspiration.</b> The recess is a potential space: lung tissue occupies it only during deep inspiration.';
     if (msg.dataset.m !== m){ msg.innerHTML = m; msg.dataset.m = m; }
+  };
+};
+
+/* ---------- figures added for Histology ---------- */
+
+/* living respiratory epithelium: beating cilia, mucus carrying dust to the pharynx.
+   chips [data-g=cell] pick a cell type, chips [data-g=st] pick a condition; text comes from the JSON block */
+IX.epi = root => {
+  const cv = $('canvas', root), msg = $('[data-k=msg]', root), T = JSON.parse($('script', root).textContent);
+  const SLOT = ['c', 'g', 'c', 'c', 'g', 'c', 'r', 'c', 'g', 'c', 'c', 'g', 'c', 'c'], KAT = 9;      // K cell sits at the base after slot 9
+  const EXTRA = [3, 10];                                                                            // ciliated cells that turn into goblet cells with irritation
+  let sel = '', state = 'normal', clock = 0; const cur = {beat: 1, thick: 1, irr: 0, meta: 0}, dust = [];
+  for (let i = 0; i < 16; i++) dust.push({x: Math.random(), y: Math.random(), r: .6 + Math.random() * .8});
+  const mark = () => { $$('[data-g]', root).forEach(b => b.classList.toggle('on', b.dataset.g === 'cell' ? b.dataset.v === sel : b.dataset.v === state)); msg.innerHTML = sel ? T[sel] : T[state]; };
+  $$('[data-g=cell]', root).forEach(b => b.onclick = () => { sel = sel === b.dataset.v ? '' : b.dataset.v; mark(); });
+  $$('[data-g=st]', root).forEach(b => b.onclick = () => { state = b.dataset.v; sel = ''; mark(); });
+  cv.addEventListener('click', e => {
+    if (!$('[data-g=cell]', root)) return;
+    const r = cv.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height; if (y < .3 || y > .86) return;
+    const i = Math.min(SLOT.length - 1, Math.floor(x * SLOT.length)), fx = x * SLOT.length - i;
+    sel = y > .68 ? (i === KAT && fx > .5 || i === KAT + 1 && fx < .5 ? 'k' : 'b') : SLOT[i]; mark();
+  });
+  mark();
+  return dt => {
+    clock += dt;
+    const G = {normal: [1, 1, 0, 0], cf: [.12, 2.3, 0, 0], kart: [0, 1.25, 0, 0], irr: [1, 1.5, 1, 0], meta: [0, .5, 1, 1]}[state] || [1, 1, 0, 0];
+    ['beat', 'thick', 'irr', 'meta'].forEach((k, i) => cur[k] += (G[i] - cur[k]) * Math.min(1, dt * 2));
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, n = SLOT.length, w = W / n;
+    const yb = H * .8, yt = H * (.4 - .045 * cur.irr), cl = H * .075, a = t => sel && sel !== t ? .28 : 1;
+    ctx.fillStyle = '#fbe3e6'; ctx.fillRect(0, yb, W, H - yb);                                        // lamina propria
+    ctx.fillStyle = '#c96b7c'; for (let i = 0; i < 9; i++){ ctx.beginPath(); ctx.ellipse(W * (.06 + i * .11), yb + (H - yb) * (.45 + .2 * Math.sin(i * 2.3)), 7 * u, 2.2 * u, i, 0, 7); ctx.globalAlpha = .35; ctx.fill(); } ctx.globalAlpha = 1;
+    const nm = 1 - cur.meta;
+    if (nm > .02){
+      /* tall cells */
+      SLOT.forEach((t0, i) => {
+        const t = t0 === 'c' && EXTRA.includes(i) && cur.irr > .5 && cur.meta < .5 ? 'g' : t0, x = i * w;
+        ctx.globalAlpha = nm * a(t);
+        ctx.fillStyle = t === 'g' ? '#f3e7fb' : t === 'r' ? '#e4f3ea' : '#ffe9c9'; ctx.strokeStyle = '#c79a5b'; ctx.lineWidth = 1.1 * u;
+        ctx.beginPath();
+        if (t === 'g'){ ctx.moveTo(x + w * .36, yb); ctx.lineTo(x + w * .36, yb - (yb - yt) * .42); ctx.bezierCurveTo(x - w * .04, yb - (yb - yt) * .6, x + w * .02, yt, x + w * .5, yt); ctx.bezierCurveTo(x + w * .98, yt, x + w * 1.04, yb - (yb - yt) * .6, x + w * .64, yb - (yb - yt) * .42); ctx.lineTo(x + w * .64, yb); }
+        else if (t === 'r'){ ctx.rect(x + w * .22, yt, w * .56, yb - yt); }
+        else ctx.rect(x + w * .04, yt, w * .92, yb - yt);
+        ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#6b4aa8'; ctx.beginPath(); ctx.ellipse(x + w * .5, yb - (yb - yt) * (t === 'g' ? .16 : .3), w * (t === 'g' || t === 'r' ? .11 : .2), (yb - yt) * .09, 0, 0, 7); ctx.fill();   // nucleus
+        if (t === 'g'){ ctx.fillStyle = '#b07ad6'; for (let j = 0; j < 9; j++){ ctx.beginPath(); ctx.arc(x + w * (.3 + .2 * (j % 3)), yt + (yb - yt) * (.1 + .09 * (j / 3 | 0)), 2.1 * u, 0, 7); ctx.fill(); } }
+        if (t === 'r'){ ctx.strokeStyle = '#2f8f5b'; ctx.lineWidth = 1.2 * u; for (let j = 0; j < 5; j++){ ctx.beginPath(); ctx.moveTo(x + w * (.28 + j * .11), yt); ctx.lineTo(x + w * (.28 + j * .11), yt - cl * .32); ctx.stroke(); } }
+        if (t === 'c'){
+          ctx.fillStyle = '#d9822b'; for (let j = 0; j < 4; j++){ ctx.beginPath(); ctx.ellipse(x + w * (.2 + j * .2), yt + (yb - yt) * .09, 2.6 * u, 1.3 * u, 0, 0, 7); ctx.fill(); }   // apical mitochondria
+          ctx.strokeStyle = '#8a5a1c'; ctx.lineWidth = 1.15 * u;
+          for (let j = 0; j < 7; j++){ const cx = x + w * (.1 + j * .133), ph = clock * 9 - cx / W * 16, s = Math.sin(ph), an = (s > 0 ? s * .75 : s * .35) * cur.beat + (1 - cur.beat) * .12; ctx.beginPath(); ctx.moveTo(cx, yt); ctx.quadraticCurveTo(cx + Math.sin(an) * cl * .5, yt - cl * .6, cx + Math.sin(an) * cl, yt - Math.cos(an) * cl); ctx.stroke(); }
+        }
+      });
+      /* short basal cells and the K cell */
+      for (let i = 0; i < n - 1; i++){
+        const k = i === KAT, x = (i + 1) * w, hb = (yb - yt) * (k ? .34 : .25); ctx.globalAlpha = nm * a(k ? 'k' : 'b');
+        ctx.fillStyle = k ? '#d7ecff' : '#f8d2b6'; ctx.strokeStyle = k ? '#3b7fc4' : '#c07a4a'; ctx.lineWidth = 1.1 * u;
+        ctx.beginPath(); ctx.moveTo(x - w * .3, yb); ctx.quadraticCurveTo(x, yb - hb * 1.9, x + w * .3, yb); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#6b4aa8'; ctx.beginPath(); ctx.arc(x, yb - hb * .52, 2.6 * u, 0, 7); ctx.fill();
+        if (k){ ctx.fillStyle = '#1f5fa8'; for (let j = 0; j < 5; j++){ ctx.beginPath(); ctx.arc(x - w * .16 + j * w * .08, yb - 2.6 * u, 1.3 * u, 0, 7); ctx.fill(); } }
+      }
+    }
+    if (cur.meta > .02){                                                                               // stratified squamous epithelium
+      ctx.globalAlpha = cur.meta; const rows = 5, top = H * .42;
+      for (let r = 0; r < rows; r++){ const y0 = yb - (yb - top) * (r + 1) / rows, hh = (yb - top) / rows, cw = w * (1 + r * .32), off = (r % 2) * cw * .5;
+        for (let x = -off; x < W; x += cw){ ctx.fillStyle = r === 0 ? '#f4c9a8' : `rgb(${250 - r * 3},${222 + r * 5},${196 + r * 8})`; ctx.strokeStyle = '#c79a5b'; ctx.lineWidth = u; ctx.beginPath(); ctx.roundRect(x + u, y0 + u, cw - 2 * u, hh - 2 * u, hh * .3); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#6b4aa8'; ctx.beginPath(); ctx.ellipse(x + cw / 2, y0 + hh / 2, Math.max(2 * u, (4.6 - r * .6) * u), Math.max(1.2 * u, (3.2 - r * .5) * u), 0, 0, 7); ctx.fill(); } }
+    }
+    ctx.globalAlpha = 1; ctx.strokeStyle = '#a0526a'; ctx.lineWidth = 2 * u; ctx.beginPath(); ctx.moveTo(0, yb); ctx.lineTo(W, yb); ctx.stroke();    // basal lamina
+    /* mucus blanket with trapped dust */
+    const mh = H * .085 * cur.thick, my = yt - cl * (1 - .9 * cur.meta) - mh * .9, sp = .09 * cur.beat / Math.max(.6, cur.thick * cur.thick);
+    ctx.globalAlpha = a('g') * (.35 + .65 * nm); ctx.fillStyle = cur.thick > 1.7 ? 'rgba(160,172,74,.85)' : 'rgba(196,208,120,.75)';
+    ctx.beginPath(); ctx.moveTo(0, my + mh); for (let x = 0; x <= W; x += W / 24) ctx.lineTo(x, my + Math.sin(x / W * 14 + clock * 2 * cur.beat) * 2.2 * u); ctx.lineTo(W, my + mh); ctx.closePath(); ctx.fill();
+    for (const p of dust){ p.x += sp * dt * (.7 + .3 * p.r); if (p.x > 1.03){ p.x = -.03; p.y = Math.random(); } ctx.fillStyle = '#5d4a2e'; ctx.beginPath(); ctx.arc(p.x * W, my + mh * (.25 + .6 * p.y), 1.9 * u * p.r, 0, 7); ctx.fill(); }
+    ctx.globalAlpha = 1; ctx.font = f(7.2, 700); ctx.textBaseline = 'middle'; ctx.textAlign = 'right'; ctx.fillStyle = sp > .01 ? '#2f8f5b' : '#c0392b';
+    ctx.fillText(sp > .05 ? 'mucus moving to the pharynx →' : sp > .008 ? 'mucus barely moving →' : 'mucus not moving', W - 6 * u, Math.max(8 * u, my - 8 * u));
+    ctx.textAlign = 'left'; ctx.fillStyle = '#8c92a2'; ctx.font = f(6.6); ctx.fillText('lumen', 6 * u, Math.max(8 * u, my - 8 * u)); ctx.fillText('lamina propria', 6 * u, H - 7 * u);
+  };
+};
+
+/* walk down the airway: the wall in cross-section changes at every station */
+IX.tube = root => {
+  const cv = $('canvas', root), D = JSON.parse($('script', root).textContent), bs = $$('[data-v]', root), out = k => $(`[data-k=${k}]`, root);
+  //            R    epi  ring plate gland goblet muscle clara alv  cilia
+  const P = [[.92, .11, 1, 0, 9, 14, 0, 0, 0, 1], [.8, .1, 0, 1, 6, 9, .9, 0, 0, 1], [.6, .075, 0, 0, 0, 0, 1, 4, 0, 1], [.48, .05, 0, 0, 0, 0, .8, 7, 0, .35], [.46, .045, 0, 0, 0, 0, .7, 6, 4, .15], [.52, .02, 0, 0, 0, 0, .45, 0, 9, 0], [.56, .012, 0, 0, 0, 0, 0, 0, 12, 0]];
+  let st = 0, clock = 0; const cur = P[0].slice();
+  const go = i => { st = i; bs.forEach(b => b.classList.toggle('on', +b.dataset.v === i)); ['name', 'epi', 'cart', 'gl', 'mu', 'note'].forEach((k, j) => { const o = out(k); if (o) o.innerHTML = D[i][j]; }); };
+  bs.forEach(b => b.onclick = () => go(+b.dataset.v)); go(0);
+  return dt => {
+    clock += dt; for (let i = 0; i < cur.length; i++) cur[i] += (P[st][i] - cur[i]) * Math.min(1, dt * 3);
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, cx = W / 2, cy = H / 2, R0 = Math.min(W, H) * .47, [Rf, ep, ring, plate, gl, gob, mus, clara, alv, cil] = cur, R = R0 * Rf;
+    const arc = (r0, r1, a0, a1, col) => { ctx.fillStyle = col; ctx.beginPath(); ctx.arc(cx, cy, r1, a0, a1); ctx.arc(cx, cy, r0, a1, a0, true); ctx.closePath(); ctx.fill(); };
+    arc(0, R, 0, 6.2832, '#f3e6da');                                                                   // adventitia and connective tissue
+    const rc0 = R * .8, rc1 = R * .93;
+    if (ring > .02){ ctx.globalAlpha = ring; arc(rc0, rc1, Math.PI * .68, Math.PI * 2.32, '#9cc9ee'); arc(rc0 + R * .03, rc1 - R * .03, Math.PI * .32, Math.PI * .68, '#d9606a'); ctx.globalAlpha = 1; }   // C ring open behind + trachealis
+    if (plate > .02){ ctx.globalAlpha = plate; [[.1, .55], [.85, 1.25], [1.6, 2.2], [2.5, 2.95], [3.4, 4.1], [4.5, 5.0], [5.4, 5.95]].forEach(p => arc(rc0 + R * .02, rc1, p[0], p[1], '#9cc9ee')); ctx.globalAlpha = 1; }
+    const rm1 = R * (.76 - .04 * (1 - Rf)), rm0 = rm1 - R * .075 * Math.max(.25, mus);
+    if (mus > .02){ ctx.globalAlpha = Math.min(1, mus * 1.4); arc(rm0, rm1, 0, 6.2832, '#e58a8f'); ctx.strokeStyle = '#b24a55'; ctx.lineWidth = 1.1 * u; for (let k = 0; k < 26; k++){ const an = k / 26 * 6.2832; ctx.beginPath(); ctx.moveTo(cx + Math.cos(an) * rm0, cy + Math.sin(an) * rm0); ctx.lineTo(cx + Math.cos(an + .16) * rm1, cy + Math.sin(an + .16) * rm1); ctx.stroke(); } ctx.globalAlpha = 1; }
+    for (let k = 0; k < Math.round(gl); k++){ const an = k / 9 * 6.2832 + .3, r = R * .715; ctx.fillStyle = '#a678d8'; for (let j = 0; j < 3; j++){ ctx.beginPath(); ctx.arc(cx + Math.cos(an + (j - 1) * .07) * r, cy + Math.sin(an + (j - 1) * .07) * r + (j === 1 ? -2 * u : 0), 3 * u, 0, 7); ctx.fill(); } }   // seromucous glands
+    const re1 = R * (mus > .1 ? .6 : .66) * (1 + .1 * (1 - Rf)), re0 = re1 - R0 * ep;
+    arc(re0, re1, 0, 6.2832, '#ffdf9e'); ctx.strokeStyle = '#c79a5b'; ctx.lineWidth = u; ctx.beginPath(); ctx.arc(cx, cy, re1, 0, 7); ctx.stroke();    // epithelium
+    arc(0, re0, 0, 6.2832, '#eef6ff');                                                                // lumen
+    const cells = Math.max(14, Math.round(re1 / (5 * u)));
+    for (let k = 0; k < cells; k++){ const an = k / cells * 6.2832, ca = Math.cos(an), sa = Math.sin(an); ctx.strokeStyle = 'rgba(160,110,50,.5)'; ctx.lineWidth = .8 * u; ctx.beginPath(); ctx.moveTo(cx + ca * re0, cy + sa * re0); ctx.lineTo(cx + ca * re1, cy + sa * re1); ctx.stroke();
+      if (cil > .05){ const s = Math.sin(clock * 8 - an * 6) * .5; ctx.strokeStyle = `rgba(120,80,30,${cil})`; ctx.beginPath(); ctx.moveTo(cx + ca * re0, cy + sa * re0); ctx.lineTo(cx + Math.cos(an + s * .05) * (re0 - 3.4 * u), cy + Math.sin(an + s * .05) * (re0 - 3.4 * u)); ctx.stroke(); } }
+    for (let k = 0; k < Math.round(gob); k++){ const an = (k + .5) / 14 * 6.2832, r = (re0 + re1) / 2; ctx.fillStyle = '#b07ad6'; ctx.beginPath(); ctx.arc(cx + Math.cos(an) * r, cy + Math.sin(an) * r, Math.min(3 * u, R0 * ep * .36), 0, 7); ctx.fill(); }      // goblet cells
+    for (let k = 0; k < Math.round(clara); k++){ const an = (k + .3) / 7 * 6.2832; ctx.fillStyle = '#f08a24'; ctx.beginPath(); ctx.arc(cx + Math.cos(an) * (re0 - .5 * u), cy + Math.sin(an) * (re0 - .5 * u), 3.1 * u, 0, 7); ctx.fill(); }                               // Clara cells bulge into the lumen
+    const na = Math.round(alv);
+    for (let k = 0; k < na; k++){ const an = k / Math.max(1, na) * 6.2832 + .4, ra = R * (.2 + .012 * na), d = re1 + ra * .55; ctx.fillStyle = '#eef6ff'; ctx.strokeStyle = '#e07a8a'; ctx.lineWidth = 1.5 * u; ctx.beginPath(); ctx.arc(cx + Math.cos(an) * d, cy + Math.sin(an) * d, ra, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#eef6ff'; ctx.beginPath(); ctx.arc(cx + Math.cos(an) * (re1 - 1.5 * u), cy + Math.sin(an) * (re1 - 1.5 * u), ra * .5, 0, 7); ctx.fill(); }                                       // opening into the lumen
+    ctx.font = f(7, 600); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#5b6375'; ctx.fillText('lumen', cx, cy);
+    if (ring > .5){ ctx.fillStyle = '#2b6ca8'; ctx.fillText('C-shaped cartilage', cx, cy - (rc0 + rc1) / 2); ctx.fillStyle = '#a32e3a'; ctx.fillText('trachealis (behind)', cx, cy + rc1 + 7 * u > H - 4 * u ? H - 5 * u : cy + rc1 + 7 * u); }
+    if (plate > .5){ ctx.fillStyle = '#2b6ca8'; ctx.fillText('cartilage plates', cx, cy - R - 6 * u < 6 * u ? 7 * u : cy - R - 6 * u); }
+    if (clara > 3 && alv < 2){ ctx.fillStyle = '#b25a00'; ctx.fillText('orange = Clara cells', cx, cy + R + 8 * u); }
+    if (alv > 2){ ctx.fillStyle = '#b5566a'; ctx.fillText('alveoli open through the wall', cx, H - 6 * u); }
+  };
+};
+
+/* one alveolus: thin type I lining, type II cells, surfactant, macrophage, capillaries, pores of Kohn, gas exchange */
+IX.alv = root => {
+  const cv = $('canvas', root), msg = $('[data-k=msg]', root), T = JSON.parse($('script', root).textContent);
+  let sel = root.dataset.start || 'gas', clock = 0, col = 0; const gas = [], mac = {a: 2.2, r: .45};
+  for (let i = 0; i < 26; i++) gas.push({an: Math.random() * 6.28, t: Math.random(), o: i % 2 === 0});
+  const mark = () => { $$('[data-v]', root).forEach(b => b.classList.toggle('on', b.dataset.v === sel)); msg.innerHTML = T[sel]; };
+  $$('[data-v]', root).forEach(b => b.onclick = () => { sel = b.dataset.v; mark(); }); mark();
+  const CAP = [[3.5, 5.2], [5.6, 7.1], [1.2, 2.5]], T2 = [.55, 3.2], PORE = 0;
+  return dt => {
+    clock += dt; col += ((sel === 'rds' ? 1 : 0) - col) * Math.min(1, dt * 1.6);
+    const c = fit(cv); if (!c) return; const {ctx, W, H, u, f} = c, cx = W * .46, cy = H * .5, R0 = Math.min(W, H) * .36, R = R0 * (1 - .5 * col) * (1 + .035 * Math.sin(clock * 1.6) * (1 - col));
+    const hi = k => sel === k, dim = k => (sel === 'gas' || sel === 'rds' || sel === k) ? 1 : .32, wob = an => R * (1 + col * .07 * Math.sin(an * 9));
+    ctx.fillStyle = '#fbe9ec'; ctx.fillRect(0, 0, W, H);                                                // septal tissue
+    ctx.globalAlpha = dim('pore'); ctx.fillStyle = '#eef6ff'; ctx.beginPath(); ctx.arc(cx + R0 * 2.02, cy, R0 * .95, 0, 7); ctx.fill(); ctx.strokeStyle = '#e07a8a'; ctx.lineWidth = 2 * u; ctx.stroke(); ctx.globalAlpha = 1;    // neighbouring alveolus
+    /* capillaries hugging the wall */
+    CAP.forEach((a, j) => { ctx.globalAlpha = dim('bar'); ctx.strokeStyle = hi('bar') ? '#d64545' : '#ef9aa0'; ctx.lineWidth = R0 * .2; ctx.lineCap = 'round'; ctx.beginPath(); ctx.arc(cx, cy, R + R0 * .16, a[0], a[1]); ctx.stroke();
+      for (let k = 0; k < 5; k++){ const an = a[0] + ((clock * .22 + k / 5 + j * .1) % 1) * (a[1] - a[0]); ctx.fillStyle = '#c0392b'; ctx.beginPath(); ctx.ellipse(cx + Math.cos(an) * (R + R0 * .16), cy + Math.sin(an) * (R + R0 * .16), R0 * .06, R0 * .035, an + 1.57, 0, 7); ctx.fill(); } });
+    ctx.globalAlpha = 1;
+    /* air space and type I lining */
+    ctx.fillStyle = '#eef6ff'; ctx.beginPath(); for (let k = 0; k <= 72; k++){ const an = k / 72 * 6.2832, r = wob(an); k ? ctx.lineTo(cx + Math.cos(an) * r, cy + Math.sin(an) * r) : ctx.moveTo(cx + Math.cos(an) * r, cy + Math.sin(an) * r); } ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = dim('t1'); ctx.strokeStyle = hi('t1') ? '#f08a24' : '#e07a8a'; ctx.lineWidth = (hi('t1') ? 3.4 : 2 + 2.5 * col) * u; ctx.stroke(); ctx.globalAlpha = 1;
+    if (col < .6){ ctx.globalAlpha = dim('surf') * (1 - col / .6); ctx.strokeStyle = hi('surf') ? '#f08a24' : '#7fc4ff'; ctx.lineWidth = (hi('surf') ? 3 : 1.6) * u; ctx.setLineDash([4 * u, 3 * u]); ctx.beginPath(); ctx.arc(cx, cy, R - 3.2 * u, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }   // surfactant film
+    /* pore of Kohn */
+    ctx.globalAlpha = dim('pore'); ctx.fillStyle = '#eef6ff'; ctx.fillRect(cx + R - 4 * u, cy - R0 * .07, R0 * 1.07 - R + 8 * u + R0 * .02, R0 * .14); if (hi('pore')){ ctx.strokeStyle = '#f08a24'; ctx.lineWidth = 2.4 * u; ctx.strokeRect(cx + R - 4 * u, cy - R0 * .07, R0 * 1.09 - R + 8 * u, R0 * .14); } ctx.globalAlpha = 1;
+    /* type II cells with lamellar bodies */
+    T2.forEach(an => { const x = cx + Math.cos(an) * (R - R0 * .03), y = cy + Math.sin(an) * (R - R0 * .03); ctx.globalAlpha = dim('t2') * (sel === 'rds' ? .35 : 1); ctx.fillStyle = hi('t2') ? '#ffb866' : '#f6d0e0'; ctx.strokeStyle = hi('t2') ? '#f08a24' : '#b5566a'; ctx.lineWidth = 1.4 * u; ctx.beginPath(); ctx.arc(x, y, R0 * .13, 0, 7); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#6b4aa8'; ctx.beginPath(); ctx.arc(x + R0 * .03, y + R0 * .03, R0 * .045, 0, 7); ctx.fill(); ctx.strokeStyle = '#2e86de'; ctx.lineWidth = u; for (let k = 0; k < 3; k++){ ctx.beginPath(); ctx.arc(x - R0 * .05 + k * R0 * .035, y - R0 * .05, R0 * .022, 0, 7); ctx.stroke(); } });
+    ctx.globalAlpha = 1;
+    /* macrophage wandering in the lumen */
+    mac.a += dt * .25; const mx = cx + Math.cos(mac.a) * R * mac.r, my = cy + Math.sin(mac.a * 1.3) * R * mac.r * .8; ctx.globalAlpha = dim('mac'); ctx.fillStyle = hi('mac') ? '#ffb866' : '#d9c7a0'; ctx.strokeStyle = hi('mac') ? '#f08a24' : '#9a8050'; ctx.lineWidth = 1.3 * u;
+    ctx.beginPath(); for (let k = 0; k <= 20; k++){ const an = k / 20 * 6.2832, r = R0 * (.12 + .025 * Math.sin(an * 5 + clock * 2)); k ? ctx.lineTo(mx + Math.cos(an) * r, my + Math.sin(an) * r) : ctx.moveTo(mx + Math.cos(an) * r, my + Math.sin(an) * r); } ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#4a3a22'; [[-.04, .02], [.03, -.03], [.02, .05]].forEach(p => { ctx.beginPath(); ctx.arc(mx + p[0] * R0, my + p[1] * R0, 1.8 * u, 0, 7); ctx.fill(); }); ctx.globalAlpha = 1;
+    /* gases crossing the barrier */
+    const ga = (sel === 'gas' || sel === 'bar' || sel === 't1') ? 1 - col : .12 * (1 - col);
+    for (const g of gas){ g.t += dt * .35; if (g.t > 1){ g.t = 0; const a = CAP[Math.random() * 3 | 0]; g.an = a[0] + Math.random() * (a[1] - a[0]); } const r = g.o ? R * (.45 + .72 * g.t) : R * (1.17 - .72 * g.t), e = Math.sin(Math.PI * g.t);
+      ctx.fillStyle = g.o ? `rgba(46,134,222,${e * ga})` : `rgba(90,98,117,${e * ga})`; ctx.beginPath(); ctx.arc(cx + Math.cos(g.an) * r, cy + Math.sin(g.an) * r, 2.3 * u, 0, 7); ctx.fill(); }
+    ctx.font = f(7, 600); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#5b6375';
+    ctx.fillText(col > .5 ? 'collapsed' : 'air', cx, cy - R * .12); ctx.fillStyle = '#8c92a2'; ctx.font = f(6.4); ctx.fillText('next alveolus', Math.min(W - 26 * u, cx + R0 * 1.75), cy - R0 * .5);
+    ctx.textAlign = 'left'; ctx.fillStyle = '#2e86de'; ctx.fillText('● O₂ into the blood', 6 * u, H - 15 * u); ctx.fillStyle = '#5a6275'; ctx.fillText('● CO₂ into the air', 6 * u, H - 6 * u);
   };
 };
 
@@ -1953,7 +2112,7 @@ function FlipBook(book, pages, o){
 }
 
 /* ---------- library, progress, sync and the book shell ---------- */
-const MODULE = {"id": "res", "title": "RES Interactive Book", "kicker": "The Helpers MedSync · Year 2 · Respiratory module", "note": "Built from last year's Respiratory lectures (Medicine 2024 drive). Every book will be re-checked against this year's lectures and pamphlets when they arrive.", "subjects": [{"name": "Physiology", "short": "Physiology", "color": "#2e86de", "lectures": [{"id": "phy-l1", "lec": "L1", "title": "Organization and pulmonary function tests"}, {"id": "phy-l2", "lec": "L2", "title": "Transport of gases"}, {"id": "phy-l3", "lec": "L3", "title": "Mechanics and regulation of breathing"}]}, {"name": "Anatomy", "short": "Anatomy", "color": "#d64545", "lectures": [{"id": "ana-l1", "lec": "L1", "title": "Respiratory system, lecture 1"}, {"id": "ana-l2", "lec": "L2", "title": "Anatomy and development of the lungs and pleurae"}, {"id": "ana-l3", "lec": "L3", "title": "Respiratory system, lecture 3"}]}, {"name": "Histology", "short": "Histology", "color": "#8a55e0", "lectures": [{"id": "his-l1", "lec": "L1", "title": "Respiratory system 1"}, {"id": "his-l2", "lec": "L2", "title": "Respiratory system 2"}]}, {"name": "Biochemistry", "short": "Biochemistry", "color": "#e0a422", "lectures": [{"id": "bio-l1", "lec": "L1", "title": "Respiration"}]}, {"name": "Pathology", "short": "Pathology", "color": "#c0392b", "lectures": [{"id": "pat-l1", "lec": "L1–2", "title": "Respiratory pathology, lectures 1 and 2"}, {"id": "pat-l3", "lec": "L3", "title": "Respiratory pathology, lecture 3"}, {"id": "pat-l4", "lec": "L4", "title": "Respiratory pathology, lecture 4"}]}, {"name": "Microbiology", "short": "Microbiology", "color": "#1e9e62", "lectures": [{"id": "mic-l1", "lec": "L1", "title": "Upper respiratory tract infection I"}, {"id": "mic-l2", "lec": "L2", "title": "Upper respiratory tract infection II"}, {"id": "mic-l3", "lec": "L3", "title": "Bacterial pneumonia"}, {"id": "mic-l4", "lec": "L4", "title": "Viral pneumonia"}, {"id": "mic-l5", "lec": "L5", "title": "Tuberculosis"}, {"id": "mic-l6", "lec": "L6", "title": "Fungal respiratory tract infection"}]}, {"name": "Pharmacology", "short": "Pharmacology", "color": "#16a3a3", "lectures": [{"id": "pha-l1", "lec": "L1", "title": "Respiratory pharmacology, lecture 1"}, {"id": "pha-l2", "lec": "L2", "title": "Drug therapy of bronchial asthma"}]}, {"name": "Parasitology", "short": "Parasitology", "color": "#b5651d", "lectures": [{"id": "par-l1", "lec": "L1", "title": "Respiratory parasitology"}]}]}, FB = window.FB_CONFIG || null;
+const MODULE = {"id": "res", "title": "RES Interactive Book", "kicker": "The Helpers MedSync · Year 2 · Respiratory module", "note": "Built from last year's Respiratory lectures (Medicine 2024 drive). Every book will be re-checked against this year's lectures and pamphlets when they arrive.", "subjects": [{"name": "Physiology", "short": "Physiology", "color": "#2e86de", "lectures": [{"id": "phy-l1", "lec": "L1", "title": "Organization and pulmonary function tests"}, {"id": "phy-l2", "lec": "L2", "title": "Transport of gases"}, {"id": "phy-l3", "lec": "L3", "title": "Mechanics and regulation of breathing"}]}, {"name": "Anatomy", "short": "Anatomy", "color": "#d64545", "lectures": [{"id": "ana-l1", "lec": "L1", "title": "Respiratory system, lecture 1"}, {"id": "ana-l2", "lec": "L2", "title": "Anatomy and development of the lungs and pleurae"}, {"id": "ana-l3", "lec": "L3", "title": "Respiratory system, lecture 3"}]}, {"name": "Histology", "short": "Histology", "color": "#8a55e0", "lectures": [{"id": "his-l1", "lec": "L1", "title": "Nose, larynx, trachea and the respiratory epithelium"}, {"id": "his-l2", "lec": "L2", "title": "Bronchial tree, alveoli and the blood–gas barrier"}]}, {"name": "Biochemistry", "short": "Biochemistry", "color": "#e0a422", "lectures": [{"id": "bio-l1", "lec": "L1", "title": "Respiration"}]}, {"name": "Pathology", "short": "Pathology", "color": "#c0392b", "lectures": [{"id": "pat-l1", "lec": "L1–2", "title": "Respiratory pathology, lectures 1 and 2"}, {"id": "pat-l3", "lec": "L3", "title": "Respiratory pathology, lecture 3"}, {"id": "pat-l4", "lec": "L4", "title": "Respiratory pathology, lecture 4"}]}, {"name": "Microbiology", "short": "Microbiology", "color": "#1e9e62", "lectures": [{"id": "mic-l1", "lec": "L1", "title": "Upper respiratory tract infection I"}, {"id": "mic-l2", "lec": "L2", "title": "Upper respiratory tract infection II"}, {"id": "mic-l3", "lec": "L3", "title": "Bacterial pneumonia"}, {"id": "mic-l4", "lec": "L4", "title": "Viral pneumonia"}, {"id": "mic-l5", "lec": "L5", "title": "Tuberculosis"}, {"id": "mic-l6", "lec": "L6", "title": "Fungal respiratory tract infection"}]}, {"name": "Pharmacology", "short": "Pharmacology", "color": "#16a3a3", "lectures": [{"id": "pha-l1", "lec": "L1", "title": "Respiratory pharmacology, lecture 1"}, {"id": "pha-l2", "lec": "L2", "title": "Drug therapy of bronchial asthma"}]}, {"name": "Parasitology", "short": "Parasitology", "color": "#b5651d", "lectures": [{"id": "par-l1", "lec": "L1", "title": "Respiratory parasitology"}]}]}, FB = window.FB_CONFIG || null;
 const BOOKS = $$('template[data-book]').map(t => ({id: t.dataset.book, subj: t.dataset.subj, title: t.dataset.title, short: t.dataset.short, lec: t.dataset.lec, tpl: t,
   pages: [...t.content.querySelectorAll('section.page')].map(s => [s.dataset.t, s.dataset.g || ''])}));
 const byId = id => BOOKS.find(b => b.id === id);
@@ -1982,6 +2141,8 @@ const Prog = {
   }
 };
 
+/* compare two objects whatever order their keys come back in */
+const stable = o => JSON.stringify(o, (k, v) => v && typeof v === 'object' && !Array.isArray(v) ? Object.keys(v).sort().reduce((a, x) => (a[x] = v[x], a), {}) : Array.isArray(v) && k === 'r' ? [...v].sort((a, b) => a - b) : v);
 /* cloud sync: Google sign-in + one small document per student (Firebase, free plan) */
 const Sync = {
   state: FB ? 'out' : 'off', user: null, err: '', _t: 0, _ref: null, _api: null,
@@ -1995,7 +2156,7 @@ const Sync = {
         this.user = u; this.state = u ? 'in' : 'out'; if (this._off){ this._off(); this._off = null; }
         if (u){
           this._ref = F.doc(db, 'progress', u.uid);
-          this._off = F.onSnapshot(this._ref, s => { const had = s.exists(), ch = had && Prog.merge(s.data()[MODULE.id]); if (ch) Prog.subs.forEach(f => f()); if (!had || JSON.stringify((s.data()[MODULE.id] || {}).books) !== JSON.stringify(Prog.data.books)) this.push(1500); this.stamp = Date.now(); paintAcct(); },
+          this._off = F.onSnapshot(this._ref, s => { const had = s.exists(), ch = had && Prog.merge(s.data()[MODULE.id]); if (ch) Prog.subs.forEach(f => f()); if (!had || stable((s.data()[MODULE.id] || {}).books) !== stable(Prog.data.books)) this.push(1500); this.stamp = Date.now(); paintAcct(); },
             e => { this.err = e.code || String(e); this.state = 'err'; paintAcct(); });
         }
         paintAcct();

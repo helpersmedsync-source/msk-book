@@ -8,7 +8,7 @@
   const inApp = /FBAN|FBAV|Instagram|Line\/|MicroMessenger|; wv\)/i.test(navigator.userAgent);
   const Hub = window.Hub = {
     ROOT, session: read(), ready: false, err: '', subs: [], _api: null, _ref: null, _m: (read() ? read().mode : '') + '|',
-    emit(){ this.subs.forEach(f => { try { f(this.session); } catch (e){} }); paintWho(); const m = (this.session ? this.session.mode : '') + '|' + this.err, d = $('#hubdlg'); if (m !== this._m){ this._m = m; if (d && !d.hidden) this.session ? this.settings() : (d.hidden = true); } },
+    emit(){ this.subs.forEach(f => { try { f(this.session); } catch (e){} }); paintWho(); const m = (this.session ? this.session.mode : '') + '|' + this.err + '|' + !!this.staff, d = $('#hubdlg'); if (m !== this._m){ this._m = m; if (d && !d.hidden) this.session ? this.settings() : (d.hidden = true); } },
     label(){ const s = this.session; return !s ? '' : s.nick || (s.mode === 'user' ? (s.name || 'Signed in').split(' ')[0] : 'Guest'); },
     guest(){ this.session = {mode: 'guest', nick: ''}; write(this.session); this.emit(); },
     async init(){
@@ -20,6 +20,7 @@
           if (u){
             const old = this.session || {}; this.session = {mode: 'user', uid: u.uid, name: u.displayName || '', email: u.email || '', nick: old.uid === u.uid || old.mode === 'guest' ? old.nick || '' : ''}; write(this.session);
             this._ref = F.doc(db, 'progress', u.uid);
+            this.checkStaff(u);
             try { const d = await F.getDoc(this._ref), D = d.exists() ? d.data() : {}, cloud = D.nick; this.hide = !!D.hide;
               if (cloud){ this.session.nick = cloud; write(this.session); this.claim(cloud); } else if (this.session.nick) this.setNick(this.session.nick).catch(() => {}); } catch (e){}
           } else if (this.session && this.session.mode === 'user'){ this.session = null; write(null); }
@@ -36,6 +37,16 @@
     leave(){ this.session = null; write(null); location.href = ROOT; },
     /* username: 3 to 20 letters, numbers, spaces, dots, dashes or underscores */
     checkNick(n){ n = String(n || '').trim().replace(/\s+/g, ' '); return /^[\p{L}\p{N} ._-]{3,20}$/u.test(n) ? n : null; },
+    /* the admin link is shown only to the owner and to people on the Admins tab.
+       The database answers: staff may read their own admins entry, everyone else is refused. */
+    async checkStaff(u){
+      const k = 'helpers.staff'; let c = null; try { c = JSON.parse(localStorage.getItem(k) || 'null'); } catch (e){}
+      if (c && c.uid === u.uid){ this.staff = c.v; if (!c.v && Date.now() - c.t < 12 * 36e5) return; }   // a "no" is trusted for 12 hours to save reads
+      const {F, db} = this._api; let v;
+      try { await F.getDoc(F.doc(db, 'admins', (u.email || '').toLowerCase())); v = true; } catch (e){ v = false; }
+      try { localStorage.setItem(k, JSON.stringify({uid: u.uid, v, t: Date.now()})); } catch (e){}
+      if (v !== this.staff){ this.staff = v; this.emit(); }
+    },
     /* usernames are unique: names/{lowercase name} holds the owner's user id */
     async reserve(n, old){
       const {F, db} = this._api, uid = this.session.uid, lc = n.toLowerCase(), olc = (old || '').toLowerCase();
@@ -86,7 +97,7 @@
         <p id="hubmsg"><small>3 to 20 characters, unique. This is the only thing the leaderboard shows about you${user ? '' : '; sign in to appear on it'}.</small></p>
         ${user ? `<label class="hubsw"><input type="checkbox" id="hubshow" ${this.hide ? '' : 'checked'}><i></i><span><b>Show me on the leaderboard</b><small>Your username and XP only. Turn off to hide.</small></span></label>` : ''}
         ${this.err ? `<p class="bad">${esc(this.err)}</p>` : ''}
-        <div class="acts">${user ? `<a class="btn gh" href="${ROOT}admin/" style="text-decoration:none">Admin page</a><button class="btn gh" id="hubout">Sign out</button>` : `<button class="btn gh" id="hubleave">Leave guest mode</button><button class="btn" id="hubin">Sign in with Google</button>`}<button class="btn gh" id="hubclose">Close</button></div></div>`;
+        <div class="acts">${user ? `${this.staff ? `<a class="btn gh" href="${ROOT}admin/" style="text-decoration:none">Admin page</a>` : ''}<button class="btn gh" id="hubout">Sign out</button>` : `<button class="btn gh" id="hubleave">Leave guest mode</button><button class="btn" id="hubin">Sign in with Google</button>`}<button class="btn gh" id="hubclose">Close</button></div></div>`;
       d.hidden = false;
       const msg = $('#hubmsg');
       $('#hubsave').onclick = async () => { const v = $('#hubnick').value; if (!this.checkNick(v)){ msg.innerHTML = '<span class="bad">Use 3 to 20 letters, numbers, spaces, dots, dashes or underscores.</span>'; return; }

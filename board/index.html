@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leaderboard · The Helpers Interactive Books</title>
+<meta name="theme-color" content="#0b1f45"><link rel="icon" href="../helpers_badge_64.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="../common.css">
+<style>
+.seg{display:inline-flex;background:rgba(255,255,255,.12);border-radius:99px;padding:3px;margin:4px 0 18px}
+.seg button{border:0;background:none;color:#f4efe6;border-radius:99px;padding:7px 18px;font:600 13.5px "Poppins",sans-serif}.seg button.on{background:#ffc928;color:var(--navy)}
+.pod{display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:12px;align-items:end;margin-bottom:14px}
+.pod .p{text-align:center;padding:16px 10px 14px;border-radius:16px 16px 10px 10px;position:relative}
+.pod .p .av{width:54px;height:54px;font-size:22px;margin:0 auto 8px}.pod .p.first .av{width:66px;height:66px;font-size:27px}
+.pod .p b{display:block;font:700 15px "Poppins",sans-serif;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .p .xp{font:700 22px "Poppins",sans-serif;color:var(--navy)}.pod .p small{color:var(--ink-2);font-size:12px}
+.pod .p .md{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 14px "Poppins",sans-serif;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.pod .first{min-height:200px}.pod .second{min-height:170px}.pod .third{min-height:150px}
+.first .md{background:#e0a422}.second .md{background:#9aa1b1}.third .md{background:#b8743a}
+.av{border-radius:50%;display:grid;place-items:center;color:#fff;font:700 15px "Poppins",sans-serif;flex:none;width:36px;height:36px}
+.rows{padding:6px 8px}
+.r{display:flex;align-items:center;gap:12px;padding:9px 8px;border-bottom:1px solid var(--line)}.r:last-child{border-bottom:0}
+.r .k{width:30px;text-align:right;font:700 14px "Poppins",sans-serif;color:#8c92a2;flex:none}
+.r .nm{flex:1;min-width:0}.r .nm b{display:block;font:700 15px "Poppins",sans-serif;color:var(--navy);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.r .nm small{color:var(--ink-2);font-size:12px}
+.r .x{font:700 16px "Poppins",sans-serif;color:var(--navy);white-space:nowrap}.r .x small{font:600 11px "Poppins",sans-serif;color:#8c92a2;margin-left:3px}
+.r.me{background:#fff7d6;border-radius:10px;border-bottom-color:transparent}
+.fire{color:#e0702a;font-weight:700}
+.me-card{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}.me-card .t{flex:1;min-width:200px}.me-card h3{margin:0 0 2px;color:var(--navy);font-size:16px}.me-card p{margin:0;color:var(--ink-2);font-size:14px}
+.kv{display:flex;gap:10px;flex-wrap:wrap}.kv div{background:var(--paper-2);border-radius:10px;padding:7px 12px;min-width:84px}.kv small{display:block;font:700 10px "Poppins",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8c92a2}.kv b{font:700 19px "Poppins",sans-serif;color:var(--navy)}
+.how{margin-top:14px;font-size:14px;color:var(--ink-2)}.how h3{color:var(--navy);margin:0 0 6px;font-size:15px}.how ul{margin:6px 0 0;padding-left:18px}.how li{margin:3px 0}
+.empty{text-align:center;color:var(--ink-2);padding:26px 12px}
+.muted{color:#cbbfae;font-size:13px;margin-top:10px}
+@media(max-width:560px){.pod{gap:7px}.pod .p{padding:14px 6px 10px}.pod .p .xp{font-size:18px}.pod .p b{font-size:13px}.pod .first{min-height:180px}.pod .second{min-height:155px}.pod .third{min-height:140px}}
+</style></head><body>
+<div id="bar"></div>
+<div class="wrap">
+  <div class="hero"><small>Semester 3 · The Helpers</small><h1>Leaderboard</h1><p id="sub">XP for covering the material: pages, lecture quizzes, question bank and flashcards.</p></div>
+  <div class="seg" id="seg"><button data-v="w" class="on">This week</button><button data-v="all">All time</button></div>
+  <div id="me"></div>
+  <div id="list"><div class="card empty">Loading…</div></div>
+  <div class="card how"><h3>How XP is earned</h3>
+    <ul><li><b>1</b> for each page you read, <b>10</b> more when you finish a lecture</li>
+    <li><b>3</b> for each correct answer in your best lecture quiz score</li>
+    <li><b>5</b> for each question-bank question you have ever answered correctly</li>
+    <li><b>1</b> for each flashcard reviewed, <b>2</b> more once it is learnt (a week or more between reviews)</li></ul>
+    <p style="margin:10px 0 0">Doing the same page or question again adds nothing, so the only way up is to cover more. Weeks run Saturday to Friday. The board shows usernames only; you can hide yourself in Account and settings.</p></div>
+  <p class="muted" id="foot"></p>
+</div>
+<script src="../gate.js"></script>
+<script src="../fb.js"></script>
+<script src="../hub.js"></script>
+<script>
+const $ = s => document.querySelector(s), esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const weekId = (t = Date.now()) => { const n = new Date(t), d = new Date(n.getFullYear(), n.getMonth(), n.getDate()); d.setDate(d.getDate() - (d.getDay() + 1) % 7); return {id: 's' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0'), d}; };
+const WK = weekId(), COLORS = ['#2e86de', '#d64545', '#1e9e62', '#8a55e0', '#e0a422', '#1aa3a3', '#c2569b', '#b8743a'];
+const color = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.codePointAt(0)) >>> 0; return COLORS[h % COLORS.length]; };
+const av = (n, cls = '') => `<span class="av ${cls}" style="background:${color(n)}">${esc((n || '?').trim()[0] || '?').toUpperCase()}</span>`;
+let view = 'w', rows = {}, mine = null, myRank = {}, busy = false;
+$('#sub').textContent = 'Week of ' + WK.d.toLocaleDateString([], {weekday: 'short', day: 'numeric', month: 'short'}) + ' · XP for covering the material: pages, lecture quizzes, question bank and flashcards.';
+const score = r => view === 'w' ? ((r.w || {})[WK.id] || 0) : (r.xp || 0);
+function paint(){
+  const s = Hub.session, me = $('#me'), list = $('#list');
+  if (!Hub.ready){ return; }
+  if (!s || s.mode !== 'user'){
+    me.innerHTML = ''; list.innerHTML = `<div class="card empty"><h3 style="color:var(--navy);margin:0 0 6px">Sign in to see the leaderboard</h3><p>The board is for signed-in students. Guests keep their progress on one device and do not appear on it.</p><button class="btn" id="lin">Continue with Google</button></div>`;
+    $('#lin').onclick = () => Hub.signIn(); return;
+  }
+  const r = rows[view];
+  let mh = '';
+  if (!s.nick) mh = `<div class="card me-card"><div class="t"><h3>Pick a username to join</h3><p>The board shows usernames only, never your name or email.</p></div><button class="btn" id="setn">Choose a username</button></div>`;
+  else if (Hub.hide) mh = `<div class="card me-card"><div class="t"><h3>You are hidden from the board</h3><p>Turn on “Show me on the leaderboard” in Account and settings.</p></div><button class="btn gh" id="setn">Settings</button></div>`;
+  else if (mine){ const sc = score(mine), rk = r ? (r.findIndex(x => x.id === Hub.session.uid) + 1 || myRank[view]) : myRank[view];
+    mh = `<div class="card me-card">${av(s.nick)}<div class="t"><h3>${esc(s.nick)}</h3><p>${rk ? 'Rank <b>#' + rk + '</b> ' + (view === 'w' ? 'this week' : 'all time') : 'Not ranked yet'}</p></div><div class="kv"><div><small>This week</small><b>${(mine.w || {})[WK.id] || 0}</b></div><div><small>All time</small><b>${mine.xp || 0}</b></div><div><small>Streak</small><b>${mine.str || 0}<span style="font-size:12px"> d</span></b></div></div></div>`; }
+  else mh = `<div class="card me-card"><div class="t"><h3>${esc(s.nick)}, you are not on the board yet</h3><p>Open a lecture, a test or your flashcards while signed in: your row appears after that session is saved.</p></div><a class="btn" href="../res/" style="text-decoration:none">Study RES</a></div>`;
+  me.innerHTML = mh; const sn = $('#setn'); if (sn) sn.onclick = () => Hub.settings();
+  if (!r){ list.innerHTML = '<div class="card empty">Loading…</div>'; return; }
+  const top = r.filter(x => score(x) > 0);
+  if (!top.length){ list.innerHTML = `<div class="card empty">${view === 'w' ? 'Nobody has earned XP this week yet. Be the first.' : 'Nobody is on the board yet.'}</div>`; return; }
+  const p = top.slice(0, 3), rest = top.slice(3), cls = ['first', 'second', 'third'], ord = p.length === 3 ? [1, 0, 2] : p.length === 2 ? [1, 0] : [0];
+  const card = (x, i) => `<div class="card p ${cls[i]}"><span class="md">${i + 1}</span>${av(x.nick)}<b>${esc(x.nick)}</b><div class="xp">${score(x)}</div><small>XP${x.str ? ` · <span class="fire">${x.str}-day streak</span>` : ''}</small></div>`;
+  list.innerHTML = `<div class="pod" style="${p.length < 3 ? 'grid-template-columns:repeat(' + p.length + ',minmax(0,240px));justify-content:center' : ''}">${ord.map(i => card(p[i], i)).join('')}</div>` +
+    (rest.length ? `<div class="card rows">${rest.map((x, i) => `<div class="r ${x.id === s.uid ? 'me' : ''}"><span class="k">${i + 4}</span>${av(x.nick)}<div class="nm"><b>${esc(x.nick)}</b><small>${x.pg || 0} pages · ${x.qc || 0} questions mastered${x.str ? ` · <span class="fire">${x.str}-day streak</span>` : ''}</small></div><span class="x">${score(x)}<small>XP</small></span></div>`).join('')}</div>` : '');
+  $('#foot').textContent = 'Top ' + r.length + ' shown · updated ' + new Date(rows[view + 't'] || Date.now()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
+}
+async function load(force){
+  const s = Hub.session; if (!s || s.mode !== 'user' || !Hub._api || busy) return paint();
+  const {F, db} = Hub._api, key = 'helpers.board.cache.' + view + '.' + WK.id;
+  if (!force){ try { const c = JSON.parse(sessionStorage.getItem(key) || 'null'); if (c && Date.now() - c.t < 90e3){ rows[view] = c.r; rows[view + 't'] = c.t; } } catch (e){} }
+  busy = true;
+  try {
+    const coll = F.collection(db, 'board'), fld = view === 'w' ? new F.FieldPath('w', WK.id) : 'xp';
+    if (!rows[view]){ const q = await F.getDocs(F.query(coll, F.orderBy(fld, 'desc'), F.limit(50))); rows[view] = q.docs.map(d => ({id: d.id, ...d.data()})); rows[view + 't'] = Date.now(); try { sessionStorage.setItem(key, JSON.stringify({t: rows[view + 't'], r: rows[view]})); } catch (e){} }
+    if (mine === null){ const m = await F.getDoc(F.doc(db, 'board', s.uid)); mine = m.exists() ? {id: m.id, ...m.data()} : false; }
+    if (mine && !rows[view].some(x => x.id === s.uid) && !myRank[view] && score(mine) > 0 && F.getCountFromServer){ const c = await F.getCountFromServer(F.query(coll, F.where(fld, '>', score(mine)))); myRank[view] = c.data().count + 1; }
+  } catch (e){
+    busy = false; $('#list').innerHTML = `<div class="card empty"><h3 style="color:var(--navy);margin:0 0 6px">The leaderboard is not switched on yet</h3><p>${/permission/.test(e.code || '') ? 'The database rules for the board still need to be published by the site owner.' : 'Could not load it: ' + esc(e.code || e.message || e)}</p></div>`; return;
+  }
+  busy = false; paint();
+}
+$('#seg').onclick = e => { const b = e.target.closest('[data-v]'); if (!b) return; view = b.dataset.v; [...$('#seg').children].forEach(x => x.classList.toggle('on', x === b)); paint(); load(); };
+Hub.bar([['Leaderboard', '']]);
+let lastUid = '';
+Hub.subs.push(s => { const u = s && s.mode === 'user' ? s.uid : ''; if (u !== lastUid){ lastUid = u; rows = {}; mine = null; myRank = {}; } paint(); if (Hub.ready) load(); });
+Hub.init();
+</script></body></html>

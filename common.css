@@ -41,3 +41,9 @@ a.mod:hover{transform:translateY(-4px)}
 .welcome .btn{display:block;width:100%;padding:12px 16px;font-size:15px;margin-top:10px}.welcome .or{font-size:12.5px;color:var(--ink-2);margin:14px 0 0;text-align:left}
 .welcome .or b{color:var(--ink)}
 @media(max-width:560px){.bar .home b{display:none}.bar{gap:6px;padding:8px 10px}}
+.bar .nav{display:flex;align-items:center;gap:6px}.bar .nav svg{width:18px;height:18px;color:#ffc928}
+.hubsw{display:flex!important;gap:12px;align-items:flex-start;cursor:pointer;text-transform:none!important;letter-spacing:0!important;font:inherit!important;color:var(--ink)!important;margin:14px 0 0!important}
+.hubsw input{position:absolute;opacity:0;pointer-events:none}.hubsw>i{flex:none;width:40px;height:23px;border-radius:99px;background:#cfc9b8;position:relative;transition:background .2s}
+.hubsw>i::after{content:"";position:absolute;left:3px;top:3px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.hubsw input:checked+i{background:var(--green)}.hubsw input:checked+i::after{transform:translateX(17px)}.hubsw b{display:block;font:700 14px "Poppins",sans-serif}.hubsw small{font-size:12.5px}
+@media(max-width:560px){.bar .nav span{display:none}}

@@ -10,12 +10,16 @@ h1{color:#f4efe6;font-size:28px;margin:6px 0 4px}.sub{color:#d9cfc0;margin:0 0 1
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:14px}
 .kpi small{display:block;font:700 10.5px "Poppins",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#8c92a2}.kpi b{font:700 28px "Poppins",sans-serif;color:var(--navy)}
 table{width:100%;border-collapse:collapse;font-size:14px}th{text-align:left;font:700 11px "Poppins",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#8c92a2;padding:6px 8px;border-bottom:2px solid var(--line)}
-td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:middle}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .scroll{overflow-x:auto}.barc{height:8px;border-radius:99px;background:var(--line);min-width:90px;overflow:hidden}.barc i{display:block;height:100%;background:var(--blue)}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
 h3{margin:0 0 8px;color:var(--navy);font-size:16px}.card+.card{margin-top:14px}
 .sample{background:#fde4e4;color:#a12525;border-radius:8px;padding:8px 12px;font:700 13px "Poppins",sans-serif;margin-bottom:12px}
 .muted{color:var(--ink-2);font-size:13.5px}
+.days{display:flex;align-items:flex-end;gap:4px;height:120px;padding-top:6px}.days div{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.days i{display:block;width:100%;background:var(--blue);border-radius:4px 4px 0 0;min-height:2px}.days small{font-size:10px;color:#8c92a2}.days b{font:700 11px "Poppins",sans-serif;color:var(--navy)}
+.hq td:first-child{width:56%}.pill{display:inline-block;font:700 11px "Poppins",sans-serif;border-radius:99px;padding:2px 8px;color:#fff}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}.grid2 .card+.card{margin-top:0}
 </style></head><body>
 <div class="bar"><b>Admin · Interactive Books</b><span class="sp"></span><a href="../">Home</a><a href="../sem3/">Semester 3</a><button id="out" hidden>Sign out</button></div>
 <div class="wrap"><h1>Admin</h1><p class="sub" id="who">Checking…</p><div id="main"></div></div>
@@ -30,7 +34,7 @@ function stats(s){ const b = Object.values((s.res && s.res.books) || {}), qs = b
 function render(){
   const canEdit = myRole === 'owner' || myRole === 'admin';
   let h = sample ? '<div class="sample">Sample data, not real students. This is how the page looks once sync is switched on.</div>' : '';
-  h += '<div class="tabs">' + [['over', 'Overview'], ['stud', 'Students'], ['adm', 'Admins'], ['site', 'Site'], ['log', 'Activity']].map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${t[1]}</button>`).join('') + '</div>';
+  h += '<div class="tabs">' + [['over', 'Overview'], ['class', 'Class stats'], ['stud', 'Students'], ['adm', 'Admins'], ['site', 'Site'], ['log', 'Activity']].map(t => `<button data-tab="${t[0]}" class="${tab === t[0] ? 'on' : ''}">${t[1]}</button>`).join('') + '</div>';
   if (tab === 'over'){
     const wk = students.filter(s => s.seen > Date.now() - 7 * 864e5).length, st = students.map(stats), qz = st.filter(x => x.quiz != null);
     h += `<div class="kpis">${[['Students signed in', students.length], ['Active in 7 days', wk], ['Books opened', st.reduce((n, x) => n + x.opened, 0)], ['Average quiz', qz.length ? Math.round(qz.reduce((n, x) => n + x.quiz, 0) / qz.length) + '%' : '–']].map(k => `<div class="card kpi"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('')}</div>`;
@@ -38,9 +42,10 @@ function render(){
     const rows = Object.entries(per).sort((a, b) => b[1].n - a[1].n), mx = Math.max(1, ...rows.map(r => r[1].n));
     h += `<div class="card"><h3>RES books</h3><div class="scroll"><table><tr><th>Book</th><th class="n">Students</th><th></th><th class="n">Took the quiz</th><th class="n">Average quiz</th></tr>${rows.map(([id, p]) => `<tr><td>${esc(id)}</td><td class="n">${p.n}</td><td><div class="barc"><i style="width:${100 * p.n / mx}%"></i></div></td><td class="n">${p.q.length}</td><td class="n">${p.q.length ? Math.round(100 * p.q.reduce((a, b) => a + b, 0) / p.q.length) + '%' : '–'}</td></tr>`).join('') || '<tr><td colspan="5" class="muted">No reading recorded yet.</td></tr>'}</table></div><p class="muted">MSK books do not report progress yet; they were built before sign-in existed.</p></div>`;
   }
+  if (tab === 'class') h += classHtml();
   if (tab === 'stud'){
-    const list = students.filter(s => !q || (s.name + ' ' + s.email).toLowerCase().includes(q)).sort((a, b) => (b.seen || 0) - (a.seen || 0));
-    h += `<div class="card"><div class="row"><input id="q" placeholder="Search name or email" value="${esc(q)}"><span class="muted">${list.length} of ${students.length}</span></div><div class="scroll"><table><tr><th>Name</th><th>Email</th><th>Last seen</th><th class="n">Books opened</th><th class="n">Pages read</th><th class="n">Average quiz</th></tr>${list.map(s => { const x = stats(s); return `<tr><td>${esc(s.name || '–')}</td><td>${esc(s.email || '–')}</td><td>${ago(s.seen)}</td><td class="n">${x.opened}</td><td class="n">${x.pages}</td><td class="n">${x.quiz == null ? '–' : x.quiz + '%'}</td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">No students yet.</td></tr>'}</table></div></div>`;
+    const list = students.filter(s => !q || (s.name + ' ' + s.email + ' ' + (s.nick || '')).toLowerCase().includes(q)).sort((a, b) => (b.seen || 0) - (a.seen || 0));
+    h += `<div class="card"><div class="row"><input id="q" placeholder="Search name or email" value="${esc(q)}"><span class="muted">${list.length} of ${students.length}</span></div><div class="scroll"><table><tr><th>Name</th><th>Username</th><th>Email</th><th>Last seen</th><th class="n">XP</th><th class="n">Books opened</th><th class="n">Pages read</th><th class="n">Average quiz</th></tr>${list.map(s => { const x = stats(s); return `<tr><td>${esc(s.name || '–')}</td><td>${esc(s.nick || '–')}${s.hide ? ' <small class="muted">hidden</small>' : ''}</td><td>${esc(s.email || '–')}</td><td>${ago(s.seen)}</td><td class="n">${Object.values(s.xp || {}).reduce((a, b) => a + (+b || 0), 0)}</td><td class="n">${x.opened}</td><td class="n">${x.pages}</td><td class="n">${x.quiz == null ? '–' : x.quiz + '%'}</td></tr>`; }).join('') || '<tr><td colspan="8" class="muted">No students yet.</td></tr>'}</table></div></div>`;
   }
   if (tab === 'adm'){
     h += `<div class="card"><h3>Who can open this page</h3><p class="muted"><b>Admin</b> can see everything and change the Site tab. <b>Monitor</b> can only look. Only the owner account can add or remove people.</p><div class="scroll"><table><tr><th>Google account</th><th>Role</th><th>Added</th><th></th></tr><tr><td>The owner account set in the database rules</td><td>Owner</td><td></td><td></td></tr>${admins.map(a => `<tr><td>${esc(a.id)}</td><td>${a.role === 'admin' ? 'Admin' : 'Monitor'}</td><td>${a.at ? new Date(a.at).toLocaleDateString() : ''}</td><td class="n">${myRole === 'owner' ? `<button class="btn red" data-rm="${esc(a.id)}">Remove</button>` : ''}</td></tr>`).join('')}</table></div>${myRole === 'owner' ? '<div class="row"><input id="nm" type="email" placeholder="their Google email"><select id="nr"><option value="viewer">Monitor</option><option value="admin">Admin</option></select><button class="btn" id="add">Add</button></div>' : ''}</div>`;
@@ -50,6 +55,40 @@ function render(){
   }
   if (tab === 'log') h += `<div class="card"><h3>Who changed what</h3><div class="scroll"><table><tr><th>When</th><th>Who</th><th>What</th></tr>${log.map(l => `<tr><td>${new Date(l.at).toLocaleString()}</td><td>${esc(l.by)}</td><td>${esc(l.what)}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">Nothing yet.</td></tr>'}</table></div><p class="muted">Entries cannot be edited or deleted from this page.</p></div>`;
   main.innerHTML = h;
+}
+/* ----- anonymous class statistics: no names anywhere on this tab ----- */
+let RES = null;
+async function loadRes(){
+  if (RES) return RES;
+  try {
+    const t = await (await fetch('../res/index.html')).text(), d = new DOMParser().parseFromString(t, 'text/html'), books = [], qs = {};
+    d.querySelectorAll('template[data-book]').forEach(tp => {
+      const b = {id: tp.dataset.book, subj: tp.dataset.subj, short: tp.dataset.short, title: tp.dataset.title, pages: tp.content.querySelectorAll('section.page').length}; books.push(b);
+      const js = tp.content.querySelector('[data-ix="quiz"] script[type="application/json"]'); if (js) try { JSON.parse(js.textContent).forEach((q, i) => { qs[b.id + ':' + i] = {q: q[0], a: q[1][q[2]], b}; }); } catch (e){}
+    });
+    RES = {books, qs};
+  } catch (e){ RES = {books: [], qs: {}}; }
+  render(); return RES;
+}
+const pc = (a, b) => b ? Math.round(100 * a / b) : 0;
+const tone = p => p >= 70 ? '#1e9e62' : p >= 50 ? '#e0a422' : '#d64545';
+function classHtml(){
+  if (!RES){ loadRes(); return '<div class="card"><p class="muted">Loading the lecture list…</p></div>'; }
+  const S = students.map(s => s.res || {}), n = students.length, day = 864e5, now = Date.now();
+  const key = t => { const x = new Date(t); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+  const days = [...Array(14)].map((_, i) => key(now - (13 - i) * day)), act = days.map(k => S.filter(r => (r.d || []).includes(k)).length), mx = Math.max(1, ...act);
+  const xps = students.map(s => Object.values(s.xp || {}).reduce((a, b) => a + (+b || 0), 0)), qa = S.reduce((a, r) => a + Object.values(r.qb || {}).reduce((x, q) => x + q[0], 0), 0), tests = S.reduce((a, r) => a + (r.ex || []).length, 0);
+  const active7 = students.filter(s => s.seen > now - 7 * day).length;
+  let h = `<div class="kpis">${[['Students with progress', S.filter(r => r.books && Object.keys(r.books).length).length], ['Studied today', act[13]], ['Active in 7 days', active7], ['Median XP', xps.length ? xps.sort((a, b) => a - b)[Math.floor(xps.length / 2)] : 0], ['Bank answers', qa], ['Tests taken', tests]].map(k => `<div class="card kpi"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('')}</div>`;
+  h += `<div class="card"><h3>Students studying per day · last 14 days</h3><div class="days">${days.map((k, i) => `<div><b>${act[i] || ''}</b><i style="height:${100 * act[i] / mx}%"></i><small>${new Date(now - (13 - i) * day).toLocaleDateString([], {day: 'numeric'})}</small></div>`).join('')}</div><p class="muted">Counted from the days each student opened a book, a test or flashcards while signed in.</p></div>`;
+  const rows = RES.books.map(b => { let op = 0, fin = 0, qz = [], ans = 0, ok = 0;
+    S.forEach(r => { const x = (r.books || {})[b.id]; if (x && x.r && x.r.length){ op++; if (x.r.length >= b.pages + 1) fin++; } if (x && x.q) qz.push(x.q[0] / x.q[1]); for (const [k, q] of Object.entries(r.qb || {})) if (k.startsWith(b.id + ':')){ ans++; if (q[2] === 1) ok++; } });
+    return {b, op, fin, qz: qz.length ? Math.round(100 * qz.reduce((a, c) => a + c, 0) / qz.length) : null, qn: qz.length, ans, ok}; });
+  h += `<div class="card"><h3>Every RES lecture</h3><div class="scroll"><table><tr><th>Lecture</th><th class="n">Opened</th><th class="n">Finished</th><th class="n">Quiz average</th><th class="n">Bank accuracy</th><th></th></tr>${rows.map(o => { const acc = o.ans ? pc(o.ok, o.ans) : null; return `<tr><td>${esc(o.b.short)} · ${esc(o.b.title)}</td><td class="n">${pc(o.op, n)}%</td><td class="n">${pc(o.fin, n)}%</td><td class="n">${o.qz == null ? '–' : o.qz + '% <small class="muted">(' + o.qn + ')</small>'}</td><td class="n">${acc == null ? '–' : `<span class="pill" style="background:${tone(acc)}">${acc}%</span> <small class="muted">${o.ans}</small>`}</td><td><div class="barc"><i style="width:${pc(o.op, n)}%"></i></div></td></tr>`; }).join('')}</table></div><p class="muted">Opened and finished are shares of the ${n} signed-in students. Bank accuracy is the share of answers right on each student's last try, with the number of answers beside it.</p></div>`;
+  const per = {}; S.forEach(r => { for (const [k, q] of Object.entries(r.qb || {})){ const o = per[k] || (per[k] = {n: 0, ok: 0}); o.n++; if (q[2] === 1) o.ok++; } });
+  const hard = Object.entries(per).filter(([k, o]) => o.n >= 3 && RES.qs[k]).map(([k, o]) => ({k, ...o, p: pc(o.ok, o.n)})).sort((a, b) => a.p - b.p || b.n - a.n).slice(0, 15);
+  h += `<div class="card"><h3>Hardest questions</h3>${hard.length ? `<div class="scroll"><table class="hq"><tr><th>Question</th><th>Right answer</th><th>Lecture</th><th class="n">Right</th></tr>${hard.map(o => { const q = RES.qs[o.k]; return `<tr><td>${q.q}</td><td>${q.a}</td><td>${esc(q.b.short)}</td><td class="n"><span class="pill" style="background:${tone(o.p)}">${o.p}%</span> <small class="muted">of ${o.n}</small></td></tr>`; }).join('')}</table></div><p class="muted">Questions answered by at least three students, lowest share right first. Good material for a revision session.</p>` : '<p class="muted">Shows once at least three students have answered the same question.</p>'}</div>`;
+  return h;
 }
 async function note(what){ const e = {at: Date.now(), by: me ? me.email : 'sample', what}; log.unshift(e); if (api) try { await api.F.addDoc(api.F.collection(api.db, 'log'), e); } catch (err){} }
 main.addEventListener('click', async e => {
@@ -62,7 +101,7 @@ main.addEventListener('click', async e => {
   if (t.id === 'save'){ const modules = {}; MODS.forEach(([id]) => { const s = main.querySelector(`[data-m=${id}]`).value, u = main.querySelector(`[data-u=${id}]`).value.trim(); if (s || u) modules[id] = {...(s ? {status: s} : {}), ...(u ? {url: u} : {})}; }); cfg = {modules, notice: $('#notice').value.trim()}; try { if (api) await api.F.setDoc(api.F.doc(api.db, 'site', 'config'), cfg); await note('changed the site settings'); render(); $('#saved').textContent = 'Saved.'; } catch (err){ $('#saved').textContent = 'Could not save: ' + (err.code || err); } }
 });
 main.addEventListener('input', e => { if (e.target.id === 'q'){ q = e.target.value.toLowerCase(); render(); const i = $('#q'); i.focus(); i.setSelectionRange(q.length, q.length); } });
-function seed(){ const nm = ['Student A', 'Student B', 'Student C', 'Student D', 'Student E', 'Student F'], ids = ['phy-l1', 'phy-l2', 'phy-l3', 'pha-l2', 'ana-l2']; students = nm.map((n, i) => ({name: n, email: 'student' + (i + 1) + '@example.com', seen: Date.now() - i * 1.7 * 864e5, res: {books: Object.fromEntries(ids.slice(0, 5 - (i % 4)).map((id, j) => [id, {r: Array.from({length: 3 + (i * 3 + j * 2) % 7}, (_, k) => k), q: (i + j) % 3 ? [4 + (i + j) % 5, 8] : null}]))}})); admins = [{id: 'colleague@example.com', role: 'viewer', at: Date.now() - 3 * 864e5}]; log = [{at: Date.now() - 864e5, by: 'sample', what: 'added colleague@example.com as monitor'}]; }
+function seed(){ const nm = ['Student A', 'Student B', 'Student C', 'Student D', 'Student E', 'Student F'], ids = ['phy-l1', 'phy-l2', 'phy-l3', 'pha-l2', 'ana-l2']; students = nm.map((n, i) => ({name: n, email: 'student' + (i + 1) + '@example.com', seen: Date.now() - i * 1.7 * 864e5, res: {books: Object.fromEntries(ids.slice(0, 5 - (i % 4)).map((id, j) => [id, {r: Array.from({length: 3 + (i * 3 + j * 2) % 7}, (_, k) => k), q: (i + j) % 3 ? [4 + (i + j) % 5, 8] : null}])), qb: Object.fromEntries(ids.flatMap(id => [0, 1, 2, 3].map(k => [id + ':' + k, [1, (i + k) % 3 ? 1 : 0, (i + k) % 3 ? 1 : 0, 0]]))), d: [...Array(14)].map((_, k) => { const x = new Date(Date.now() - k * 864e5); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); }).filter((_, k) => (k + i) % 3), ex: [[1, 5, 8, 300, 1]]}, xp: {res: 40 + i * 37}})); admins = [{id: 'colleague@example.com', role: 'viewer', at: Date.now() - 3 * 864e5}]; log = [{at: Date.now() - 864e5, by: 'sample', what: 'added colleague@example.com as monitor'}]; }
 
 (async () => {
   if (!window.FB_CONFIG){ $('#who').textContent = 'Sync is not switched on yet.'; main.innerHTML = '<div class="card"><h3>This page needs the database</h3><p>The admin page reads from the same free Firebase project that keeps student progress. Until its settings are pasted into <code>fb.js</code>, there is nothing to show.</p><div class="row"><button class="btn" id="demo">Preview with sample data</button></div></div>'; return; }
